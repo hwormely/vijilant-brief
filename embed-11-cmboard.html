@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{width:1280px;height:800px;overflow:hidden;background:transparent;}
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #0B0A09;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 48px 32px 64px;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+    gap: 24px;
+  }
+
+  .page-header { text-align: center; color: #F8F6F2; margin-bottom: 12px; }
+  .page-header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; opacity: 0.9; }
+  .page-header p { font-size: 12px; color: #7A766F; margin-top: 4px; letter-spacing: 0.04em; }
+
+  .desktop-shell {
+    width: 1280px; height: 800px; background: #F8F6F2; border-radius: 16px;
+    overflow: hidden; display: flex;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.07);
+    position: relative;
+  }
+
+  .titlebar {
+    position: absolute; top: 0; left: 0; right: 0; height: 40px;
+    background: #FFFFFF; border-bottom: 1px solid #EDEBE6;
+    display: flex; align-items: center; padding: 0 18px; gap: 8px; z-index: 100;
+  }
+  .traffic-lights { display: flex; gap: 7px; }
+  .tl { width: 12px; height: 12px; border-radius: 50%; }
+  .tl-red { background: #FF5F57; }
+  .tl-yellow { background: #FFBD2E; }
+  .tl-green { background: #28CA41; }
+  .titlebar-text { flex: 1; text-align: center; font-size: 12px; font-weight: 600; color: #9E9993; letter-spacing: 0.02em; margin-right: 60px; }
+
+  .app-inner { display: flex; width: 100%; height: 100%; padding-top: 40px; }
+
+  /* ── Sidebar — Brand Green (#1F4D38) · CM role identity ── */
+  .sidebar {
+    width: 220px; background: #1F4D38; border-right: none;
+    display: flex; flex-direction: column; flex-shrink: 0; padding: 24px 0; height: 100%;
+  }
+  .logo-wrap { padding: 0 20px 28px; display: flex; align-items: center; gap: 10px; }
+  .logo-mark { width: 32px; height: 32px; background: rgba(255,255,255,0.15); border-radius: 9px; display: flex; align-items: center; justify-content: center; }
+  .logo-mark svg { width: 18px; height: 18px; fill: none; stroke: #FFFFFF; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+  .logo-text { font-size: 15px; font-weight: 800; color: #FFFFFF; letter-spacing: -0.5px; }
+  .logo-badge { font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.9); padding: 2px 6px; border-radius: 4px; }
+  .nav-section { padding: 0 12px; margin-bottom: 4px; }
+  .nav-section-label { font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.35); padding: 0 8px; margin-bottom: 4px; }
+  .nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: 10px; cursor: pointer; transition: all 0.15s; margin-bottom: 2px; font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.65); }
+  .nav-item:hover { background: rgba(255,255,255,0.1); }
+  .nav-item.active { background: rgba(255,255,255,0.18); color: #FFFFFF; font-weight: 600; }
+  .nav-item svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+  .nav-badge { margin-left: auto; background: #C0392B; color: #FFFFFF; font-size: 10px; font-weight: 700; min-width: 18px; height: 18px; border-radius: 9px; display: flex; align-items: center; justify-content: center; padding: 0 4px; }
+  .nav-badge.green { background: rgba(255,255,255,0.18); color: #FFFFFF; }
+  .sidebar-divider { height: 1px; background: rgba(255,255,255,0.12); margin: 12px 20px; }
+  .sidebar-user { margin-top: auto; padding: 0 12px; }
+  .user-card { display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: 10px; background: rgba(255,255,255,0.1); cursor: pointer; }
+  .user-avatar { width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.22); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #FFFFFF; flex-shrink: 0; }
+  .user-info { flex: 1; }
+  .user-name { font-size: 12px; font-weight: 600; color: #FFFFFF; letter-spacing: -0.2px; }
+  .user-role { font-size: 10px; color: rgba(255,255,255,0.55); }
+  .user-dots { color: rgba(255,255,255,0.35); font-size: 16px; }
+
+  /* ── Main content ── */
+  .main-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; background: #F8F6F2; }
+
+  .topbar { height: 60px; border-bottom: 1px solid #EDEBE6; display: flex; align-items: center; padding: 0 32px; gap: 16px; background: #FFFFFF; flex-shrink: 0; }
+  .topbar-title { font-size: 18px; font-weight: 800; color: #141210; letter-spacing: -0.5px; flex: 1; }
+  .topbar-sub { font-size: 12px; color: #9E9993; }
+  .topbar-search { width: 220px; height: 34px; background: #F5F3EF; border: 1px solid #EDEBE6; border-radius: 10px; display: flex; align-items: center; gap: 8px; padding: 0 12px; cursor: text; }
+  .topbar-search svg { width: 14px; height: 14px; fill: none; stroke: #B0ABA3; stroke-width: 2; }
+  .topbar-search span { font-size: 13px; color: #C5C1BB; }
+  .view-toggle { display: flex; border: 1px solid #EDEBE6; border-radius: 9px; overflow: hidden; background: #FFFFFF; }
+  .vt-btn { width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+  .vt-btn svg { width: 15px; height: 15px; fill: none; stroke: #B0ABA3; stroke-width: 1.8; }
+  .vt-btn.active { background: #F5F3EF; }
+  .vt-btn.active svg { stroke: #1F4D38; }
+
+  .main-scroll { flex: 1; overflow-y: auto; padding: 28px 32px; scrollbar-width: thin; scrollbar-color: #E5E2DC transparent; }
+  .main-scroll::-webkit-scrollbar { width: 4px; }
+  .main-scroll::-webkit-scrollbar-thumb { background: #E5E2DC; border-radius: 2px; }
+
+  /* Org KPI strip */
+  .kpi-strip { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin-bottom: 28px; }
+  .strip-card { background: #FFFFFF; border: 1px solid #EDEBE6; border-radius: 12px; padding: 16px 18px; }
+  .strip-num { font-size: 28px; font-weight: 800; color: #141210; letter-spacing: -1.5px; line-height: 1; margin-bottom: 4px; }
+  .strip-num.amber { color: #9A5E00; }
+  .strip-num.red { color: #C0392B; }
+  .strip-num.green { color: #1F4D38; }
+  .strip-lbl { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #B0ABA3; }
+  .strip-delta { font-size: 10px; color: #9E9993; margin-top: 2px; }
+
+  /* Section label */
+  .sec-label { font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #B0ABA3; margin-bottom: 16px; }
+
+  /* CM card grid */
+  .cm-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+
+  .cm-card { background: #FFFFFF; border: 1px solid #EDEBE6; border-radius: 14px; overflow: hidden; }
+  .cm-card-header { padding: 18px 20px 14px; display: flex; align-items: flex-start; gap: 13px; border-bottom: 1px solid #F0EDE9; }
+  .cm-avatar { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 700; color: #FFFFFF; flex-shrink: 0; }
+  .cm-info { flex: 1; }
+  .cm-name { font-size: 14px; font-weight: 700; color: #141210; letter-spacing: -0.3px; }
+  .cm-role { font-size: 11px; color: #9E9993; margin-top: 2px; }
+  .cm-status-dot { width: 9px; height: 9px; border-radius: 50%; margin-top: 4px; flex-shrink: 0; }
+  .status-available { background: #1A7A3C; }
+  .status-busy { background: #E5A328; }
+  .status-offline { background: #C5C1BB; }
+
+  .cm-stats { display: grid; grid-template-columns: repeat(3, 1fr); }
+  .cm-stat { padding: 13px 0; text-align: center; border-right: 1px solid #F0EDE9; }
+  .cm-stat:last-child { border-right: none; }
+  .cm-stat-num { font-size: 20px; font-weight: 800; color: #141210; letter-spacing: -1px; line-height: 1; }
+  .cm-stat-num.red { color: #C0392B; }
+  .cm-stat-num.amber { color: #9A5E00; }
+  .cm-stat-lbl { font-size: 9px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #B0ABA3; margin-top: 3px; }
+
+  .cm-capacity { padding: 12px 20px 14px; }
+  .cap-label { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .cap-text { font-size: 11px; color: #9E9993; }
+  .cap-pct { font-size: 11px; font-weight: 600; color: #141210; }
+  .cap-bar { height: 4px; background: #F0EDE9; border-radius: 2px; overflow: hidden; }
+  .cap-fill { height: 100%; border-radius: 2px; }
+  .cap-green { background: #1F4D38; }
+  .cap-amber { background: #E5A328; }
+  .cap-red { background: #C0392B; }
+
+  .cm-footer { padding: 0 20px 14px; display: flex; gap: 8px; }
+  .cm-btn {
+    flex: 1; height: 30px; border-radius: 8px;
+    font-size: 11px; font-weight: 600; cursor: pointer;
+    font-family: inherit; border: 1px solid #EDEBE6;
+    background: transparent; color: #7A766F;
+    display: flex; align-items: center; justify-content: center; gap: 5px;
+  }
+  .cm-btn.primary { background: #EAF3EF; color: #1F4D38; border-color: #C8E0D5; }
+  .cm-btn svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+
+  /* Alert row for overloaded CMs */
+  .cm-alert-strip {
+    padding: 8px 20px;
+    background: #FDF8F0;
+    border-top: 1px solid #EDD9A3;
+    font-size: 11px;
+    color: #7A4A00;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .cm-alert-strip svg { width: 12px; height: 12px; fill: none; stroke: #C07A20; stroke-width: 2; flex-shrink: 0; }
+
+body{padding:0!important;margin:0!important;background:transparent!important;
+     display:block!important;min-height:0!important;}
+</style>
+</head>
+<body>
+<div class="desktop-shell">
+
+  <div class="titlebar">
+    <div class="traffic-lights">
+      <div class="tl tl-red"></div><div class="tl tl-yellow"></div><div class="tl tl-green"></div>
+    </div>
+    <div class="titlebar-text">Vijilant — CM Board</div>
+  </div>
+
+  <div class="app-inner">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="logo-wrap">
+        <div class="logo-mark"><svg viewBox="0 0 24 24"><path d="M12 2L3 7v10l9 5 9-5V7L12 2z"/></svg></div>
+        <div><div class="logo-text">Vijilant</div><div class="logo-badge">LLP v1</div></div>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-section-label">Workspace</div>
+        <div class="nav-item">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          Dashboard
+        </div>
+        <div class="nav-item">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+          Clients
+          <div class="nav-badge green">47</div>
+        </div>
+        <div class="nav-item">
+          <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Resources
+        </div>
+        <div class="nav-item">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Case Notes
+        </div>
+      </div>
+
+      <div class="sidebar-divider"></div>
+
+      <div class="nav-section">
+        <div class="nav-section-label">Admin</div>
+        <div class="nav-item active">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/></svg>
+          CM Board
+        </div>
+        <div class="nav-item">
+          <svg viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+          Analytics
+        </div>
+        <div class="nav-item">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42"/></svg>
+          Settings
+        </div>
+      </div>
+
+      <div class="sidebar-user">
+        <div class="user-card">
+          <div class="user-avatar">SA</div>
+          <div class="user-info">
+            <div class="user-name">S. Alex</div>
+            <div class="user-role">Supervisor</div>
+          </div>
+          <div class="user-dots">···</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main -->
+    <div class="main-content">
+      <div class="topbar">
+        <div>
+          <div class="topbar-title">CM Board</div>
+        </div>
+        <div class="topbar-sub">6 case managers · Week of Apr 29, 2026</div>
+        <div style="flex:1"></div>
+        <div class="topbar-search">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          <span>Search CMs…</span>
+        </div>
+        <div class="view-toggle">
+          <div class="vt-btn active">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          </div>
+          <div class="vt-btn">
+            <svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="main-scroll">
+
+        <!-- Org KPI strip -->
+        <div class="kpi-strip">
+          <div class="strip-card">
+            <div class="strip-num">6</div>
+            <div class="strip-lbl">Active CMs</div>
+            <div class="strip-delta">1 on leave</div>
+          </div>
+          <div class="strip-card">
+            <div class="strip-num">47</div>
+            <div class="strip-lbl">Total Clients</div>
+            <div class="strip-delta">3 new this week</div>
+          </div>
+          <div class="strip-card">
+            <div class="strip-num amber">11</div>
+            <div class="strip-lbl">Overdue Follow-ups</div>
+            <div class="strip-delta">Org-wide</div>
+          </div>
+          <div class="strip-card">
+            <div class="strip-num red">2</div>
+            <div class="strip-lbl">Over Capacity</div>
+            <div class="strip-delta">Action needed</div>
+          </div>
+          <div class="strip-card">
+            <div class="strip-num green">78%</div>
+            <div class="strip-lbl">Avg Recovery Score</div>
+            <div class="strip-delta">↑ 2pts this week</div>
+          </div>
+        </div>
+
+        <!-- CM cards -->
+        <div class="sec-label">Case Manager Status</div>
+        <div class="cm-grid">
+
+          <!-- CM 1: H. Wormely — at capacity -->
+          <div class="cm-card">
+            <div class="cm-card-header">
+              <div class="cm-avatar" style="background:#1F4D38;">HW</div>
+              <div class="cm-info">
+                <div class="cm-name">H. Wormely</div>
+                <div class="cm-role">Disaster Care Manager</div>
+              </div>
+              <div class="cm-status-dot status-available"></div>
+            </div>
+            <div class="cm-stats">
+              <div class="cm-stat">
+                <div class="cm-stat-num">14</div>
+                <div class="cm-stat-lbl">Active</div>
+              </div>
+              <div class="cm-stat">
+                <div class="cm-stat-num amber">5</div>
+                <div class="cm-stat-lbl">Overdue</div>
+              </div>
+              <div class="cm-stat">
+                <div class="cm-stat-num">4</div>
+                <div class="cm-stat-lbl">This Week</div>
+              </div>
+            </div>
+            <div class="cm-capacity">
+              <div class="cap-label">
+                <span class="cap-text">Capacity (14 / 15)</span>
+                <span class="cap-pct">93%</span>
+              </div>
+              <div class="cap-bar"><div class="cap-fill cap-amber" style="width:93%"></div></div>
+            </div>
+            <div class="cm-footer">
+              <div class="cm-btn primary"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/></svg>View Cases</div>
+              <div class="cm-btn"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Message</div>
+            </div>
+          </div>
+
+          <!-- CM 2: S. Alex — over capacity, alert -->
+          <div class="cm-card" style="border-color:#E8C97A;">
+            <div class="cm-card-header">
+              <div class="cm-avatar" style="background:#7A4A00;">SA</div>
+              <div class="cm-info">
+                <div class="cm-name">S. Alex</div>
+                <div class="cm-role">Senior Case Manager</div>
+              </div>
+              <div class="cm-status-dot status-busy"></div>
+            </div>
+            <div class="cm-stats">
+              <div class="cm-stat">
+                <div class="cm-stat-num red">18</div>
+                <div class="cm-stat-lbl">Active</div>
+              </div>
+              <div class="cm-stat">
+                <div class="cm-stat-num red">4</div>
+                <div class="cm-stat-lbl">Overdue</div>
+              </div>
+              <div class="cm-stat">
+                <div class="cm-stat-num">6</div>
+                <div class="cm-stat-lbl">This Week</div>
+              </div>
+            </div>
+            <div class="cm-capacity">
+              <div class="cap-label">
+                <span class="cap-text">Capacity (18 / 15)</span>
+                <span class="cap-pct" style="color:#C0392B;">120%</span>
+              </div>
+              <div class="cap-bar"><div class="cap-fill cap-red" style="width:100%"></div></div>
+            </div>
+            <div class="cm-alert-strip">
+              <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/></svg>
+              Over capacity — consider reassignment
+            </div>
+            <div class="cm-footer">
+              <div class="cm-btn primary"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/></svg>View Cases</div>
+              <div class="cm-btn" style="color:#C0392B; border-color:#F5C6C2;">Reassign</div>
+            </div>
+          </div>
+
+          <!-- CM 3: T. Reyes -->
+          <div class="cm-card">
+            <div class="cm-card-header">
+              <div class="cm-avatar" style="background:#1E3A72;">TR</div>
+              <div class="cm-info">
+                <div class="cm-name">T. Reyes</div>
+                <div class="cm-role">Case Manager</div>
+              </div>
+              <div class="cm-status-dot status-available"></div>
+            </div>
+            <div class="cm-stats">
+              <div class="cm-stat">
+                <div class="cm-stat-num">9</div>
+                <div class="cm-stat-lbl">Active</div>
+              </div>
+              <div class="cm-stat">
+                <div class="cm-stat-num">1</div>
+                <div class="cm-stat-lbl">Overdue</div>
+              </div>
+              <div class="cm-stat">
+                <div class="cm-stat-num">3</div>
+                <div class="cm-stat-lbl">This Week</div>
+              </div>
+            </div>
+            <div class="cm-capacity">
+              <div class="cap-label">
+                <span class="cap-text">Capacity (9 / 15)</span>
+                <span class="cap-pct" style="color:#1F4D38;">60%</span>
+              </div>
+              <div class="cap-bar"><div class="cap-fill cap-green" style="width:60%"></div></div>
+            </div>
+            <div class="cm-footer">
+              <div class="cm-btn primary">View Cases</div>
+              <div class="cm-btn">Message</div>
+            </div>
+          </div>
+
+          <!-- CM 4: K. Washington -->
+          <div class="cm-card">
+            <div class="cm-card-header">
+              <div class="cm-avatar" style="background:#6B3FA0;">KW</div>
+              <div class="cm-info">
+                <div class="cm-name">K. Washington</div>
+                <div class="cm-role">Case Manager</div>
+              </div>
+              <div class="cm-status-dot status-available"></div>
+            </div>
+            <div class="cm-stats">
+              <div class="cm-stat">
+                <div class="cm-stat-num">11</div>
+                <div class="cm-stat-lbl">Active</div>
+              </div>
+              <div class="cm-stat">
+                <div class="cm-stat-num amber">1</div>
+                <div class="cm-stat-lbl">Overdue</div>
+              </div>
+              <div class="cm-stat">
+                <div class="cm-stat-num">5</div>
+                <div class="cm-stat-lbl">This Week</div>
+              </div>
+            </div>
+            <div class="cm-capacity">
+              <div class="cap-label">
+                <span class="cap-text">Capacity (11 / 15)</span>
+                <span class="cap-pct">73%</span>
+              </div>
+              <div class="cap-bar"><div class="cap-fill cap-green" style="width:73%"></div></div>
+            </div>
+            <div class="cm-footer">
+              <div class="cm-btn primary">View Cases</div>
+              <div class="cm-btn">Message</div>
+            </div>
+          </div>
+
+          <!-- CM 5: M. Nguyen — over capacity -->
+          <div class="cm-card" style="border-color:#F5C6C2;">
+            <div class="cm-card-header">
+              <div class="cm-avatar" style="background:#8B2020;">MN</div>
+              <div class="cm-info">
+                <div class="cm-name">M. Nguyen</div>
+                <div class="cm-role">Case Manager · Intake Lead</div>
+              </div>
+              <div class="cm-status-dot status-busy"></div>
+            </div>
+            <div class="cm-stats">
+              <div class="cm-stat">
+                <div class="cm-stat-num red">17</div>
+                <div class="cm-stat-lbl">Active</div>
+              </div>
+              <div class="cm-stat">
+                <div class="cm-stat-num red">0</div>
+                <div class="cm-stat-lbl">Overdue</div>
+              </div>
+              <div class="cm-stat">
+                <div class="cm-stat-num">7</div>
+                <div class="cm-stat-lbl">This Week</div>
+              </div>
+            </div>
+            <div class="cm-capacity">
+              <div class="cap-label">
+                <span class="cap-text">Capacity (17 / 15)</span>
+                <span class="cap-pct" style="color:#C0392B;">113%</span>
+              </div>
+              <div class="cap-bar"><div class="cap-fill cap-red" style="width:100%"></div></div>
+            </div>
+            <div class="cm-alert-strip">
+              <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/></svg>
+              Over capacity — review intake assignments
+            </div>
+            <div class="cm-footer">
+              <div class="cm-btn primary">View Cases</div>
+              <div class="cm-btn" style="color:#C0392B; border-color:#F5C6C2;">Reassign</div>
+            </div>
+          </div>
+
+          <!-- CM 6: D. Patel — low capacity, on leave next week -->
+          <div class="cm-card">
+            <div class="cm-card-header">
+              <div class="cm-avatar" style="background:#9E9993;">DP</div>
+              <div class="cm-info">
+                <div class="cm-name">D. Patel</div>
+                <div class="cm-role">Case Manager</div>
+              </div>
+              <div class="cm-status-dot status-offline"></div>
+            </div>
+            <div class="cm-stats">
+              <div class="cm-stat">
+                <div class="cm-stat-num" style="color:#9E9993;">0</div>
+                <div class="cm-stat-lbl">Active</div>
+              </div>
+              <div class="cm-stat">
+                <div class="cm-stat-num">0</div>
+                <div class="cm-stat-lbl">Overdue</div>
+              </div>
+              <div class="cm-stat">
+                <div class="cm-stat-num">—</div>
+                <div class="cm-stat-lbl">This Week</div>
+              </div>
+            </div>
+            <div class="cm-capacity">
+              <div class="cap-label">
+                <span class="cap-text">Currently on leave</span>
+                <span class="cap-pct" style="color:#B0ABA3;">—</span>
+              </div>
+              <div class="cap-bar"><div class="cap-fill cap-green" style="width:0%"></div></div>
+            </div>
+            <div class="cm-footer">
+              <div class="cm-btn" style="color:#B0ABA3; border-color:#F0EDE9; cursor:default; flex:1;">Returns May 5</div>
+            </div>
+          </div>
+
+        </div><!-- /cm-grid -->
+      </div><!-- /main-scroll -->
+    </div><!-- /main-content -->
+  </div><!-- /app-inner -->
+</div>
+</body>
+</html>

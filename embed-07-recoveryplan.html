@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=390px">
+
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{width:390px;height:844px;overflow:hidden;background:transparent;}
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0B0A09; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 48px 32px 64px; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif; gap: 24px; }
+  .page-header { text-align: center; color: #F8F6F2; margin-bottom: 12px; }
+  .page-header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; opacity: 0.9; }
+  .page-header p { font-size: 12px; color: #7A766F; margin-top: 4px; letter-spacing: 0.04em; }
+  .var-labels { display: flex; gap: 436px; align-items: center; justify-content: center; }
+  .var-label { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #7A766F; text-align: center; width: 390px; }
+  .phones-row { display: flex; gap: 56px; align-items: flex-start; justify-content: center; }
+  .phone { width: 390px; height: 844px; background: #F8F6F2; border-radius: 50px; position: relative; overflow: hidden; flex-shrink: 0; box-shadow: 0 40px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.08); }
+  .island { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); width: 126px; height: 37px; background: #000; border-radius: 20px; z-index: 100; }
+  .status-bar { height: 59px; display: flex; align-items: flex-end; justify-content: space-between; padding: 0 24px 10px; position: relative; z-index: 50; }
+  .status-time { font-size: 15px; font-weight: 600; color: #141210; letter-spacing: -0.3px; }
+  .status-icons { display: flex; gap: 6px; align-items: center; }
+  .screen-content { position: absolute; top: 59px; left: 0; right: 0; bottom: 0; overflow-y: auto; scrollbar-width: none; }
+  .screen-content::-webkit-scrollbar { display: none; }
+
+  .screen-header { padding: 16px 22px 14px; display: flex; align-items: center; gap: 14px; position: sticky; top: 0; z-index: 40; background: #F8F6F2; }
+  .back-btn { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; }
+  .back-btn svg { width: 18px; height: 18px; fill: none; stroke: #141210; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .header-mid { flex: 1; }
+  .header-title { font-size: 17px; font-weight: 700; color: #141210; letter-spacing: -0.4px; }
+  .header-sub { font-size: 11px; color: #9E9993; margin-top: 1px; }
+  .edit-btn { font-size: 13px; font-weight: 600; color: #1F4D38; cursor: pointer; }
+
+  /* Summary strip */
+  .plan-summary { margin: 0 22px 20px; padding: 16px; border-radius: 14px; display: flex; gap: 0; overflow: hidden; }
+  .summary-stat { flex: 1; text-align: center; padding: 0 8px; }
+  .summary-stat + .summary-stat { border-left: 1px solid rgba(0,0,0,0.06); }
+  .sum-num { font-size: 24px; font-weight: 800; color: #141210; letter-spacing: -1px; line-height: 1; }
+  .sum-num.green { color: #1F4D38; }
+  .sum-num.amber { color: #9A5E00; }
+  .sum-lbl { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #B0ABA3; margin-top: 4px; }
+
+  /* Section label */
+  .sec-label { font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; padding: 0 22px 12px; }
+
+  /* Goal item */
+  .goals-list { padding: 0 22px; display: flex; flex-direction: column; }
+
+  .goal-item { padding: 15px 0; cursor: pointer; }
+  .goal-header { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 8px; }
+  .goal-check {
+    width: 22px; height: 22px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 1px;
+  }
+  .goal-check svg { width: 12px; height: 12px; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+  .check-done { background: #1F4D38; }
+  .check-done svg { stroke: #FFFFFF; }
+  .check-open { border: 2px solid #D4D0C8; background: transparent; }
+  .check-open svg { stroke: transparent; }
+  .check-in-progress { background: #EAF3EF; border: 2px solid #1F4D38; }
+  .check-in-progress svg { stroke: #1F4D38; }
+
+  .goal-text-wrap { flex: 1; }
+  .goal-title { font-size: 14px; font-weight: 600; color: #141210; letter-spacing: -0.2px; line-height: 1.35; }
+  .goal-title.done { color: #9E9993; text-decoration: line-through; text-decoration-color: #C5C1BB; }
+  .goal-due { font-size: 11px; color: #9E9993; margin-top: 3px; }
+  .goal-due.overdue { color: #C0392B; font-weight: 600; }
+
+  .goal-category { font-size: 9px; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; padding: 2px 7px; border-radius: 5px; align-self: flex-start; margin-top: 2px; }
+  .cat-housing { background: #FEF6E7; color: #9A5E00; }
+  .cat-financial { background: #EDF2FF; color: #2C4F9E; }
+  .cat-health { background: #F5EFF8; color: #6B3FA0; }
+  .cat-docs { background: #EAF3EF; color: #1F4D38; }
+
+  /* Progress bar under goal */
+  .goal-progress { margin-left: 34px; }
+  .gp-track { height: 3px; background: #F0EDE9; border-radius: 2px; overflow: hidden; margin-bottom: 4px; }
+  .gp-fill { height: 100%; border-radius: 2px; background: #1F4D38; }
+  .gp-label { font-size: 10px; color: #B0ABA3; }
+
+  /* Add goal button */
+  .add-goal-btn {
+    margin: 14px 22px 0;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1.5px dashed #D4D0C8;
+    color: #7A766F;
+    background: transparent;
+    font-family: inherit;
+  }
+  .add-goal-btn svg { width: 14px; height: 14px; fill: none; stroke: #7A766F; stroke-width: 2; stroke-linecap: round; }
+
+  .spacer-bottom { height: 40px; }
+
+  /* Toast */
+  .toast { position: absolute; bottom: 60px; left: 50%; transform: translateX(-50%) translateY(20px); background: #141210; color: #F8F6F2; font-size: 13px; font-weight: 500; padding: 10px 20px; border-radius: 24px; white-space: nowrap; opacity: 0; transition: opacity 0.2s ease, transform 0.2s ease; pointer-events: none; z-index: 200; }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* ══ VAR A ══ */
+  .var-a .screen-header { border-bottom: none; }
+  .var-a .back-btn { border: 1px solid #EDEBE6; background: transparent; }
+  .var-a .plan-summary { background: #FFFFFF; border: 1px solid #EDEBE6; box-shadow: none; }
+  .var-a .sec-label { color: #B0ABA3; }
+  .var-a .goal-item { border-bottom: 1px solid #F0EDE9; }
+  .var-a .goal-item:first-child { border-top: 1px solid #F0EDE9; }
+  .var-a .add-goal-btn { border-color: #EDEBE6; }
+
+  /* ══ VAR B ══ */
+  .var-b .screen-header { border-bottom: 1px solid #F0EDE9; }
+  .var-b .back-btn { border: 1px solid #E5E2DC; background: #FFFFFF; }
+  .var-b .plan-summary { background: #FFFFFF; border: 1px solid #E5E2DC; box-shadow: 0 1px 6px rgba(20,18,16,0.05); }
+  .var-b .sec-label { color: #7A766F; }
+  .var-b .goals-list { gap: 10px; padding: 0 16px; }
+  .var-b .goal-item { background: #FFFFFF; border: 1px solid #E5E2DC; border-radius: 14px; padding: 16px; box-shadow: 0 1px 5px rgba(20,18,16,0.04); }
+  .var-b .goal-item:first-child { border-top: 1px solid #E5E2DC; }
+  .var-b .add-goal-btn { margin: 14px 16px 0; border-color: #E5E2DC; }
+  .var-b .sec-label { padding: 0 16px 12px; }
+
+body{padding:0!important;margin:0!important;background:transparent!important;
+     display:block!important;min-height:0!important;}
+.var-label{display:none!important;}
+</style>
+</head>
+<body>
+<div class="phone var-a">
+    <div class="island"></div>
+    <div class="status-bar">
+      <span class="status-time">9:41</span>
+      <div class="status-icons">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#141210" stroke-width="2" stroke-linecap="round"><path d="M5 12.55a11 11 0 0114.08 0M1.42 9a16 16 0 0121.16 0M8.53 16.11a6 6 0 016.95 0M12 20h.01"/></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#141210" stroke-width="2"><rect x="2" y="7" width="15" height="10" rx="2"/><path d="M19 10h2a1 1 0 011 1v2a1 1 0 01-1 1h-2"/></svg>
+      </div>
+    </div>
+
+    <div class="screen-content">
+      <div class="screen-header">
+        <div class="back-btn"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></div>
+        <div class="header-mid">
+          <div class="header-title">Recovery Plan</div>
+          <div class="header-sub">Maria Rodriguez · 8 goals</div>
+        </div>
+        <div class="edit-btn">Edit</div>
+      </div>
+
+      <!-- Summary strip -->
+      <div class="plan-summary">
+        <div class="summary-stat">
+          <div class="sum-num green">3</div>
+          <div class="sum-lbl">Complete</div>
+        </div>
+        <div class="summary-stat">
+          <div class="sum-num" style="color:#1F4D38;">4</div>
+          <div class="sum-lbl">In Progress</div>
+        </div>
+        <div class="summary-stat">
+          <div class="sum-num amber">1</div>
+          <div class="sum-lbl">Overdue</div>
+        </div>
+        <div class="summary-stat">
+          <div class="sum-num">8</div>
+          <div class="sum-lbl">Total</div>
+        </div>
+      </div>
+
+      <!-- Goals -->
+      <div class="sec-label">Active Goals</div>
+      <div class="goals-list">
+
+        <div class="goal-item" onclick="showToast('a','Goal opened')">
+          <div class="goal-header">
+            <div class="goal-check check-in-progress"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div class="goal-text-wrap">
+              <div class="goal-title">Complete FEMA IA application</div>
+              <div class="goal-due">Due May 5 · In progress</div>
+            </div>
+            <span class="goal-category cat-financial">Financial</span>
+          </div>
+          <div class="goal-progress">
+            <div class="gp-track"><div class="gp-fill" style="width:60%"></div></div>
+            <div class="gp-label">3 of 5 steps done</div>
+          </div>
+        </div>
+
+        <div class="goal-item" onclick="showToast('a','Goal opened')">
+          <div class="goal-header">
+            <div class="goal-check check-open"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div class="goal-text-wrap">
+              <div class="goal-title overdue">Schedule contractor walkthrough</div>
+              <div class="goal-due overdue">Overdue · Was Apr 25</div>
+            </div>
+            <span class="goal-category cat-housing">Housing</span>
+          </div>
+          <div class="goal-progress">
+            <div class="gp-track"><div class="gp-fill" style="width:0%"></div></div>
+            <div class="gp-label">Not started</div>
+          </div>
+        </div>
+
+        <div class="goal-item" onclick="showToast('a','Goal opened')">
+          <div class="goal-header">
+            <div class="goal-check check-in-progress"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div class="goal-text-wrap">
+              <div class="goal-title">Attend trauma counseling sessions</div>
+              <div class="goal-due">Ongoing · 2 of 8 sessions done</div>
+            </div>
+            <span class="goal-category cat-health">Health</span>
+          </div>
+          <div class="goal-progress">
+            <div class="gp-track"><div class="gp-fill" style="width:25%"></div></div>
+            <div class="gp-label">2 of 8 sessions</div>
+          </div>
+        </div>
+
+        <div class="goal-item" onclick="showToast('a','Goal opened')">
+          <div class="goal-header">
+            <div class="goal-check check-in-progress"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div class="goal-text-wrap">
+              <div class="goal-title">Submit insurance appeal letter</div>
+              <div class="goal-due">Due May 12 · Draft in review</div>
+            </div>
+            <span class="goal-category cat-financial">Financial</span>
+          </div>
+          <div class="goal-progress">
+            <div class="gp-track"><div class="gp-fill" style="width:50%"></div></div>
+            <div class="gp-label">Draft complete · Pending review</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="sec-label" style="margin-top:20px;">Completed</div>
+      <div class="goals-list">
+
+        <div class="goal-item">
+          <div class="goal-header">
+            <div class="goal-check check-done"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div class="goal-text-wrap">
+              <div class="goal-title done">Collect FEMA registration number</div>
+              <div class="goal-due">Completed Apr 18</div>
+            </div>
+            <span class="goal-category cat-docs">Docs</span>
+          </div>
+        </div>
+
+        <div class="goal-item">
+          <div class="goal-header">
+            <div class="goal-check check-done"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div class="goal-text-wrap">
+              <div class="goal-title done">Complete initial intake assessment</div>
+              <div class="goal-due">Completed Apr 10</div>
+            </div>
+            <span class="goal-category cat-docs">Docs</span>
+          </div>
+        </div>
+
+      </div>
+
+      <button class="add-goal-btn" onclick="showToast('a','Add goal panel opened')">
+        <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+        Add Goal
+      </button>
+
+      <div class="spacer-bottom"></div>
+    </div><!-- /screen-content -->
+    <div class="toast" id="toast-a"></div>
+  </div>
+</body>
+</html>

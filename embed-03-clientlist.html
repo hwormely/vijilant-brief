@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=390px">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{width:390px;height:844px;overflow:hidden;background:transparent;}
+
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #0B0A09;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 48px 60px 80px;
+      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .proto-header { text-align: center; margin-bottom: 40px; }
+    .proto-title  { font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #4A4642; margin-bottom: 7px; }
+    .proto-sub    { font-size: 11px; font-weight: 400; color: #2A2826; letter-spacing: 0.04em; }
+
+    .phones-row { display: flex; gap: 56px; align-items: flex-start; }
+    .var-wrap   { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+    .var-tag    { font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #3A3734; }
+
+    /* ─── PHONE SHELL ────────────────────────────────── */
+    .phone {
+      width: 390px; height: 844px; border-radius: 50px;
+      background: #F8F6F2; overflow: hidden; position: relative;
+      display: flex; flex-direction: column;
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.06) inset,
+        0 0 0 11px #1A1816,
+        0 0 0 12.5px rgba(255,255,255,0.05),
+        0 52px 100px rgba(0,0,0,0.82),
+        0 18px 36px rgba(0,0,0,0.52);
+    }
+
+    .island {
+      position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
+      width: 126px; height: 37px; background: #000; border-radius: 20px;
+      z-index: 60; pointer-events: none;
+    }
+
+    /* ─── STATUS BAR ─────────────────────────────────── */
+    .status-bar {
+      height: 59px; padding: 0 28px 10px;
+      display: flex; align-items: flex-end; justify-content: space-between;
+      background: #F8F6F2; flex-shrink: 0; z-index: 20; position: relative;
+    }
+    .status-time { font-size: 15px; font-weight: 600; color: #141210; letter-spacing: -0.3px; }
+    .status-icons { display: flex; align-items: center; gap: 6px; }
+
+    /* ─── SCROLL ─────────────────────────────────────── */
+    .scroll { flex: 1; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+    .scroll::-webkit-scrollbar { display: none; }
+
+    /* ─── PAGE HEADER ────────────────────────────────── */
+    .page-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 22px 22px 16px;
+    }
+    .page-title { font-size: 22px; font-weight: 800; color: #141210; letter-spacing: -0.5px; }
+    .new-btn {
+      display: flex; align-items: center; gap: 5px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 14px; font-weight: 500; color: #1F4D38;
+      background: none; border: none; cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: opacity 0.14s;
+    }
+    .new-btn:active { opacity: 0.5; }
+
+    /* ─── STICKY ZONE ────────────────────────────────── */
+    .sticky-zone {
+      position: sticky; top: 0; z-index: 40;
+      background: #F8F6F2; padding: 0 22px 12px;
+    }
+
+    .search-wrap { position: relative; margin-bottom: 10px; }
+    .search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); pointer-events: none; display: flex; }
+    .search-input {
+      width: 100%; height: 40px; padding: 0 14px 0 38px;
+      background: #FFFFFF; border-radius: 10px;
+      font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; color: #141210;
+      outline: none; -webkit-appearance: none;
+      transition: border-color 0.16s;
+    }
+    .search-input::placeholder { color: #9A9590; }
+
+    /* Chips row */
+    .chips { display: flex; gap: 7px; overflow-x: auto; scrollbar-width: none; }
+    .chips::-webkit-scrollbar { display: none; }
+
+    .chip {
+      flex-shrink: 0; height: 30px; padding: 0 14px; border-radius: 999px;
+      font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px; font-weight: 500;
+      cursor: pointer; -webkit-tap-highlight-color: transparent;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+
+    /* ─── CLIENT CARDS (shared) ──────────────────────── */
+    .cr1 { display: flex; align-items: center; justify-content: space-between; margin-bottom: 5px; }
+    .c-name { font-size: 14px; font-weight: 600; color: #141210; letter-spacing: -0.1px; }
+    .badge-group { display: flex; align-items: center; gap: 5px; flex-shrink: 0; }
+
+    .badge { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 6px; flex-shrink: 0; }
+    .b-active     { background: #EAF4EE; color: #1A7A3C; }
+    .b-priority   { background: #FDECEA; color: #C0392B; }
+    .b-monitoring { background: #FEF6E7; color: #9A5E00; }
+    .b-closed     { background: #F2F0EC; color: #767370; }
+
+    .tier-badge { font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 4px; flex-shrink: 0; letter-spacing: 0.3px; }
+    .tb-t4 { background: #FEE2E2; color: #B91C1C; }
+    .tb-t3 { background: #FFEDD5; color: #C2410C; }
+    .tb-t2 { background: #FEF9C3; color: #A16207; }
+    .tb-t1 { background: #F1F5F9; color: #475569; }
+
+    .cr2 { display: flex; align-items: center; justify-content: space-between; margin-bottom: 9px; }
+    .c-contact { font-size: 12px; font-weight: 400; color: #9E9993; }
+    .c-cm      { font-size: 12px; font-weight: 400; color: #B0ABA3; }
+
+    .cr3 { display: flex; gap: 5px; flex-wrap: wrap; min-height: 22px; align-items: center; }
+
+    .pill { font-size: 11px; font-weight: 500; padding: 3px 9px; border-radius: 999px; line-height: 1; }
+    .p-housing { background: #EAF3EF; color: #1F4D38; }
+    .p-mental  { background: #FEF6E7; color: #9A5E00; }
+    .p-food    { background: #EAF4EE; color: #1A7A3C; }
+    .p-child   { background: #FEF6E7; color: #9A5E00; }
+    .p-elderly { background: #FEF6E7; color: #9A5E00; }
+    .p-medical { background: #FDECEA; color: #C0392B; }
+    .p-fema    { background: #EBF0FD; color: #1A52CC; }
+    .p-legal   { background: #EBF0FD; color: #1A52CC; }
+    .p-insure  { background: #EBF0FD; color: #1A52CC; }
+    .p-docs    { background: #F0EDE8; color: #8C8680; }
+    .p-employ  { background: #F0EDE8; color: #8C8680; }
+    .p-transp  { background: #F0EDE8; color: #8C8680; }
+    .no-needs  { font-size: 11px; font-weight: 400; color: #B0ABA3; font-style: italic; }
+
+    /* ─── FAB ────────────────────────────────────────── */
+    .fab {
+      position: absolute; bottom: 106px; right: 22px;
+      width: 52px; height: 52px; border-radius: 50%;
+      background: #1F4D38; border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      z-index: 30; -webkit-tap-highlight-color: transparent;
+      transition: transform 0.12s ease;
+      box-shadow: 0 6px 24px rgba(20,18,16,0.22), 0 2px 6px rgba(20,18,16,0.12);
+    }
+    .fab:active { transform: scale(0.88); }
+
+    /* ─── TAB BAR ────────────────────────────────────── */
+    .tab-bar { height: 90px; display: flex; align-items: flex-start; padding-top: 10px; flex-shrink: 0; position: relative; }
+    .tab-btn {
+      flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px;
+      border: none; background: transparent; cursor: pointer; padding: 4px 2px 0;
+      color: #B0ABA3; transition: color 0.16s; -webkit-tap-highlight-color: transparent;
+      position: relative;
+    }
+    .tab-btn.active { color: #1F4D38; }
+    .tab-btn svg { width: 22px; height: 22px; }
+    .tab-lbl { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 10px; font-weight: 500; color: inherit; }
+    .tab-dot { position: absolute; top: 2px; right: calc(50% - 14px); width: 7px; height: 7px; background: #E5352B; border-radius: 50%; border: 1.5px solid #FFFFFF; }
+    .home-bar { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); width: 134px; height: 5px; background: #141210; border-radius: 3px; opacity: 0.14; }
+
+    /* ─── TOAST ──────────────────────────────────────── */
+    .toast {
+      position: absolute; top: 72px; left: 18px; right: 18px;
+      background: #141210; color: #FFFFFF;
+      font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 500; line-height: 1.4;
+      padding: 12px 16px; border-radius: 10px; z-index: 400;
+      opacity: 0; transform: translateY(-6px);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      pointer-events: none; box-shadow: 0 6px 20px rgba(0,0,0,0.28);
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+
+    /* ═══════════════════════════════════════════════════
+       VARIATION A — MAXIMUM RESTRAINT
+    ═══════════════════════════════════════════════════ */
+
+    /* Search: borderless ghost */
+    .var-a .search-input { border: none; background: rgba(255,255,255,0.72); }
+    .var-a .search-input:focus { border: 2px solid #1F4D38; padding-left: 37px; }
+
+    /* Chips: text-toggle tabs style */
+    .var-a .chip {
+      background: transparent; border: none;
+      color: #9A9590; font-weight: 500; padding: 0 2px; height: 28px;
+      border-bottom: 2px solid transparent;
+      border-radius: 0;
+    }
+    .var-a .chip.active { color: #1F4D38; border-bottom-color: #1F4D38; background: transparent; font-weight: 600; }
+    .var-a .chip:not(.active):active { color: #3D3A36; }
+
+    /* Client list: grouped container with hairlines */
+    .var-a .client-list { padding: 8px 22px 130px; display: flex; flex-direction: column; gap: 16px; }
+
+    .var-a .client-group {
+      background: #FFFFFF; border-radius: 14px;
+      border: 1px solid #EDEBE6; overflow: hidden;
+    }
+
+    .var-a .client-row {
+      padding: 14px 16px; cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: background 0.14s;
+    }
+    .var-a .client-row + .client-row { border-top: 1px solid #F0EDE9; }
+    .var-a .client-row:active { background: #F6F4F0; }
+
+    .var-a .swipe-note {
+      font-size: 11px; font-weight: 400; color: #B0ABA3; font-style: italic;
+      padding: 6px 2px 0;
+      display: flex; align-items: center; gap: 5px;
+    }
+
+    /* Tab bar: frosted */
+    .var-a .tab-bar { background: rgba(248,246,242,0.92); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+
+    /* ═══════════════════════════════════════════════════
+       VARIATION B — WARMER
+    ═══════════════════════════════════════════════════ */
+
+    /* Search: warm bordered */
+    .var-b .search-input { border: 1.5px solid #E5E2DC; }
+    .var-b .search-input:focus { border: 2px solid #1F4D38; padding-left: 37px; }
+
+    /* Chips: pill style */
+    .var-b .chip { background: #FFFFFF; border: 1.5px solid #E5E2DC; color: #4A4642; }
+    .var-b .chip.active { background: #1F4D38; color: #FFFFFF; border-color: #1F4D38; }
+    .var-b .chip:not(.active):active { background: #F0EDE8; }
+
+    /* Client list: individual cards */
+    .var-b .client-list { padding: 8px 22px 130px; display: flex; flex-direction: column; gap: 10px; }
+
+    .var-b .client-card {
+      background: #FFFFFF; border: 1px solid #E5E2DC; border-radius: 14px;
+      padding: 16px; cursor: pointer; -webkit-tap-highlight-color: transparent;
+      transition: background 0.14s;
+      box-shadow: 0 1px 4px rgba(20,18,16,0.05);
+    }
+    .var-b .client-card:active { background: #F8F5F0; }
+
+    /* Swipe demo */
+    .var-b .swipe-hint {
+      display: flex; align-items: center; gap: 6px;
+      padding: 2px 2px 0;
+      font-size: 11px; font-weight: 400; color: #9E9993; font-style: italic;
+      user-select: none;
+    }
+    .var-b .swipe-demo {
+      display: flex; align-items: stretch;
+      border-radius: 14px; overflow: hidden;
+      border: 1px solid #E5E2DC;
+      box-shadow: 0 1px 4px rgba(20,18,16,0.05);
+    }
+    .var-b .swipe-card-content {
+      flex: 1; background: #FFFFFF; padding: 16px; cursor: pointer;
+      -webkit-tap-highlight-color: transparent; transition: background 0.14s;
+      box-shadow: 3px 0 10px rgba(20,18,16,0.10); position: relative; z-index: 2;
+    }
+    .var-b .swipe-card-content:active { background: #F8F5F0; }
+    .var-b .swipe-btn {
+      flex-shrink: 0; border: none; cursor: pointer;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 4px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 11px; font-weight: 600;
+      color: #FFFFFF; -webkit-tap-highlight-color: transparent; transition: opacity 0.14s;
+    }
+    .var-b .swipe-btn:active { opacity: 0.78; }
+    .var-b .swipe-btn.archive { width: 72px; background: #8C8680; }
+    .var-b .swipe-btn.delete  { width: 56px; background: #C0392B; }
+
+    /* Tab bar: solid white */
+    .var-b .tab-bar { background: #FFFFFF; border-top: 1px solid #E5E2DC; }
+
+  
+body{padding:0!important;margin:0!important;background:transparent!important;
+     display:block!important;min-height:0!important;}
+.var-label{display:none!important;}
+</style>
+</head>
+<body>
+<div class="phone var-a" id="phone-a">
+        <div class="island"></div>
+        <div class="toast" id="toast-a"></div>
+        <div class="fab" onclick="showToast('a','Opening new intake...')">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+            <path d="M11 2v18M2 11h18" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round"/>
+          </svg>
+        </div>
+
+        <div class="status-bar">
+          <span class="status-time">9:41</span>
+          <div class="status-icons">
+            <svg width="18" height="13" viewBox="0 0 18 13" fill="none"><rect x="0" y="8" width="3.2" height="5" rx="0.8" fill="#141210"/><rect x="4.8" y="5.5" width="3.2" height="7.5" rx="0.8" fill="#141210"/><rect x="9.6" y="3" width="3.2" height="10" rx="0.8" fill="#141210"/><rect x="14.4" y="0" width="3.2" height="13" rx="0.8" fill="#141210"/></svg>
+            <svg width="16" height="12" viewBox="0 0 16 12" fill="none"><circle cx="8" cy="11" r="1.5" fill="#141210"/><path d="M4.8 8.2 Q8 5.2 11.2 8.2" stroke="#141210" stroke-width="1.5" stroke-linecap="round" fill="none"/><path d="M2 5.5 Q8 0.5 14 5.5" stroke="#141210" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg>
+            <svg width="27" height="13" viewBox="0 0 27 13" fill="none"><rect x="0.6" y="0.6" width="22.8" height="11.8" rx="2.5" stroke="#141210" stroke-width="1.2"/><rect x="2" y="2" width="18.5" height="9" rx="1.5" fill="#141210"/><path d="M24.8 4.5 C25.6 4.9 26.1 5.6 26.1 6.5 C26.1 7.4 25.6 8.1 24.8 8.5 L24.8 4.5Z" fill="#141210" opacity="0.4"/></svg>
+          </div>
+        </div>
+
+        <div class="scroll">
+          <div class="page-header">
+            <span class="page-title">Clients</span>
+            <button class="new-btn" onclick="showToast('a','Opening new intake...')">
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1V12M1 6.5H12" stroke="#1F4D38" stroke-width="1.7" stroke-linecap="round"/></svg>
+              New Intake
+            </button>
+          </div>
+
+          <div class="sticky-zone">
+            <div class="search-wrap">
+              <span class="search-icon">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="5.5" stroke="#9A9590" stroke-width="1.5"/><path d="M11.2 11.2L14 14" stroke="#9A9590" stroke-width="1.5" stroke-linecap="round"/></svg>
+              </span>
+              <input class="search-input" type="text" placeholder="Search clients..."/>
+            </div>
+            <div class="chips">
+              <button class="chip active" onclick="setChip(this,'a')">All</button>
+              <button class="chip"        onclick="setChip(this,'a')">Active</button>
+              <button class="chip"        onclick="setChip(this,'a')">Priority</button>
+              <button class="chip"        onclick="setChip(this,'a')">Monitoring</button>
+              <button class="chip"        onclick="setChip(this,'a')">Closed</button>
+            </div>
+          </div>
+
+          <div class="client-list">
+
+            <!-- Group 1: Active -->
+            <div class="client-group">
+              <div class="client-row" onclick="showToast('a','Opening case file — Marcus H.')">
+                <div class="cr1"><span class="c-name">Marcus H.</span><div class="badge-group"><span class="tier-badge tb-t3">T3</span><span class="badge b-active">Active</span></div></div>
+                <div class="cr2"><span class="c-contact">Last contact: today</span><span class="c-cm">H. Wormely</span></div>
+                <div class="cr3"><span class="pill p-housing">Housing</span><span class="pill p-fema">FEMA</span><span class="pill p-mental">Mental Health</span></div>
+              </div>
+              <div class="client-row" onclick="showToast('a','Opening case file — Yolanda P.')">
+                <div class="cr1"><span class="c-name">Yolanda P.</span><div class="badge-group"><span class="tier-badge tb-t3">T3</span><span class="badge b-active">Active</span></div></div>
+                <div class="cr2"><span class="c-contact">Last contact: 2 days ago</span><span class="c-cm">H. Wormely</span></div>
+                <div class="cr3"><span class="pill p-food">Food</span><span class="pill p-child">Children</span><span class="pill p-docs">Documents</span></div>
+              </div>
+              <div class="client-row" onclick="showToast('a','Opening case file — James T.')">
+                <div class="cr1"><span class="c-name">James T.</span><div class="badge-group"><span class="tier-badge tb-t2">T2</span><span class="badge b-active">Active</span></div></div>
+                <div class="cr2"><span class="c-contact">Last contact: today</span><span class="c-cm">H. Wormely</span></div>
+                <div class="cr3"><span class="pill p-insure">Insurance</span><span class="pill p-fema">FEMA</span></div>
+              </div>
+            </div>
+
+            <!-- Group 2: Priority -->
+            <div class="client-group">
+              <div class="client-row" onclick="showToast('a','Opening case file — Diana C.')">
+                <div class="cr1"><span class="c-name">Diana C.</span><div class="badge-group"><span class="tier-badge tb-t4">T4</span><span class="badge b-priority">Priority</span></div></div>
+                <div class="cr2"><span class="c-contact">Last contact: 4 days ago</span><span class="c-cm">H. Wormely</span></div>
+                <div class="cr3"><span class="pill p-housing">Housing</span><span class="pill p-legal">Legal</span><span class="pill p-food">Food</span></div>
+              </div>
+              <div class="client-row" onclick="showToast('a','Opening case file — Carmen S.')">
+                <div class="cr1"><span class="c-name">Carmen S.</span><div class="badge-group"><span class="tier-badge tb-t4">T4</span><span class="badge b-priority">Priority</span></div></div>
+                <div class="cr2"><span class="c-contact">Last contact: 6 days ago</span><span class="c-cm">H. Wormely</span></div>
+                <div class="cr3"><span class="pill p-housing">Housing</span><span class="pill p-medical">Medical</span><span class="pill p-elderly">Elderly</span></div>
+              </div>
+            </div>
+
+            <!-- Group 3: Other -->
+            <div class="client-group">
+              <div class="client-row" onclick="showToast('a','Opening case file — Robert M.')">
+                <div class="cr1"><span class="c-name">Robert M.</span><div class="badge-group"><span class="tier-badge tb-t2">T2</span><span class="badge b-monitoring">Monitoring</span></div></div>
+                <div class="cr2"><span class="c-contact">Last contact: 1 week ago</span><span class="c-cm">H. Wormely</span></div>
+                <div class="cr3"><span class="pill p-employ">Employment</span><span class="pill p-transp">Transport</span></div>
+              </div>
+              <div class="client-row" onclick="showToast('a','Opening case file — DeShawn W.')">
+                <div class="cr1"><span class="c-name">DeShawn W.</span><div class="badge-group"><span class="tier-badge tb-t1">T1</span><span class="badge b-closed">Closed</span></div></div>
+                <div class="cr2"><span class="c-contact">Last contact: 2 weeks ago</span><span class="c-cm">H. Wormely</span></div>
+                <div class="cr3"><span class="no-needs">No active needs — case closed</span></div>
+              </div>
+            </div>
+
+            <div class="swipe-note">
+              <svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M4.5 1L1 5M1 5L4.5 9M1 5H11" stroke="#B0ABA3" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Swipe left on any row for quick actions
+            </div>
+
+          </div>
+        </div><!-- /scroll -->
+
+        <div class="tab-bar">
+          <button class="tab-btn" onclick="showToast('a','Dashboard')"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7.5" height="7.5" rx="1.5" fill="currentColor" opacity="0.4"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="1.5" fill="currentColor" opacity="0.4"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="1.5" fill="currentColor" opacity="0.4"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1.5" fill="currentColor" opacity="0.4"/></svg><span class="tab-lbl">Dashboard</span></button>
+          <button class="tab-btn active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7.5" r="3"/><path d="M3 20c0-3.31 2.69-6 6-6"/><circle cx="16" cy="9" r="2.5"/><path d="M13 20c0-2.76 1.34-5 3-5s3 2.24 3 5"/></svg><span class="tab-lbl">Clients</span></button>
+          <button class="tab-btn" onclick="showToast('a','Intake')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2.5"/><path d="M12 9v6M9 12h6"/></svg><span class="tab-lbl">Intake</span></button>
+          <button class="tab-btn" onclick="showToast('a','Connect')"><div class="tab-dot"></div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v10c0 1.1-.9 2-2 2H6l-4 4V6c0-1.1.9-2 2-2z"/></svg><span class="tab-lbl">Connect</span></button>
+          <button class="tab-btn" onclick="showToast('a','More')"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg><span class="tab-lbl">More</span></button>
+          <div class="home-bar"></div>
+        </div>
+
+      </div>
+</body>
+</html>

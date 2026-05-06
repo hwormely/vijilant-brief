@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=390px">
+
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{width:390px;height:844px;overflow:hidden;background:transparent;}
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #0B0A09;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 48px 32px 64px;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+    gap: 24px;
+  }
+
+  /* Page header */
+  .page-header {
+    text-align: center;
+    color: #F8F6F2;
+    margin-bottom: 12px;
+  }
+  .page-header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; opacity: 0.9; }
+  .page-header p { font-size: 12px; color: #7A766F; margin-top: 4px; letter-spacing: 0.04em; }
+
+  /* Variation labels */
+  .var-labels {
+    display: flex;
+    gap: 436px;
+    align-items: center;
+    justify-content: center;
+  }
+  .var-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #7A766F;
+    text-align: center;
+    width: 390px;
+  }
+
+  /* Phones row */
+  .phones-row {
+    display: flex;
+    gap: 56px;
+    align-items: flex-start;
+    justify-content: center;
+  }
+
+  /* Phone shell */
+  .phone {
+    width: 390px;
+    height: 844px;
+    background: #F8F6F2;
+    border-radius: 50px;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.08);
+  }
+
+  /* Dynamic Island */
+  .island {
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 126px;
+    height: 37px;
+    background: #000;
+    border-radius: 20px;
+    z-index: 100;
+  }
+
+  /* Status bar */
+  .status-bar {
+    height: 59px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding: 0 24px 10px;
+    position: relative;
+    z-index: 50;
+  }
+  .status-time { font-size: 15px; font-weight: 600; color: #141210; letter-spacing: -0.3px; }
+  .status-icons { display: flex; gap: 6px; align-items: center; }
+  .status-icons svg { width: 16px; height: 16px; fill: #141210; opacity: 0.85; }
+
+  /* Scrollable content */
+  .screen-content {
+    position: absolute;
+    top: 59px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .screen-content::-webkit-scrollbar { display: none; }
+
+  /* ── Shared component styles ── */
+
+  /* Intake header */
+  .intake-header {
+    padding: 18px 22px 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: #F8F6F2;
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    border-bottom: 1px solid transparent;
+  }
+  .back-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #FFFFFF;
+    border: 1px solid #E5E2DC;
+    flex-shrink: 0;
+    cursor: pointer;
+  }
+  .back-btn svg { width: 18px; height: 18px; }
+  .intake-title-group { flex: 1; }
+  .intake-title { font-size: 17px; font-weight: 700; color: #141210; letter-spacing: -0.4px; }
+  .intake-subtitle { font-size: 11px; color: #9E9993; margin-top: 1px; letter-spacing: 0.02em; }
+  .save-link { font-size: 13px; font-weight: 600; color: #1F4D38; letter-spacing: -0.1px; cursor: pointer; }
+
+  /* Step progress */
+  .step-progress {
+    padding: 0 22px 20px;
+  }
+  .step-track {
+    height: 3px;
+    background: #EDEBE6;
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 8px;
+  }
+  .step-fill {
+    height: 100%;
+    width: 25%;
+    background: #1F4D38;
+    border-radius: 2px;
+    transition: width 0.3s ease;
+  }
+  .step-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .step-label { font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #9E9993; }
+  .step-dots { display: flex; gap: 5px; }
+  .step-dot {
+    width: 5px; height: 5px; border-radius: 50%;
+    background: #EDEBE6;
+  }
+  .step-dot.done { background: #1F4D38; }
+  .step-dot.active { background: #2E6E52; }
+
+  /* Form body */
+  .form-body { padding: 0 22px 32px; display: flex; flex-direction: column; gap: 28px; }
+
+  /* Section group */
+  .section-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  /* Field label */
+  .field-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #9E9993;
+    margin-bottom: 5px;
+  }
+
+  /* Input base */
+  .field-input {
+    width: 100%;
+    height: 44px;
+    font-size: 15px;
+    font-weight: 400;
+    color: #141210;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-family: inherit;
+    display: flex;
+    align-items: center;
+    padding: 0;
+  }
+  .field-input.placeholder { color: #C5C1BB; }
+  .field-input.filled { color: #141210; }
+
+  .field-row { display: flex; gap: 12px; }
+  .field-row .field-wrap { flex: 1; }
+
+  /* Required dot */
+  .req { color: #C0392B; margin-left: 2px; }
+
+  /* Optional tag */
+  .opt-tag {
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #B0ABA3;
+    border: 1px solid #EDEBE6;
+    border-radius: 4px;
+    padding: 1px 5px;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+
+  /* Radio group */
+  .radio-group { display: flex; gap: 10px; }
+  .radio-btn {
+    flex: 1;
+    height: 38px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  /* Alert note */
+  .field-note {
+    font-size: 11px;
+    color: #9E9993;
+    margin-top: 6px;
+    line-height: 1.5;
+  }
+
+  /* Bottom button area */
+  .btn-area {
+    padding: 16px 22px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .btn-primary {
+    width: 100%;
+    height: 52px;
+    background: #1F4D38;
+    border: none;
+    border-radius: 14px;
+    color: #FFFFFF;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -0.2px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: inherit;
+  }
+  .btn-primary svg { width: 16px; height: 16px; stroke: #FFFFFF; fill: none; }
+  .btn-ghost-sm {
+    width: 100%;
+    height: 44px;
+    background: transparent;
+    border: 1.5px solid #EDEBE6;
+    border-radius: 12px;
+    color: #7A766F;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  /* Toast */
+  .toast {
+    position: absolute;
+    bottom: 110px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: #141210;
+    color: #F8F6F2;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 10px 20px;
+    border-radius: 24px;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    pointer-events: none;
+    z-index: 200;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* ── VARIATION A — Maximum Restraint ── */
+  .var-a .intake-header { border-bottom-color: transparent; }
+  .var-a .back-btn { background: transparent; border-color: #EDEBE6; }
+  .var-a .section-label { color: #B0ABA3; }
+  .var-a .field-group { border-bottom: 1px solid #EDEBE6; padding-bottom: 4px; margin-bottom: 16px; }
+  .var-a .field-group:last-child { margin-bottom: 0; }
+  .var-a .field-wrap { }
+  .var-a .field-line { border-bottom: 1.5px solid #E5E2DC; padding-bottom: 0; }
+  .var-a .field-line:focus-within { border-bottom-color: #1F4D38; }
+  .var-a .radio-btn { border: 1.5px solid #EDEBE6; color: #4A4642; background: transparent; }
+  .var-a .radio-btn.active { border-color: #1F4D38; color: #1F4D38; background: #EAF3EF; font-weight: 600; }
+  .var-a .btn-ghost-sm { border-color: #EDEBE6; }
+  .var-a .form-section { }
+
+  /* ── VARIATION B — Warmer ── */
+  .var-b .intake-header { border-bottom-color: #F0EDE9; background: #F8F6F2; }
+  .var-b .back-btn { background: #FFFFFF; border-color: #E5E2DC; }
+  .var-b .section-label { color: #7A766F; }
+  .var-b .form-section { background: #FFFFFF; border-radius: 14px; border: 1px solid #E5E2DC; box-shadow: 0 1px 4px rgba(20,18,16,0.05); padding: 18px 16px; }
+  .var-b .field-wrap { border-bottom: 1px solid #F0EDE9; padding-bottom: 12px; margin-bottom: 4px; }
+  .var-b .field-wrap:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+  .var-b .field-input { font-size: 15px; }
+  .var-b .radio-btn { border: 1.5px solid #E5E2DC; color: #4A4642; background: #FAFAF8; }
+  .var-b .radio-btn.active { border-color: #1F4D38; color: #FFFFFF; background: #1F4D38; font-weight: 600; }
+  .var-b .btn-ghost-sm { border-color: #E5E2DC; }
+
+body{padding:0!important;margin:0!important;background:transparent!important;
+     display:block!important;min-height:0!important;}
+.var-label{display:none!important;}
+</style>
+</head>
+<body>
+<div class="phone var-a">
+    <div class="island"></div>
+    <div class="status-bar">
+      <span class="status-time">9:41</span>
+      <div class="status-icons">
+        <svg viewBox="0 0 24 24"><path d="M1 6l5.5 5.5L12 6l5.5 5.5L23 6"/><path d="M1 6c0 0 5.5 11 11 11S23 6 23 6"/></svg>
+        <svg viewBox="0 0 24 24"><rect x="2" y="7" width="15" height="10" rx="2"/><path d="M19 10h2a1 1 0 011 1v2a1 1 0 01-1 1h-2"/></svg>
+      </div>
+    </div>
+
+    <div class="screen-content">
+      <!-- Header -->
+      <div class="intake-header">
+        <div class="back-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#141210" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M15 18l-6-6 6-6"/>
+          </svg>
+        </div>
+        <div class="intake-title-group">
+          <div class="intake-title">New Client Intake</div>
+          <div class="intake-subtitle">Step 1 of 4 · Basic Information</div>
+        </div>
+        <div class="save-link" onclick="showToast('a','Draft saved')">Save</div>
+      </div>
+
+      <!-- Step progress -->
+      <div class="step-progress">
+        <div class="step-track"><div class="step-fill" style="width:25%"></div></div>
+        <div class="step-meta">
+          <span class="step-label">Basic Info</span>
+          <div class="step-dots">
+            <div class="step-dot active"></div>
+            <div class="step-dot"></div>
+            <div class="step-dot"></div>
+            <div class="step-dot"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form -->
+      <div class="form-body">
+
+        <!-- Basic info section -->
+        <div class="form-section">
+          <div class="section-label">Client Information</div>
+
+          <!-- Full name -->
+          <div class="field-group">
+            <div class="field-label">Full Name <span class="req">*</span></div>
+            <div class="field-line">
+              <div class="field-input filled">Maria Elena Rodriguez</div>
+            </div>
+          </div>
+
+          <!-- Phone -->
+          <div class="field-group">
+            <div class="field-label">Phone Number <span class="req">*</span></div>
+            <div class="field-line">
+              <div class="field-input filled">(626) 555-0192</div>
+            </div>
+          </div>
+
+          <!-- Email -->
+          <div class="field-group">
+            <div class="field-label">Email <span class="opt-tag">Optional</span></div>
+            <div class="field-line">
+              <div class="field-input placeholder">email@example.com</div>
+            </div>
+          </div>
+
+          <!-- DOB -->
+          <div class="field-group">
+            <div class="field-label">Date of Birth <span class="req">*</span></div>
+            <div class="field-line">
+              <div class="field-input filled">03 / 14 / 1978</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contact preference -->
+        <div class="form-section">
+          <div class="section-label">Preferred Contact</div>
+          <div class="radio-group">
+            <div class="radio-btn active">Phone Call</div>
+            <div class="radio-btn">Text</div>
+            <div class="radio-btn">Email</div>
+          </div>
+          <div class="field-note">We'll use this for all outreach and follow-up communications.</div>
+        </div>
+
+        <!-- Address section -->
+        <div class="form-section">
+          <div class="section-label">Current Address</div>
+
+          <!-- Street -->
+          <div class="field-group">
+            <div class="field-label">Street Address <span class="req">*</span></div>
+            <div class="field-line">
+              <div class="field-input placeholder">Street address or "Displaced"</div>
+            </div>
+          </div>
+
+          <!-- City / State row -->
+          <div class="field-row">
+            <div class="field-wrap">
+              <div class="field-label">City</div>
+              <div class="field-line">
+                <div class="field-input placeholder">City</div>
+              </div>
+            </div>
+            <div class="field-wrap" style="max-width:80px">
+              <div class="field-label">ZIP</div>
+              <div class="field-line">
+                <div class="field-input placeholder">00000</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="field-note" style="margin-top:10px">If client is displaced, enter temporary shelter or leave blank and note status below.</div>
+        </div>
+
+        <!-- Displacement status -->
+        <div class="form-section">
+          <div class="section-label">Housing Status</div>
+          <div class="radio-group">
+            <div class="radio-btn">Displaced</div>
+            <div class="radio-btn active">At Home</div>
+            <div class="radio-btn">Shelter</div>
+          </div>
+        </div>
+
+      </div><!-- /form-body -->
+
+      <!-- Bottom button -->
+      <div class="btn-area">
+        <button class="btn-primary" onclick="showToast('a','Saved — Step 2 of 4')">
+          Continue to Household
+          <svg viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+        <button class="btn-ghost-sm" onclick="showToast('a','Draft saved')">Save as Draft</button>
+      </div>
+
+    </div><!-- /screen-content -->
+
+    <div class="toast" id="toast-a"></div>
+  </div>
+</body>
+</html>

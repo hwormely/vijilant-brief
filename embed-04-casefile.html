@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=390px">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{width:390px;height:844px;overflow:hidden;background:transparent;}
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #0B0A09; min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center;
+      padding: 48px 60px 80px;
+      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .proto-header { text-align: center; margin-bottom: 40px; }
+    .proto-title  { font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #4A4642; margin-bottom: 7px; }
+    .proto-sub    { font-size: 11px; font-weight: 400; color: #2A2826; letter-spacing: 0.04em; }
+    .phones-row   { display: flex; gap: 56px; align-items: flex-start; }
+    .var-wrap     { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+    .var-tag      { font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #3A3734; }
+
+    /* ─── PHONE SHELL ───── */
+    .phone {
+      width: 390px; height: 844px; border-radius: 50px;
+      background: #F8F6F2; overflow: hidden; position: relative;
+      display: flex; flex-direction: column;
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.06) inset, 0 0 0 11px #1A1816, 0 0 0 12.5px rgba(255,255,255,0.05), 0 52px 100px rgba(0,0,0,0.82), 0 18px 36px rgba(0,0,0,0.52);
+    }
+    .island { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); width: 126px; height: 37px; background: #000; border-radius: 20px; z-index: 60; pointer-events: none; }
+    .toast { position: absolute; top: 72px; left: 18px; right: 18px; background: #141210; color: #FFF; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 500; line-height: 1.4; padding: 12px 16px; border-radius: 10px; z-index: 400; opacity: 0; transform: translateY(-6px); transition: opacity 0.2s, transform 0.2s; pointer-events: none; box-shadow: 0 6px 20px rgba(0,0,0,0.28); }
+    .toast.show { opacity: 1; transform: translateY(0); }
+
+    /* ─── STATUS BAR ────── */
+    .status-bar { height: 59px; padding: 0 28px 10px; display: flex; align-items: flex-end; justify-content: space-between; background: #F8F6F2; flex-shrink: 0; z-index: 20; position: relative; }
+    .status-time { font-size: 15px; font-weight: 600; color: #141210; letter-spacing: -0.3px; }
+    .status-icons { display: flex; align-items: center; gap: 6px; }
+
+    /* ─── SCROLL ────────── */
+    .scroll { flex: 1; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+    .scroll::-webkit-scrollbar { display: none; }
+
+    /* ─── BACK NAV ──────── */
+    .back-nav { padding: 10px 22px 0; }
+    .back-btn { display: inline-flex; align-items: center; gap: 3px; background: none; border: none; cursor: pointer; color: #1F4D38; font-size: 14px; font-weight: 500; padding: 6px 0; transition: opacity 0.15s; }
+    .back-btn:active { opacity: 0.55; }
+
+    /* ─── CLIENT HEADER ─── */
+    .client-header { padding: 10px 22px 16px; }
+
+    .client-name-row { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; flex-wrap: wrap; }
+    .client-name { font-size: 22px; font-weight: 800; color: #141210; letter-spacing: -0.5px; }
+
+    .badge-active   { background: #EAF4EE; color: #1A7A3C; font-size: 11px; font-weight: 600; padding: 2px 9px; border-radius: 20px; }
+    .tier-badge     { font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 4px; letter-spacing: 0.3px; }
+    .tb-t3          { background: #FFEDD5; color: #C2410C; }
+
+    .client-meta { font-size: 12px; color: #9E9993; font-weight: 400; margin-bottom: 14px; line-height: 1.5; }
+
+    .progress-row { display: flex; align-items: center; gap: 10px; }
+    .progress-bar { flex: 1; height: 5px; background: #EDEBE6; border-radius: 3px; overflow: hidden; }
+    .progress-fill { height: 100%; background: #1F4D38; border-radius: 3px; }
+    .progress-label { font-size: 12px; font-weight: 500; color: #9E9993; white-space: nowrap; }
+
+    /* ─── 5-TAB NAV ─────── */
+    .tabs-sticky { position: sticky; top: 0; z-index: 20; }
+    .tabs-row { display: flex; overflow-x: auto; scrollbar-width: none; }
+    .tabs-row::-webkit-scrollbar { display: none; }
+    .tab-item {
+      flex-shrink: 0; padding: 11px 15px;
+      font-size: 13px; font-weight: 500; color: #9E9993;
+      background: none; border: none; border-bottom: 2px solid transparent;
+      margin-bottom: -1px; cursor: pointer; white-space: nowrap;
+      transition: color 0.18s, border-color 0.18s;
+    }
+    .tab-item.active { color: #1F4D38; font-weight: 600; border-bottom-color: #1F4D38; }
+
+    /* ─── TAB PANE ──────── */
+    .tab-pane { padding: 18px 22px 32px; }
+
+    /* ─── SECTION LABEL ─── */
+    .section-label { font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 10px; }
+
+    /* ─── NEED CHIPS ─────── */
+    .chips-row { display: flex; flex-wrap: wrap; gap: 6px; }
+    .chip { display: inline-flex; align-items: center; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 500; }
+    .chip-green { background: #EAF4EE; color: #1A7A3C; }
+    .chip-blue  { background: #EBF0FD; color: #1A52CC; }
+    .chip-amber { background: #FEF6E7; color: #9A5E00; }
+    .chip-red   { background: #FDECEA; color: #C0392B; }
+    .chip-stone { background: #F0EDE8; color: #6B6663; }
+
+    /* ─── ASSESS ROWS ─────── */
+    .assess-row { display: flex; justify-content: space-between; align-items: baseline; padding: 9px 0; border-bottom: 1px solid; }
+    .assess-row:first-child { padding-top: 0; }
+    .assess-row:last-child  { padding-bottom: 0; border-bottom: none; }
+    .assess-label { font-size: 13px; color: #7A766F; }
+    .assess-value { font-size: 13px; font-weight: 500; color: #141210; text-align: right; }
+
+    /* ─── NOTE PREVIEW ─────── */
+    .note-preview { padding: 9px 0; border-bottom: 1px solid; }
+    .note-preview:first-child { padding-top: 0; }
+    .note-preview:last-child  { padding-bottom: 0; border-bottom: none; }
+    .note-date { font-size: 11px; margin-bottom: 3px; }
+    .note-text { font-size: 13px; color: #3D3A36; line-height: 1.55; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+
+    /* ─── GHOST BTN ─────── */
+    .btn-ghost { width: 100%; padding: 11px; border-radius: 10px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 500; color: #1F4D38; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 7px; transition: background 0.15s; }
+    .btn-ghost:active { background: rgba(31,77,56,0.08); }
+
+    /* ─── BOTTOM TAB BAR ─── */
+    .tab-bar { height: 90px; display: flex; align-items: flex-start; padding-top: 10px; flex-shrink: 0; position: relative; }
+    .bot-btn { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; border: none; background: transparent; cursor: pointer; padding: 4px 2px 0; color: #B0ABA3; transition: color 0.16s; }
+    .bot-btn.active { color: #1F4D38; }
+    .bot-btn svg { width: 22px; height: 22px; }
+    .bot-lbl { font-size: 10px; font-weight: 500; color: inherit; }
+    .home-bar { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); width: 134px; height: 5px; background: #141210; border-radius: 3px; opacity: 0.14; }
+
+    /* ══════════════════════════════════════════════════
+       VARIATION A — MAXIMUM RESTRAINT
+    ══════════════════════════════════════════════════ */
+    .var-a .tabs-sticky { background: #F8F6F2; border-bottom: 1px solid #F0EDE9; }
+
+    .var-a .card {
+      background: #FFFFFF; border-radius: 12px; padding: 16px;
+      margin-bottom: 12px; border: 1px solid #EDEBE6; box-shadow: none;
+    }
+
+    .var-a .section-label { color: #B0ABA3; }
+
+    .var-a .assess-row { border-bottom-color: #F0EDE9; }
+
+    .var-a .note-preview { border-bottom-color: #F0EDE9; }
+    .var-a .note-date { color: #B0ABA3; }
+
+    .var-a .btn-ghost { background: transparent; border: 1.5px solid #EDEBE6; }
+
+    .var-a .tab-bar { background: rgba(248,246,242,0.92); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+
+    /* ══════════════════════════════════════════════════
+       VARIATION B — WARMER
+    ══════════════════════════════════════════════════ */
+    .var-b .tabs-sticky { background: #F8F6F2; border-bottom: 1px solid #E5E2DC; }
+
+    .var-b .card {
+      background: #FFFFFF; border-radius: 14px; padding: 16px;
+      margin-bottom: 12px; border: 1px solid #E5E2DC;
+      box-shadow: 0 2px 8px rgba(20,18,16,0.06);
+    }
+
+    .var-b .section-label { color: #7A766F; }
+
+    .var-b .assess-row { border-bottom-color: #F3F0EC; }
+
+    .var-b .note-preview { border-bottom-color: #F3F0EC; }
+    .var-b .note-date { color: #9E9993; }
+
+    .var-b .btn-ghost { background: transparent; border: 1.5px solid #E8E4DF; }
+
+    .var-b .tab-bar { background: #FFFFFF; border-top: 1px solid #E5E2DC; }
+
+  
+body{padding:0!important;margin:0!important;background:transparent!important;
+     display:block!important;min-height:0!important;}
+.var-label{display:none!important;}
+</style>
+</head>
+<body>
+<div class="phone var-a" id="phone-a">
+        <div class="island"></div>
+        <div class="toast" id="toast-a"></div>
+
+        <div class="status-bar">
+          <span class="status-time">9:41</span>
+          <div class="status-icons">
+            <svg width="18" height="13" viewBox="0 0 18 13" fill="none"><rect x="0" y="8" width="3.2" height="5" rx="0.8" fill="#141210"/><rect x="4.8" y="5.5" width="3.2" height="7.5" rx="0.8" fill="#141210"/><rect x="9.6" y="3" width="3.2" height="10" rx="0.8" fill="#141210"/><rect x="14.4" y="0" width="3.2" height="13" rx="0.8" fill="#141210"/></svg>
+            <svg width="16" height="12" viewBox="0 0 16 12" fill="none"><circle cx="8" cy="11" r="1.5" fill="#141210"/><path d="M4.8 8.2 Q8 5.2 11.2 8.2" stroke="#141210" stroke-width="1.5" stroke-linecap="round" fill="none"/><path d="M2 5.5 Q8 0.5 14 5.5" stroke="#141210" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg>
+            <svg width="27" height="13" viewBox="0 0 27 13" fill="none"><rect x="0.6" y="0.6" width="22.8" height="11.8" rx="2.5" stroke="#141210" stroke-width="1.2"/><rect x="2" y="2" width="18.5" height="9" rx="1.5" fill="#141210"/><path d="M24.8 4.5 C25.6 4.9 26.1 5.6 26.1 6.5 C26.1 7.4 25.6 8.1 24.8 8.5 L24.8 4.5Z" fill="#141210" opacity="0.4"/></svg>
+          </div>
+        </div>
+
+        <div class="scroll">
+          <div class="back-nav">
+            <button class="back-btn" onclick="showToast('a','← Back to Clients')">
+              <svg width="8" height="13" viewBox="0 0 8 13" fill="none"><path d="M7 1L1 6.5 7 12" stroke="#1F4D38" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Clients
+            </button>
+          </div>
+
+          <div class="client-header">
+            <div class="client-name-row">
+              <span class="client-name">Marcus H.</span>
+              <span class="tier-badge tb-t3">T3</span>
+              <span class="badge-active">Active</span>
+            </div>
+            <div class="client-meta">47 · Male · Last contact: today<br>Case opened: Jan 14, 2026 · CM: H. Wormely</div>
+            <div class="progress-row">
+              <div class="progress-bar"><div class="progress-fill" style="width:58%;"></div></div>
+              <span class="progress-label">58% complete</span>
+            </div>
+          </div>
+
+          <!-- 5-tab sticky nav -->
+          <div class="tabs-sticky">
+            <div class="tabs-row">
+              <button class="tab-item active" onclick="showToast('a','Overview')">Overview</button>
+              <button class="tab-item" onclick="showToast('a','Recovery Plan')">Plan</button>
+              <button class="tab-item" onclick="showToast('a','Case Notes')">Notes</button>
+              <button class="tab-item" onclick="showToast('a','Resources')">Resources</button>
+              <button class="tab-item" onclick="showToast('a','Supervisor Notes')">Supervisor</button>
+            </div>
+          </div>
+
+          <!-- Overview pane -->
+          <div class="tab-pane">
+
+            <!-- Needs -->
+            <div class="card">
+              <div class="section-label">Active Needs</div>
+              <div class="chips-row">
+                <span class="chip chip-green">Housing</span>
+                <span class="chip chip-blue">FEMA</span>
+                <span class="chip chip-amber">Mental Health</span>
+                <span class="chip chip-blue">Insurance</span>
+              </div>
+            </div>
+
+            <!-- Assessment snapshot -->
+            <div class="card">
+              <div class="section-label">Assessment Snapshot</div>
+              <div class="assess-row"><span class="assess-label">Housing Status</span><span class="assess-value">Temporary Shelter</span></div>
+              <div class="assess-row"><span class="assess-label">Employment</span><span class="assess-value">Currently Unemployed</span></div>
+              <div class="assess-row"><span class="assess-label">Primary Language</span><span class="assess-value">English</span></div>
+              <div class="assess-row"><span class="assess-label">Triage Score</span><span class="assess-value" style="color:#C2410C;">T3 — High Need</span></div>
+            </div>
+
+            <!-- Recent notes -->
+            <div class="card">
+              <div class="section-label">Recent Case Notes</div>
+              <div class="note-preview">
+                <div class="note-date">Apr 28, 2026 · H. Wormely</div>
+                <div class="note-text">Follow-up call completed. Marcus confirmed he received the housing referral letter. Next step is in-person visit to Pasadena shelter by May 2.</div>
+              </div>
+              <div class="note-preview">
+                <div class="note-date">Apr 22, 2026 · H. Wormely</div>
+                <div class="note-text">FEMA appeal submitted via client portal. Confirmation #F-2024-88831. Awaiting decision in 10–14 business days.</div>
+              </div>
+              <button class="btn-ghost" onclick="showToast('a','Viewing all case notes...')">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v10M1 6h10" stroke="#1F4D38" stroke-width="1.5" stroke-linecap="round"/></svg>
+                View all notes
+              </button>
+            </div>
+
+          </div><!-- /tab-pane -->
+        </div><!-- /scroll -->
+
+        <div class="tab-bar">
+          <button class="bot-btn" onclick="showToast('a','Dashboard')"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7.5" height="7.5" rx="1.5" fill="currentColor" opacity="0.4"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="1.5" fill="currentColor" opacity="0.4"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="1.5" fill="currentColor" opacity="0.4"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1.5" fill="currentColor" opacity="0.4"/></svg><span class="bot-lbl">Dashboard</span></button>
+          <button class="bot-btn active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7.5" r="3"/><path d="M3 20c0-3.31 2.69-6 6-6"/><circle cx="16" cy="9" r="2.5"/><path d="M13 20c0-2.76 1.34-5 3-5s3 2.24 3 5"/></svg><span class="bot-lbl">Clients</span></button>
+          <button class="bot-btn" onclick="showToast('a','Intake')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2.5"/><path d="M12 9v6M9 12h6"/></svg><span class="bot-lbl">Intake</span></button>
+          <button class="bot-btn" onclick="showToast('a','Connect')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v10c0 1.1-.9 2-2 2H6l-4 4V6c0-1.1.9-2 2-2z"/></svg><span class="bot-lbl">Connect</span></button>
+          <button class="bot-btn" onclick="showToast('a','More')"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg><span class="bot-lbl">More</span></button>
+          <div class="home-bar"></div>
+        </div>
+      </div>
+</body>
+</html>

@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{width:1280px;height:800px;overflow:hidden;background:transparent;}
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0B0A09; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 48px 32px 64px; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif; gap: 24px; }
+  .page-header { text-align: center; color: #F8F6F2; margin-bottom: 12px; }
+  .page-header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; opacity: 0.9; }
+  .page-header p { font-size: 12px; color: #7A766F; margin-top: 4px; letter-spacing: 0.04em; }
+
+  .desktop-shell { width: 1280px; height: 800px; background: #F8F6F2; border-radius: 16px; overflow: hidden; display: flex; box-shadow: 0 40px 80px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.07); position: relative; }
+  .titlebar { position: absolute; top: 0; left: 0; right: 0; height: 40px; background: #FFFFFF; border-bottom: 1px solid #EDEBE6; display: flex; align-items: center; padding: 0 18px; gap: 8px; z-index: 100; }
+  .traffic-lights { display: flex; gap: 7px; }
+  .tl { width: 12px; height: 12px; border-radius: 50%; }
+  .tl-red { background: #FF5F57; } .tl-yellow { background: #FFBD2E; } .tl-green { background: #28CA41; }
+  .titlebar-text { flex: 1; text-align: center; font-size: 12px; font-weight: 600; color: #9E9993; letter-spacing: 0.02em; margin-right: 60px; }
+  .app-inner { display: flex; width: 100%; height: 100%; padding-top: 40px; }
+
+  /* Sidebar — Green Light (#EAF3EF) · Supervisor role identity */
+  .sidebar { width: 220px; background: #EAF3EF; border-right: 1px solid #C8E0D5; display: flex; flex-direction: column; flex-shrink: 0; padding: 24px 0; height: 100%; }
+  .logo-wrap { padding: 0 20px 28px; display: flex; align-items: center; gap: 10px; }
+  .logo-mark { width: 32px; height: 32px; background: #1F4D38; border-radius: 9px; display: flex; align-items: center; justify-content: center; }
+  .logo-mark svg { width: 18px; height: 18px; fill: none; stroke: #FFFFFF; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+  .logo-text { font-size: 15px; font-weight: 800; color: #141210; letter-spacing: -0.5px; }
+  .logo-badge { font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; background: #1F4D38; color: #FFFFFF; padding: 2px 6px; border-radius: 4px; }
+  .nav-section { padding: 0 12px; margin-bottom: 4px; }
+  .nav-section-label { font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #7A9E8E; padding: 0 8px; margin-bottom: 4px; }
+  .nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: 10px; cursor: pointer; margin-bottom: 2px; font-size: 13px; font-weight: 500; color: #3D6655; }
+  .nav-item:hover { background: rgba(31,77,56,0.08); }
+  .nav-item.active { background: #FFFFFF; color: #1F4D38; font-weight: 600; }
+  .nav-item svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+  .sidebar-divider { height: 1px; background: #C8E0D5; margin: 12px 20px; }
+  .sidebar-user { margin-top: auto; padding: 0 12px; }
+  .user-card { display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: 10px; background: rgba(255,255,255,0.65); cursor: pointer; }
+  .user-avatar { width: 32px; height: 32px; border-radius: 50%; background: #7A4A00; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #FFFFFF; flex-shrink: 0; }
+  .user-info { flex: 1; }
+  .user-name { font-size: 12px; font-weight: 600; color: #141210; letter-spacing: -0.2px; }
+  .user-role { font-size: 10px; color: #6A7A70; }
+
+  /* Main */
+  .main-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; background: #F8F6F2; }
+  .topbar { height: 60px; border-bottom: 1px solid #EDEBE6; display: flex; align-items: center; padding: 0 32px; gap: 16px; background: #FFFFFF; flex-shrink: 0; }
+  .topbar-title { font-size: 18px; font-weight: 800; color: #141210; letter-spacing: -0.5px; flex: 1; }
+  .topbar-period { display: flex; gap: 0; border: 1px solid #EDEBE6; border-radius: 9px; overflow: hidden; background: #FFFFFF; }
+  .period-btn { height: 34px; padding: 0 14px; font-size: 12px; font-weight: 500; color: #7A766F; cursor: pointer; display: flex; align-items: center; border-right: 1px solid #EDEBE6; font-family: inherit; background: transparent; border-top: none; border-bottom: none; border-left: none; }
+  .period-btn.active { background: #EAF3EF; color: #1F4D38; font-weight: 600; }
+  .period-btn:last-child { border-right: none; }
+  .export-btn { height: 34px; padding: 0 14px; background: transparent; border: 1px solid #EDEBE6; border-radius: 9px; color: #4A4642; font-size: 12px; font-weight: 500; cursor: pointer; font-family: inherit; display: flex; align-items: center; gap: 6px; }
+  .export-btn svg { width: 14px; height: 14px; fill: none; stroke: #7A766F; stroke-width: 2; stroke-linecap: round; }
+
+  .main-scroll { flex: 1; overflow-y: auto; padding: 24px 32px; scrollbar-width: thin; scrollbar-color: #E5E2DC transparent; }
+  .main-scroll::-webkit-scrollbar { width: 4px; }
+  .main-scroll::-webkit-scrollbar-thumb { background: #E5E2DC; border-radius: 2px; }
+
+  .sec-label { font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #B0ABA3; margin-bottom: 14px; }
+
+  /* KPI row */
+  .kpi-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin-bottom: 24px; }
+  .kpi-card { background: #FFFFFF; border: 1px solid #EDEBE6; border-radius: 12px; padding: 16px 18px; }
+  .kpi-num { font-size: 32px; font-weight: 800; color: #141210; letter-spacing: -1.5px; line-height: 1; margin-bottom: 4px; }
+  .kpi-num.green { color: #1F4D38; } .kpi-num.amber { color: #9A5E00; } .kpi-num.red { color: #C0392B; }
+  .kpi-lbl { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #B0ABA3; }
+  .kpi-delta { font-size: 11px; color: #9E9993; margin-top: 2px; }
+
+  /* Three-column layout */
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 320px; gap: 20px; }
+
+  /* Table card */
+  .table-card { background: #FFFFFF; border: 1px solid #EDEBE6; border-radius: 14px; overflow: hidden; }
+  .card-head { padding: 16px 20px 12px; border-bottom: 1px solid #F0EDE9; display: flex; justify-content: space-between; align-items: center; }
+  .card-title { font-size: 13px; font-weight: 700; color: #141210; letter-spacing: -0.2px; }
+  .card-link { font-size: 11px; font-weight: 600; color: #2E6E52; cursor: pointer; }
+
+  .data-table { width: 100%; border-collapse: collapse; }
+  .data-table th { font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #B0ABA3; text-align: left; padding: 8px 20px; background: #FAFAF8; border-bottom: 1px solid #F0EDE9; }
+  .data-table td { padding: 11px 20px; border-bottom: 1px solid #F5F3EF; font-size: 12px; color: #3D3A36; vertical-align: middle; }
+  .data-table tr:last-child td { border-bottom: none; }
+
+  .cm-name-cell { font-weight: 600; color: #141210; font-size: 12px; }
+  .cm-status { display: flex; align-items: center; gap: 5px; }
+  .cm-dot { width: 7px; height: 7px; border-radius: 50%; }
+  .dot-available { background: #1A7A3C; }
+  .dot-busy { background: #E5A328; }
+  .dot-offline { background: #C5C1BB; }
+
+  .cap-mini-wrap { display: flex; align-items: center; gap: 8px; }
+  .cap-mini-track { flex: 1; height: 4px; background: #F0EDE9; border-radius: 2px; overflow: hidden; }
+  .cap-mini-fill { height: 100%; border-radius: 2px; }
+  .fill-green { background: #1F4D38; } .fill-amber { background: #E5A328; } .fill-red { background: #C0392B; }
+  .cap-pct { font-size: 10px; font-weight: 600; color: #9E9993; white-space: nowrap; }
+
+  /* Flags panel */
+  .flags-panel { display: flex; flex-direction: column; gap: 0; }
+  .flag-item { padding: 12px 20px; border-bottom: 1px solid #F5F3EF; display: flex; gap: 10px; align-items: flex-start; cursor: pointer; }
+  .flag-item:last-child { border-bottom: none; }
+  .flag-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
+  .flag-red { background: #C0392B; }
+  .flag-amber { background: #E5A328; }
+  .flag-info { flex: 1; }
+  .flag-text { font-size: 12px; color: #3D3A36; line-height: 1.4; }
+  .flag-text strong { font-weight: 600; color: #141210; }
+  .flag-meta { font-size: 10px; color: #B0ABA3; margin-top: 2px; }
+  .flag-action { font-size: 11px; font-weight: 600; color: #2E6E52; white-space: nowrap; cursor: pointer; margin-top: 1px; }
+
+  /* Right: intake pipeline */
+  .pipeline-list { padding: 4px 0; }
+  .pipeline-item { padding: 11px 20px; border-bottom: 1px solid #F5F3EF; display: flex; justify-content: space-between; align-items: center; }
+  .pipeline-item:last-child { border-bottom: none; }
+  .pipeline-stage { font-size: 12px; color: #3D3A36; }
+  .pipeline-badge { font-size: 12px; font-weight: 800; color: #141210; letter-spacing: -0.5px; }
+  .pipeline-bar { height: 3px; background: #F0EDE9; border-radius: 2px; overflow: hidden; margin: 0 20px 14px; }
+  .pipeline-fill { height: 100%; border-radius: 2px; background: #2E6E52; }
+
+  /* Ref completion card */
+  .ref-list { padding: 4px 0; }
+  .ref-item { padding: 10px 20px; display: flex; align-items: center; gap: 10px; }
+  .ref-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; background: #1F4D38; }
+  .ref-cat { font-size: 12px; color: #3D3A36; flex: 1; }
+  .ref-count { font-size: 12px; font-weight: 700; color: #141210; }
+  .ref-mini { flex: 1; }
+  .ref-mini-track { height: 3px; background: #F0EDE9; border-radius: 2px; overflow: hidden; }
+  .ref-mini-fill { height: 100%; border-radius: 2px; background: #1F4D38; }
+
+body{padding:0!important;margin:0!important;background:transparent!important;
+     display:block!important;min-height:0!important;}
+</style>
+</head>
+<body>
+<div class="desktop-shell">
+  <div class="titlebar">
+    <div class="traffic-lights"><div class="tl tl-red"></div><div class="tl tl-yellow"></div><div class="tl tl-green"></div></div>
+    <div class="titlebar-text">Vijilant — Supervisor Dashboard</div>
+  </div>
+
+  <div class="app-inner">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="logo-wrap">
+        <div class="logo-mark"><svg viewBox="0 0 24 24"><path d="M12 2L3 7v10l9 5 9-5V7L12 2z"/></svg></div>
+        <div><div class="logo-text">Vijilant</div><div class="logo-badge">LLP v1</div></div>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-label">Supervisor</div>
+        <div class="nav-item active">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          Org Overview
+        </div>
+        <div class="nav-item">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+          All Clients
+        </div>
+        <div class="nav-item">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/></svg>
+          CM Board
+        </div>
+        <div class="nav-item">
+          <svg viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+          Metrics
+        </div>
+      </div>
+      <div class="sidebar-divider"></div>
+      <div class="nav-section">
+        <div class="nav-section-label">Admin</div>
+        <div class="nav-item">
+          <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Resources
+        </div>
+        <div class="nav-item">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2"/></svg>
+          Settings
+        </div>
+      </div>
+      <div class="sidebar-user">
+        <div class="user-card">
+          <div class="user-avatar">SA</div>
+          <div class="user-info">
+            <div class="user-name">S. Alex</div>
+            <div class="user-role">Supervisor · LLP</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main -->
+    <div class="main-content">
+      <div class="topbar">
+        <div class="topbar-title">Org Overview</div>
+        <div style="flex:1"></div>
+        <div class="topbar-period">
+          <button class="period-btn">Today</button>
+          <button class="period-btn active">This Week</button>
+          <button class="period-btn">This Month</button>
+          <button class="period-btn">Quarter</button>
+        </div>
+        <button class="export-btn">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+          Export
+        </button>
+      </div>
+
+      <div class="main-scroll">
+
+        <!-- KPIs -->
+        <div class="sec-label">Organization Health</div>
+        <div class="kpi-row">
+          <div class="kpi-card">
+            <div class="kpi-num">47</div>
+            <div class="kpi-lbl">Total Clients</div>
+            <div class="kpi-delta">↑ 3 new this week</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-num red">11</div>
+            <div class="kpi-lbl">Overdue Follow-ups</div>
+            <div class="kpi-delta">Across 5 CMs</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-num amber">2</div>
+            <div class="kpi-lbl">CMs Over Capacity</div>
+            <div class="kpi-delta">Alex, Nguyen</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-num green">31</div>
+            <div class="kpi-lbl">Referrals Made</div>
+            <div class="kpi-delta">Month to date</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-num green">78%</div>
+            <div class="kpi-lbl">Avg Recovery Score</div>
+            <div class="kpi-delta">↑ 2pts from last wk</div>
+          </div>
+        </div>
+
+        <!-- Three columns -->
+        <div class="three-col">
+
+          <!-- CM Performance table -->
+          <div class="table-card">
+            <div class="card-head">
+              <span class="card-title">CM Performance — Week</span>
+              <span class="card-link">CM Board →</span>
+            </div>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Case Manager</th>
+                  <th>Active</th>
+                  <th>Overdue</th>
+                  <th>Capacity</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><div class="cm-name-cell">H. Wormely</div></td>
+                  <td>14</td>
+                  <td style="color:#9A5E00; font-weight:600;">5</td>
+                  <td>
+                    <div class="cap-mini-wrap">
+                      <div class="cap-mini-track"><div class="cap-mini-fill fill-amber" style="width:93%"></div></div>
+                      <span class="cap-pct">93%</span>
+                    </div>
+                  </td>
+                  <td><div class="cm-status"><div class="cm-dot dot-available"></div><span style="font-size:11px;color:#9E9993;">Available</span></div></td>
+                </tr>
+                <tr>
+                  <td><div class="cm-name-cell">S. Alex</div></td>
+                  <td style="color:#C0392B; font-weight:600;">18</td>
+                  <td style="color:#C0392B; font-weight:600;">4</td>
+                  <td>
+                    <div class="cap-mini-wrap">
+                      <div class="cap-mini-track"><div class="cap-mini-fill fill-red" style="width:100%"></div></div>
+                      <span class="cap-pct" style="color:#C0392B;">120%</span>
+                    </div>
+                  </td>
+                  <td><div class="cm-status"><div class="cm-dot dot-busy"></div><span style="font-size:11px;color:#9A5E00;">Over Cap</span></div></td>
+                </tr>
+                <tr>
+                  <td><div class="cm-name-cell">T. Reyes</div></td>
+                  <td>9</td>
+                  <td>1</td>
+                  <td>
+                    <div class="cap-mini-wrap">
+                      <div class="cap-mini-track"><div class="cap-mini-fill fill-green" style="width:60%"></div></div>
+                      <span class="cap-pct">60%</span>
+                    </div>
+                  </td>
+                  <td><div class="cm-status"><div class="cm-dot dot-available"></div><span style="font-size:11px;color:#9E9993;">Available</span></div></td>
+                </tr>
+                <tr>
+                  <td><div class="cm-name-cell">K. Washington</div></td>
+                  <td>11</td>
+                  <td>1</td>
+                  <td>
+                    <div class="cap-mini-wrap">
+                      <div class="cap-mini-track"><div class="cap-mini-fill fill-green" style="width:73%"></div></div>
+                      <span class="cap-pct">73%</span>
+                    </div>
+                  </td>
+                  <td><div class="cm-status"><div class="cm-dot dot-available"></div><span style="font-size:11px;color:#9E9993;">Available</span></div></td>
+                </tr>
+                <tr>
+                  <td><div class="cm-name-cell">M. Nguyen</div></td>
+                  <td style="color:#C0392B; font-weight:600;">17</td>
+                  <td>0</td>
+                  <td>
+                    <div class="cap-mini-wrap">
+                      <div class="cap-mini-track"><div class="cap-mini-fill fill-red" style="width:100%"></div></div>
+                      <span class="cap-pct" style="color:#C0392B;">113%</span>
+                    </div>
+                  </td>
+                  <td><div class="cm-status"><div class="cm-dot dot-busy"></div><span style="font-size:11px;color:#9A5E00;">Over Cap</span></div></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Flagged cases -->
+          <div class="table-card">
+            <div class="card-head">
+              <span class="card-title">Flagged Cases</span>
+              <span class="card-link">View all 8 →</span>
+            </div>
+            <div class="flags-panel">
+              <div class="flag-item">
+                <div class="flag-dot flag-red"></div>
+                <div class="flag-info">
+                  <div class="flag-text"><strong>Okonkwo</strong> — Insurance denied. No legal referral made. 8 days since last contact.</div>
+                  <div class="flag-meta">Wormely · Priority High</div>
+                </div>
+                <div class="flag-action">Review →</div>
+              </div>
+              <div class="flag-item">
+                <div class="flag-dot flag-red"></div>
+                <div class="flag-info">
+                  <div class="flag-text"><strong>Rodriguez</strong> — FEMA decision imminent. No follow-up plan documented in case notes.</div>
+                  <div class="flag-meta">Wormely · FEMA</div>
+                </div>
+                <div class="flag-action">Review →</div>
+              </div>
+              <div class="flag-item">
+                <div class="flag-dot flag-amber"></div>
+                <div class="flag-info">
+                  <div class="flag-text"><strong>Martinez</strong> — Child in household. No child services referral on file. Flagged by system.</div>
+                  <div class="flag-meta">Alex · Children</div>
+                </div>
+                <div class="flag-action">Review →</div>
+              </div>
+              <div class="flag-item">
+                <div class="flag-dot flag-amber"></div>
+                <div class="flag-info">
+                  <div class="flag-text"><strong>Williams</strong> — Elderly client. No emergency contact documented at intake.</div>
+                  <div class="flag-meta">Reyes · Senior</div>
+                </div>
+                <div class="flag-action">Review →</div>
+              </div>
+              <div class="flag-item">
+                <div class="flag-dot flag-amber"></div>
+                <div class="flag-info">
+                  <div class="flag-text"><strong>Chen</strong> — Temp housing expired May 1. No transition plan in place.</div>
+                  <div class="flag-meta">Washington · Housing</div>
+                </div>
+                <div class="flag-action">Review →</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right panel: Intake pipeline + referrals -->
+          <div style="display:flex; flex-direction:column; gap:16px;">
+
+            <div class="table-card">
+              <div class="card-head">
+                <span class="card-title">Intake Pipeline</span>
+                <span class="card-link">Details →</span>
+              </div>
+              <div class="pipeline-list">
+                <div class="pipeline-item">
+                  <span class="pipeline-stage">New referrals</span>
+                  <span class="pipeline-badge" style="color:#9A5E00;">8</span>
+                </div>
+                <div class="pipeline-item">
+                  <span class="pipeline-stage">Screening</span>
+                  <span class="pipeline-badge">3</span>
+                </div>
+                <div class="pipeline-item">
+                  <span class="pipeline-stage">Active cases</span>
+                  <span class="pipeline-badge" style="color:#1F4D38;">47</span>
+                </div>
+                <div class="pipeline-item">
+                  <span class="pipeline-stage">Closed this month</span>
+                  <span class="pipeline-badge">4</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="table-card">
+              <div class="card-head">
+                <span class="card-title">Referrals by Category</span>
+                <span class="card-link">Full →</span>
+              </div>
+              <div class="ref-list">
+                <div class="ref-item">
+                  <div class="ref-dot" style="background:#1F4D38;"></div>
+                  <span class="ref-cat">Financial / FEMA</span>
+                  <div class="ref-mini"><div class="ref-mini-track"><div class="ref-mini-fill" style="width:80%"></div></div></div>
+                  <span class="ref-count">12</span>
+                </div>
+                <div class="ref-item">
+                  <div class="ref-dot" style="background:#6B3FA0;"></div>
+                  <span class="ref-cat">Mental Health</span>
+                  <div class="ref-mini"><div class="ref-mini-track"><div class="ref-mini-fill" style="width:60%; background:#6B3FA0;"></div></div></div>
+                  <span class="ref-count">9</span>
+                </div>
+                <div class="ref-item">
+                  <div class="ref-dot" style="background:#E5A328;"></div>
+                  <span class="ref-cat">Housing</span>
+                  <div class="ref-mini"><div class="ref-mini-track"><div class="ref-mini-fill" style="width:40%; background:#E5A328;"></div></div></div>
+                  <span class="ref-count">6</span>
+                </div>
+                <div class="ref-item">
+                  <div class="ref-dot" style="background:#2C4F9E;"></div>
+                  <span class="ref-cat">Legal Aid</span>
+                  <div class="ref-mini"><div class="ref-mini-track"><div class="ref-mini-fill" style="width:27%; background:#2C4F9E;"></div></div></div>
+                  <span class="ref-count">4</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div><!-- /three-col -->
+      </div><!-- /main-scroll -->
+    </div><!-- /main-content -->
+  </div><!-- /app-inner -->
+</div>
+</body>
+</html>

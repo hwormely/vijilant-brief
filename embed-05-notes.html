@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=390px">
+
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{width:390px;height:844px;overflow:hidden;background:transparent;}
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #0B0A09;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 48px 32px 64px;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+    gap: 24px;
+  }
+
+  .page-header { text-align: center; color: #F8F6F2; margin-bottom: 12px; }
+  .page-header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; opacity: 0.9; }
+  .page-header p { font-size: 12px; color: #7A766F; margin-top: 4px; letter-spacing: 0.04em; }
+
+  .var-labels { display: flex; gap: 436px; align-items: center; justify-content: center; }
+  .var-label { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #7A766F; text-align: center; width: 390px; }
+
+  .phones-row { display: flex; gap: 56px; align-items: flex-start; justify-content: center; }
+
+  .phone {
+    width: 390px; height: 844px; background: #F8F6F2; border-radius: 50px;
+    position: relative; overflow: hidden; flex-shrink: 0;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.08);
+  }
+  .island { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); width: 126px; height: 37px; background: #000; border-radius: 20px; z-index: 100; }
+
+  .status-bar { height: 59px; display: flex; align-items: flex-end; justify-content: space-between; padding: 0 24px 10px; position: relative; z-index: 50; }
+  .status-time { font-size: 15px; font-weight: 600; color: #141210; letter-spacing: -0.3px; }
+  .status-icons { display: flex; gap: 6px; align-items: center; }
+
+  .screen-content { position: absolute; top: 59px; left: 0; right: 0; bottom: 0; overflow-y: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .screen-content::-webkit-scrollbar { display: none; }
+
+  /* ── Screen header ── */
+  .screen-header {
+    padding: 16px 22px 14px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: #F8F6F2;
+  }
+  .back-btn {
+    width: 36px; height: 36px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; cursor: pointer;
+    border: 1px solid #E5E2DC;
+    background: #FFFFFF;
+  }
+  .back-btn svg { width: 18px; height: 18px; }
+  .header-mid { flex: 1; }
+  .header-title { font-size: 17px; font-weight: 700; color: #141210; letter-spacing: -0.4px; }
+  .header-sub { font-size: 11px; color: #9E9993; margin-top: 1px; }
+  .compose-btn {
+    width: 36px; height: 36px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; background: #1F4D38;
+    flex-shrink: 0;
+  }
+  .compose-btn svg { width: 18px; height: 18px; stroke: #FFFFFF; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+
+  /* Filter chips row */
+  .filter-row {
+    padding: 0 22px 14px;
+    display: flex;
+    gap: 7px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .filter-row::-webkit-scrollbar { display: none; }
+
+  .fchip {
+    height: 28px;
+    padding: 0 12px;
+    border-radius: 14px;
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  /* Compose panel */
+  .compose-panel {
+    margin: 0 22px 18px;
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .compose-header {
+    padding: 14px 16px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .compose-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+  .compose-close { font-size: 20px; color: #9E9993; cursor: pointer; line-height: 1; }
+
+  .note-type-row { padding: 12px 16px 0; display: flex; gap: 6px; flex-wrap: wrap; }
+  .ntype-chip {
+    height: 26px; padding: 0 10px;
+    border-radius: 6px; font-size: 11px; font-weight: 500;
+    cursor: pointer; display: flex; align-items: center;
+    transition: all 0.12s ease;
+  }
+
+  .compose-textarea {
+    display: block;
+    width: 100%;
+    min-height: 90px;
+    resize: none;
+    border: none;
+    outline: none;
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 1.55;
+    color: #141210;
+    background: transparent;
+    padding: 12px 16px 8px;
+  }
+  .compose-textarea::placeholder { color: #C5C1BB; }
+
+  .compose-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 16px 14px;
+  }
+  .char-count { font-size: 11px; color: #B0ABA3; }
+  .post-btn {
+    height: 34px; padding: 0 18px;
+    background: #1F4D38; border: none; border-radius: 10px;
+    color: #FFFFFF; font-size: 13px; font-weight: 600;
+    cursor: pointer; font-family: inherit;
+  }
+
+  /* Section label */
+  .section-label { font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; padding: 0 22px 10px; }
+
+  /* Notes list */
+  .notes-list { padding: 0 22px; display: flex; flex-direction: column; gap: 0; }
+
+  /* Note card shared */
+  .note-card { padding: 16px; cursor: pointer; }
+
+  .note-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+  }
+  .note-type-badge {
+    font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 2px 7px; border-radius: 5px;
+  }
+  .badge-call { background: #EAF3EF; color: #1F4D38; }
+  .badge-visit { background: #FEF6E7; color: #9A5E00; }
+  .badge-note { background: #F0EDE9; color: #4A4642; }
+  .badge-referral { background: #EDF2FF; color: #2C4F9E; }
+  .badge-update { background: #F5EFF8; color: #6B3FA0; }
+
+  .note-date { font-size: 11px; }
+  .note-author { font-size: 10px; margin-top: 1px; }
+
+  .note-body {
+    font-size: 13px;
+    line-height: 1.55;
+    color: #3D3A36;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .note-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+  }
+  .note-tags { display: flex; gap: 5px; }
+  .note-tag {
+    font-size: 9px; font-weight: 500; letter-spacing: 0.06em;
+    background: #F5F3EF; color: #7A766F; padding: 2px 7px; border-radius: 4px;
+  }
+  .note-expand { font-size: 11px; font-weight: 600; color: #2E6E52; }
+
+  /* Spacer */
+  .spacer-bottom { height: 40px; }
+
+  /* Toast */
+  .toast {
+    position: absolute; bottom: 100px; left: 50%; transform: translateX(-50%) translateY(20px);
+    background: #141210; color: #F8F6F2; font-size: 13px; font-weight: 500;
+    padding: 10px 20px; border-radius: 24px; white-space: nowrap;
+    opacity: 0; transition: opacity 0.2s ease, transform 0.2s ease;
+    pointer-events: none; z-index: 200;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* ══ VARIATION A ══ */
+  .var-a .screen-header { border-bottom: none; }
+  .var-a .back-btn { background: transparent; border-color: #EDEBE6; }
+  .var-a .fchip { border: none; color: #9A9590; border-bottom: 2px solid transparent; border-radius: 0; padding: 0 4px; height: 30px; }
+  .var-a .fchip.active { color: #1F4D38; border-bottom-color: #1F4D38; font-weight: 600; }
+  .var-a .compose-panel { background: #FFFFFF; border: 1px solid #EDEBE6; box-shadow: none; }
+  .var-a .compose-label { color: #B0ABA3; }
+  .var-a .ntype-chip { border: 1.5px solid #EDEBE6; color: #4A4642; background: transparent; }
+  .var-a .ntype-chip.active { border-color: #1F4D38; color: #1F4D38; background: #EAF3EF; }
+  .var-a .section-label { color: #B0ABA3; }
+  .var-a .notes-list { gap: 0; }
+  .var-a .note-card { border-bottom: 1px solid #F0EDE9; padding: 16px 0; }
+  .var-a .note-card:first-child { border-top: 1px solid #F0EDE9; }
+  .var-a .note-date { color: #B0ABA3; }
+  .var-a .note-author { color: #C5C1BB; }
+
+  /* ══ VARIATION B ══ */
+  .var-b .screen-header { border-bottom: 1px solid #F0EDE9; }
+  .var-b .back-btn { background: #FFFFFF; border-color: #E5E2DC; }
+  .var-b .fchip { background: #FFFFFF; border: 1.5px solid #E5E2DC; color: #4A4642; }
+  .var-b .fchip.active { background: #1F4D38; color: #FFFFFF; border-color: #1F4D38; font-weight: 600; }
+  .var-b .compose-panel { background: #FFFFFF; border: 1px solid #E5E2DC; box-shadow: 0 2px 12px rgba(20,18,16,0.07); }
+  .var-b .compose-label { color: #7A766F; }
+  .var-b .ntype-chip { border: 1.5px solid #E5E2DC; color: #4A4642; background: #FAFAF8; }
+  .var-b .ntype-chip.active { border-color: #1F4D38; color: #FFFFFF; background: #1F4D38; }
+  .var-b .section-label { color: #7A766F; }
+  .var-b .notes-list { gap: 10px; }
+  .var-b .note-card { background: #FFFFFF; border: 1px solid #E5E2DC; border-radius: 14px; box-shadow: 0 1px 5px rgba(20,18,16,0.05); }
+  .var-b .note-date { color: #9E9993; }
+  .var-b .note-author { color: #B0ABA3; }
+
+body{padding:0!important;margin:0!important;background:transparent!important;
+     display:block!important;min-height:0!important;}
+.var-label{display:none!important;}
+</style>
+</head>
+<body>
+<div class="phone var-a">
+    <div class="island"></div>
+    <div class="status-bar">
+      <span class="status-time">9:41</span>
+      <div class="status-icons">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#141210" stroke-width="2" stroke-linecap="round"><path d="M5 12.55a11 11 0 0114.08 0M1.42 9a16 16 0 0121.16 0M8.53 16.11a6 6 0 016.95 0M12 20h.01"/></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#141210" stroke-width="2"><rect x="2" y="7" width="15" height="10" rx="2"/><path d="M19 10h2a1 1 0 011 1v2a1 1 0 01-1 1h-2"/></svg>
+      </div>
+    </div>
+
+    <div class="screen-content">
+
+      <!-- Header -->
+      <div class="screen-header">
+        <div class="back-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#141210" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        </div>
+        <div class="header-mid">
+          <div class="header-title">Case Notes</div>
+          <div class="header-sub">Maria Rodriguez · 17 entries</div>
+        </div>
+        <div class="compose-btn" onclick="showToast('a','New note started')">
+          <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+        </div>
+      </div>
+
+      <!-- Filter chips — text-tab style for A -->
+      <div class="filter-row">
+        <div class="fchip active">All</div>
+        <div class="fchip">Calls</div>
+        <div class="fchip">Visits</div>
+        <div class="fchip">Referrals</div>
+        <div class="fchip">Updates</div>
+      </div>
+
+      <!-- Compose panel -->
+      <div class="compose-panel">
+        <div class="compose-header">
+          <span class="compose-label">New Note</span>
+          <span class="compose-close">×</span>
+        </div>
+        <div class="note-type-row">
+          <div class="ntype-chip active">Phone Call</div>
+          <div class="ntype-chip">Home Visit</div>
+          <div class="ntype-chip">Case Update</div>
+          <div class="ntype-chip">Referral</div>
+        </div>
+        <textarea class="compose-textarea" placeholder="Document this interaction — what was discussed, next steps, client's status…"></textarea>
+        <div class="compose-footer">
+          <span class="char-count">0 / 2,000</span>
+          <button class="post-btn" onclick="showToast('a','Note saved')">Save Note</button>
+        </div>
+      </div>
+
+      <!-- Notes list -->
+      <div class="section-label">Recent Notes</div>
+      <div class="notes-list">
+
+        <div class="note-card">
+          <div class="note-meta">
+            <span class="note-type-badge badge-call">Phone Call</span>
+            <div style="text-align:right">
+              <div class="note-date">Apr 27, 2026</div>
+              <div class="note-author">H. Wormely</div>
+            </div>
+          </div>
+          <div class="note-body">Client called to confirm FEMA appointment tomorrow at 2pm. Expressed concern about missing paperwork — advised to bring all insurance denial letters. Will follow up after appointment. Client sounded anxious but engaged.</div>
+          <div class="note-footer">
+            <div class="note-tags">
+              <span class="note-tag">FEMA</span>
+              <span class="note-tag">Insurance</span>
+            </div>
+            <span class="note-expand">Read more</span>
+          </div>
+        </div>
+
+        <div class="note-card">
+          <div class="note-meta">
+            <span class="note-type-badge badge-visit">Home Visit</span>
+            <div style="text-align:right">
+              <div class="note-date">Apr 24, 2026</div>
+              <div class="note-author">H. Wormely</div>
+            </div>
+          </div>
+          <div class="note-body">Conducted home assessment. Property has significant smoke and water damage to east wing. Two bedrooms uninhabitable. Client living in back portion with daughter (12). Noted structural crack in hallway — flagged for contractor review. Photographed damage.</div>
+          <div class="note-footer">
+            <div class="note-tags">
+              <span class="note-tag">Assessment</span>
+              <span class="note-tag">Property</span>
+            </div>
+            <span class="note-expand">Read more</span>
+          </div>
+        </div>
+
+        <div class="note-card">
+          <div class="note-meta">
+            <span class="note-type-badge badge-referral">Referral</span>
+            <div style="text-align:right">
+              <div class="note-date">Apr 22, 2026</div>
+              <div class="note-author">H. Wormely</div>
+            </div>
+          </div>
+          <div class="note-body">Submitted referral to Pasadena Mental Health for trauma counseling. Client agreed to services after brief hesitation. Appointment scheduled May 3rd. Provided warm handoff contact card.</div>
+          <div class="note-footer">
+            <div class="note-tags">
+              <span class="note-tag">Mental Health</span>
+              <span class="note-tag">Referral</span>
+            </div>
+            <span class="note-expand">Read more</span>
+          </div>
+        </div>
+
+        <div class="note-card">
+          <div class="note-meta">
+            <span class="note-type-badge badge-note">Case Update</span>
+            <div style="text-align:right">
+              <div class="note-date">Apr 19, 2026</div>
+              <div class="note-author">H. Wormely</div>
+            </div>
+          </div>
+          <div class="note-body">Updated case status to Active — Ongoing. Priority flag added based on unaccompanied minor and structural damage. Coordinated with S. Alex re: temp housing resource queue.</div>
+          <div class="note-footer">
+            <div class="note-tags">
+              <span class="note-tag">Status</span>
+              <span class="note-tag">Housing</span>
+            </div>
+            <span class="note-expand">Read more</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="spacer-bottom"></div>
+    </div><!-- /screen-content -->
+    <div class="toast" id="toast-a"></div>
+  </div>
+</body>
+</html>

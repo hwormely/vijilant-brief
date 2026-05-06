@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=390px">
+
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{width:390px;height:844px;overflow:hidden;background:transparent;}
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0B0A09; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 48px 32px 64px; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif; gap: 24px; }
+  .page-header { text-align: center; color: #F8F6F2; margin-bottom: 12px; }
+  .page-header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; opacity: 0.9; }
+  .page-header p { font-size: 12px; color: #7A766F; margin-top: 4px; letter-spacing: 0.04em; }
+  .var-labels { display: flex; gap: 436px; align-items: center; justify-content: center; }
+  .var-label { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #7A766F; text-align: center; width: 390px; }
+  .phones-row { display: flex; gap: 56px; align-items: flex-start; justify-content: center; }
+  .phone { width: 390px; height: 844px; background: #F8F6F2; border-radius: 50px; position: relative; overflow: hidden; flex-shrink: 0; box-shadow: 0 40px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.08); }
+  .island { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); width: 126px; height: 37px; background: #000; border-radius: 20px; z-index: 100; }
+  .status-bar { height: 59px; display: flex; align-items: flex-end; justify-content: space-between; padding: 0 24px 10px; z-index: 50; }
+  .status-time { font-size: 15px; font-weight: 600; color: #141210; letter-spacing: -0.3px; }
+  .status-icons { display: flex; gap: 6px; align-items: center; }
+  .screen-content { position: absolute; top: 59px; left: 0; right: 0; bottom: 0; overflow-y: auto; scrollbar-width: none; }
+  .screen-content::-webkit-scrollbar { display: none; }
+
+  .screen-header { padding: 16px 22px 14px; display: flex; align-items: center; gap: 14px; position: sticky; top: 0; z-index: 40; background: #F8F6F2; }
+  .back-btn { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; }
+  .back-btn svg { width: 18px; height: 18px; fill: none; stroke: #141210; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .header-mid { flex: 1; }
+  .header-title { font-size: 17px; font-weight: 700; color: #141210; letter-spacing: -0.4px; }
+  .header-sub { font-size: 11px; color: #9E9993; margin-top: 1px; }
+
+  /* Aid total strip */
+  .aid-total { margin: 0 22px 20px; padding: 18px 20px; border-radius: 16px; background: #1F4D38; }
+  .aid-label { font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.55); margin-bottom: 8px; }
+  .aid-amount { font-size: 36px; font-weight: 800; color: #FFFFFF; letter-spacing: -2px; line-height: 1; }
+  .aid-sub { font-size: 12px; color: rgba(255,255,255,0.6); margin-top: 5px; }
+  .aid-cols { display: flex; gap: 0; margin-top: 16px; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.15); }
+  .aid-col { flex: 1; text-align: center; }
+  .aid-col + .aid-col { border-left: 1px solid rgba(255,255,255,0.15); }
+  .aid-col-num { font-size: 18px; font-weight: 800; color: #FFFFFF; letter-spacing: -0.8px; }
+  .aid-col-lbl { font-size: 9px; font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-top: 3px; }
+
+  /* Section label */
+  .sec-label { font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; padding: 0 22px 12px; }
+
+  /* Application cards */
+  .apps-list { padding: 0 22px; display: flex; flex-direction: column; }
+
+  .app-item { padding: 16px 0; cursor: pointer; }
+  .app-top { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
+  .app-icon { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+  .app-main { flex: 1; }
+  .app-name { font-size: 14px; font-weight: 600; color: #141210; letter-spacing: -0.2px; }
+  .app-org { font-size: 11px; color: #9E9993; margin-top: 2px; }
+  .app-amount { text-align: right; }
+  .app-amt-num { font-size: 16px; font-weight: 800; color: #141210; letter-spacing: -0.8px; }
+  .app-amt-lbl { font-size: 10px; color: #B0ABA3; margin-top: 1px; }
+
+  /* Status row */
+  .app-status-row { display: flex; align-items: center; gap: 10px; }
+  .status-badge {
+    font-size: 9px; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase;
+    padding: 3px 8px; border-radius: 5px;
+  }
+  .s-approved { background: #EAF3EF; color: #1F4D38; }
+  .s-pending { background: #FEF6E7; color: #9A5E00; }
+  .s-denied { background: #FDECEA; color: #C0392B; }
+  .s-submitted { background: #EDF2FF; color: #2C4F9E; }
+  .s-draft { background: #F0EDE9; color: #7A766F; }
+
+  .app-next { font-size: 11px; color: #9E9993; flex: 1; }
+  .app-arrow { color: #C5C1BB; font-size: 16px; }
+
+  /* Timeline dots */
+  .app-timeline { display: flex; align-items: center; gap: 0; margin-top: 10px; padding-left: 50px; }
+  .tl-step { display: flex; flex-direction: column; align-items: center; position: relative; flex: 1; }
+  .tl-step:last-child { flex: 0; }
+  .tl-dot { width: 8px; height: 8px; border-radius: 50%; z-index: 1; }
+  .tl-dot.done { background: #1F4D38; }
+  .tl-dot.current { background: #E5A328; box-shadow: 0 0 0 3px rgba(229,163,40,0.2); }
+  .tl-dot.future { background: #E5E2DC; }
+  .tl-line { position: absolute; top: 4px; left: 8px; right: -8px; height: 1px; z-index: 0; }
+  .tl-line.done { background: #1F4D38; }
+  .tl-line.future { background: #E5E2DC; }
+  .tl-lbl { font-size: 8px; color: #B0ABA3; margin-top: 4px; white-space: nowrap; }
+
+  .add-app-btn { margin: 16px 22px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 13px; font-weight: 600; cursor: pointer; border: 1.5px dashed #D4D0C8; color: #7A766F; background: transparent; font-family: inherit; }
+  .add-app-btn svg { width: 14px; height: 14px; fill: none; stroke: #7A766F; stroke-width: 2; stroke-linecap: round; }
+
+  .spacer-bottom { height: 40px; }
+
+  /* Toast */
+  .toast { position: absolute; bottom: 60px; left: 50%; transform: translateX(-50%) translateY(20px); background: #141210; color: #F8F6F2; font-size: 13px; font-weight: 500; padding: 10px 20px; border-radius: 24px; white-space: nowrap; opacity: 0; transition: opacity 0.2s ease, transform 0.2s ease; pointer-events: none; z-index: 200; }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* ══ VAR A ══ */
+  .var-a .screen-header { border-bottom: none; }
+  .var-a .back-btn { border: 1px solid #EDEBE6; background: transparent; }
+  .var-a .sec-label { color: #B0ABA3; }
+  .var-a .app-item { border-bottom: 1px solid #F0EDE9; }
+  .var-a .app-item:first-child { border-top: 1px solid #F0EDE9; }
+  .var-a .app-icon { background: #F5F3EF; border: 1px solid #EDEBE6; }
+  .var-a .add-app-btn { border-color: #EDEBE6; }
+
+  /* ══ VAR B ══ */
+  .var-b .screen-header { border-bottom: 1px solid #F0EDE9; }
+  .var-b .back-btn { border: 1px solid #E5E2DC; background: #FFFFFF; }
+  .var-b .sec-label { color: #7A766F; padding: 0 16px 12px; }
+  .var-b .apps-list { padding: 0 16px; gap: 10px; }
+  .var-b .app-item { background: #FFFFFF; border: 1px solid #E5E2DC; border-radius: 14px; padding: 16px; margin: 0; box-shadow: 0 1px 5px rgba(20,18,16,0.05); }
+  .var-b .app-item:first-child { border-top: 1px solid #E5E2DC; }
+  .var-b .app-icon { background: #EAF3EF; border: none; }
+  .var-b .add-app-btn { margin: 16px 16px; border-color: #E5E2DC; }
+  .var-b .aid-total { margin: 0 16px 20px; }
+
+body{padding:0!important;margin:0!important;background:transparent!important;
+     display:block!important;min-height:0!important;}
+.var-label{display:none!important;}
+</style>
+</head>
+<body>
+<div class="phone var-a">
+    <div class="island"></div>
+    <div class="status-bar">
+      <span class="status-time">9:41</span>
+      <div class="status-icons">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#141210" stroke-width="2" stroke-linecap="round"><path d="M5 12.55a11 11 0 0114.08 0M1.42 9a16 16 0 0121.16 0M8.53 16.11a6 6 0 016.95 0M12 20h.01"/></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#141210" stroke-width="2"><rect x="2" y="7" width="15" height="10" rx="2"/><path d="M19 10h2a1 1 0 011 1v2a1 1 0 01-1 1h-2"/></svg>
+      </div>
+    </div>
+
+    <div class="screen-content">
+      <div class="screen-header">
+        <div class="back-btn"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></div>
+        <div class="header-mid">
+          <div class="header-title">Aid Applications</div>
+          <div class="header-sub">Maria Rodriguez · 4 applications</div>
+        </div>
+      </div>
+
+      <!-- Aid total -->
+      <div class="aid-total">
+        <div class="aid-label">Total Aid Requested</div>
+        <div class="aid-amount">$52,400</div>
+        <div class="aid-sub">Across all programs</div>
+        <div class="aid-cols">
+          <div class="aid-col">
+            <div class="aid-col-num">$14,000</div>
+            <div class="aid-col-lbl">Approved</div>
+          </div>
+          <div class="aid-col">
+            <div class="aid-col-num">$36,000</div>
+            <div class="aid-col-lbl">Pending</div>
+          </div>
+          <div class="aid-col">
+            <div class="aid-col-num">$2,400</div>
+            <div class="aid-col-lbl">Denied</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Applications -->
+      <div class="sec-label">All Applications</div>
+      <div class="apps-list">
+
+        <!-- FEMA -->
+        <div class="app-item" onclick="showToast('a','FEMA application opened')">
+          <div class="app-top">
+            <div class="app-icon">🏛</div>
+            <div class="app-main">
+              <div class="app-name">FEMA Individual Assistance</div>
+              <div class="app-org">Federal Emergency Management Agency</div>
+            </div>
+            <div class="app-amount">
+              <div class="app-amt-num">$28,000</div>
+              <div class="app-amt-lbl">Requested</div>
+            </div>
+          </div>
+          <div class="app-status-row">
+            <span class="status-badge s-pending">Under Review</span>
+            <span class="app-next">Decision expected May 15</span>
+            <span class="app-arrow">›</span>
+          </div>
+          <div class="app-timeline">
+            <div class="tl-step">
+              <div class="tl-dot done"></div>
+              <div class="tl-line done"></div>
+              <div class="tl-lbl">Applied</div>
+            </div>
+            <div class="tl-step">
+              <div class="tl-dot done"></div>
+              <div class="tl-line done"></div>
+              <div class="tl-lbl">Verified</div>
+            </div>
+            <div class="tl-step">
+              <div class="tl-dot current"></div>
+              <div class="tl-line future"></div>
+              <div class="tl-lbl">Review</div>
+            </div>
+            <div class="tl-step">
+              <div class="tl-dot future"></div>
+              <div class="tl-lbl">Decision</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Red Cross -->
+        <div class="app-item" onclick="showToast('a','Red Cross application opened')">
+          <div class="app-top">
+            <div class="app-icon">🔴</div>
+            <div class="app-main">
+              <div class="app-name">Disaster Relief Fund</div>
+              <div class="app-org">American Red Cross</div>
+            </div>
+            <div class="app-amount">
+              <div class="app-amt-num">$2,400</div>
+              <div class="app-amt-lbl">Denied</div>
+            </div>
+          </div>
+          <div class="app-status-row">
+            <span class="status-badge s-denied">Denied</span>
+            <span class="app-next">Income threshold exceeded</span>
+            <span class="app-arrow">›</span>
+          </div>
+        </div>
+
+        <!-- Cal OES -->
+        <div class="app-item" onclick="showToast('a','Cal OES application opened')">
+          <div class="app-top">
+            <div class="app-icon">🌟</div>
+            <div class="app-main">
+              <div class="app-name">Cal OES Disaster Assistance</div>
+              <div class="app-org">California OES</div>
+            </div>
+            <div class="app-amount">
+              <div class="app-amt-num">$8,000</div>
+              <div class="app-amt-lbl">Approved</div>
+            </div>
+          </div>
+          <div class="app-status-row">
+            <span class="status-badge s-approved">Approved</span>
+            <span class="app-next">Disbursed Apr 22</span>
+            <span class="app-arrow">›</span>
+          </div>
+        </div>
+
+        <!-- Rebuild SoCal -->
+        <div class="app-item" onclick="showToast('a','Rebuild SoCal opened')">
+          <div class="app-top">
+            <div class="app-icon">🏠</div>
+            <div class="app-main">
+              <div class="app-name">Rebuild SoCal — Home Repair</div>
+              <div class="app-org">Pasadena Community Foundation</div>
+            </div>
+            <div class="app-amount">
+              <div class="app-amt-num">$14,000</div>
+              <div class="app-amt-lbl">Requested</div>
+            </div>
+          </div>
+          <div class="app-status-row">
+            <span class="status-badge s-submitted">Submitted</span>
+            <span class="app-next">Awaiting site inspection</span>
+            <span class="app-arrow">›</span>
+          </div>
+          <div class="app-timeline">
+            <div class="tl-step">
+              <div class="tl-dot done"></div>
+              <div class="tl-line done"></div>
+              <div class="tl-lbl">Submitted</div>
+            </div>
+            <div class="tl-step">
+              <div class="tl-dot current"></div>
+              <div class="tl-line future"></div>
+              <div class="tl-lbl">Inspection</div>
+            </div>
+            <div class="tl-step">
+              <div class="tl-dot future"></div>
+              <div class="tl-lbl">Award</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <button class="add-app-btn" onclick="showToast('a','Add application opened')">
+        <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+        Track New Application
+      </button>
+      <div class="spacer-bottom"></div>
+    </div>
+    <div class="toast" id="toast-a"></div>
+  </div>
+</body>
+</html>

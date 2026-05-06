@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{width:1280px;height:800px;overflow:hidden;background:transparent;}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #F8F6F2;
+  --card: #FFFFFF;
+  --green: #1F4D38;
+  --green-mid: #2E6E52;
+  --green-light: #EAF3EF;
+  --ink: #141210;
+  --ink-2: #3D3A36;
+  --ink-3: #7A766F;
+  --ink-4: #B0ABA3;
+  --success: #1A7A3C;
+  --red: #C0392B;
+  --red-light: #FDECEA;
+  --amber: #E5A328;
+  --amber-light: #FDF6E7;
+  --blue: #1A5A8A;
+  --blue-light: #EBF4FB;
+  --outer: #0B0A09;
+  --border: #EDEBE6;
+}
+
+body {
+  font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+  background: var(--outer);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 40px;
+}
+
+.app-shell {
+  width: 1280px;
+  height: 800px;
+  background: var(--bg);
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 40px 120px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.08);
+}
+
+/* Mac titlebar */
+.titlebar {
+  height: 40px;
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  flex-shrink: 0;
+}
+.traffic { display: flex; gap: 8px; align-items: center; }
+.dot { width: 12px; height: 12px; border-radius: 50%; }
+.dot-r { background: #FF5F57; }
+.dot-y { background: #FFBD2E; }
+.dot-g { background: #28C840; }
+.titlebar-label {
+  flex: 1;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-3);
+}
+
+/* App body */
+.app-body { flex: 1; display: flex; overflow: hidden; }
+
+/* Sidebar — Green Light (#EAF3EF) · Supervisor role identity */
+.sidebar {
+  width: 220px;
+  background: #EAF3EF;
+  border-right: 1px solid #C8E0D5;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  overflow-y: auto;
+}
+.sidebar-logo {
+  padding: 20px 16px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid #C8E0D5;
+}
+.logo-mark {
+  width: 32px; height: 32px;
+  background: var(--green);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+}
+.logo-mark svg { width: 18px; height: 18px; fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; }
+.logo-name { font-size: 15px; font-weight: 700; color: var(--ink); letter-spacing: -0.3px; }
+.logo-badge { font-size: 10px; font-weight: 600; color: #7A9E8E; letter-spacing: 0.5px; text-transform: uppercase; }
+
+.nav-section { padding: 14px 0 6px; }
+.nav-section-label {
+  font-size: 10px; font-weight: 600; color: #7A9E8E;
+  letter-spacing: 1px; text-transform: uppercase;
+  padding: 0 16px; margin-bottom: 4px;
+}
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 16px;
+  font-size: 13.5px; color: #3D6655;
+  cursor: pointer; text-decoration: none;
+  position: relative; transition: background 0.1s;
+}
+.nav-item:hover { background: rgba(31,77,56,0.08); color: #1F4D38; }
+.nav-item.active {
+  color: var(--green); font-weight: 600; background: #FFFFFF;
+}
+.nav-item.active::before {
+  content: '';
+  position: absolute; left: 0; top: 4px; bottom: 4px;
+  width: 3px; background: var(--green); border-radius: 0 2px 2px 0;
+}
+.nav-icon { width: 16px; height: 16px; opacity: 0.6; flex-shrink: 0; }
+.nav-item.active .nav-icon { opacity: 1; }
+.nav-badge {
+  margin-left: auto; font-size: 11px; font-weight: 600;
+  color: #7A9E8E; background: rgba(255,255,255,0.7);
+  border-radius: 20px; padding: 1px 7px;
+}
+.nav-badge.red { color: var(--red); background: var(--red-light); }
+
+.sidebar-spacer { flex: 1; }
+.sidebar-user {
+  padding: 12px 16px;
+  border-top: 1px solid #C8E0D5;
+  display: flex; align-items: center; gap: 10px;
+}
+.user-avatar {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--green); display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700; color: #fff; flex-shrink: 0;
+}
+.user-name { font-size: 13px; font-weight: 600; color: var(--ink); }
+.user-role { font-size: 11px; color: var(--ink-4); }
+.user-status { width: 8px; height: 8px; border-radius: 50%; background: #28C840; flex-shrink: 0; }
+
+/* Main */
+.main { flex: 1; display: flex; flex-direction: column; overflow: hidden; background: var(--bg); }
+
+/* Topbar */
+.topbar {
+  height: 64px; background: var(--card);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; padding: 0 24px; gap: 12px; flex-shrink: 0;
+}
+.topbar-title { font-size: 20px; font-weight: 700; color: var(--ink); letter-spacing: -0.4px; }
+
+.period-toggle {
+  display: flex; background: var(--bg);
+  border: 1px solid var(--border); border-radius: 8px; overflow: hidden;
+}
+.period-btn {
+  padding: 6px 13px; font-size: 12.5px; font-weight: 500; color: var(--ink-3);
+  background: transparent; border: none; border-right: 1px solid var(--border); cursor: pointer;
+}
+.period-btn:last-child { border-right: none; }
+.period-btn.active { background: var(--card); color: var(--green); font-weight: 600; }
+
+.export-btn {
+  display: flex; align-items: center; gap: 6px;
+  padding: 7px 14px; border: 1px solid var(--border); border-radius: 8px;
+  background: var(--card); font-size: 12.5px; font-weight: 500; color: var(--ink-3); cursor: pointer;
+}
+
+/* Content */
+.content {
+  flex: 1; padding: 18px 24px; overflow-y: auto;
+  display: flex; flex-direction: column; gap: 14px;
+}
+
+/* KPI strip */
+.kpi-strip { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+.kpi-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 12px; padding: 13px 15px;
+}
+.kpi-label {
+  font-size: 10px; font-weight: 600; color: var(--ink-4);
+  letter-spacing: 0.6px; text-transform: uppercase; margin-bottom: 5px;
+}
+.kpi-value {
+  font-size: 26px; font-weight: 800; color: var(--ink);
+  letter-spacing: -0.8px; line-height: 1; margin-bottom: 4px;
+}
+.kpi-sub { font-size: 11.5px; color: var(--ink-4); }
+.kpi-sub.up { color: var(--success); }
+.kpi-sub.warn { color: var(--amber); }
+
+/* Panel */
+.panel {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 12px; padding: 15px;
+}
+.panel-header {
+  display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 13px;
+}
+.panel-title { font-size: 13px; font-weight: 700; color: var(--ink); letter-spacing: -0.2px; }
+.panel-meta { font-size: 11.5px; color: var(--ink-4); }
+
+/* Layouts */
+.two-col { display: grid; grid-template-columns: 55fr 45fr; gap: 14px; }
+.three-col { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 14px; }
+
+/* Breakdown bar */
+.breakdown-bar { height: 8px; border-radius: 4px; display: flex; overflow: hidden; margin-bottom: 10px; }
+.seg { height: 100%; }
+.seg-green { background: var(--green); }
+.seg-amber { background: var(--amber); }
+.seg-red { background: var(--red); }
+.seg-gray { background: var(--ink-4); }
+
+.legend-row { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+.legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.legend-label { font-size: 12px; color: var(--ink-2); flex: 1; }
+.legend-val { font-size: 12px; font-weight: 700; color: var(--ink); }
+.legend-pct { font-size: 11px; color: var(--ink-4); width: 30px; text-align: right; }
+
+/* Category bars */
+.cat-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.cat-row:last-child { margin-bottom: 0; }
+.cat-name { font-size: 12px; color: var(--ink-2); width: 88px; flex-shrink: 0; }
+.cat-bar-track { flex: 1; height: 6px; background: var(--bg); border-radius: 3px; overflow: hidden; }
+.cat-bar-fill { height: 100%; border-radius: 3px; background: var(--green-light); }
+.cat-bar-fill.top { background: var(--green); }
+.cat-count { font-size: 12px; font-weight: 600; color: var(--ink); width: 18px; text-align: right; }
+
+/* Goal vs. target bars */
+.goal-row { margin-bottom: 10px; }
+.goal-row:last-child { margin-bottom: 0; }
+.goal-head {
+  display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;
+}
+.goal-lbl { font-size: 12px; color: var(--ink-2); }
+.goal-nums { font-size: 11px; color: var(--ink-4); }
+.goal-track { height: 5px; background: var(--bg); border-radius: 3px; overflow: hidden; }
+.goal-fill { height: 100%; border-radius: 3px; background: var(--green); }
+.goal-fill.over { background: var(--amber); }
+.goal-fill.low { background: var(--red); }
+
+body{padding:0!important;margin:0!important;background:transparent!important;
+     display:block!important;min-height:0!important;}
+</style>
+</head>
+<body>
+<div class="app-shell">
+
+  <!-- Titlebar -->
+  <div class="titlebar">
+    <div class="traffic">
+      <div class="dot dot-r"></div>
+      <div class="dot dot-y"></div>
+      <div class="dot dot-g"></div>
+    </div>
+    <div class="titlebar-label">Vijilant — LLP Case Management</div>
+  </div>
+
+  <div class="app-body">
+
+    <!-- Sidebar -->
+    <nav class="sidebar">
+      <div class="sidebar-logo">
+        <div class="logo-mark">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div>
+          <div class="logo-name">Vijilant</div>
+          <div class="logo-badge">LLP v1</div>
+        </div>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-section-label">Workspace</div>
+        <a class="nav-item" href="#">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+          Dashboard
+        </a>
+        <a class="nav-item" href="#">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Clients
+          <span class="nav-badge">14</span>
+        </a>
+        <a class="nav-item" href="#">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Case Notes
+        </a>
+        <a class="nav-item" href="#">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          Follow-ups
+          <span class="nav-badge red">5</span>
+        </a>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-section-label">Reports</div>
+        <a class="nav-item active" href="#">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          My Metrics
+        </a>
+        <a class="nav-item" href="#">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          Case Load Report
+        </a>
+        <a class="nav-item" href="#">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Monthly Summary
+        </a>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-section-label">Tools</div>
+        <a class="nav-item" href="#">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Resource Hub
+        </a>
+        <a class="nav-item" href="#">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+          Settings
+        </a>
+      </div>
+
+      <div class="sidebar-spacer"></div>
+
+      <div class="sidebar-user">
+        <div class="user-avatar">HW</div>
+        <div style="flex:1; min-width:0;">
+          <div class="user-name">H. Wormely</div>
+          <div class="user-role">Case Manager</div>
+        </div>
+        <div class="user-status"></div>
+      </div>
+    </nav>
+
+    <!-- Main content -->
+    <div class="main">
+
+      <!-- Topbar -->
+      <div class="topbar">
+        <div class="topbar-title">My Metrics</div>
+        <div style="font-size:12.5px; color:var(--ink-4); margin-left:4px; align-self:flex-end; padding-bottom:1px;">April 2026</div>
+        <div style="flex:1;"></div>
+        <div class="period-toggle">
+          <button class="period-btn">Week</button>
+          <button class="period-btn active">Month</button>
+          <button class="period-btn">Quarter</button>
+          <button class="period-btn">Year</button>
+        </div>
+        <button class="export-btn">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Export
+        </button>
+      </div>
+
+      <!-- Scrollable content -->
+      <div class="content">
+
+        <!-- KPI strip -->
+        <div class="kpi-strip">
+          <div class="kpi-card">
+            <div class="kpi-label">Active Clients</div>
+            <div class="kpi-value">14</div>
+            <div class="kpi-sub">Capacity: 93%</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Notes Logged</div>
+            <div class="kpi-value">47</div>
+            <div class="kpi-sub up">↑ 12 vs last month</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Referrals Made</div>
+            <div class="kpi-value">18</div>
+            <div class="kpi-sub up">↑ 3 vs last month</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Follow-ups Done</div>
+            <div class="kpi-value">31</div>
+            <div class="kpi-sub warn">5 overdue</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Avg Recovery Score</div>
+            <div class="kpi-value" style="color:var(--green)">74<span style="font-size:15px; font-weight:600; color:var(--green)">%</span></div>
+            <div class="kpi-sub up">↑ 5 pts this month</div>
+          </div>
+        </div>
+
+        <!-- Row 2: Activity chart (left) | Referral outcomes + Case status (right) -->
+        <div class="two-col">
+
+          <!-- Activity bar chart -->
+          <div class="panel">
+            <div class="panel-header">
+              <div class="panel-title">Monthly Activity</div>
+              <div class="panel-meta">Notes · contacts · referrals combined</div>
+            </div>
+
+            <!-- Bar chart: 4 weekly bars -->
+            <div style="height: 96px; display: flex; align-items: flex-end; gap: 14px; border-bottom: 1px solid var(--border); padding-top: 20px;">
+              <!-- Wk 1 -->
+              <div style="flex:1; display:flex; justify-content:center;">
+                <div style="width:68%; height:55px; background:var(--green-light); border-radius:5px 5px 0 0; position:relative; display:flex; justify-content:center;">
+                  <span style="position:absolute; top:-16px; font-size:10px; font-weight:600; color:var(--ink-3);">11</span>
+                </div>
+              </div>
+              <!-- Wk 2 -->
+              <div style="flex:1; display:flex; justify-content:center;">
+                <div style="width:68%; height:70px; background:var(--green-light); border-radius:5px 5px 0 0; position:relative; display:flex; justify-content:center;">
+                  <span style="position:absolute; top:-16px; font-size:10px; font-weight:600; color:var(--ink-3);">14</span>
+                </div>
+              </div>
+              <!-- Wk 3 -->
+              <div style="flex:1; display:flex; justify-content:center;">
+                <div style="width:68%; height:43px; background:var(--green-light); border-radius:5px 5px 0 0; position:relative; display:flex; justify-content:center;">
+                  <span style="position:absolute; top:-16px; font-size:10px; font-weight:600; color:var(--ink-3);">9</span>
+                </div>
+              </div>
+              <!-- Wk 4 (current) -->
+              <div style="flex:1; display:flex; justify-content:center;">
+                <div style="width:68%; height:62px; background:var(--green); border-radius:5px 5px 0 0; position:relative; display:flex; justify-content:center;">
+                  <span style="position:absolute; top:-16px; font-size:10px; font-weight:700; color:var(--green);">13</span>
+                </div>
+              </div>
+            </div>
+            <!-- Week labels -->
+            <div style="display:flex; gap:14px; margin-top:6px;">
+              <div style="flex:1; text-align:center; font-size:10px; color:var(--ink-4);">Wk 1</div>
+              <div style="flex:1; text-align:center; font-size:10px; color:var(--ink-4);">Wk 2</div>
+              <div style="flex:1; text-align:center; font-size:10px; color:var(--ink-4);">Wk 3</div>
+              <div style="flex:1; text-align:center; font-size:10px; font-weight:600; color:var(--green);">Wk 4 ●</div>
+            </div>
+
+            <!-- Legend -->
+            <div style="display:flex; align-items:center; gap:16px; margin-top:12px; padding-top:10px; border-top:1px solid var(--border);">
+              <div style="display:flex; align-items:center; gap:5px;">
+                <div style="width:8px; height:8px; border-radius:2px; background:var(--green);"></div>
+                <span style="font-size:11px; color:var(--ink-4);">Current week</span>
+              </div>
+              <div style="display:flex; align-items:center; gap:5px;">
+                <div style="width:8px; height:8px; border-radius:2px; background:var(--green-light);"></div>
+                <span style="font-size:11px; color:var(--ink-4);">Prior weeks</span>
+              </div>
+              <div style="margin-left:auto; font-size:12px; font-weight:700; color:var(--green);">47 total this month</div>
+            </div>
+          </div>
+
+          <!-- Right column: Referral outcomes + Case status -->
+          <div style="display:flex; flex-direction:column; gap:14px;">
+
+            <!-- Referral outcomes -->
+            <div class="panel">
+              <div class="panel-header">
+                <div class="panel-title">Referral Outcomes</div>
+                <div class="panel-meta">18 made this month</div>
+              </div>
+              <div class="breakdown-bar">
+                <div class="seg seg-green" style="width:50%;"></div>
+                <div class="seg seg-amber" style="width:33%;"></div>
+                <div class="seg seg-red" style="width:17%;"></div>
+              </div>
+              <div>
+                <div class="legend-row">
+                  <div class="legend-dot" style="background:var(--green);"></div>
+                  <div class="legend-label">Approved</div>
+                  <div class="legend-val">9</div>
+                  <div class="legend-pct">50%</div>
+                </div>
+                <div class="legend-row">
+                  <div class="legend-dot" style="background:var(--amber);"></div>
+                  <div class="legend-label">Pending</div>
+                  <div class="legend-val">6</div>
+                  <div class="legend-pct">33%</div>
+                </div>
+                <div class="legend-row" style="margin-bottom:0;">
+                  <div class="legend-dot" style="background:var(--red);"></div>
+                  <div class="legend-label">Denied</div>
+                  <div class="legend-val">3</div>
+                  <div class="legend-pct">17%</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Case status distribution -->
+            <div class="panel">
+              <div class="panel-header">
+                <div class="panel-title">Case Status</div>
+                <div class="panel-meta">19 total cases</div>
+              </div>
+              <div class="breakdown-bar">
+                <div class="seg seg-green" style="width:74%;"></div>
+                <div class="seg seg-amber" style="width:16%;"></div>
+                <div class="seg seg-gray" style="width:10%;"></div>
+              </div>
+              <div>
+                <div class="legend-row">
+                  <div class="legend-dot" style="background:var(--green);"></div>
+                  <div class="legend-label">Active</div>
+                  <div class="legend-val">14</div>
+                  <div class="legend-pct">74%</div>
+                </div>
+                <div class="legend-row">
+                  <div class="legend-dot" style="background:var(--amber);"></div>
+                  <div class="legend-label">Pending</div>
+                  <div class="legend-val">3</div>
+                  <div class="legend-pct">16%</div>
+                </div>
+                <div class="legend-row" style="margin-bottom:0;">
+                  <div class="legend-dot" style="background:var(--ink-4);"></div>
+                  <div class="legend-label">Closed</div>
+                  <div class="legend-val">2</div>
+                  <div class="legend-pct">10%</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Row 3: Recovery trend + Categories + Goals vs. targets -->
+        <div class="three-col">
+
+          <!-- Recovery score trend (SVG sparkline) -->
+          <div class="panel">
+            <div class="panel-header">
+              <div class="panel-title">Avg Recovery Score — 4-Month Trend</div>
+              <div class="panel-meta">Across active caseload</div>
+            </div>
+
+            <!-- SVG sparkline -->
+            <!-- Scores: Jan 61, Feb 65, Mar 69, Apr 74. Range 55–80 → span 25. Height 60px. -->
+            <!-- Y = (80 - score) / 25 * 55 + 3 -->
+            <!-- Jan: 46.4 | Feb: 36 | Mar: 25.6 | Apr: 14.2 -->
+            <!-- X: 30, 115, 200, 285 (viewBox 320×70) -->
+            <svg viewBox="0 0 320 68" width="100%" height="68" overflow="visible" style="margin-bottom:4px;">
+              <!-- gridlines -->
+              <line x1="0" y1="3" x2="320" y2="3" stroke="#EDEBE6" stroke-width="0.75"/>
+              <line x1="0" y1="30" x2="320" y2="30" stroke="#EDEBE6" stroke-width="0.5"/>
+              <line x1="0" y1="58" x2="320" y2="58" stroke="#EDEBE6" stroke-width="0.75"/>
+              <!-- y-axis labels -->
+              <text x="0" y="7" font-size="8" fill="#B0ABA3" font-family="system-ui">80</text>
+              <text x="0" y="34" font-size="8" fill="#B0ABA3" font-family="system-ui">68</text>
+              <text x="0" y="62" font-size="8" fill="#B0ABA3" font-family="system-ui">55</text>
+              <!-- Area fill -->
+              <path d="M 30,46 L 115,36 L 200,26 L 285,14 L 285,58 L 30,58 Z"
+                    fill="#EAF3EF" opacity="0.6"/>
+              <!-- Line -->
+              <path d="M 30,46 L 115,36 L 200,26 L 285,14"
+                    fill="none" stroke="#2E6E52" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+              <!-- Dots -->
+              <circle cx="30"  cy="46" r="4" fill="#FFFFFF" stroke="#2E6E52" stroke-width="2"/>
+              <circle cx="115" cy="36" r="4" fill="#FFFFFF" stroke="#2E6E52" stroke-width="2"/>
+              <circle cx="200" cy="26" r="4" fill="#FFFFFF" stroke="#2E6E52" stroke-width="2"/>
+              <circle cx="285" cy="14" r="5" fill="#1F4D38" stroke="#1F4D38" stroke-width="2"/>
+              <!-- Score labels -->
+              <text x="30"  y="40" text-anchor="middle" font-size="9.5" font-weight="600" fill="#7A766F" font-family="system-ui">61</text>
+              <text x="115" y="30" text-anchor="middle" font-size="9.5" font-weight="600" fill="#7A766F" font-family="system-ui">65</text>
+              <text x="200" y="20" text-anchor="middle" font-size="9.5" font-weight="600" fill="#7A766F" font-family="system-ui">69</text>
+              <text x="285" y="8"  text-anchor="middle" font-size="9.5" font-weight="700" fill="#1F4D38" font-family="system-ui">74</text>
+            </svg>
+
+            <!-- Month labels -->
+            <div style="display:flex; justify-content:space-between; padding: 0 22px; margin-bottom:10px;">
+              <div style="font-size:10px; color:var(--ink-4);">Jan</div>
+              <div style="font-size:10px; color:var(--ink-4);">Feb</div>
+              <div style="font-size:10px; color:var(--ink-4);">Mar</div>
+              <div style="font-size:10px; font-weight:600; color:var(--green);">Apr ●</div>
+            </div>
+
+            <div style="padding-top:10px; border-top:1px solid var(--border); display:flex; align-items:center; justify-content:space-between;">
+              <div style="font-size:11.5px; color:var(--ink-3);">4-month gain</div>
+              <div style="font-size:16px; font-weight:800; color:var(--green); letter-spacing:-0.3px;">+13 pts <span style="font-size:11px; font-weight:500; color:var(--ink-4);">↑ 21%</span></div>
+            </div>
+          </div>
+
+          <!-- Referrals by category -->
+          <div class="panel">
+            <div class="panel-header">
+              <div class="panel-title">By Category</div>
+              <div class="panel-meta">Referrals this month</div>
+            </div>
+            <div>
+              <div class="cat-row">
+                <div class="cat-name">Housing</div>
+                <div class="cat-bar-track">
+                  <div class="cat-bar-fill top" style="width:100%;"></div>
+                </div>
+                <div class="cat-count">8</div>
+              </div>
+              <div class="cat-row">
+                <div class="cat-name">Financial</div>
+                <div class="cat-bar-track">
+                  <div class="cat-bar-fill" style="width:62%;"></div>
+                </div>
+                <div class="cat-count">5</div>
+              </div>
+              <div class="cat-row">
+                <div class="cat-name">Mental Health</div>
+                <div class="cat-bar-track">
+                  <div class="cat-bar-fill" style="width:38%;"></div>
+                </div>
+                <div class="cat-count">3</div>
+              </div>
+              <div class="cat-row">
+                <div class="cat-name">Medical</div>
+                <div class="cat-bar-track">
+                  <div class="cat-bar-fill" style="width:25%;"></div>
+                </div>
+                <div class="cat-count">2</div>
+              </div>
+            </div>
+
+            <div style="margin-top:14px; padding-top:12px; border-top:1px solid var(--border);">
+              <div style="font-size:10px; font-weight:600; color:var(--ink-4); letter-spacing:0.5px; text-transform:uppercase; margin-bottom:8px;">Response Time</div>
+              <div style="display:flex; align-items:flex-end; gap:4px;">
+                <div style="font-size:28px; font-weight:800; color:var(--green); letter-spacing:-0.8px; line-height:1;">1.4</div>
+                <div style="font-size:13px; color:var(--ink-3); margin-bottom:3px;">days avg</div>
+              </div>
+              <div style="font-size:11.5px; color:var(--success); margin-top:3px;">✓ Under 2-day goal</div>
+            </div>
+          </div>
+
+          <!-- Goals vs. targets -->
+          <div class="panel">
+            <div class="panel-header">
+              <div class="panel-title">vs. Targets</div>
+              <div class="panel-meta">Monthly goals</div>
+            </div>
+
+            <div>
+              <div class="goal-row">
+                <div class="goal-head">
+                  <div class="goal-lbl">Notes logged</div>
+                  <div class="goal-nums">47 / 40 <span style="color:var(--amber); font-size:10px;">↑ over</span></div>
+                </div>
+                <div class="goal-track">
+                  <div class="goal-fill over" style="width:100%;"></div>
+                </div>
+              </div>
+              <div class="goal-row">
+                <div class="goal-head">
+                  <div class="goal-lbl">Referrals made</div>
+                  <div class="goal-nums">18 / 20</div>
+                </div>
+                <div class="goal-track">
+                  <div class="goal-fill" style="width:90%;"></div>
+                </div>
+              </div>
+              <div class="goal-row">
+                <div class="goal-head">
+                  <div class="goal-lbl">Follow-up rate</div>
+                  <div class="goal-nums">89% / 95% <span style="color:var(--red); font-size:10px;">↓</span></div>
+                </div>
+                <div class="goal-track">
+                  <div class="goal-fill low" style="width:89%;"></div>
+                </div>
+              </div>
+              <div class="goal-row">
+                <div class="goal-head">
+                  <div class="goal-lbl">Avg response</div>
+                  <div class="goal-nums">1.4d / 2d</div>
+                </div>
+                <div class="goal-track">
+                  <div class="goal-fill" style="width:70%;"></div>
+                </div>
+              </div>
+            </div>
+
+            <div style="margin-top:12px; padding:9px 11px; background:var(--green-light); border-radius:8px; display:flex; align-items:center; justify-content:space-between;">
+              <div style="font-size:12px; font-weight:600; color:var(--green);">3 of 4 goals on track</div>
+              <div style="font-size:13px; color:var(--green);">✓</div>
+            </div>
+          </div>
+
+        </div>
+      </div><!-- /content -->
+    </div><!-- /main -->
+  </div><!-- /app-body -->
+</div>
+</body>
+</html>

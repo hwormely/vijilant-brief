@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=390px">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{width:390px;height:844px;overflow:hidden;background:transparent;}
+
+
+    /* ─── RESET ──────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ─── OUTER PAGE ─────────────────────────────────── */
+    body {
+      background: #0B0A09;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 48px 60px 80px;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .proto-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .proto-title {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #4A4642;
+      margin-bottom: 7px;
+    }
+
+    .proto-sub {
+      font-size: 11px;
+      font-weight: 400;
+      color: #2A2826;
+      letter-spacing: 0.04em;
+    }
+
+    .phones-row {
+      display: flex;
+      gap: 56px;
+      align-items: flex-start;
+    }
+
+    .var-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .var-tag {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #3A3734;
+    }
+
+    /* ─── PHONE SHELL ────────────────────────────────── */
+    .phone {
+      width: 390px;
+      height: 844px;
+      border-radius: 50px;
+      background: #F8F6F2;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.06) inset,
+        0 0 0 11px #1A1816,
+        0 0 0 12.5px rgba(255,255,255,0.05),
+        0 52px 100px rgba(0,0,0,0.82),
+        0 18px 36px rgba(0,0,0,0.52);
+    }
+
+    .island {
+      position: absolute;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 126px;
+      height: 37px;
+      background: #000;
+      border-radius: 20px;
+      z-index: 60;
+      pointer-events: none;
+    }
+
+    /* ─── STATUS BAR ─────────────────────────────────── */
+    .status-bar {
+      height: 59px;
+      padding: 0 28px 10px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      background: #F8F6F2;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 20;
+    }
+
+    .status-time {
+      font-size: 15px;
+      font-weight: 600;
+      color: #141210;
+      letter-spacing: -0.3px;
+    }
+
+    .status-icons { display: flex; align-items: center; gap: 6px; }
+
+    /* ─── SCROLL AREA ────────────────────────────────── */
+    .scroll {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .scroll::-webkit-scrollbar { display: none; }
+
+    /* ─── PAGE HEADER ────────────────────────────────── */
+    .page-header { padding: 24px 22px 18px; }
+
+    .greeting {
+      font-size: 32px;
+      font-weight: 800;
+      color: #141210;
+      line-height: 1.08;
+      letter-spacing: -0.8px;
+    }
+
+    .date-line {
+      font-size: 12px;
+      font-weight: 400;
+      color: #9E9993;
+      margin-top: 5px;
+      letter-spacing: -0.1px;
+    }
+
+    /* ─── ALERT STRIP ────────────────────────────────── */
+    .alert-wrap {
+      padding: 0 22px;
+      margin-bottom: 20px;
+    }
+
+    .alert-strip {
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      padding: 12px 12px 12px 14px;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    .alert-text {
+      flex: 1;
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 1.4;
+    }
+
+    .alert-x {
+      width: 26px;
+      height: 26px;
+      min-width: 26px;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* ─── KPI ROW ────────────────────────────────────── */
+    .kpi-row {
+      display: flex;
+      gap: 8px;
+      padding: 0 22px;
+      margin-bottom: 20px;
+    }
+
+    .kpi-card {
+      flex: 1;
+      background: #FFFFFF;
+      border-radius: 12px;
+      padding: 16px 14px 14px;
+      position: relative;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+      transition: transform 0.12s ease;
+    }
+
+    .kpi-card:active { transform: scale(0.962); }
+
+    .kpi-num {
+      font-size: 36px;
+      font-weight: 800;
+      color: #141210;
+      line-height: 1;
+      letter-spacing: -2px;
+      margin-bottom: 5px;
+    }
+
+    .kpi-lbl {
+      font-size: 10px;
+      font-weight: 500;
+      line-height: 1.35;
+      margin-bottom: 10px;
+    }
+
+    .kpi-delta {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10px;
+      font-weight: 500;
+    }
+
+    .delta-up {
+      width: 0; height: 0;
+      border-left: 3.5px solid transparent;
+      border-right: 3.5px solid transparent;
+      border-bottom: 5px solid #1A7A3C;
+      flex-shrink: 0;
+    }
+
+    .delta-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+
+    .kpi-tip {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: #141210;
+      color: #FFFFFF;
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 1.45;
+      padding: 8px 12px;
+      border-radius: 8px;
+      white-space: nowrap;
+      z-index: 100;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.16s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.24);
+    }
+
+    .kpi-tip::before {
+      content: '';
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 5px solid transparent;
+      border-bottom-color: #141210;
+    }
+
+    .kpi-card.tip-open .kpi-tip { opacity: 1; }
+
+    /* ─── QUICK ACTIONS ──────────────────────────────── */
+    .quick-actions {
+      display: flex;
+      gap: 8px;
+      padding: 0 22px;
+      margin-bottom: 28px;
+    }
+
+    .qa-btn {
+      flex: 1;
+      height: 38px;
+      border-radius: 10px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: background 0.14s ease, transform 0.1s ease;
+      white-space: nowrap;
+      padding: 0 4px;
+    }
+
+    .qa-btn:active { transform: scale(0.96); }
+
+    /* ─── SECTION LABEL ──────────────────────────────── */
+    .section-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0 22px 12px;
+    }
+
+    /* ─── TIER BADGES ────────────────────────────────── */
+    .tier-badge {
+      font-size: 9px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 5px;
+      flex-shrink: 0;
+      letter-spacing: 0.3px;
+    }
+    .tb-t4 { background: #FEE2E2; color: #B91C1C; }
+    .tb-t3 { background: #FFEDD5; color: #C2410C; }
+    .tb-t2 { background: #FEF9C3; color: #A16207; }
+    .tb-t1 { background: #F1F5F9; color: #475569; }
+
+    /* ─── FOLLOWUP SECTION ───────────────────────────── */
+    .followup-section { padding: 0 22px 6px; }
+
+    /* ─── TAB BAR ────────────────────────────────────── */
+    .tab-bar {
+      height: 90px;
+      display: flex;
+      align-items: flex-start;
+      padding-top: 10px;
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .tab-btn {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      padding: 4px 2px 0;
+      color: #B0ABA3;
+      transition: color 0.16s ease;
+      -webkit-tap-highlight-color: transparent;
+      position: relative;
+    }
+
+    .tab-btn.active { color: #1F4D38; }
+    .tab-btn svg { width: 22px; height: 22px; }
+
+    .tab-lbl {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      color: inherit;
+      line-height: 1;
+    }
+
+    .tab-dot {
+      position: absolute;
+      top: 2px;
+      right: calc(50% - 14px);
+      width: 7px;
+      height: 7px;
+      background: #E5352B;
+      border-radius: 50%;
+      border: 1.5px solid #FFFFFF;
+    }
+
+    .home-bar {
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 134px;
+      height: 5px;
+      background: #141210;
+      border-radius: 3px;
+      opacity: 0.14;
+    }
+
+    /* ─── TOAST ──────────────────────────────────────── */
+    .toast {
+      position: absolute;
+      top: 72px;
+      left: 18px;
+      right: 18px;
+      background: #141210;
+      color: #FFFFFF;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 1.4;
+      padding: 12px 16px;
+      border-radius: 10px;
+      z-index: 400;
+      opacity: 0;
+      transform: translateY(-6px);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      pointer-events: none;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.28);
+    }
+
+    .toast.show { opacity: 1; transform: translateY(0); }
+
+    /* ═══════════════════════════════════════════════════
+       VARIATION A — MAXIMUM RESTRAINT
+    ═══════════════════════════════════════════════════ */
+
+    .var-a .kpi-card {
+      border: 1px solid #EDEBE6;
+      box-shadow: none;
+    }
+
+    .var-a .kpi-lbl { color: #9A9590; }
+
+    .var-a .alert-strip {
+      background: #FDF8F0;
+      border-left: 2px solid #C07A20;
+    }
+
+    .var-a .alert-text { color: #7A4D10; }
+
+    .var-a .alert-x {
+      background: rgba(122,77,16,0.08);
+    }
+
+    .var-a .alert-x:active { background: rgba(122,77,16,0.18); }
+
+    .var-a .qa-btn {
+      border: 1.5px solid #D4D0C8;
+      background: transparent;
+      color: #4A4642;
+    }
+
+    .var-a .qa-btn:active { background: #F0EDE8; }
+
+    .var-a .section-label { color: #B0ABA3; }
+
+    /* Followup: grouped container with hairline dividers */
+    .var-a .followup-group {
+      background: #FFFFFF;
+      border-radius: 12px;
+      border: 1px solid #EDEBE6;
+      overflow: hidden;
+    }
+
+    .var-a .followup-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 14px 16px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: background 0.14s ease;
+    }
+
+    .var-a .followup-item + .followup-item {
+      border-top: 1px solid #F0EDE9;
+    }
+
+    .var-a .followup-item:active { background: #F6F4F0; }
+
+    .var-a .followup-inner {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .var-a .followup-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: #141210;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .var-a .followup-meta {
+      font-size: 12px;
+      color: #9E9993;
+      margin-top: 2px;
+    }
+
+    .var-a .followup-chev { color: #D8D4CE; flex-shrink: 0; }
+
+    /* Feed: editorial list with hairline dividers */
+    .var-a .feed {
+      padding: 0 22px 24px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .var-a .feed-item {
+      padding: 16px 0;
+      border-bottom: 1px solid #F0EDE9;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: opacity 0.14s;
+    }
+
+    .var-a .feed-item:first-child { border-top: 1px solid #F0EDE9; }
+    .var-a .feed-item:active { opacity: 0.6; }
+
+    .var-a .feed-row-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 7px;
+    }
+
+    .var-a .feed-source {
+      font-size: 9px;
+      font-weight: 600;
+      color: #B0ABA3;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .var-a .flash-badge {
+      font-size: 9px;
+      font-weight: 600;
+      color: #7A4D10;
+      background: #FDF8F0;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    .var-a .feed-body {
+      font-size: 14px;
+      font-weight: 400;
+      color: #3D3A36;
+      line-height: 1.65;
+      margin-bottom: 7px;
+    }
+
+    .var-a .feed-meta {
+      font-size: 11px;
+      color: #B0ABA3;
+    }
+
+    /* Tab bar: frosted glass, no top border */
+    .var-a .tab-bar {
+      background: rgba(248,246,242,0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+
+    /* ═══════════════════════════════════════════════════
+       VARIATION B — WARMER
+    ═══════════════════════════════════════════════════ */
+
+    .var-b .kpi-card {
+      border: 1px solid #E5E2DC;
+      box-shadow: 0 2px 10px rgba(20,18,16,0.07);
+    }
+
+    .var-b .kpi-lbl { color: #8A8681; }
+
+    .var-b .alert-strip {
+      background: #FEF6E7;
+      border-left: 3px solid #9A5E00;
+    }
+
+    .var-b .alert-text { color: #8A5200; }
+
+    .var-b .alert-x { background: rgba(154,94,0,0.09); }
+    .var-b .alert-x:active { background: rgba(154,94,0,0.18); }
+
+    .var-b .qa-btn {
+      border: 1.5px solid #1F4D38;
+      background: transparent;
+      color: #1F4D38;
+    }
+
+    .var-b .qa-btn:active { background: #EAF3EF; }
+
+    .var-b .section-label { color: #7A766F; }
+
+    /* Followup: individual cards */
+    .var-b .followup-card {
+      background: #FFFFFF;
+      border-radius: 12px;
+      border: 1px solid #E5E2DC;
+      padding: 13px 16px 13px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: background 0.14s ease;
+      margin-bottom: 8px;
+      box-shadow: 0 1px 4px rgba(20,18,16,0.05);
+    }
+
+    .var-b .followup-card:last-child { margin-bottom: 0; }
+    .var-b .followup-card:active { background: #F8F6F2; }
+
+    .var-b .followup-inner {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .var-b .followup-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: #141210;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .var-b .followup-meta {
+      font-size: 12px;
+      color: #9E9993;
+      margin-top: 2px;
+    }
+
+    .var-b .followup-chev { color: #C8C3BB; flex-shrink: 0; }
+
+    /* Feed: standard cards */
+    .var-b .feed {
+      padding: 0 22px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .var-b .feed-card {
+      background: #FFFFFF;
+      border-radius: 12px;
+      border: 1px solid #E5E2DC;
+      padding: 16px;
+      box-shadow: 0 1px 5px rgba(20,18,16,0.05);
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: background 0.14s ease;
+    }
+
+    .var-b .feed-card:active { background: #F6F4F0; }
+
+    .var-b .feed-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .var-b .feed-source {
+      font-size: 10px;
+      font-weight: 600;
+      color: #9A9590;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+    }
+
+    .var-b .flash-badge {
+      font-size: 11px;
+      font-weight: 600;
+      color: #8A5200;
+      background: #FEF6E7;
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+
+    .var-b .feed-body {
+      font-size: 14px;
+      font-weight: 400;
+      color: #3D3A36;
+      line-height: 1.65;
+      margin-bottom: 8px;
+    }
+
+    .var-b .feed-meta {
+      font-size: 12px;
+      color: #9E9993;
+    }
+
+    /* Tab bar: solid white */
+    .var-b .tab-bar {
+      background: #FFFFFF;
+      border-top: 1px solid #E5E2DC;
+    }
+
+  
+body{padding:0!important;margin:0!important;background:transparent!important;
+     display:block!important;min-height:0!important;}
+.var-label{display:none!important;}
+</style>
+</head>
+<body>
+<div class="phone var-a" id="phone-a">
+        <div class="island"></div>
+        <div class="toast" id="toast-a"></div>
+
+        <!-- Status bar -->
+        <div class="status-bar">
+          <span class="status-time">9:41</span>
+          <div class="status-icons">
+            <svg width="18" height="13" viewBox="0 0 18 13" fill="none">
+              <rect x="0"    y="8"   width="3.2" height="5"   rx="0.8" fill="#141210"/>
+              <rect x="4.8"  y="5.5" width="3.2" height="7.5" rx="0.8" fill="#141210"/>
+              <rect x="9.6"  y="3"   width="3.2" height="10"  rx="0.8" fill="#141210"/>
+              <rect x="14.4" y="0"   width="3.2" height="13"  rx="0.8" fill="#141210"/>
+            </svg>
+            <svg width="16" height="12" viewBox="0 0 16 12" fill="none">
+              <circle cx="8" cy="11" r="1.5" fill="#141210"/>
+              <path d="M4.8 8.2 Q8 5.2 11.2 8.2" stroke="#141210" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+              <path d="M2 5.5 Q8 0.5 14 5.5"    stroke="#141210" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+            </svg>
+            <svg width="27" height="13" viewBox="0 0 27 13" fill="none">
+              <rect x="0.6" y="0.6" width="22.8" height="11.8" rx="2.5" stroke="#141210" stroke-width="1.2"/>
+              <rect x="2"   y="2"   width="18.5" height="9"    rx="1.5" fill="#141210"/>
+              <path d="M24.8 4.5 C25.6 4.9 26.1 5.6 26.1 6.5 C26.1 7.4 25.6 8.1 24.8 8.5 L24.8 4.5Z" fill="#141210" opacity="0.4"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Scroll area -->
+        <div class="scroll" id="scroll-a">
+
+          <!-- Page header -->
+          <div class="page-header">
+            <div class="greeting">Good morning, Horace.</div>
+            <div class="date-line">Tuesday, April 28, 2026</div>
+          </div>
+
+          <!-- Alert strip -->
+          <div class="alert-wrap" id="alert-a">
+            <div class="alert-strip" onclick="showToast('a', 'Navigating to follow-up list...')">
+              <div class="alert-text">2 follow-ups due today · Tap to review</div>
+              <button class="alert-x" onclick="dismissAlert(event,'alert-a')" aria-label="Dismiss alert">
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                  <path d="M1.5 1.5L8.5 8.5M8.5 1.5L1.5 8.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- KPI row -->
+          <div class="kpi-row">
+            <div class="kpi-card" id="kpi-a-1" onclick="toggleTip('a',1)">
+              <div class="kpi-tip">47 clients across 3 active programs</div>
+              <div class="kpi-num">47</div>
+              <div class="kpi-lbl">Active<br>Clients</div>
+              <div class="kpi-delta" style="color:#1A7A3C;">
+                <div class="delta-up"></div>+2 this week
+              </div>
+            </div>
+            <div class="kpi-card" id="kpi-a-2" onclick="toggleTip('a',2)">
+              <div class="kpi-tip">2 tasks overdue 1+ day</div>
+              <div class="kpi-num">5</div>
+              <div class="kpi-lbl">Tasks Due<br>Today</div>
+              <div class="kpi-delta" style="color:#C0392B;">
+                <div class="delta-dot" style="background:#C0392B;"></div>2 overdue
+              </div>
+            </div>
+            <div class="kpi-card" id="kpi-a-3" onclick="toggleTip('a',3)">
+              <div class="kpi-tip">3 resources added this week</div>
+              <div class="kpi-num">3</div>
+              <div class="kpi-lbl">New<br>Resources</div>
+              <div class="kpi-delta" style="color:#1A52CC;">
+                <div class="delta-dot" style="background:#1A52CC;"></div>this week
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick actions -->
+          <div class="quick-actions">
+            <button class="qa-btn" onclick="showToast('a','Opening intake form...')">
+              <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
+                <path d="M5.5 1V10M1 5.5H10" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+              </svg>
+              New Intake
+            </button>
+            <button class="qa-btn" onclick="showToast('a','Marcus H. — last updated 2h ago')">
+              Recent Client
+            </button>
+            <button class="qa-btn" onclick="showToast('a','Today\'s Tasks')">
+              Today's Tasks
+            </button>
+          </div>
+
+          <!-- Priority follow-ups -->
+          <div class="section-label">Priority Follow-ups</div>
+          <div class="followup-section">
+            <div class="followup-group">
+
+              <div class="followup-item" onclick="showToast('a','Opening Diana C. — T4 case file...')">
+                <div class="followup-inner">
+                  <span class="tier-badge tb-t4">T4</span>
+                  <div style="min-width:0;">
+                    <div class="followup-name">Diana C.</div>
+                    <div class="followup-meta">Contact overdue · 2d</div>
+                  </div>
+                </div>
+                <svg class="followup-chev" width="6" height="11" viewBox="0 0 6 11" fill="none">
+                  <path d="M1 1l4 4.5-4 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+
+              <div class="followup-item" onclick="showToast('a','Opening Carmen S. — T4 case file...')">
+                <div class="followup-inner">
+                  <span class="tier-badge tb-t4">T4</span>
+                  <div style="min-width:0;">
+                    <div class="followup-name">Carmen S.</div>
+                    <div class="followup-meta">Home visit scheduled · today</div>
+                  </div>
+                </div>
+                <svg class="followup-chev" width="6" height="11" viewBox="0 0 6 11" fill="none">
+                  <path d="M1 1l4 4.5-4 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Network feed -->
+          <div class="section-label" style="padding-top:24px;">Network Feed</div>
+          <div class="feed">
+
+            <div class="feed-item" onclick="showToast('a','LLP Update')">
+              <div class="feed-row-top">
+                <span class="feed-source">LLP Update</span>
+              </div>
+              <div class="feed-body">Team meeting confirmed — Thursday 2pm at the office. All CMs required.</div>
+              <div class="feed-meta">LLP Admin · Today</div>
+            </div>
+
+            <div class="feed-item" onclick="showToast('a','Resource: Pasadena Housing Authority')">
+              <div class="feed-row-top">
+                <span class="feed-source">Vijilant News</span>
+                <span class="flash-badge">⚡ Flash</span>
+              </div>
+              <div class="feed-body">Temp Resource: Pasadena Housing Authority Emergency Fund — Active for 14 more days. 8 clients referred.</div>
+              <div class="feed-meta">Resource Directory · 3h ago</div>
+            </div>
+
+          </div>
+
+        </div><!-- /scroll-a -->
+
+        <!-- Tab bar -->
+        <div class="tab-bar" id="tabbar-a">
+
+          <button class="tab-btn active" id="tab-a-dashboard" onclick="switchTab('a','dashboard')">
+            <svg viewBox="0 0 24 24" fill="none">
+              <rect x="3"    y="3"    width="7.5" height="7.5" rx="1.5" fill="currentColor"/>
+              <rect x="13.5" y="3"    width="7.5" height="7.5" rx="1.5" fill="currentColor" opacity="0.3"/>
+              <rect x="3"    y="13.5" width="7.5" height="7.5" rx="1.5" fill="currentColor" opacity="0.3"/>
+              <rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1.5" fill="currentColor" opacity="0.3"/>
+            </svg>
+            <span class="tab-lbl">Dashboard</span>
+          </button>
+
+          <button class="tab-btn" id="tab-a-clients" onclick="switchTab('a','clients')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="9"  cy="7.5" r="3"/>
+              <path d="M3 20c0-3.31 2.69-6 6-6"/>
+              <circle cx="16" cy="9"   r="2.5"/>
+              <path d="M13 20c0-2.76 1.34-5 3-5s3 2.24 3 5"/>
+            </svg>
+            <span class="tab-lbl">Clients</span>
+          </button>
+
+          <button class="tab-btn" id="tab-a-intake" onclick="switchTab('a','intake')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="4" y="4" width="16" height="16" rx="2.5"/>
+              <path d="M12 9v6M9 12h6"/>
+            </svg>
+            <span class="tab-lbl">Intake</span>
+          </button>
+
+          <button class="tab-btn" id="tab-a-connect" onclick="switchTab('a','connect')">
+            <div class="tab-dot"></div>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v10c0 1.1-.9 2-2 2H6l-4 4V6c0-1.1.9-2 2-2z"/>
+            </svg>
+            <span class="tab-lbl">Connect</span>
+          </button>
+
+          <button class="tab-btn" id="tab-a-more" onclick="switchTab('a','more')">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <circle cx="5"  cy="12" r="1.8"/>
+              <circle cx="12" cy="12" r="1.8"/>
+              <circle cx="19" cy="12" r="1.8"/>
+            </svg>
+            <span class="tab-lbl">More</span>
+          </button>
+
+          <div class="home-bar"></div>
+        </div>
+
+      </div>
+</body>
+</html>

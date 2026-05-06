@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=390px">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  width: 390px; height: 844px;
+  overflow: hidden;
+  background: transparent;
+  display: block;
+}
+
+:root {
+  --bg: #F8F6F2;
+  --card: #FFFFFF;
+  --green: #1F4D38;
+  --green-mid: #2E6E52;
+  --green-light: #EAF3EF;
+  --green-hover: #F0F7F4;
+  --ink: #141210;
+  --ink-2: #3D3A36;
+  --ink-3: #7A766F;
+  --ink-4: #B0ABA3;
+  --muted: #D0CCC6;
+  --border-a: #EDEBE6;
+  --border-b: #E5E2DC;
+  --amber: #E5A328;
+  --red: #C0392B;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', -apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+}
+
+/* ─── Phone shell ─── */
+.phone {
+  width: 390px;
+  height: 844px;
+  border-radius: 50px;
+  overflow: hidden;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* Dynamic island */
+.island {
+  position: absolute;
+  top: 12px; left: 50%;
+  transform: translateX(-50%);
+  width: 126px; height: 37px;
+  background: #000;
+  border-radius: 20px;
+  z-index: 60;
+}
+
+/* ─── Status bar ─── */
+.status-bar {
+  height: 59px;
+  display: flex;
+  align-items: flex-end;
+  padding: 0 28px 10px;
+  justify-content: space-between;
+  flex-shrink: 0;
+  background: var(--bg);
+  position: relative;
+  z-index: 10;
+}
+.status-time { font-size: 15px; font-weight: 600; color: var(--ink); letter-spacing: -0.3px; }
+.status-icons { display: flex; align-items: center; gap: 6px; }
+.status-icons svg { width: 16px; height: 16px; color: var(--ink); }
+
+/* ─── Scroll area ─── */
+.scroll-area {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  padding: 4px 0 0;
+}
+.scroll-area::-webkit-scrollbar { display: none; }
+
+.inner {
+  padding: 4px 24px 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ─── Page header ─── */
+.page-header {
+  padding: 10px 0 20px;
+}
+.page-title {
+  font-size: 30px;
+  font-weight: 800;
+  color: var(--ink);
+  letter-spacing: -0.8px;
+  line-height: 1.15;
+  margin-bottom: 6px;
+}
+.page-sub {
+  font-size: 14px;
+  color: var(--ink-3);
+  line-height: 1.5;
+}
+
+/* ─── Step row ─── */
+.step-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+.step-label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: var(--ink-4);
+}
+.step-dots {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--border-a);
+}
+.dot.active {
+  width: 18px;
+  border-radius: 3px;
+  background: var(--green);
+}
+
+/* ─── Section label ─── */
+.section-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--ink-4);
+  margin-bottom: 10px;
+}
+
+/* ─── Role card group ─── */
+.role-group {
+  border: 1px solid var(--border-a);
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--card);
+  margin-bottom: 24px;
+}
+.role-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border-a);
+  position: relative;
+}
+.role-card:last-child { border-bottom: none; }
+.role-card.selected { background: var(--green-hover); }
+
+.role-icon {
+  width: 38px; height: 38px;
+  border-radius: 10px;
+  background: var(--bg);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.role-card.selected .role-icon {
+  background: var(--green-light);
+}
+.role-icon svg {
+  width: 18px; height: 18px;
+  fill: none; stroke: var(--ink-3); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+}
+.role-card.selected .role-icon svg { stroke: var(--green); }
+
+.role-body { flex: 1; min-width: 0; }
+.role-title { font-size: 14px; font-weight: 600; color: var(--ink-2); }
+.role-card.selected .role-title { color: var(--green); }
+.role-desc { font-size: 12px; color: var(--ink-4); margin-top: 2px; line-height: 1.4; }
+
+.role-radio {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border-a);
+  background: var(--card);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.role-card.selected .role-radio {
+  border-color: var(--green);
+  background: var(--green);
+}
+.role-card.selected .role-radio::after {
+  content: '';
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #fff;
+}
+
+/* ─── Continue button ─── */
+.btn-primary {
+  width: 100%;
+  height: 52px;
+  background: var(--green);
+  color: #fff;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.btn-primary svg {
+  width: 16px; height: 16px;
+  stroke: #fff; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+}
+
+.sign-in {
+  text-align: center;
+  font-size: 13px;
+  color: var(--ink-4);
+}
+.sign-in span { color: var(--green); font-weight: 600; cursor: pointer; }
+
+/* ─── Tab bar ─── */
+.tab-bar {
+  height: 90px;
+  background: var(--card);
+  border-top: 1px solid var(--border-a);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-around;
+  padding-top: 10px;
+  flex-shrink: 0;
+  position: relative;
+}
+.tab-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  min-width: 56px;
+}
+.tab-btn svg {
+  width: 24px; height: 24px;
+  fill: none; stroke: var(--muted); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+}
+.tab-btn .tab-label {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+/* Plus / intake button */
+.tab-btn.plus-btn {
+  width: 46px; height: 46px;
+  min-width: 46px;
+  background: var(--muted);
+  border-radius: 14px;
+  align-self: flex-start;
+  margin-top: -2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.tab-btn.plus-btn svg { stroke: #fff; width: 20px; height: 20px; }
+
+/* Home bar */
+.home-bar {
+  position: absolute;
+  bottom: 8px; left: 50%;
+  transform: translateX(-50%);
+  width: 134px; height: 5px;
+  background: var(--ink);
+  border-radius: 3px;
+  opacity: 0.18;
+}
+</style>
+</head>
+<body>
+<div class="phone">
+  <div class="island"></div>
+
+  <!-- Status bar -->
+  <div class="status-bar">
+    <div class="status-time">9:41</div>
+    <div class="status-icons">
+      <!-- Signal bars -->
+      <svg viewBox="0 0 24 24" fill="currentColor" stroke="none">
+        <rect x="2" y="12" width="3" height="9" rx="1" opacity="0.4"/>
+        <rect x="7" y="8"  width="3" height="13" rx="1" opacity="0.6"/>
+        <rect x="12" y="4" width="3" height="17" rx="1" opacity="0.8"/>
+        <rect x="17" y="1" width="3" height="20" rx="1"/>
+      </svg>
+      <!-- Battery -->
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="2" y="7" width="18" height="11" rx="2"/>
+        <path d="M22 11v3" stroke-linecap="round"/>
+        <rect x="4" y="9" width="12" height="7" rx="1" fill="currentColor" stroke="none"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Scroll area -->
+  <div class="scroll-area">
+    <div class="inner">
+
+      <!-- Page header -->
+      <div class="page-header">
+        <div class="page-title">Let's get you set up.</div>
+        <div class="page-sub">Choose your role so we can build your workspace.</div>
+      </div>
+
+      <!-- Step row -->
+      <div class="step-row">
+        <div class="step-label">Step 1 of 3</div>
+        <div class="step-dots">
+          <div class="dot active"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+        </div>
+      </div>
+
+      <!-- Section label -->
+      <div class="section-label">Your role</div>
+
+      <!-- Role cards -->
+      <div class="role-group">
+
+        <div class="role-card selected">
+          <div class="role-icon">
+            <svg viewBox="0 0 24 24">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+          </div>
+          <div class="role-body">
+            <div class="role-title">Case Manager</div>
+            <div class="role-desc">I work directly with disaster survivors</div>
+          </div>
+          <div class="role-radio"></div>
+        </div>
+
+        <div class="role-card">
+          <div class="role-icon">
+            <svg viewBox="0 0 24 24">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+          </div>
+          <div class="role-body">
+            <div class="role-title">Supervisor</div>
+            <div class="role-desc">I manage a team of case managers</div>
+          </div>
+          <div class="role-radio"></div>
+        </div>
+
+        <div class="role-card">
+          <div class="role-icon">
+            <svg viewBox="0 0 24 24">
+              <rect x="3" y="3" width="7" height="7" rx="1"/>
+              <rect x="14" y="3" width="7" height="7" rx="1"/>
+              <rect x="3" y="14" width="7" height="7" rx="1"/>
+              <rect x="14" y="14" width="7" height="7" rx="1"/>
+            </svg>
+          </div>
+          <div class="role-body">
+            <div class="role-title">Full Staff View</div>
+            <div class="role-desc">I need organization-wide visibility</div>
+          </div>
+          <div class="role-radio"></div>
+        </div>
+
+      </div>
+
+      <!-- CTA -->
+      <button class="btn-primary">
+        Continue
+        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+      <div class="sign-in">Already have an account? <span>Sign in</span></div>
+
+    </div>
+  </div>
+
+  <!-- Tab bar (muted — pre-app-entry) -->
+  <div class="tab-bar">
+    <div class="tab-btn">
+      <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span class="tab-label">Home</span>
+    </div>
+    <div class="tab-btn">
+      <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      <span class="tab-label">Cases</span>
+    </div>
+    <div class="tab-btn plus-btn">
+      <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    </div>
+    <div class="tab-btn">
+      <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      <span class="tab-label">Resources</span>
+    </div>
+    <div class="tab-btn">
+      <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span class="tab-label">Profile</span>
+    </div>
+    <div class="home-bar"></div>
+  </div>
+
+</div>
+</body>
+</html>
