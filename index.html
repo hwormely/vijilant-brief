@@ -1,0 +1,1964 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vijilant — Care Manager UI/UX Brief</title>
+<style>
+
+/* ─── Tokens ──────────────────────────────────────────────── */
+:root {
+  --green:      #1F4D37;
+  --green-light:#EAF3EF;
+  --dark:       #141210;
+  --body:       #3A3632;
+  --muted:      #7A766F;
+  --faint:      #9E9993;
+  --bg:         #FAFAF8;
+  --surface:    #FFFFFF;
+  --border:     #EDEBE6;
+  --sep:        #E4E1DC;
+  --amber:      #C07820;
+  --red:        #B83030;
+
+  --f-sans: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+  --f-mono: 'SF Mono', 'Fira Code', monospace;
+}
+
+/* ─── Reset ───────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; }
+body {
+  font-family: var(--f-sans);
+  background: var(--bg);
+  color: var(--body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── Cover ───────────────────────────────────────────────── */
+.cover {
+  background: var(--dark);
+  color: #FFFFFF;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 64px 72px;
+}
+.cover-top { display: flex; justify-content: space-between; align-items: flex-start; }
+.cover-wordmark {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--green);
+  text-transform: uppercase;
+}
+.cover-type {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  color: #555;
+  text-transform: uppercase;
+}
+.cover-main { padding: 40px 0; }
+.cover-title {
+  font-size: clamp(52px, 6vw, 80px);
+  font-weight: 800;
+  letter-spacing: -2px;
+  line-height: 1.0;
+  color: #FFFFFF;
+  margin-bottom: 28px;
+}
+.cover-title span { color: var(--green); }
+.cover-sub {
+  font-size: 18px;
+  font-weight: 400;
+  color: #888;
+  letter-spacing: -0.2px;
+  max-width: 520px;
+  line-height: 1.6;
+}
+.cover-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-top: 48px;
+  border-top: 1px solid #222;
+}
+.cover-meta { font-size: 12px; color: #555; letter-spacing: 0.06em; }
+.cover-tags { display: flex; gap: 12px; }
+.cover-tag {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  padding: 6px 14px;
+  border: 1px solid #333;
+  border-radius: 20px;
+  color: #666;
+  text-transform: uppercase;
+}
+
+/* ─── Section wrapper ─────────────────────────────────────── */
+.section {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 80px 72px;
+}
+.section + .section { border-top: 1px solid var(--sep); }
+.section-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 20px;
+}
+.section-heading {
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  color: var(--dark);
+  margin-bottom: 10px;
+  line-height: 1.1;
+}
+.section-sub {
+  font-size: 16px;
+  color: var(--muted);
+  max-width: 600px;
+  line-height: 1.6;
+}
+
+/* ─── Design Tokens grid ──────────────────────────────────── */
+.tokens-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  margin-top: 48px;
+}
+.token-group-title {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+.token-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 10px;
+}
+.token-swatch {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid rgba(0,0,0,0.07);
+  flex-shrink: 0;
+}
+.token-info { flex: 1; }
+.token-name { font-size: 12px; font-weight: 600; color: var(--dark); }
+.token-hex  { font-size: 11px; color: var(--faint); font-family: var(--f-mono); }
+.token-use  { font-size: 11px; color: var(--muted); margin-top: 1px; }
+
+.type-row { margin-bottom: 14px; }
+.type-label { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--faint); margin-bottom: 4px; }
+.type-sample { color: var(--dark); }
+.type-spec { font-size: 10px; font-family: var(--f-mono); color: var(--faint); margin-top: 3px; }
+
+.spacing-row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+.spacing-bar { background: var(--green-light); border-left: 3px solid var(--green); height: 20px; flex-shrink: 0; }
+.spacing-label { font-size: 11px; color: var(--muted); }
+.spacing-val { font-size: 11px; font-family: var(--f-mono); color: var(--dark); font-weight: 600; }
+
+/* ─── Flow Map ────────────────────────────────────────────── */
+.flow-map {
+  margin-top: 48px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 48px;
+  overflow-x: auto;
+}
+.flow-zones { display: flex; flex-direction: column; gap: 36px; }
+.flow-zone { }
+.flow-zone-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.flow-row { display: flex; align-items: center; gap: 0; flex-wrap: wrap; }
+.flow-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  min-width: 96px;
+}
+.flow-box {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--dark);
+  text-align: center;
+  white-space: nowrap;
+  cursor: default;
+}
+.flow-box.primary {
+  background: var(--green);
+  border-color: var(--green);
+  color: #FFFFFF;
+}
+.flow-box.secondary {
+  background: var(--green-light);
+  border-color: #C5DDD6;
+  color: var(--green);
+}
+.flow-box.desktop {
+  background: #F0EDE6;
+  border-color: #DDD9D0;
+  color: #5A5248;
+}
+.flow-num {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--faint);
+}
+.flow-arrow {
+  font-size: 18px;
+  color: var(--border);
+  margin: 0 6px;
+  flex-shrink: 0;
+  align-self: center;
+  padding-bottom: 20px;
+}
+.flow-branch {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-left: 24px;
+  border-left: 2px solid var(--border);
+  margin-left: 12px;
+}
+.flow-branch-node {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.flow-branch-line {
+  width: 20px;
+  height: 1.5px;
+  background: var(--border);
+  flex-shrink: 0;
+}
+
+/* ─── Screen sections ─────────────────────────────────────── */
+.screen-divider {
+  height: 1px;
+  background: var(--sep);
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.screen-section {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 80px 72px;
+}
+
+.screen-header {
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+  margin-bottom: 48px;
+  flex-wrap: wrap;
+}
+.screen-num {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--faint);
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+.screen-name {
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  color: var(--dark);
+  line-height: 1;
+}
+.screen-role {
+  font-size: 14px;
+  color: var(--muted);
+  font-weight: 400;
+  padding-left: 4px;
+}
+
+.screen-body {
+  display: grid;
+  grid-template-columns: 230px 1fr;
+  gap: 64px;
+  align-items: start;
+}
+.screen-body.desktop-layout {
+  grid-template-columns: 1fr;
+}
+.desktop-frame-wrap {
+  margin-bottom: 48px;
+}
+
+/* Phone frame */
+.phone-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+.phone-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--faint);
+  text-align: center;
+  margin-bottom: 10px;
+}
+.phone-container {
+  width: 214px;
+  height: 464px;
+  overflow: hidden;
+  border-radius: 27px;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.06);
+  position: relative;
+}
+.phone-iframe {
+  width: 390px;
+  height: 844px;
+  border: none;
+  transform: scale(0.549);
+  transform-origin: top left;
+  pointer-events: none;
+}
+
+/* Desktop frame */
+.desktop-container {
+  width: 100%;
+  max-width: 900px;
+  height: 380px;
+  overflow: hidden;
+  border-radius: 14px;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.06);
+}
+.desktop-iframe {
+  width: 1280px;
+  height: 800px;
+  border: none;
+  transform: scale(0.703);
+  transform-origin: top left;
+  pointer-events: none;
+}
+
+/* Annotations */
+.annotations { }
+.ann-block { margin-bottom: 32px; }
+.ann-block:last-child { margin-bottom: 0; }
+.ann-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 10px;
+}
+.ann-body {
+  font-size: 14px;
+  color: var(--body);
+  line-height: 1.65;
+}
+.ann-body p + p { margin-top: 8px; }
+
+.ann-list {
+  list-style: none;
+  margin-top: 8px;
+}
+.ann-list li {
+  font-size: 14px;
+  color: var(--body);
+  line-height: 1.55;
+  padding: 7px 0 7px 20px;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+.ann-list li:first-child { border-top: 1px solid var(--border); }
+.ann-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  flex-shrink: 0;
+}
+
+.tag-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.tag {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 20px;
+  background: var(--green-light);
+  color: var(--green);
+  letter-spacing: 0.02em;
+}
+.tag.amber { background: #FEF3E2; color: var(--amber); }
+.tag.red   { background: #FDECEA; color: var(--red); }
+.tag.gray  { background: #F0EDE6; color: var(--muted); }
+
+.nav-flow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+.nav-step {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--dark);
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 5px 12px;
+}
+.nav-arrow { font-size: 14px; color: var(--faint); }
+
+/* Divider between annotation blocks within a screen */
+.ann-rule {
+  height: 1px;
+  background: var(--border);
+  margin: 28px 0;
+}
+
+/* ─── Status legend ───────────────────────────────────────── */
+.status-legend { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+.status-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--body);
+}
+.status-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+/* ─── Footer ──────────────────────────────────────────────── */
+.brief-footer {
+  background: var(--dark);
+  color: #555;
+  padding: 40px 72px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+}
+.brief-footer-brand { font-weight: 700; color: var(--green); letter-spacing: 0.16em; font-size: 11px; }
+
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- COVER                                                    -->
+<!-- ════════════════════════════════════════════════════════ -->
+<div class="cover">
+  <div class="cover-top">
+    <div class="cover-wordmark">V I J I L A N T</div>
+    <div class="cover-type">UI / UX Brief · Care Manager + Supervisor</div>
+  </div>
+  <div class="cover-main">
+    <div class="cover-title">Care Manager<br><span>UI / UX Brief</span></div>
+    <div class="cover-sub">Design reference for the full Care Manager and Supervisor experience — screen layout, interaction patterns, user flow, and role-coded nav identity across all 14 screens. Mobile-first. Desktop-extended.</div>
+  </div>
+  <div class="cover-bottom">
+    <div class="cover-meta">The Legacy Land Project · Pasadena, CA · 2026</div>
+    <div class="cover-tags">
+      <div class="cover-tag">Mobile</div>
+      <div class="cover-tag">Desktop</div>
+      <div class="cover-tag">14 Screens</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- DESIGN TOKENS                                            -->
+<!-- ════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">Design System</div>
+  <div class="section-heading">Tokens</div>
+  <div class="section-sub">The visual foundation shared across every screen in the app.</div>
+
+  <div class="tokens-grid">
+
+    <!-- Colors -->
+    <div>
+      <div class="token-group-title">Color</div>
+
+      <div class="token-row">
+        <div class="token-swatch" style="background:#1F4D37;"></div>
+        <div class="token-info">
+          <div class="token-name">Brand Green</div>
+          <div class="token-hex">#1F4D37</div>
+          <div class="token-use">Active states, primary actions, icons · CM desktop sidebar</div>
+        </div>
+      </div>
+      <div class="token-row">
+        <div class="token-swatch" style="background:#EAF3EF;"></div>
+        <div class="token-info">
+          <div class="token-name">Green Light</div>
+          <div class="token-hex">#EAF3EF</div>
+          <div class="token-use">Active nav bg · Supervisor desktop sidebar · Selected tab bg</div>
+        </div>
+      </div>
+      <div class="token-row">
+        <div class="token-swatch" style="background:#F8F6F2;"></div>
+        <div class="token-info">
+          <div class="token-name">App Background</div>
+          <div class="token-hex">#F8F6F2</div>
+          <div class="token-use">Screen background — all mobile views</div>
+        </div>
+      </div>
+      <div class="token-row">
+        <div class="token-swatch" style="background:#EDEBE6; border: 1px solid #ddd;"></div>
+        <div class="token-info">
+          <div class="token-name">Border / Separator</div>
+          <div class="token-hex">#EDEBE6</div>
+          <div class="token-use">Cards, dividers, input strokes</div>
+        </div>
+      </div>
+      <div class="token-row">
+        <div class="token-swatch" style="background:#141210;"></div>
+        <div class="token-info">
+          <div class="token-name">Dark Text</div>
+          <div class="token-hex">#141210</div>
+          <div class="token-use">Primary headings, client names</div>
+        </div>
+      </div>
+      <div class="token-row">
+        <div class="token-swatch" style="background:#7A766F;"></div>
+        <div class="token-info">
+          <div class="token-name">Muted Text</div>
+          <div class="token-hex">#7A766F</div>
+          <div class="token-use">Labels, secondary info, timestamps</div>
+        </div>
+      </div>
+      <div class="token-row">
+        <div class="token-swatch" style="background:#C0392B;"></div>
+        <div class="token-info">
+          <div class="token-name">Alert Red</div>
+          <div class="token-hex">#C0392B</div>
+          <div class="token-use">Urgent flags, over-capacity, denied</div>
+        </div>
+      </div>
+      <div class="token-row">
+        <div class="token-swatch" style="background:#D4820A;"></div>
+        <div class="token-info">
+          <div class="token-name">Amber</div>
+          <div class="token-hex">#D4820A</div>
+          <div class="token-use">FEMA deadlines, appeal status, warnings · Client sidebar (future)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Typography -->
+    <div>
+      <div class="token-group-title">Typography</div>
+
+      <div class="type-row">
+        <div class="type-label">Page Title</div>
+        <div class="type-sample" style="font-size:22px;font-weight:800;letter-spacing:-0.5px;color:#141210;">Clients</div>
+        <div class="type-spec">22px / 800 / -0.5px tracking</div>
+      </div>
+      <div class="type-row">
+        <div class="type-label">Header Title</div>
+        <div class="type-sample" style="font-size:17px;font-weight:700;letter-spacing:-0.4px;color:#141210;">Reyes, Marisol</div>
+        <div class="type-spec">17px / 700 / -0.4px tracking</div>
+      </div>
+      <div class="type-row">
+        <div class="type-label">Body / Card</div>
+        <div class="type-sample" style="font-size:14px;font-weight:500;color:#3A3632;">FEMA appeal due — 2 days</div>
+        <div class="type-spec">14px / 500 / default tracking</div>
+      </div>
+      <div class="type-row">
+        <div class="type-label">Caption / Label</div>
+        <div class="type-sample" style="font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#7A766F;">Case Manager</div>
+        <div class="type-spec">11px / 600 / +0.1em / uppercase</div>
+      </div>
+      <div class="type-row">
+        <div class="type-label">Section Num / Badge</div>
+        <div class="type-sample" style="font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#9E9993;">Active Outreach</div>
+        <div class="type-spec">10–11px / 700 / +0.14em</div>
+      </div>
+    </div>
+
+    <!-- Spacing + Shape -->
+    <div>
+      <div class="token-group-title">Spacing</div>
+
+      <div class="spacing-row">
+        <div class="spacing-bar" style="width:4px;"></div>
+        <div class="spacing-val">4px</div>
+        <div class="spacing-label">Micro — icon gap, tight inline</div>
+      </div>
+      <div class="spacing-row">
+        <div class="spacing-bar" style="width:8px;"></div>
+        <div class="spacing-val">8px</div>
+        <div class="spacing-label">XS — badge padding, close elements</div>
+      </div>
+      <div class="spacing-row">
+        <div class="spacing-bar" style="width:12px;"></div>
+        <div class="spacing-val">12px</div>
+        <div class="spacing-label">SM — card internal padding</div>
+      </div>
+      <div class="spacing-row">
+        <div class="spacing-bar" style="width:16px;"></div>
+        <div class="spacing-val">16px</div>
+        <div class="spacing-label">MD — section header padding</div>
+      </div>
+      <div class="spacing-row">
+        <div class="spacing-bar" style="width:22px;"></div>
+        <div class="spacing-val">22px</div>
+        <div class="spacing-label">LG — screen horizontal margins</div>
+      </div>
+      <div class="spacing-row">
+        <div class="spacing-bar" style="width:32px;"></div>
+        <div class="spacing-val">32–40px</div>
+        <div class="spacing-label">XL — between major sections</div>
+      </div>
+
+      <div class="token-group-title" style="margin-top:28px;">Border Radius</div>
+      <div class="spacing-row">
+        <div class="spacing-bar" style="width:8px; border-radius:4px; background:#C5DDD6; border-left:none;"></div>
+        <div class="spacing-val">8px</div><div class="spacing-label">Tags, small chips</div>
+      </div>
+      <div class="spacing-row">
+        <div class="spacing-bar" style="width:16px; border-radius:8px; background:#C5DDD6; border-left:none;"></div>
+        <div class="spacing-val">12–16px</div><div class="spacing-label">Cards, nav items</div>
+      </div>
+      <div class="spacing-row">
+        <div class="spacing-bar" style="width:24px; border-radius:24px; background:#C5DDD6; border-left:none;"></div>
+        <div class="spacing-val">50px</div><div class="spacing-label">Phone shell (full round)</div>
+      </div>
+
+      <div class="token-group-title" style="margin-top:28px;">Status Colors</div>
+      <div class="status-legend">
+        <div class="status-item"><div class="status-dot" style="background:#E8722A;"></div>Active Outreach</div>
+        <div class="status-item"><div class="status-dot" style="background:#1F4D37;"></div>Stabilizing</div>
+        <div class="status-item"><div class="status-dot" style="background:#9E9993;"></div>Closed</div>
+        <div class="status-item"><div class="status-dot" style="background:#C0392B;"></div>Urgent</div>
+        <div class="status-item"><div class="status-dot" style="background:#D4820A;"></div>FEMA / Appeal</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- FLOW MAP                                                 -->
+<!-- ════════════════════════════════════════════════════════ -->
+<div class="screen-divider"></div>
+<div class="section">
+  <div class="section-label">Care Manager Journey</div>
+  <div class="section-heading">User Flow</div>
+  <div class="section-sub">End-to-end path a Care Manager takes through the app — from first launch through daily case work.</div>
+
+  <div class="flow-map">
+    <div class="flow-zones">
+
+      <!-- Zone 1: Entry -->
+      <div class="flow-zone">
+        <div class="flow-zone-label">Entry — First Run Only</div>
+        <div class="flow-row">
+          <div class="flow-node">
+            <div class="flow-box secondary">Onboarding</div>
+            <div class="flow-num">01</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node">
+            <div class="flow-box primary">Dashboard</div>
+            <div class="flow-num">02</div>
+          </div>
+          <div class="flow-arrow" style="opacity:0.3;">→</div>
+          <div style="font-size:12px;color:var(--faint);padding-bottom:20px;font-style:italic;">Onboarding runs once. Dashboard is the permanent home screen.</div>
+        </div>
+      </div>
+
+      <!-- Zone 2: Daily Loop -->
+      <div class="flow-zone">
+        <div class="flow-zone-label">Daily Loop — Repeated Every Session</div>
+        <div class="flow-row">
+          <div class="flow-node">
+            <div class="flow-box primary">Dashboard</div>
+            <div class="flow-num">02</div>
+          </div>
+          <div class="flow-arrow">↔</div>
+          <div class="flow-node">
+            <div class="flow-box">Client List</div>
+            <div class="flow-num">03</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node">
+            <div class="flow-box primary">Case File</div>
+            <div class="flow-num">04</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Zone 3: Within Case File (tabs) -->
+      <div class="flow-zone">
+        <div class="flow-zone-label">Within Case File — Tab Navigation</div>
+        <div class="flow-row" style="gap:8px;flex-wrap:wrap;">
+          <div class="flow-node">
+            <div class="flow-box secondary">Overview</div>
+            <div class="flow-num">04a</div>
+          </div>
+          <div class="flow-arrow" style="font-size:14px;padding-bottom:20px;color:var(--border);">|</div>
+          <div class="flow-node">
+            <div class="flow-box secondary">Case Notes</div>
+            <div class="flow-num">05</div>
+          </div>
+          <div class="flow-arrow" style="font-size:14px;padding-bottom:20px;color:var(--border);">|</div>
+          <div class="flow-node">
+            <div class="flow-box secondary">Assessment</div>
+            <div class="flow-num">06</div>
+          </div>
+          <div class="flow-arrow" style="font-size:14px;padding-bottom:20px;color:var(--border);">|</div>
+          <div class="flow-node">
+            <div class="flow-box secondary">Recovery Plan</div>
+            <div class="flow-num">07</div>
+          </div>
+          <div class="flow-arrow" style="font-size:14px;padding-bottom:20px;color:var(--border);">|</div>
+          <div class="flow-node">
+            <div class="flow-box secondary">Aid Applications</div>
+            <div class="flow-num">08</div>
+          </div>
+        </div>
+        <div style="font-size:12px;color:var(--faint);margin-top:12px;font-style:italic;">Tabs persist within a single client's Case File. Back nav returns to the list the CM came from.</div>
+      </div>
+
+      <!-- Zone 4: Supporting -->
+      <div class="flow-zone">
+        <div class="flow-zone-label">Supporting — Accessible from Bottom Nav or Action</div>
+        <div class="flow-row">
+          <div class="flow-node">
+            <div class="flow-box">Resources</div>
+            <div class="flow-num">09</div>
+          </div>
+          <div class="flow-arrow" style="opacity:0.3;">|</div>
+          <div class="flow-node">
+            <div class="flow-box">New Intake</div>
+            <div class="flow-num">10</div>
+          </div>
+          <div class="flow-arrow" style="opacity:0.3;">|</div>
+          <div class="flow-node">
+            <div class="flow-box desktop">CM Board<br><span style="font-size:9px;font-weight:500;">(Desktop)</span></div>
+            <div class="flow-num">11</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Zone 5: Supervisor -->
+      <div class="flow-zone" style="border-top: 2px dashed #D4CFC7; padding-top: 28px; margin-top: 8px;">
+        <div class="flow-zone-label" style="color: var(--amber);">Supervisor Role — Desktop First</div>
+        <div class="flow-row">
+          <div class="flow-node">
+            <div class="flow-box desktop">Supervisor<br><span style="font-size:9px;font-weight:500;">Dashboard</span></div>
+            <div class="flow-num">12</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node">
+            <div class="flow-box desktop">CM Metrics</div>
+            <div class="flow-num">13</div>
+          </div>
+          <div class="flow-arrow" style="opacity:0.3;">|</div>
+          <div class="flow-node">
+            <div class="flow-box desktop">Settings</div>
+            <div class="flow-num">14</div>
+          </div>
+        </div>
+        <div style="font-size:12px;color:var(--faint);margin-top:12px;font-style:italic;">Supervisor Dashboard is the entry point. CM Metrics is a drill-down from it. Settings is shared — accessible by both roles.</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- SCREEN 01 — ONBOARDING                                  -->
+<!-- ════════════════════════════════════════════════════════ -->
+<div class="screen-divider"></div>
+<div class="screen-section">
+  <div class="screen-header">
+    <div class="screen-num">Screen 01</div>
+    <div class="screen-name">Onboarding</div>
+    <div class="screen-role">— First-run setup · Runs once</div>
+  </div>
+  <div class="screen-body">
+    <div class="phone-wrap">
+      <div class="phone-label">Live Prototype</div>
+      <div class="phone-container">
+        <iframe class="phone-iframe" src="./embed-01-onboarding.html" title="Onboarding"></iframe>
+      </div>
+    </div>
+    <div class="annotations">
+
+      <div class="ann-block">
+        <div class="ann-label">Role</div>
+        <div class="ann-body">
+          <p>First-run experience shown once on initial app launch. Configures the CM's identity, organization, and role before they reach the app's main navigation. Not reachable from within the app after completion.</p>
+        </div>
+      </div>
+
+      <div class="ann-rule"></div>
+
+      <div class="ann-block">
+        <div class="ann-label">Layout</div>
+        <div class="ann-body">
+          <p>Full-screen card sequence. Each step occupies the full viewport — no competing elements. Progress indicator at top communicates where the CM is in the setup sequence.</p>
+        </div>
+      </div>
+
+      <div class="ann-rule"></div>
+
+      <div class="ann-block">
+        <div class="ann-label">UX Decisions</div>
+        <ul class="ann-list">
+          <li>Progressive disclosure — CM sees only what's needed per step, not the full form at once.</li>
+          <li>Each step is a single decision: name, org, role. Reduces cognitive load at first launch.</li>
+          <li>Optional sample data step — lets a CM explore the app before entering real cases.</li>
+          <li>Tap-to-advance interaction; required fields must be filled before the CTA enables.</li>
+        </ul>
+      </div>
+
+      <div class="ann-rule"></div>
+
+      <div class="ann-block">
+        <div class="ann-label">Exits To</div>
+        <div class="nav-flow">
+          <div class="nav-step">Dashboard</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- SCREEN 02 — DASHBOARD                                   -->
+<!-- ════════════════════════════════════════════════════════ -->
+<div class="screen-divider"></div>
+<div class="screen-section">
+  <div class="screen-header">
+    <div class="screen-num">Screen 02</div>
+    <div class="screen-name">Dashboard</div>
+    <div class="screen-role">— Daily anchor · Home screen</div>
+  </div>
+  <div class="screen-body">
+    <div class="phone-wrap">
+      <div class="phone-label">Live Prototype</div>
+      <div class="phone-container">
+        <iframe class="phone-iframe" src="./embed-02-dashboard.html" title="Dashboard"></iframe>
+      </div>
+    </div>
+    <div class="annotations">
+
+      <div class="ann-block">
+        <div class="ann-label">Role</div>
+        <div class="ann-body">
+          <p>Opens on every app launch. The morning brief — designed to answer "what needs my attention today?" without requiring the CM to go hunting. Not a list of all cases; a prioritized summary of what matters now.</p>
+        </div>
+      </div>
+
+      <div class="ann-rule"></div>
+
+      <div class="ann-block">
+        <div class="ann-label">Layout</div>
+        <ul class="ann-list">
+          <li><strong>Greeting header</strong> — personalized, date-stamped. Warm, not clinical.</li>
+          <li><strong>Stat strip</strong> — 4 at-a-glance counts: Active Cases, Urgent, Follow-Ups Due, Closed (30d).</li>
+          <li><strong>Today's Priority</strong> — top 3 urgent items. Sorted by severity. Tapping opens the Case File.</li>
+          <li><strong>Follow-Up Queue</strong> — time-ordered upcoming actions. Day labels (THU / FRI / MON).</li>
+          <li><strong>Bottom nav</strong> — persistent. Home / Clients / Resources / + (Intake).</li>
+        </ul>
+      </div>
+
+      <div class="ann-rule"></div>
+
+      <div class="ann-block">
+        <div class="ann-label">UX Decisions</div>
+        <ul class="ann-list">
+          <li>Morning-brief model — CMs see a curated digest, not an overwhelming list. Priority is decided by the system, not the CM.</li>
+          <li>Urgency color hierarchy: Red = urgent action needed · Amber = FEMA / deadline · no color = standard.</li>
+          <li>Stat strip is read-only — numbers orient the CM quickly but do not require tapping.</li>
+          <li>Follow-up queue is time-indexed, not alphabetical — next action in time order.</li>
+        </ul>
+      </div>
+
+      <div class="ann-rule"></div>
+
+      <div class="ann-block">
+        <div class="ann-label">Exits To</div>
+        <div class="nav-flow">
+          <div class="nav-step">Case File</div>
+          <div class="nav-arrow">(tap priority item)</div>
+        </div>
+        <div class="nav-flow" style="margin-top:8px;">
+          <div class="nav-step">Client List</div>
+          <div class="nav-arrow">(bottom nav)</div>
+        </div>
+        <div class="nav-flow" style="margin-top:8px;">
+          <div class="nav-step">Resources</div>
+          <div class="nav-step">Intake</div>
+          <div class="nav-arrow">(bottom nav)</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- SCREEN 03 — CLIENT LIST                                 -->
+<!-- ════════════════════════════════════════════════════════ -->
+<div class="screen-divider"></div>
+<div class="screen-section">
+  <div class="screen-header">
+    <div class="screen-num">Screen 03</div>
+    <div class="screen-name">Client List</div>
+    <div class="screen-role">— Full caseload browser</div>
+  </div>
+  <div class="screen-body">
+    <div class="phone-wrap">
+      <div class="phone-label">Live Prototype</div>
+      <div class="phone-container">
+        <iframe class="phone-iframe" src="./embed-03-clientlist.html" title="Client List"></iframe>
+      </div>
+    </div>
+    <div class="annotations">
+
+      <div class="ann-block">
+        <div class="ann-label">Role</div>
+        <div class="ann-body">
+          <p>Full caseload in one scrollable list. Used when the CM needs a specific case that isn't surfaced on the Dashboard, or when doing a status review across all active clients.</p>
+        </div>
+      </div>
+
+      <div class="ann-rule"></div>
+
+      <div class="ann-block">
+        <div class="ann-label">Layout</div>
+        <ul class="ann-list">
+          <li><strong>Page title</strong> — "Clients" with total count.</li>
+          <li><strong>Search bar</strong> — inline, immediately below the title. Filters the list in real time.</li>
+          <li><strong>Filter tabs</strong> — All / Active / Stabilizing / Closed. Scrollable if needed.</li>
+          <li><strong>Case card row</strong> — Name, status badge, assigned CM initials, last-touch date.</li>
+          <li><strong>FAB (+ button)</strong> — fixed bottom-right. Launches New Intake directly.</li>
+        </ul>
+      </div>
+
+      <div class="ann-rule"></div>
+
+      <div class="ann-block">
+        <div class="ann-label">UX Decisions</div>
+        <ul class="ann-list">
+          <li>Status badge appears before the name in the visual scan order — status is the first signal, not the last.</li>
+          <li>Last-touch date ("Today" / "2d ago") surfaces recency without requiring the CM to open the case.</li>
+          <li>Default sort: Last Updated. Most recently touched cases appear first — matches how CMs actually navigate their work.</li>
+          <li>Closed cases are visible but visually de-emphasized — they remain searchable and auditable.</li>
+        </ul>
+      </div>
+
+      <div class="ann-rule"></div>
+
+      <div class="ann-block">
+        <div class="ann-label">Status Badge Colors</div>
+        <div class="tag-row">
+          <div class="tag amber">Active Outreach</div>
+          <div class="tag">Stabilizing</div>
+          <div class="tag gray">Closed</div>
+        </div>
+      </div>
+
+      <div class="ann-rule"></div>
+
+      <div class="ann-block">
+        <div class="ann-label">Exits To</div>
+        <div class="nav-flow">
+          <div class="nav-step">Case File</div>
+          <div class="nav-arrow">(tap any case card)</div>
+        </div>
+        <div class="nav-flow" style="margin-top:8px;">
+          <div class="nav-step">New Intake</div>
+          <div class="nav-arrow">(FAB)</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- SCREEN 04 — CASE FILE                                   -->
+<!-- ════════════════════════════════════════════════════════ -->
+<div class="screen-divider"></div>
+<div class="screen-section">
+  <div class="screen-header">
+    <div class="screen-num">Screen 04</div>
+    <div class="screen-name">Case File</div>
+    <div class="screen-role">— Central hub for a single client</div>
+  </div>
+  <div class="screen-body">
+    <div class="phone-wrap">
+      <div class="phone-label">Live Prototype</div>
+      <div class="phone-container">
+        <iframe class="phone-iframe" src="./embed-04-casefile.html" title="Case File"></iframe>
+      </div>
+    </div>
+    <div class="annotations">
+
+      <div class="ann-block">
+        <div class="ann-label">Role</div>
+        <div class="ann-body">
+          <p>Everything about one client in one place. The hub that all case-specific work flows through. Notes, assessments, plans, and aid applications are all tabs within this screen — not separate screens reached from a menu.</p>
+        </div>
+      </div>
+
+      <div class="ann-rule"></div>
+
+      <div class="ann-block">
+        <div class="ann-label">Layout</div>
+        <ul class="ann-list">
+          <li><strong>Back nav</strong> — returns CM to wherever they came from (Dashboard or Client List).</li>
+          <li><strong>Client header</strong> — name, case ID, open date, assigned CM, current status badge.</li>
+          <li><strong>Sticky tab bar</strong> — horizontally scrollable. Tabs: Overview · Notes · Assessment · Plan · Aid · Docs.</li>
+          <li><strong>Tab content area</strong> — scrollable below the sticky tab bar. Content swaps per tab without full-screen navigation.</li>
+        </ul>
+      </div>
+
+      <div class="ann-rule"></div>
+
+      <div class="ann-block">
+        <div class="ann-label">UX Decisions</div>
+        <ul class="ann-list">
+          <li>Tab model keeps case complexity organized. A CM working in Notes never loses the context of whose case they're in.</li>
+          <li>Most-used tabs (Overview, Notes) are placed leftmost — reached without horizontal scrolling.</li>
+          <li>Sticky tab bar persists while scrolling tab content — CM always knows which tab is active and can switch without scrolling back to the top.</li>
+          <li>Active tab uses green underline and green text (#1F4D37) to match the brand primary. Inactive tabs are muted.</li>
+          <li>Horizontal scroll on tabs handles future tab additions without redesigning the layout.</li>
+        </ul>
+      </div>
+
+      <div class="ann-rule"></div>
+
+      <div class="ann-block">
+        <div class="ann-label">Tab Structure</div>
+        <div class="tag-row">
+          <div class="tag">Overview</div>
+          <div class="tag">Notes</div>
+          <div class="tag">Assessment</div>
+          <div class="tag">Plan</div>
+          <div class="tag">Aid</div>
+          <div class="tag gray">Docs</div>
+        </div>
+      </div>
+
+      <div class="ann-rule"></div>
+
+      <div class="ann-block">
+        <div class="ann-label">Exits To</div>
+        <div class="nav-flow">
+          <div class="nav-step">Client List</div>
+          <div class="nav-arrow">or</div>
+          <div class="nav-step">Dashboard</div>
+          <div class="nav-arrow">(back nav)</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- SCREEN 05 — CASE NOTES                                  -->
+<!-- ════════════════════════════════════════════════════════ -->
+<div class="screen-divider"></div>
+<div class="screen-section">
+  <div class="screen-header">
+    <div class="screen-num">Screen 05</div>
+    <div class="screen-name">Case Notes</div>
+    <div class="screen-role">— Notes tab within Case File</div>
+  </div>
+  <div class="screen-body">
+    <div class="phone-wrap">
+      <div class="phone-label">Live Prototype</div>
+      <div class="phone-container">
+        <iframe class="phone-iframe" src="./embed-05-notes.html" title="Case Notes"></iframe>
+      </div>
+    </div>
+    <div class="annotations">
+
+      <div class="ann-block">
+        <div class="ann-label">Role</div>
+        <div class="ann-body">
+          <p>Chronological log of every note on a case. Where the CM records what happened, what was communicated, what was referred, and what requires follow-up. The primary documentation tool.</p>
+        </div>
+      </div>
+
+      <div class="ann-rule"></div>
+
+      <div class="ann-block">
+        <div class="ann-label">Layout</div>
+        <ul class="ann-list">
+          <li><strong>Timeline list</strong> — notes sorted newest-first. Each card shows: note type badge, timestamp, author, and content preview.</li>
+          <li><strong>Compose FAB</strong> — fixed bottom-right. Opens the note composition view. Stays visible while scrolling through history.</li>
+          <li><strong>Note type badge</strong> — appears before content. Type is visible before the CM reads a word.</li>
+          <li><strong>Supervisor Notes tab</strong> — a secondary sub-tab within Notes, visible to supervisors. CMs see supervisor notes but cannot edit them.</li>
+        </ul>
+      </div>
+
+      <div class="ann-rule"></div>
+
+      <div class="ann-block">
+        <div class="ann-label">Note Types</div>
+        <div class="tag-row">
+          <div class="tag">Progress</div>
+          <div class="tag">Contact</div>
+          <div class="tag">Referral</div>
+          <div class="tag amber">Alert</div>
+          <div class="tag gray">Internal</div>
+        </div>
+      </div>
+
+      <div class="ann-rule"></div>
+
+      <div class="ann-block">
+        <div class="ann-label">UX Decisions</div>
+        <ul class="ann-list">
+          <li>Note type classification makes the history scannable — a supervisor or new CM can understand the arc of a case from badges alone before reading content.</li>
+          <li>Newest-first sort matches how CMs think about a case: what happened most recently matters most.</li>
+          <li>FAB position (bottom-right) follows the dominant-hand thumb zone on mobile — compose action requires zero repositioning.</li>
+          <li>Author + timestamp on each note creates accountability and traceability without extra UI.</li>
+        </ul>
+      </div>
+
+      <div class="ann-rule"></div>
+
+      <div class="ann-block">
+        <div class="ann-label">Context</div>
+        <div class="ann-body">
+          <p>Lives inside Case File. Tab bar remains sticky above — CM can switch to Assessment or Plan without losing their scroll position awareness.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- SCREEN 06 — ASSESSMENT                                  -->
+<!-- ════════════════════════════════════════════════════════ -->
+<div class="screen-divider"></div>
+<div class="screen-section">
+  <div class="screen-header">
+    <div class="screen-num">Screen 06</div>
+    <div class="screen-name">Assessment</div>
+    <div class="screen-role">— Recovery domain scoring · Assessment tab</div>
+  </div>
+  <div class="screen-body">
+    <div class="phone-wrap">
+      <div class="phone-label">Live Prototype</div>
+      <div class="phone-container">
+        <iframe class="phone-iframe" src="./embed-06-assessment.html" title="Assessment"></iframe>
+      </div>
+    </div>
+    <div class="annotations">
+
+      <div class="ann-block">
+        <div class="ann-label">Role</div>
+        <div class="ann-body">
+          <p>Structured scoring across the five recovery domains LLP case managers already use. Converts the CM's qualitative understanding of a case into a quantified composite score — without asking them to change how they think about recovery.</p>
+        </div>
+      </div>
+
+      <div class="ann-rule"></div>
+
+      <div class="ann-block">
+        <div class="ann-label">Layout</div>
+        <ul class="ann-list">
+          <li><strong>Composite score</strong> — displayed prominently at the top. Single number every CM and supervisor reads at a glance.</li>
+          <li><strong>5 domain rows</strong> — Housing · Financial · Emotional · Documentation · Support Network.</li>
+          <li><strong>Per-domain</strong> — percentage slider or input, progress bar, and a brief notes field below the score.</li>
+          <li><strong>Domain order</strong> — mirrors recovery priority: Housing first (most urgent), Support Network last (longest timeline).</li>
+        </ul>
+      </div>
+
+      <div class="ann-rule"></div>
+
+      <div class="ann-block">
+        <div class="ann-label">Recovery Domains</div>
+        <div class="tag-row">
+          <div class="tag">Housing</div>
+          <div class="tag">Financial</div>
+          <div class="tag">Emotional</div>
+          <div class="tag">Documentation</div>
+          <div class="tag">Support Network</div>
+        </div>
+      </div>
+
+      <div class="ann-rule"></div>
+
+      <div class="ann-block">
+        <div class="ann-label">UX Decisions</div>
+        <ul class="ann-list">
+          <li>Composite auto-calculates from domain inputs — CM never does math.</li>
+          <li>Notes field per domain captures the "why" behind a score — prevents the number from becoming meaningless without context.</li>
+          <li>Domain names and order are not invented — they mirror LLP's existing methodology. Zero re-learning required.</li>
+          <li>Progress bars give visual weight to percentage scores, making the relative state of each domain immediately readable.</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- SCREEN 07 — RECOVERY PLAN                               -->
+<!-- ════════════════════════════════════════════════════════ -->
+<div class="screen-divider"></div>
+<div class="screen-section">
+  <div class="screen-header">
+    <div class="screen-num">Screen 07</div>
+    <div class="screen-name">Recovery Plan</div>
+    <div class="screen-role">— Goal tracking · Plan tab</div>
+  </div>
+  <div class="screen-body">
+    <div class="phone-wrap">
+      <div class="phone-label">Live Prototype</div>
+      <div class="phone-container">
+        <iframe class="phone-iframe" src="./embed-07-recoveryplan.html" title="Recovery Plan"></iframe>
+      </div>
+    </div>
+    <div class="annotations">
+
+      <div class="ann-block">
+        <div class="ann-label">Role</div>
+        <div class="ann-body">
+          <p>Structured, actionable goal list tied to a client's recovery. Translates the Assessment's domain scores into concrete next steps. CM and client-facing — meant to be revisited on every check-in.</p>
+        </div>
+      </div>
+
+      <div class="ann-rule"></div>
+
+      <div class="ann-block">
+        <div class="ann-label">Layout</div>
+        <ul class="ann-list">
+          <li><strong>Goal rows</strong> — each goal has a checkbox, title, associated domain, due date, and status.</li>
+          <li><strong>Add Goal FAB</strong> — bottom-right, visible while scrolling.</li>
+          <li><strong>Completion state</strong> — checked goals shift to muted text with strikethrough. They stay in the list — they do not disappear.</li>
+          <li><strong>Domain grouping</strong> — goals grouped under their recovery domain (Housing / Financial / etc.).</li>
+        </ul>
+      </div>
+
+      <div class="ann-rule"></div>
+
+      <div class="ann-block">
+        <div class="ann-label">UX Decisions</div>
+        <ul class="ann-list">
+          <li>Completed goals remain visible — the plan is an audit trail, not just a to-do list. CMs and supervisors can see what was accomplished.</li>
+          <li>Strikethrough in muted color (#9E9993) signals done without the visual clutter of a deletion.</li>
+          <li>Due dates on individual goals create accountability without requiring a separate calendar view.</li>
+          <li>Long-press interaction: edit or delete a goal. Tap: toggle completion. Two distinct actions, two distinct gestures.</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- SCREEN 08 — AID APPLICATIONS                            -->
+<!-- ════════════════════════════════════════════════════════ -->
+<div class="screen-divider"></div>
+<div class="screen-section">
+  <div class="screen-header">
+    <div class="screen-num">Screen 08</div>
+    <div class="screen-name">Aid Applications</div>
+    <div class="screen-role">— Application tracking · Aid tab</div>
+  </div>
+  <div class="screen-body">
+    <div class="phone-wrap">
+      <div class="phone-label">Live Prototype</div>
+      <div class="phone-container">
+        <iframe class="phone-iframe" src="./embed-08-wylieapp.html" title="Aid Applications"></iframe>
+      </div>
+    </div>
+    <div class="annotations">
+
+      <div class="ann-block">
+        <div class="ann-label">Role</div>
+        <div class="ann-body">
+          <p>Tracks every aid application filed on behalf of a client — FEMA, SBA, CalFresh, and others. Status and timeline for each application in one place, without requiring the CM to check external portals for each one.</p>
+        </div>
+      </div>
+
+      <div class="ann-rule"></div>
+
+      <div class="ann-block">
+        <div class="ann-label">Layout</div>
+        <ul class="ann-list">
+          <li><strong>Application cards</strong> — one per application type. Icon, program name, current status badge, last updated.</li>
+          <li><strong>Timeline per application</strong> — event log below the card showing what happened and when (submitted, under review, approved, etc.).</li>
+          <li><strong>Status badge</strong> — most prominent element on each card. Color-coded and immediately readable.</li>
+        </ul>
+      </div>
+
+      <div class="ann-rule"></div>
+
+      <div class="ann-block">
+        <div class="ann-label">Status Colors</div>
+        <div class="tag-row">
+          <div class="tag">Approved</div>
+          <div class="tag amber">Appeal Pending</div>
+          <div class="tag gray">Submitted</div>
+          <div class="tag red">Denied</div>
+          <div class="tag gray">In Progress</div>
+        </div>
+      </div>
+
+      <div class="ann-rule"></div>
+
+      <div class="ann-block">
+        <div class="ann-label">UX Decisions</div>
+        <ul class="ann-list">
+          <li>Status is the first visual element per card — the CM does not need to read the full card to know where an application stands.</li>
+          <li>Timeline dots show what happened without requiring a prose narrative — the CM can scan an entire application history in seconds.</li>
+          <li>Appeal status uses amber (not red) — a pending appeal is active work, not a terminal state. The distinction matters for prioritization.</li>
+          <li>Application icons create visual separation between programs — useful when multiple FEMA/SBA/CalFresh applications exist simultaneously.</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- SCREEN 09 — RESOURCES                                   -->
+<!-- ════════════════════════════════════════════════════════ -->
+<div class="screen-divider"></div>
+<div class="screen-section">
+  <div class="screen-header">
+    <div class="screen-num">Screen 09</div>
+    <div class="screen-name">Resources</div>
+    <div class="screen-role">— Resource hub · Bottom nav</div>
+  </div>
+  <div class="screen-body">
+    <div class="phone-wrap">
+      <div class="phone-label">Live Prototype</div>
+      <div class="phone-container">
+        <iframe class="phone-iframe" src="./embed-09-resources.html" title="Resources"></iframe>
+      </div>
+    </div>
+    <div class="annotations">
+
+      <div class="ann-block">
+        <div class="ann-label">Role</div>
+        <div class="ann-body">
+          <p>Searchable directory of community resources organized by recovery domain. Used when a CM needs to refer a client to a housing service, food bank, mental health provider, or other support — directly from the field.</p>
+        </div>
+      </div>
+
+      <div class="ann-rule"></div>
+
+      <div class="ann-block">
+        <div class="ann-label">Layout</div>
+        <ul class="ann-list">
+          <li><strong>Search bar</strong> — at top, real-time filtering across all resources.</li>
+          <li><strong>Category tabs</strong> — Housing · Financial · Food · Mental Health · Legal · Other. Scrollable.</li>
+          <li><strong>Resource cards</strong> — organization name, brief description, and inline Call / Email action buttons.</li>
+          <li><strong>Persistent bottom nav</strong> — CM can return to Dashboard or Client List without losing context.</li>
+        </ul>
+      </div>
+
+      <div class="ann-rule"></div>
+
+      <div class="ann-block">
+        <div class="ann-label">UX Decisions</div>
+        <ul class="ann-list">
+          <li>Call and Email actions are inline on the card — no copy-paste, no navigating to a contact screen. One tap from the field.</li>
+          <li>Category tabs match the 5 recovery domains from Assessment — the CM's mental model is consistent across the whole app.</li>
+          <li>Search runs across all categories simultaneously — CMs often don't know which category a resource lives in.</li>
+        </ul>
+      </div>
+
+      <div class="ann-rule"></div>
+
+      <div class="ann-block">
+        <div class="ann-label">Entry Points</div>
+        <div class="nav-flow">
+          <div class="nav-step">Bottom nav → Resources</div>
+        </div>
+        <div class="nav-flow" style="margin-top:8px;">
+          <div class="nav-step">Referral action within a Note</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- SCREEN 10 — NEW INTAKE                                  -->
+<!-- ════════════════════════════════════════════════════════ -->
+<div class="screen-divider"></div>
+<div class="screen-section">
+  <div class="screen-header">
+    <div class="screen-num">Screen 10</div>
+    <div class="screen-name">New Intake</div>
+    <div class="screen-role">— New client form · FAB or bottom nav</div>
+  </div>
+  <div class="screen-body">
+    <div class="phone-wrap">
+      <div class="phone-label">Live Prototype</div>
+      <div class="phone-container">
+        <iframe class="phone-iframe" src="./embed-10-intake.html" title="New Intake"></iframe>
+      </div>
+    </div>
+    <div class="annotations">
+
+      <div class="ann-block">
+        <div class="ann-label">Role</div>
+        <div class="ann-body">
+          <p>Structured onboarding form for a new client. Captures everything needed to open a case — personal information, disaster event details, current housing situation, and initial case notes — in a single guided flow.</p>
+        </div>
+      </div>
+
+      <div class="ann-rule"></div>
+
+      <div class="ann-block">
+        <div class="ann-label">Layout</div>
+        <ul class="ann-list">
+          <li><strong>Progress indicator</strong> — top of screen. Shows current step of N total steps.</li>
+          <li><strong>Section-per-screen model</strong> — one group of related fields per step, not a single long form.</li>
+          <li><strong>Sections</strong> — Personal Info · Disaster Event · Housing Status · Household Members · Initial Notes.</li>
+          <li><strong>Required field markers</strong> — inline, visible before submission. Not revealed on error.</li>
+          <li><strong>Back / Next CTAs</strong> — bottom of each step. Back is always available.</li>
+        </ul>
+      </div>
+
+      <div class="ann-rule"></div>
+
+      <div class="ann-block">
+        <div class="ann-label">UX Decisions</div>
+        <ul class="ann-list">
+          <li>Grouped sections reduce cognitive load — CM sees 4–6 fields per step, not 25 at once.</li>
+          <li>Progress bar gives the CM a sense of completion — "3 of 5" prevents abandonment mid-form.</li>
+          <li>Required fields are marked from step one — no error-first discovery.</li>
+          <li>Initial notes field captures verbal information in the field before the CM has time to return to a desk.</li>
+        </ul>
+      </div>
+
+      <div class="ann-rule"></div>
+
+      <div class="ann-block">
+        <div class="ann-label">Exits To</div>
+        <div class="nav-flow">
+          <div class="nav-step">New Case File</div>
+          <div class="nav-arrow">(on complete)</div>
+        </div>
+        <div class="nav-flow" style="margin-top:8px;">
+          <div class="nav-step">Client List</div>
+          <div class="nav-arrow">(on cancel)</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- SCREEN 11 — CM BOARD (DESKTOP)                          -->
+<!-- ════════════════════════════════════════════════════════ -->
+<div class="screen-divider"></div>
+<div class="screen-section">
+  <div class="screen-header">
+    <div class="screen-num">Screen 11</div>
+    <div class="screen-name">CM Board</div>
+    <div class="screen-role">— Desktop command center</div>
+  </div>
+  <div class="screen-body desktop-layout">
+    <div class="desktop-frame-wrap">
+      <div class="phone-label">Live Prototype</div>
+      <div class="desktop-container">
+        <iframe class="desktop-iframe" src="./embed-11-cmboard.html" title="CM Board Desktop"></iframe>
+      </div>
+    </div>
+    <div class="annotations" style="display:grid;grid-template-columns:1fr 1fr;gap:40px;">
+
+      <div>
+        <div class="ann-block">
+          <div class="ann-label">Role</div>
+          <div class="ann-body">
+            <p>Desktop-optimized command center for desk-based case work. Same data as mobile, reorganized for a 1280px viewport — higher information density, persistent navigation, global search always visible.</p>
+          </div>
+        </div>
+
+        <div class="ann-rule"></div>
+
+        <div class="ann-block">
+          <div class="ann-label">Layout</div>
+          <ul class="ann-list">
+            <li><strong>Left sidebar (220px)</strong> — persistent nav. Brand Green (#1F4D38) background — signals CM identity at a glance. Logo mark at 15% white opacity. Nav text at 65% white (inactive), full white with 18% overlay pill (active). No border — sidebar meets the content area clean.</li>
+            <li><strong>Top bar</strong> — screen title, global search field (220px), user avatar.</li>
+            <li><strong>Main content area</strong> — adapts to selected nav item. Dashboard / Cases / Reports / Settings.</li>
+            <li><strong>Window chrome</strong> — macOS-style titlebar with traffic light buttons.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div>
+        <div class="ann-block">
+          <div class="ann-label">UX Decisions</div>
+          <ul class="ann-list">
+            <li>Sidebar navigation persists — the CM never loses their orientation regardless of which view is active.</li>
+            <li>Global search in the top bar — accessible from every screen without a dedicated search flow.</li>
+            <li>Desktop affords a data density mobile cannot — more cases, more columns, more information visible simultaneously without scrolling.</li>
+            <li>Dark green sidebar creates immediate role identity — a CM opening their desktop view sees their color immediately, not a neutral chrome. The mobile bottom nav uses the same Brand Green for active states, keeping the language consistent across platforms.</li>
+            <li>Nav badges (red dot with count) surface urgent items in the sidebar itself — CM sees urgency before clicking into a section.</li>
+          </ul>
+        </div>
+
+        <div class="ann-rule"></div>
+
+        <div class="ann-block">
+          <div class="ann-label">Sidebar Nav Sections</div>
+          <div class="tag-row">
+            <div class="tag">My Cases</div>
+            <div class="tag">Team</div>
+            <div class="tag">Resources</div>
+            <div class="tag">Reports</div>
+            <div class="tag gray">Settings</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- SUPERVISOR ROLE TRANSITION                               -->
+<!-- ════════════════════════════════════════════════════════ -->
+<div class="screen-divider"></div>
+<div style="background: #141210; padding: 56px 72px; max-width: 100%;">
+  <div style="max-width: 1280px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 24px;">
+    <div>
+      <div style="font-size: 10px; font-weight: 700; letter-spacing: 0.2em; color: var(--amber); text-transform: uppercase; margin-bottom: 14px;">Role Shift</div>
+      <div style="font-size: clamp(32px, 4vw, 52px); font-weight: 800; letter-spacing: -1.5px; color: #FFFFFF; line-height: 1.05; margin-bottom: 16px;">Supervisor View</div>
+      <div style="font-size: 16px; color: #666; max-width: 560px; line-height: 1.6;">What follows is the supervisor experience — org-level visibility, team workload at a glance, CM-level metrics, and shared settings. Desktop primary. Same design language, wider scope.</div>
+      <div style="margin-top: 32px; padding: 20px 24px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; max-width: 560px;">
+        <div style="font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: #555; margin-bottom: 14px;">Role Nav Color System</div>
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <div style="width: 28px; height: 28px; border-radius: 7px; background: #1F4D38; flex-shrink: 0;"></div>
+            <div>
+              <div style="font-size: 12px; font-weight: 600; color: #CCCCCC;">Brand Green #1F4D38</div>
+              <div style="font-size: 11px; color: #666; margin-top: 1px;">Care Manager — desktop sidebar</div>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <div style="width: 28px; height: 28px; border-radius: 7px; background: #EAF3EF; flex-shrink: 0;"></div>
+            <div>
+              <div style="font-size: 12px; font-weight: 600; color: #CCCCCC;">Green Light #EAF3EF</div>
+              <div style="font-size: 11px; color: #666; margin-top: 1px;">Supervisor — desktop sidebar</div>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <div style="width: 28px; height: 28px; border-radius: 7px; background: #E5A328; flex-shrink: 0;"></div>
+            <div>
+              <div style="font-size: 12px; font-weight: 600; color: #CCCCCC;">Amber #E5A328</div>
+              <div style="font-size: 11px; color: #666; margin-top: 1px;">Client — dashboard sidebar (future v2)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+      <div style="font-size: 11px; font-weight: 600; letter-spacing: 0.1em; padding: 6px 16px; border: 1px solid #333; border-radius: 20px; color: #555; text-transform: uppercase;">Desktop First</div>
+      <div style="font-size: 11px; font-weight: 600; letter-spacing: 0.1em; padding: 6px 16px; border: 1px solid #333; border-radius: 20px; color: #555; text-transform: uppercase;">Screens 12–14</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- SCREEN 12 — SUPERVISOR DASHBOARD                        -->
+<!-- ════════════════════════════════════════════════════════ -->
+<div class="screen-divider"></div>
+<div class="screen-section">
+  <div class="screen-header">
+    <div class="screen-num">Screen 12</div>
+    <div class="screen-name">Supervisor Dashboard</div>
+    <div class="screen-role">— Org-level command center · Desktop</div>
+  </div>
+  <div class="screen-body desktop-layout">
+    <div class="desktop-frame-wrap">
+      <div class="phone-label">Live Prototype</div>
+      <div class="desktop-container">
+        <iframe class="desktop-iframe" src="./embed-12-supervisor.html" title="Supervisor Dashboard"></iframe>
+      </div>
+    </div>
+    <div class="annotations" style="display:grid;grid-template-columns:1fr 1fr;gap:40px;">
+
+      <div>
+        <div class="ann-block">
+          <div class="ann-label">Role</div>
+          <div class="ann-body">
+            <p>The supervisor's primary screen. Full team visibility in one view — every CM's caseload, capacity status, urgency flags, and time-period metrics. Designed for desk use at the start of each day and during team check-ins.</p>
+          </div>
+        </div>
+
+        <div class="ann-rule"></div>
+
+        <div class="ann-block">
+          <div class="ann-label">Layout</div>
+          <ul class="ann-list">
+            <li><strong>KPI row (5 cards)</strong> — Total Active Cases · Avg Cases per CM · FEMA Actions Pending · Flagged Cases · Completed This Month. Large numbers, color-coded for urgency (green / amber / red).</li>
+            <li><strong>Three-column body</strong> — CM workload table (left), flagged case queue (center), activity feed (right, 320px).</li>
+            <li><strong>Topbar</strong> — Time period filter (Today / Week / Month) + Export button. Persistent on scroll.</li>
+            <li><strong>Left sidebar (220px)</strong> — Green Light (#EAF3EF) background with #C8E0D5 border — signals Supervisor identity. Logo badge inverted to solid green on light field. Nav section labels in #7A9E8E. Active nav item uses a white pill (#FFFFFF bg, #1F4D38 text) so it reads clearly against the soft green field.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div>
+        <div class="ann-block">
+          <div class="ann-label">UX Decisions</div>
+          <ul class="ann-list">
+            <li>KPI row leads the page — supervisor reads the numbers first, before any table or list. Prevents supervisor from needing to scan rows to understand org health.</li>
+            <li>CM workload table shows case count, last activity, and capacity status per row — supervisor can identify who's overloaded before a CM raises a flag.</li>
+            <li>Flagged case queue is second column, not buried — urgency is always visible alongside team workload, not in a separate report.</li>
+            <li>Export button in the topbar, always accessible — supervisor exports for grant reports and funder check-ins without navigating to a separate Reports page.</li>
+            <li>Time period filter applies globally to all three columns simultaneously — one toggle re-scopes the entire view.</li>
+          </ul>
+        </div>
+
+        <div class="ann-rule"></div>
+
+        <div class="ann-block">
+          <div class="ann-label">Exits To</div>
+          <div class="nav-flow">
+            <div class="nav-step">CM Metrics (13)</div>
+            <div class="nav-arrow">→ "View Details" on a CM row</div>
+          </div>
+          <div class="nav-flow" style="margin-top:8px;">
+            <div class="nav-step">Case File (04)</div>
+            <div class="nav-arrow">→ Flagged case in queue</div>
+          </div>
+          <div class="nav-flow" style="margin-top:8px;">
+            <div class="nav-step">CM Client List</div>
+            <div class="nav-arrow">→ CM name in workload table</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- SCREEN 13 — CM METRICS                                  -->
+<!-- ════════════════════════════════════════════════════════ -->
+<div class="screen-divider"></div>
+<div class="screen-section">
+  <div class="screen-header">
+    <div class="screen-num">Screen 13</div>
+    <div class="screen-name">CM Metrics</div>
+    <div class="screen-role">— Individual CM drill-down · Desktop</div>
+  </div>
+  <div class="screen-body desktop-layout">
+    <div class="desktop-frame-wrap">
+      <div class="phone-label">Live Prototype</div>
+      <div class="desktop-container">
+        <iframe class="desktop-iframe" src="./embed-13-metrics.html" title="CM Metrics"></iframe>
+      </div>
+    </div>
+    <div class="annotations" style="display:grid;grid-template-columns:1fr 1fr;gap:40px;">
+
+      <div>
+        <div class="ann-block">
+          <div class="ann-label">Role</div>
+          <div class="ann-body">
+            <p>Detailed performance and workload view for a single CM — or the team in aggregate. Not a top-level nav item. Reached via drill-down from the Supervisor Dashboard. Gives supervisors outcome data, not just activity counts.</p>
+          </div>
+        </div>
+
+        <div class="ann-rule"></div>
+
+        <div class="ann-block">
+          <div class="ann-label">Layout</div>
+          <ul class="ann-list">
+            <li><strong>KPI row</strong> — Cases Opened · Cases Closed · Notes Filed · Avg Response Time. Same card pattern as supervisor dashboard for visual consistency.</li>
+            <li><strong>Case timeline</strong> — chronological strip of recent case activity for this CM. Each entry links to the full case file.</li>
+            <li><strong>Outcome distribution</strong> — visual breakdown of cases by recovery domain status (Housing, Financial, Health, Legal, Emotional).</li>
+            <li><strong>Aid referral stats</strong> — counts of FEMA referrals, grant submissions, and resource connections made by this CM in the period.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div>
+        <div class="ann-block">
+          <div class="ann-label">UX Decisions</div>
+          <ul class="ann-list">
+            <li>Drill-down only — this screen is never reached from a CM's own nav. Supervisors see it; CMs do not. Keeps metrics transparent at the org level without making CMs feel surveilled in their daily flow.</li>
+            <li>Outcome data, not just volume — supervisor can distinguish a CM carrying 50 actively-progressing cases from one carrying 50 stalled cases. Case count alone doesn't tell that story.</li>
+            <li>Same time period filter as the Dashboard — if supervisor is looking at "this week" in Screen 12, CM Metrics opens in the same period for continuity.</li>
+            <li>Back navigation is explicit — supervisor returns to the Dashboard row they came from, not a generic home screen.</li>
+          </ul>
+        </div>
+
+        <div class="ann-rule"></div>
+
+        <div class="ann-block">
+          <div class="ann-label">Exits To</div>
+          <div class="nav-flow">
+            <div class="nav-step">Supervisor Dashboard (12)</div>
+            <div class="nav-arrow">→ Back nav</div>
+          </div>
+          <div class="nav-flow" style="margin-top:8px;">
+            <div class="nav-step">Case File (04)</div>
+            <div class="nav-arrow">→ Case entry in timeline</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- SCREEN 14 — SETTINGS                                    -->
+<!-- ════════════════════════════════════════════════════════ -->
+<div class="screen-divider"></div>
+<div class="screen-section">
+  <div class="screen-header">
+    <div class="screen-num">Screen 14</div>
+    <div class="screen-name">Settings</div>
+    <div class="screen-role">— Profile, notifications, team · Shared · Mobile</div>
+  </div>
+  <div class="screen-body">
+    <div class="phone-wrap">
+      <div class="phone-label">Live Prototype</div>
+      <div class="phone-container">
+        <iframe class="phone-iframe" src="./embed-14-settings.html" title="Settings"></iframe>
+      </div>
+    </div>
+    <div class="annotations">
+
+      <div class="ann-block">
+        <div class="ann-label">Role</div>
+        <div class="ann-body">
+          <p>App settings — profile, notifications, team management, and security. Accessible to both CMs and supervisors. Phone-primary; same controls surface in the desktop sidebar's bottom section. Low-frequency screen — visited for setup and the occasional change, not daily use.</p>
+        </div>
+      </div>
+
+      <div class="ann-rule"></div>
+
+      <div class="ann-block">
+        <div class="ann-label">Layout</div>
+        <ul class="ann-list">
+          <li><strong>Profile block</strong> — photo, name, role badge at top. Immediate identity confirmation. Tap to edit.</li>
+          <li><strong>Settings groups</strong> — Profile · Notifications · Team · Security · About. Each group is a tappable row with chevron navigation.</li>
+          <li><strong>Role-conditional sections</strong> — Team section visible to supervisors only. CMs see their own org and team, but cannot manage members.</li>
+        </ul>
+      </div>
+
+      <div class="ann-rule"></div>
+
+      <div class="ann-block">
+        <div class="ann-label">UX Decisions</div>
+        <ul class="ann-list">
+          <li>Settings is last in nav priority — bottom nav position reflects frequency of use. Not hidden, but not competing with active-work screens.</li>
+          <li>Notification settings are meaningful for field CMs — high-stress environments require control over what interrupts them. Granular controls (urgent only / all / off) per category.</li>
+          <li>Profile is the first row — user confirms they're logged in as the right person before changing anything. Reduces accidental edits under shared devices.</li>
+          <li>Role-conditional visibility prevents confusion — a CM who sees a "Team Management" section they can't use is friction. Supervisor-only features are hidden from CMs, not disabled.</li>
+        </ul>
+      </div>
+
+      <div class="ann-rule"></div>
+
+      <div class="ann-block">
+        <div class="ann-label">Exits To</div>
+        <div class="nav-flow">
+          <div class="nav-step">Dashboard (02)</div>
+          <div class="nav-arrow">→ Bottom nav tap</div>
+        </div>
+        <div class="nav-flow" style="margin-top:8px;">
+          <div class="nav-step">Profile Edit</div>
+          <div class="nav-arrow">→ Profile row tap</div>
+        </div>
+        <div class="nav-flow" style="margin-top:8px;">
+          <div class="nav-step">Team Management</div>
+          <div class="nav-arrow">→ Supervisor only</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- FOOTER                                                   -->
+<!-- ════════════════════════════════════════════════════════ -->
+<div class="brief-footer">
+  <div class="brief-footer-brand">V I J I L A N T</div>
+  <div>UI/UX Brief · Care Manager + Supervisor · Design Reference · 2026</div>
+  <div>The Legacy Land Project · Pasadena, CA</div>
+</div>
+
+
+<script>
+/* ── Iframe isolation ──────────────────────────────────────────────
+   Each prototype is a showcase page: dark body + proto-header label
+   + multiple phone variants side by side. When embedded in the brief
+   we only want the first phone (var-a), flush at top-left, no dark bg.
+   Since all files are local file:// same-origin we can access
+   contentDocument freely and patch the DOM after load.
+───────────────────────────────────────────────────────────────── */
+
+function fixPhoneIframe(iframe) {
+  function apply() {
+    try {
+      const doc = iframe.contentDocument;
+      if (!doc || !doc.body) return;
+      const body = doc.body;
+
+      /* 1 — Kill outer body layout */
+      body.style.setProperty('padding',    '0',           'important');
+      body.style.setProperty('margin',     '0',           'important');
+      body.style.setProperty('background', 'transparent', 'important');
+      body.style.setProperty('display',    'block',       'important');
+      body.style.setProperty('min-height', '0',           'important');
+      body.style.setProperty('overflow',   'hidden',      'important');
+
+      /* 2 — Hide proto-header / labels (the dark-page title above phones) */
+      const HIDE_CLASSES = ['.proto-header', '.proto-labels', '.page-header',
+                             '.screen-header-outer', 'h1', '.section-label'];
+      HIDE_CLASSES.forEach(sel => {
+        try { doc.querySelectorAll(sel).forEach(el => el.style.setProperty('display', 'none', 'important')); } catch(e){}
+      });
+
+      /* 3 — Flatten phones-row so first phone sits at (0, 0) */
+      const row = doc.querySelector('.phones-row, .phone-row, .phones-wrap');
+      if (row) {
+        row.style.setProperty('display', 'block', 'important');
+        row.style.setProperty('padding', '0',     'important');
+        row.style.setProperty('margin',  '0',     'important');
+      }
+
+      /* 4 — Show only first phone, hide rest */
+      const phones = doc.querySelectorAll('.phone');
+      phones.forEach((p, i) => {
+        if (i === 0) {
+          p.style.setProperty('margin', '0', 'important');
+          /* preserve internal display (flex column) */
+        } else {
+          p.style.setProperty('display', 'none', 'important');
+        }
+      });
+    } catch(e) { /* cross-origin guard — won't fire for same-dir file:// */ }
+  }
+
+  /* Handle already-loaded iframes and ones still loading */
+  try {
+    if (iframe.contentDocument && iframe.contentDocument.readyState === 'complete') {
+      apply();
+    } else {
+      iframe.addEventListener('load', apply);
+    }
+  } catch(e) {
+    iframe.addEventListener('load', apply);
+  }
+}
+
+function fixDesktopIframe(iframe) {
+  function apply() {
+    try {
+      const doc = iframe.contentDocument;
+      if (!doc || !doc.body) return;
+      const body = doc.body;
+
+      /* Strip outer centering so desktop-shell sits at (0, 0) */
+      body.style.setProperty('padding',          '0',           'important');
+      body.style.setProperty('margin',           '0',           'important');
+      body.style.setProperty('background',       'transparent', 'important');
+      body.style.setProperty('display',          'block',       'important');
+      body.style.setProperty('min-height',       '0',           'important');
+      body.style.setProperty('align-items',      'flex-start',  'important');
+      body.style.setProperty('justify-content',  'flex-start',  'important');
+
+      /* Hide any page-level labels */
+      ['.page-header', '.proto-header', '.section-label'].forEach(sel => {
+        try { doc.querySelectorAll(sel).forEach(el => el.style.setProperty('display', 'none', 'important')); } catch(e){}
+      });
+    } catch(e) {}
+  }
+
+  try {
+    if (iframe.contentDocument && iframe.contentDocument.readyState === 'complete') {
+      apply();
+    } else {
+      iframe.addEventListener('load', apply);
+    }
+  } catch(e) {
+    iframe.addEventListener('load', apply);
+  }
+}
+
+/* Run on all iframes in the brief */
+document.querySelectorAll('.phone-iframe').forEach(fixPhoneIframe);
+document.querySelectorAll('.desktop-iframe').forEach(fixDesktopIframe);
+</script>
+
+</body>
+</html>
