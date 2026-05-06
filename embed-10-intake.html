@@ -342,6 +342,15 @@ html,body{width:390px;height:844px;overflow:hidden;background:transparent;}
 body{padding:0!important;margin:0!important;background:transparent!important;
      display:block!important;min-height:0!important;}
 .var-label{display:none!important;}
+
+  /* ── Tab bar ── */
+  .tab-bar { position: absolute; bottom: 0; left: 0; right: 0; height: 90px; display: flex; align-items: flex-start; padding-top: 10px; background: rgba(248,246,242,0.92); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); z-index: 30; }
+  .tab-btn { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; border: none; background: transparent; cursor: pointer; padding: 4px 2px 0; color: #B0ABA3; transition: color 0.16s ease; -webkit-tap-highlight-color: transparent; position: relative; }
+  .tab-btn.active { color: #1F4D38; }
+  .tab-btn svg { width: 22px; height: 22px; }
+  .tab-lbl { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 10px; font-weight: 500; color: inherit; line-height: 1; }
+  .tab-dot { position: absolute; top: 2px; right: calc(50% - 14px); width: 7px; height: 7px; background: #E5352B; border-radius: 50%; border: 1.5px solid #FFFFFF; }
+  .home-bar { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); width: 134px; height: 5px; background: #141210; border-radius: 3px; opacity: 0.14; }
 </style>
 </head>
 <body>
