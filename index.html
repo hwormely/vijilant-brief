@@ -1194,7 +1194,7 @@ body {
   <div class="screen-header">
     <div class="screen-num">Screen 06</div>
     <div class="screen-name">Assessment</div>
-    <div class="screen-role">— Recovery domain scoring · Assessment tab</div>
+    <div class="screen-role">— 12-section clinical form · Case File tab</div>
   </div>
   <div class="screen-body">
     <div class="phone-wrap">
@@ -1208,7 +1208,7 @@ body {
       <div class="ann-block">
         <div class="ann-label">Role</div>
         <div class="ann-body">
-          <p>Structured scoring across the five recovery domains LLP case managers already use. Converts the CM's qualitative understanding of a case into a quantified composite score — without asking them to change how they think about recovery.</p>
+          <p>Full Assessment is where CMs document the complete clinical picture — across 12 structured sections from disaster impact through client priorities. CMs fill discrete fields (radio buttons, checkboxes, dropdowns, free-text) that capture the survivor's actual situation. When the assessment is saved, the Auto-Triage Engine reads every section and assigns an official Tier designation automatically. CMs never touch the tier directly.</p>
         </div>
       </div>
 
@@ -1217,23 +1217,30 @@ body {
       <div class="ann-block">
         <div class="ann-label">Layout</div>
         <ul class="ann-list">
-          <li><strong>Composite score</strong> — displayed prominently at the top. Single number every CM and supervisor reads at a glance.</li>
-          <li><strong>5 domain rows</strong> — Housing · Financial · Emotional · Documentation · Support Network.</li>
-          <li><strong>Per-domain</strong> — percentage slider or input, progress bar, and a brief notes field below the score.</li>
-          <li><strong>Domain order</strong> — mirrors recovery priority: Housing first (most urgent), Support Network last (longest timeline).</li>
+          <li><strong>Progress bar</strong> — "X of 12 sections complete" keeps the CM oriented in a long form. Always visible; always accurate.</li>
+          <li><strong>Section nav grid</strong> — 12 tiles showing state: complete (green check), in progress (active border), not started (muted). Tappable — CM can jump to any section or work sequentially.</li>
+          <li><strong>Expanded section</strong> — one section open at a time, displaying its actual fields. §3 Disaster Impact is shown open here: segmented radio for damage level, checkboxes for utilities, radio list for displacement status, free-text for survivor's own words.</li>
+          <li><strong>Triage tier placeholder</strong> — sits at the bottom in a pending state until the full assessment is saved. Communicates the engine's role without exposing a manual picker.</li>
         </ul>
       </div>
 
       <div class="ann-rule"></div>
 
       <div class="ann-block">
-        <div class="ann-label">Recovery Domains</div>
+        <div class="ann-label">12 Assessment Sections</div>
         <div class="tag-row">
-          <div class="tag">Housing</div>
-          <div class="tag">Financial</div>
-          <div class="tag">Emotional</div>
-          <div class="tag">Documentation</div>
-          <div class="tag">Support Network</div>
+          <div class="tag">§1 Case ID</div>
+          <div class="tag">§2 Household</div>
+          <div class="tag">§3 Disaster Impact</div>
+          <div class="tag">§4 Immediate Needs</div>
+          <div class="tag">§5 Housing Status</div>
+          <div class="tag">§6 Financial</div>
+          <div class="tag">§7 Insurance &amp; Legal</div>
+          <div class="tag">§8 Health &amp; Mental</div>
+          <div class="tag">§9 Social Support</div>
+          <div class="tag">§10 Priorities</div>
+          <div class="tag">§11 CM Assessment</div>
+          <div class="tag">§12 Next Steps</div>
         </div>
       </div>
 
@@ -1242,10 +1249,10 @@ body {
       <div class="ann-block">
         <div class="ann-label">UX Decisions</div>
         <ul class="ann-list">
-          <li>Composite auto-calculates from domain inputs — CM never does math.</li>
-          <li>Notes field per domain captures the "why" behind a score — prevents the number from becoming meaningless without context.</li>
-          <li>Domain names and order are not invented — they mirror LLP's existing methodology. Zero re-learning required.</li>
-          <li>Progress bars give visual weight to percentage scores, making the relative state of each domain immediately readable.</li>
+          <li>Tier is a computed output, never a CM input — the interface has no tier picker. The CM fills the form; the Auto-Triage Engine assigns the tier on save.</li>
+          <li>Section nav grid keeps CMs oriented across a long form — they always know what's done and what remains without scrolling through everything.</li>
+          <li>§11 CM Assessment has two distinct parts: Part A (CM fills Level of Need and Recommended Tier as a clinical suggestion), Part B (Auto-Triage Engine writes the Official Tier and Rationale). Displayed as separate, labeled fields — the distinction is auditable and defensible.</li>
+          <li>"Save &amp; Continue" advances section by section — preserving work-in-progress without requiring the CM to complete all 12 sections in one session.</li>
         </ul>
       </div>
 
