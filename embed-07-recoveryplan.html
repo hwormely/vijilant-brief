@@ -21,7 +21,7 @@ html,body{width:390px;height:844px;overflow:hidden;background:transparent;}
   .status-bar { height: 59px; display: flex; align-items: flex-end; justify-content: space-between; padding: 0 24px 10px; position: relative; z-index: 50; }
   .status-time { font-size: 15px; font-weight: 600; color: #141210; letter-spacing: -0.3px; }
   .status-icons { display: flex; gap: 6px; align-items: center; }
-  .screen-content { position: absolute; top: 59px; left: 0; right: 0; bottom: 0; overflow-y: auto; scrollbar-width: none; }
+  .screen-content { position: absolute; top: 59px; left: 0; right: 0; bottom: 90px; overflow-y: auto; scrollbar-width: none; }
   .screen-content::-webkit-scrollbar { display: none; }
 
   .screen-header { padding: 16px 22px 14px; display: flex; align-items: center; gap: 14px; position: sticky; top: 0; z-index: 40; background: #F8F6F2; }
@@ -272,6 +272,29 @@ body{padding:0!important;margin:0!important;background:transparent!important;
       <div class="spacer-bottom"></div>
     </div><!-- /screen-content -->
     <div class="toast" id="toast-a"></div>
+    <div class="tab-bar">
+      <button class="tab-btn" onclick="showToast('a','Dashboard')">
+        <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7.5" height="7.5" rx="1.5" fill="currentColor" opacity="0.4"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="1.5" fill="currentColor" opacity="0.4"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="1.5" fill="currentColor" opacity="0.4"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1.5" fill="currentColor" opacity="0.4"/></svg>
+        <span class="tab-lbl">Dashboard</span>
+      </button>
+      <button class="tab-btn active">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7.5" r="3"/><path d="M3 20c0-3.31 2.69-6 6-6"/><circle cx="16" cy="9" r="2.5"/><path d="M13 20c0-2.76 1.34-5 3-5s3 2.24 3 5"/></svg>
+        <span class="tab-lbl">Clients</span>
+      </button>
+      <button class="tab-btn" onclick="showToast('a','Intake')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2.5"/><path d="M12 9v6M9 12h6"/></svg>
+        <span class="tab-lbl">Intake</span>
+      </button>
+      <button class="tab-btn" onclick="showToast('a','Connect')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v10c0 1.1-.9 2-2 2H6l-4 4V6c0-1.1.9-2 2-2z"/></svg>
+        <span class="tab-lbl">Connect</span>
+      </button>
+      <button class="tab-btn" onclick="showToast('a','More')">
+        <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg>
+        <span class="tab-lbl">More</span>
+      </button>
+      <div class="home-bar"></div>
+    </div>
   </div>
 </body>
 </html>
