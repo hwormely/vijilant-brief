@@ -507,8 +507,8 @@
         <div class="stat-label">Estimated average time to auto-triage a new intake — vs. manual assessment in every other platform.</div>
       </div>
       <div class="stat-card">
-        <div class="stat-number">5</div>
-        <div class="stat-label">Domain scores auto-computed from the 12-section clinical assessment with no CM data entry required — combined into a single Recovery Score (0–1000) displayed as a ring throughout the app.</div>
+        <div class="stat-number">0–1000</div>
+        <div class="stat-label">Recovery Score — computed automatically from the 12-section clinical assessment with no CM data entry required. Displayed as a Recovery Score Ring on every client record throughout the app.</div>
       </div>
       <div class="stat-card">
         <div class="stat-number">0</div>
@@ -597,7 +597,7 @@
         </tr>
         <tr>
           <td>Clinical Assessment<span class="sub">Standardized multi-domain intake</span></td>
-          <td><span class="badge-win">Vijilant</span><br><small>12-section assessment built for disaster recovery casework. CM fills Part A — descriptive labels, no numeric scales shown. System computes Part B: Triage Tier T1–T4, AI rationale, 5 domain scores (None / Disrupted / Partial / Stable / Strong), and Recovery Score 0–1000.</small></td>
+          <td><span class="badge-win">Vijilant</span><br><small>12-section assessment built for disaster recovery casework. CM fills Part A — descriptive labels, no numeric scales shown. System computes Part B: Triage Tier T1–T4, AI rationale, Recovery Score (0–1000), and a plain-language explanation — all displayed as a Recovery Score Ring on the client record.</small></td>
           <td class="tie">START framework assessment. Single-domain scoring.</td>
           <td class="tie"><em>Configurable assessment forms. No standardized DCM assessment or computed scoring.</em></td>
           <td class="tie"><em>Configurable assessment forms. No standardized scoring or triage output.</em></td>
@@ -646,7 +646,7 @@
         </tr>
         <tr>
           <td>Resource → Client Matching<span class="sub">See all eligible clients for a given resource — from the resource's perspective</span></td>
-          <td><span class="badge-win">Vijilant</span><br><small>From any Resource in the directory, CM or Supervisor sees every client in their caseload (or org-wide for Supervisor) who matches that resource — based on Area Needs tags, assessment domain scores, and Recovery Score band. Match reasons are tagged per client row. CM can initiate an auto-drafted application for any matching client directly from the resource view. "Already Applied" guard surfaces prior submission date — informational only, not a gate. Supervisor can filter to Score &lt; 500, select multiple clients, and launch batch auto-drafts in sequence.</small></td>
+          <td><span class="badge-win">Vijilant</span><br><small>From any Resource in the directory, CM or Supervisor sees every client in their caseload (or org-wide for Supervisor) who matches that resource — based on Area Needs tags, assessment answers, and Recovery Score band. Match reasons are tagged per client row. CM can initiate an auto-drafted application for any matching client directly from the resource view. "Already Applied" guard surfaces prior submission date — informational only, not a gate. Supervisor can filter to Score &lt; 500, select multiple clients, and launch batch auto-drafts in sequence.</small></td>
           <td class="lose">No resource-to-client matching surface. Case workers manually identify which clients may qualify for a given resource.</td>
           <td class="lose">No inverse resource-to-client matching. Referral management is client-first only — no resource-first discovery view.</td>
           <td class="lose">No resource → client matching engine. Service tracking is client-initiated. No caseload-wide eligibility view per resource.</td>
@@ -790,7 +790,7 @@
             <h3>AI-written rationale</h3>
           </div>
         </div>
-        <p>The system doesn't just assign a tier — it writes the rationale. Assessment Part B is generated automatically on save: official Triage Tier (T1–T4), Recovery Score (0–1000), 5 domain scores, and a plain-language explanation of why. CMs read it. They don't write it.</p>
+        <p>The system doesn't just assign a tier — it writes the rationale. Assessment Part B is generated automatically on save: official Triage Tier (T1–T4), Recovery Score (0–1000), and a plain-language explanation of why. CMs read it. They don't write it.</p>
       </div>
 
       <div class="feature-block">
@@ -804,7 +804,7 @@
             <h3>Recovery Plan generated on save</h3>
           </div>
         </div>
-        <p>When a 12-section assessment is completed, the system computes a Recovery Score (0–1000) across 5 domains and generates a full, personalized Recovery Plan — Housing, Financial, Health, Legal, Emotional — without the CM drafting a single line. It's ready to review in seconds.</p>
+        <p>When a 12-section assessment is completed, the system computes a Recovery Score (0–1000) and generates a full, personalized Recovery Plan — Housing, Financial, Health, Legal, Emotional — without the CM drafting a single line. It's ready to review in seconds.</p>
       </div>
 
       <div class="feature-block">
@@ -825,8 +825,8 @@
     <div class="two-col" style="margin-top: 56px;">
       <div>
         <h3 style="font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 16px;">What does an auto-generated Recovery Plan look like?</h3>
-        <p style="font-size: 15px; color: rgba(255,255,255,0.65); line-height: 1.7; margin-bottom: 16px;">After the CM completes the 12-section clinical assessment, the system computes five domain scores and writes a structured Recovery Plan. No drafting. No templates to fill. The CM reviews, annotates, and approves — the system wrote the first draft.</p>
-        <p style="font-size: 14px; color: rgba(255,255,255,0.45); line-height: 1.65;">Domain outputs: Housing Stability · Financial Recovery · Physical Health · Legal &amp; Benefits · Emotional &amp; Social Wellbeing. Domain values display as readable labels (None / Disrupted / Partial / Stable / Strong). The 5 domain scores combine into the Recovery Score (0–1000), visualized throughout the app as a progress ring on every client record.</p>
+        <p style="font-size: 15px; color: rgba(255,255,255,0.65); line-height: 1.7; margin-bottom: 16px;">After the CM completes the 12-section clinical assessment, the system generates a Recovery Score (0–1000) and writes a structured Recovery Plan. No drafting. No templates to fill. The CM reviews, annotates, and approves — the system wrote the first draft.</p>
+        <p style="font-size: 14px; color: rgba(255,255,255,0.45); line-height: 1.65;">Recovery Plan covers: Housing Stability · Financial Recovery · Physical Health · Legal &amp; Benefits · Emotional &amp; Social Wellbeing. The Recovery Score (0–1000) is visualized throughout the app as a Recovery Score Ring on every client record — compact in list views, full-size in the client header.</p>
       </div>
       <div class="two-col-phone">
         <div class="phone-frame">

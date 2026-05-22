@@ -1306,7 +1306,7 @@ body {
       <div class="ann-block">
         <div class="ann-label">Role</div>
         <div class="ann-body">
-          <p>Structured, actionable goal list tied to a client's recovery. Translates the Assessment's domain scores into concrete next steps. CM and client-facing — meant to be revisited on every check-in.</p>
+          <p>Structured, actionable goal list tied to a client's recovery. Translates the clinical assessment into concrete next steps — organized by recovery area. CM and client-facing — meant to be revisited on every check-in.</p>
         </div>
       </div>
 
@@ -1742,7 +1742,7 @@ body {
           <div class="ann-label">Matching Logic</div>
           <ul class="ann-list">
             <li><strong>Area Needs tags</strong> — client's recorded needs (from intake or assessment) intersect with resource's service tags (Housing, Financial, Food, etc.).</li>
-            <li><strong>Assessment domain scores</strong> — clients with domain scores below "Stable" (i.e., None or Disrupted) in the resource's relevant domain are surfaced first.</li>
+            <li><strong>Recovery Score + assessment answers</strong> — clients whose assessment answers indicate need (e.g., Housing status: None or Disrupted) in the resource's relevant area are surfaced first.</li>
             <li><strong>Recovery Score band</strong> — resource eligibility thresholds (e.g., Score ≤ 499) filter automatically. Supervisor can adjust the filter pill at the top of the pane.</li>
             <li><strong>"Already Applied" guard</strong> — Vijilant checks <code>aid_applications</code> and shows prior submission date on the row. Prevents duplicate applications without blocking the CM from seeing the full list.</li>
           </ul>
@@ -2255,7 +2255,7 @@ document.querySelectorAll('.desktop-iframe').forEach(fixDesktopIframe);
       <div class="ann-block">
         <div class="ann-label">OVERVIEW</div>
         <div class="ann-body">
-          <p>Replaces the Goals tab — renamed to Recovery Plan to match LLP's recovery-first language. Each client has a structured recovery trajectory across 5 domains. The CM owns goal creation; the assessment engine owns triage scoring.</p>
+          <p>Replaces the Goals tab — renamed to Recovery Plan to match LLP's recovery-first language. Each client has a structured recovery trajectory across five areas: Housing, Financial, Health, Legal, and Emotional. The CM owns goal creation; the assessment engine owns triage scoring.</p>
         </div>
       </div>
 
