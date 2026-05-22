@@ -777,7 +777,7 @@ body {
           </div>
           <div class="flow-arrow" style="opacity:0.3;">|</div>
           <div class="flow-node">
-            <div class="flow-box desktop">CM Board<br><span style="font-size:9px;font-weight:500;">(Desktop)</span></div>
+
             <div class="flow-num">11</div>
           </div>
         </div>
@@ -788,6 +788,7 @@ body {
         <div class="flow-zone-label" style="color: var(--amber);">Supervisor Role — Desktop First</div>
         <div class="flow-row">
           <div class="flow-node">
+            <div class="flow-box desktop">CM Board<br><span style="font-size:9px;font-weight:500;">(Desktop)</span></div>
             <div class="flow-box desktop">Supervisor<br><span style="font-size:9px;font-weight:500;">Dashboard</span></div>
             <div class="flow-num">12</div>
           </div>
@@ -1010,6 +1011,17 @@ body {
 
       <div class="ann-rule"></div>
 
+      <div class="ann-rule"></div>
+
+      <div class="ann-block">
+        <div class="ann-label">Recovery Score Ring</div>
+        <div class="ann-body">
+          <p>Every client card in the list displays a compact <strong>Recovery Score Ring</strong> (36×36 px) at the trailing edge. The ring visualizes the client's current Recovery Score (0–1000) computed by the assessment engine — it updates automatically when a new assessment is saved. A <strong>?</strong> icon opens an explainer popover on tap. The score is never manually entered, edited, or overridden at any role level — it is always system-computed.</p>
+        </div>
+      </div>
+
+      <div class="ann-rule"></div>
+
       <div class="ann-block">
         <div class="ann-label">Exits To</div>
         <div class="nav-flow">
@@ -1089,6 +1101,17 @@ body {
           <div class="tag">Plan</div>
           <div class="tag">Aid</div>
           <div class="tag gray">Docs</div>
+        </div>
+      </div>
+
+      <div class="ann-rule"></div>
+
+      <div class="ann-rule"></div>
+
+      <div class="ann-block">
+        <div class="ann-label">Recovery Score Ring</div>
+        <div class="ann-body">
+          <p>The client header in the Case File displays the <strong>Recovery Score Ring</strong> at its large size (72×72 px) — the primary visual landmark for a client's recovery status. The ring shows the current Recovery Score (0–1000) with score delta vs. 30 days prior. A <strong>?</strong> icon opens a domain-level explainer popover: Housing Stability · Financial Recovery · Physical Health · Legal & Benefits · Emotional & Social Wellbeing. Score is always system-computed on assessment save — no input, slider, or override is ever shown to any role.</p>
         </div>
       </div>
 
@@ -1448,75 +1471,7 @@ body {
   </div>
 </div>
 
-<!-- ════════════════════════════════════════════════════════ -->
-<!-- SCREEN 11 — CM BOARD (DESKTOP)                          -->
-<!-- ════════════════════════════════════════════════════════ -->
-<div class="screen-divider"></div>
-<div class="screen-section">
-  <div class="screen-header">
-    <div class="screen-num">Screen 11</div>
-    <div class="screen-name">CM Board</div>
-    <div class="screen-role">— Desktop command center</div>
-  </div>
-  <div class="screen-body desktop-layout">
-    <div class="desktop-frame-wrap">
-      <div class="phone-label">Live Prototype</div>
-      <div class="desktop-container">
-        <iframe class="desktop-iframe" src="./embed-11-cmboard.html" title="CM Board Desktop"></iframe>
-      </div>
-    </div>
-    <div class="annotations" style="display:grid;grid-template-columns:1fr 1fr;gap:40px;">
 
-      <div>
-        <div class="ann-block">
-          <div class="ann-label">Role</div>
-          <div class="ann-body">
-            <p>Desktop-optimized command center for desk-based case work. Same data as mobile, reorganized for a 1280px viewport — higher information density, persistent navigation, global search always visible.</p>
-          </div>
-        </div>
-
-        <div class="ann-rule"></div>
-
-        <div class="ann-block">
-          <div class="ann-label">Layout</div>
-          <ul class="ann-list">
-            <li><strong>Left sidebar (220px)</strong> — persistent nav. Brand Green (#1F4D38) background — signals CM identity at a glance. Logo mark at 15% white opacity. Nav text at 65% white (inactive), full white with 18% overlay pill (active). No border — sidebar meets the content area clean.</li>
-            <li><strong>Top bar</strong> — screen title, global search field (220px), user avatar.</li>
-            <li><strong>Main content area</strong> — adapts to selected nav item. Dashboard / Cases / Reports / Settings.</li>
-            <li><strong>Window chrome</strong> — macOS-style titlebar with traffic light buttons.</li>
-          </ul>
-        </div>
-      </div>
-
-      <div>
-        <div class="ann-block">
-          <div class="ann-label">UX Decisions</div>
-          <ul class="ann-list">
-            <li>Sidebar navigation persists — the CM never loses their orientation regardless of which view is active.</li>
-            <li>Global search in the top bar — accessible from every screen without a dedicated search flow.</li>
-            <li>Desktop affords a data density mobile cannot — more cases, more columns, more information visible simultaneously without scrolling.</li>
-            <li>Dark green sidebar creates immediate role identity — a CM opening their desktop view sees their color immediately, not a neutral chrome. The mobile bottom nav uses the same Brand Green for active states, keeping the language consistent across platforms.</li>
-            <li>Nav badges (red dot with count) surface urgent items in the sidebar itself — CM sees urgency before clicking into a section.</li>
-          </ul>
-        </div>
-
-        <div class="ann-rule"></div>
-
-        <div class="ann-block">
-          <div class="ann-label">Sidebar Nav Sections</div>
-          <div class="tag-row">
-            <div class="tag">My Cases</div>
-            <div class="tag">Team</div>
-            <div class="tag">Resources</div>
-            <div class="tag">Reports</div>
-            <div class="tag gray">Settings</div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</div>
 
 
 <!-- ════════════════════════════════════════════════════════ -->
@@ -1558,7 +1513,77 @@ body {
     </div>
     <div style="display: flex; gap: 12px; flex-wrap: wrap;">
       <div style="font-size: 11px; font-weight: 600; letter-spacing: 0.1em; padding: 6px 16px; border: 1px solid #333; border-radius: 20px; color: #555; text-transform: uppercase;">Desktop First</div>
-      <div style="font-size: 11px; font-weight: 600; letter-spacing: 0.1em; padding: 6px 16px; border: 1px solid #333; border-radius: 20px; color: #555; text-transform: uppercase;">Screens 12 and 14</div>
+      <div style="font-size: 11px; font-weight: 600; letter-spacing: 0.1em; padding: 6px 16px; border: 1px solid #333; border-radius: 20px; color: #555; text-transform: uppercase;">Screens 11, 12 and 14</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- SCREEN 11 — CM BOARD (DESKTOP)                          -->
+<!-- ════════════════════════════════════════════════════════ -->
+<div class="screen-divider"></div>
+<div class="screen-section">
+  <div class="screen-header">
+    <div class="screen-num">Screen 11</div>
+    <div class="screen-name">CM Board</div>
+    <div class="screen-role">— Supervisor · Desktop only</div>
+  </div>
+  <div class="screen-body desktop-layout">
+    <div class="desktop-frame-wrap">
+      <div class="phone-label">Live Prototype</div>
+      <div class="desktop-container">
+        <iframe class="desktop-iframe" src="./embed-11-cmboard.html" title="CM Board Desktop"></iframe>
+      </div>
+    </div>
+    <div class="annotations" style="display:grid;grid-template-columns:1fr 1fr;gap:40px;">
+
+      <div>
+        <div class="ann-block">
+          <div class="ann-label">Role</div>
+          <div class="ann-body">
+            <p>Supervisor-only desktop command center. Gives supervisors a full-caseload overview of every CM in the org — client counts, triage distribution, escalation flags, and workload at a glance. Light green sidebar (#EAF3EF) distinguishes the supervisor role from the CM's dark green desktop at a glance.</p>
+          </div>
+        </div>
+
+        <div class="ann-rule"></div>
+
+        <div class="ann-block">
+          <div class="ann-label">Layout</div>
+          <ul class="ann-list">
+            <li><strong>Left sidebar (220px)</strong> — persistent nav. Green Light (#EAF3EF) background — signals supervisor identity at a glance. Contrasts with the CM's dark green sidebar so role is never ambiguous. Logo mark in full Brand Green. Nav text in Ink (#1C1A18).</li>
+            <li><strong>Top bar</strong> — screen title, global search field (220px), user avatar.</li>
+            <li><strong>Main content area</strong> — adapts to selected nav item. Dashboard / Cases / Reports / Settings.</li>
+            <li><strong>Window chrome</strong> — macOS-style titlebar with traffic light buttons.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div>
+        <div class="ann-block">
+          <div class="ann-label">UX Decisions</div>
+          <ul class="ann-list">
+            <li>Sidebar navigation persists — the CM never loses their orientation regardless of which view is active.</li>
+            <li>Global search in the top bar — accessible from every screen without a dedicated search flow.</li>
+            <li>Desktop affords a data density mobile cannot — more cases, more columns, more information visible simultaneously without scrolling.</li>
+            <li>Dark green sidebar creates immediate role identity — a CM opening their desktop view sees their color immediately, not a neutral chrome. The mobile bottom nav uses the same Brand Green for active states, keeping the language consistent across platforms.</li>
+            <li>Nav badges (red dot with count) surface urgent items in the sidebar itself — CM sees urgency before clicking into a section.</li>
+          </ul>
+        </div>
+
+        <div class="ann-rule"></div>
+
+        <div class="ann-block">
+          <div class="ann-label">Sidebar Nav Sections</div>
+          <div class="tag-row">
+            <div class="tag">Care Managers</div>
+            <div class="tag">All Clients</div>
+            <div class="tag">Metrics</div>
+            <div class="tag gray">Settings</div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
