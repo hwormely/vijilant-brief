@@ -638,11 +638,18 @@
           <td class="tie"><em>Service tracking and referral management. No auto-assignment capability.</em></td>
         </tr>
         <tr>
-          <td>FEMA / Aid Application Tracking<span class="sub">Wylie and federal aid status</span></td>
-          <td><span class="badge-win">Vijilant</span><br><small>Dedicated FEMA + Wylie application screen. Status tracking per client, per program.</small></td>
-          <td class="lose">No dedicated FEMA/aid application tracking module.</td>
-          <td class="lose">No dedicated FEMA or disaster aid application tracking module.</td>
-          <td class="lose">No dedicated FEMA or disaster aid tracking module.</td>
+          <td>Aid Application Builder + Auto-Fill<span class="sub">In-app form configuration, client auto-population, multi-mode submission</span></td>
+          <td><span class="badge-win">Vijilant</span><br><small>Supervisors configure AID org application templates inside Vijilant (field-by-field, mapped to client profile). ~88% of fields auto-populate (e.g., 15 of 17 Wylie Center fields). Auto-filled fields display with a green indicator; CM reviews and completes the remainder. Submission via email, direct API integration, or External Form mode (Jotform/Salesforce — URL pre-filled, CM marks submitted). New "Auto-Draft" status: system pre-populates the application the moment a match is identified — CM reviews rather than starts from scratch. Full audit trail: auto-draft created → CM reviewed → submitted → response logged.</small></td>
+          <td class="lose">No in-app application builder or template configurator. No client auto-population. No multi-mode submission.</td>
+          <td class="lose">No purpose-built aid application configurator. No auto-population from client profile into external forms. Manual tracking only.</td>
+          <td class="lose">No aid application builder or auto-fill system. Application tracking requires manual data entry. No submission integration.</td>
+        </tr>
+        <tr>
+          <td>Resource → Client Matching<span class="sub">See all eligible clients for a given resource — from the resource's perspective</span></td>
+          <td><span class="badge-win">Vijilant</span><br><small>From any Resource in the directory, CM or Supervisor sees every client in their caseload (or org-wide for Supervisor) who matches that resource — based on Area Needs tags, assessment domain scores, and Recovery Score band. Match reasons are tagged per client row. CM can initiate an auto-drafted application for any matching client directly from the resource view. "Already Applied" guard surfaces prior submission date — informational only, not a gate. Supervisor can filter to Score &lt; 500, select multiple clients, and launch batch auto-drafts in sequence.</small></td>
+          <td class="lose">No resource-to-client matching surface. Case workers manually identify which clients may qualify for a given resource.</td>
+          <td class="lose">No inverse resource-to-client matching. Referral management is client-first only — no resource-first discovery view.</td>
+          <td class="lose">No resource → client matching engine. Service tracking is client-initiated. No caseload-wide eligibility view per resource.</td>
         </tr>
         <tr>
           <td>Supervisor Dashboard<span class="sub">Admin visibility and team oversight</span></td>

@@ -1361,18 +1361,70 @@ body {
       <div class="ann-block">
         <div class="ann-label">Role</div>
         <div class="ann-body">
-          <p>Tracks every aid application filed on behalf of a client — FEMA, SBA, CalFresh, and others. Status and timeline for each application in one place, without requiring the CM to check external portals for each one.</p>
+          <p>Dual-purpose: <strong>application tracker</strong> and <strong>in-app application builder</strong>. A CM tracks every aid application filed for a client — and can complete and submit the application itself from within Vijilant, with client data pre-populated. Supervisors (ED, CM Lead, Resource Lead) configure the application templates. CMs fill and submit.</p>
         </div>
       </div>
 
       <div class="ann-rule"></div>
 
       <div class="ann-block">
-        <div class="ann-label">Layout</div>
+        <div class="ann-label">Two Access Paths</div>
+        <div class="nav-flow">
+          <div class="nav-step">Client Profile → Aid tab</div>
+          <div class="nav-arrow">→</div>
+          <div class="nav-step">Applications for this client</div>
+        </div>
+        <div class="nav-flow" style="margin-top:8px;">
+          <div class="nav-step">Resources → Select Resource</div>
+          <div class="nav-arrow">→</div>
+          <div class="nav-step">All matching clients + Apply</div>
+        </div>
+        <div class="ann-body" style="margin-top:12px;">
+          <p>Path 1 is client-first: CM is in a case file and needs to apply to a specific program. Path 2 is resource-first: a new funding stream opens and the CM (or Supervisor) wants to see every client who qualifies and batch-initiate applications — without visiting each profile one by one.</p>
+        </div>
+      </div>
+
+      <div class="ann-rule"></div>
+
+      <div class="ann-block">
+        <div class="ann-label">Auto-Fill System</div>
+        <div class="ann-body">
+          <p>When a CM opens an application form for a client, Vijilant pre-populates every field it can from the client's profile. For the Wylie Center Intake Form, <strong>15 of 17 fields auto-fill</strong> — name, DOB, contact, address, household size, marital status, language preference, employment status, insurance, damage type. The remaining 2 fields (specific documentation dates) require CM input.</p>
+        </div>
+        <div style="margin-top:12px; display:flex; flex-direction:column; gap:8px;">
+          <div style="display:flex; align-items:center; gap:10px; padding:8px 12px; background:#F0FAF5; border-left:2px solid #2D7A4F; border-radius:6px;">
+            <div style="width:8px;height:8px;border-radius:50%;background:#2D7A4F;flex-shrink:0;"></div>
+            <div style="font-size:12px;color:#1C1A18;"><strong>Auto-filled</strong> — green left border · "Auto-filled from profile" chip · background tint (#F0FAF5)</div>
+          </div>
+          <div style="display:flex; align-items:center; gap:10px; padding:8px 12px; background:#FAFAF8; border:1px solid #E0DDD8; border-radius:6px;">
+            <div style="width:8px;height:8px;border-radius:50%;background:#BBBAB7;flex-shrink:0;"></div>
+            <div style="font-size:12px;color:#1C1A18;"><strong>Requires input</strong> — standard field, no fill indicator</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ann-rule"></div>
+
+      <div class="ann-block">
+        <div class="ann-label">Template Configurator</div>
+        <div class="ann-body">
+          <p><strong>Supervisor-only.</strong> Accessible via Resource Detail → "Edit Application Template" or Settings → Aid Templates. Field builder mirrors the Assessment configurator: drag to reorder, add/remove fields, set field type (text, date, select, multi-select, file upload), and map each field to a <code>profile_field_mapping</code> key so Vijilant knows what client data to pull. Saves to <code>aid_templates</code> + <code>aid_template_fields</code>.</p>
+        </div>
+        <div class="tag-row" style="margin-top:10px;">
+          <div class="tag gray">ED</div>
+          <div class="tag gray">CM Lead</div>
+          <div class="tag gray">Resource Lead</div>
+        </div>
+      </div>
+
+      <div class="ann-rule"></div>
+
+      <div class="ann-block">
+        <div class="ann-label">Submission Modes</div>
         <ul class="ann-list">
-          <li><strong>Application cards</strong> — one per application type. Icon, program name, current status badge, last updated.</li>
-          <li><strong>Timeline per application</strong> — event log below the card showing what happened and when (submitted, under review, approved, etc.).</li>
-          <li><strong>Status badge</strong> — most prominent element on each card. Color-coded and immediately readable.</li>
+          <li><strong>Email submission</strong> — always available. Vijilant compiles the completed form + attachments and sends to the configured recipient address on the template. CM receives a sent confirmation; submission logged to audit trail.</li>
+          <li><strong>API submission</strong> — available when the AID org provides an endpoint. Configured on the template by a Supervisor. Vijilant POSTs the answers directly; response status reflected on the application card.</li>
+          <li><strong>External Form</strong> — for Jotform / Salesforce orgs (Salvation Army, Habitat LA). Vijilant opens the form URL in a browser sheet, pre-fills available URL params, and the CM completes the final submission in the external form. Vijilant records the attempt and lets the CM mark it submitted.</li>
         </ul>
       </div>
 
@@ -1386,6 +1438,10 @@ body {
           <div class="tag gray">Submitted</div>
           <div class="tag red">Denied</div>
           <div class="tag gray">In Progress</div>
+          <div class="tag" style="background:#E8F4FF;color:#1A5FA8;">Auto-Draft</div>
+        </div>
+        <div class="ann-body" style="margin-top:10px;">
+          <p><strong>Auto-Draft</strong> — new status. Appears when Vijilant has pre-populated an application from the client profile but the CM has not yet reviewed or submitted. Blue distinguishes it from a CM-initiated draft — the system started it, the CM finishes it.</p>
         </div>
       </div>
 
@@ -1394,10 +1450,11 @@ body {
       <div class="ann-block">
         <div class="ann-label">UX Decisions</div>
         <ul class="ann-list">
-          <li>Status is the first visual element per card — the CM does not need to read the full card to know where an application stands.</li>
-          <li>Timeline dots show what happened without requiring a prose narrative — the CM can scan an entire application history in seconds.</li>
-          <li>Appeal status uses amber (not red) — a pending appeal is active work, not a terminal state. The distinction matters for prioritization.</li>
-          <li>Application icons create visual separation between programs — useful when multiple FEMA/SBA/CalFresh applications exist simultaneously.</li>
+          <li>Auto-filled fields use a green left border (2px, Brand Green) — the CM immediately sees what the system populated vs. what needs their input. No color-only signal: the "Auto-filled" chip is always present for screen reader access.</li>
+          <li>Submission mode selector appears at the bottom of the application form — CM chooses Email, API, or External Form before hitting Submit. Default is the mode configured on the template by the Supervisor.</li>
+          <li>Timeline dots log every action: auto-draft created, CM reviewed, submitted, response received. Full audit trail without CM writing a note.</li>
+          <li>Applications from both access paths (Client Profile and Resource Detail) land in the same <code>aid_applications</code> table and appear on the client's Aid tab — no duplication, single source of truth.</li>
+          <li>Appeal status uses amber (not red) — a pending appeal is active work, not a terminal state.</li>
         </ul>
       </div>
 
@@ -1472,6 +1529,257 @@ body {
 </div>
 
 
+
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- SCREEN 10 — RESOURCE DETAIL + CLIENT MATCHING            -->
+<!-- ════════════════════════════════════════════════════════ -->
+<div class="screen-divider"></div>
+<div class="screen-section">
+  <div class="screen-header">
+    <div class="screen-num">Screen 10</div>
+    <div class="screen-name">Resource Detail</div>
+    <div class="screen-role">— Resource → Client matching · CM + Supervisor</div>
+  </div>
+  <div class="screen-body desktop-layout">
+    <div class="desktop-frame-wrap">
+      <div class="phone-label">Feature Spec — Desktop + Mobile</div>
+      <div class="desktop-container" style="background:#F8F6F2; overflow:hidden; display:flex; flex-direction:column;">
+
+        <!-- Top Bar mockup -->
+        <div style="height:52px; background:#FFFFFF; border-bottom:1px solid #E8E5E0; display:flex; align-items:center; padding:0 20px; gap:16px; flex-shrink:0;">
+          <div style="width:26px;height:26px;border-radius:6px;background:#1F4D38;"></div>
+          <div style="width:1px;height:24px;background:#E8E5E0;"></div>
+          <div style="font-size:13px;font-weight:600;color:#1C1A18;">Resources</div>
+          <div style="font-size:13px;color:#BBBAB7;">›</div>
+          <div style="font-size:13px;font-weight:600;color:#2D7A4F;">Wylie Center — Intake</div>
+          <div style="flex:1;"></div>
+          <div style="font-size:11px;font-weight:600;color:#FFFFFF;background:#2D7A4F;padding:5px 14px;border-radius:20px;">Edit Template</div>
+        </div>
+
+        <!-- Dual-pane body -->
+        <div style="display:flex;flex:1;overflow:hidden;">
+
+          <!-- LEFT PANE — Resource detail + application form -->
+          <div style="width:58%;border-right:1px solid #E8E5E0;background:#FFFFFF;overflow-y:auto;padding:24px 24px 32px;">
+
+            <!-- Resource header -->
+            <div style="display:flex;align-items:flex-start;gap:16px;margin-bottom:20px;">
+              <div style="width:44px;height:44px;border-radius:10px;background:#E8F4FF;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <div style="width:20px;height:20px;border-radius:4px;background:#1A5FA8;"></div>
+              </div>
+              <div>
+                <div style="font-size:16px;font-weight:700;color:#1C1A18;letter-spacing:-0.3px;">Wylie Center — Client Intake</div>
+                <div style="font-size:12px;color:#888;margin-top:3px;">Housing Assistance · Pasadena, CA</div>
+                <div style="display:flex;gap:6px;margin-top:8px;">
+                  <div style="font-size:10px;font-weight:600;background:#E8F4FF;color:#1A5FA8;padding:3px 8px;border-radius:10px;">Housing</div>
+                  <div style="font-size:10px;font-weight:600;background:#F0FAF5;color:#2D7A4F;padding:3px 8px;border-radius:10px;">Financial</div>
+                  <div style="font-size:10px;font-weight:600;background:#FFF7E6;color:#B8760A;padding:3px 8px;border-radius:10px;">Case Mgmt</div>
+                </div>
+              </div>
+              <div style="flex:1;"></div>
+              <div style="font-size:11px;color:#2D7A4F;font-weight:600;display:flex;align-items:center;gap:4px;">
+                <div style="width:6px;height:6px;border-radius:50%;background:#2D7A4F;"></div>
+                Accepting Referrals
+              </div>
+            </div>
+
+            <!-- Auto-fill banner -->
+            <div style="background:#F0FAF5;border:1px solid #C8E0D5;border-radius:10px;padding:12px 16px;margin-bottom:18px;display:flex;align-items:center;gap:10px;">
+              <div style="width:20px;height:20px;border-radius:50%;background:#2D7A4F;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <div style="width:8px;height:5px;border-left:2px solid #FFF;border-bottom:2px solid #FFF;transform:rotate(-45deg);margin-top:-2px;"></div>
+              </div>
+              <div>
+                <div style="font-size:12px;font-weight:700;color:#1F4D38;">15 of 17 fields auto-filled from client profile</div>
+                <div style="font-size:11px;color:#4A7A62;margin-top:1px;">Select a client on the right to populate the form. 2 fields require CM input.</div>
+              </div>
+            </div>
+
+            <!-- Form fields preview -->
+            <div style="display:flex;flex-direction:column;gap:10px;">
+              <!-- Auto-filled field -->
+              <div style="border:1px solid #C8E0D5;border-left:2px solid #2D7A4F;border-radius:8px;padding:10px 12px;background:#F8FDF9;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+                  <div style="font-size:10px;font-weight:700;color:#2D7A4F;text-transform:uppercase;letter-spacing:0.08em;">Full Legal Name</div>
+                  <div style="font-size:9px;font-weight:600;background:#2D7A4F;color:#FFF;padding:2px 7px;border-radius:8px;">Auto-filled</div>
+                </div>
+                <div style="font-size:12px;color:#1C1A18;font-weight:500;">Grace Iverson</div>
+              </div>
+              <!-- Auto-filled field -->
+              <div style="border:1px solid #C8E0D5;border-left:2px solid #2D7A4F;border-radius:8px;padding:10px 12px;background:#F8FDF9;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+                  <div style="font-size:10px;font-weight:700;color:#2D7A4F;text-transform:uppercase;letter-spacing:0.08em;">Affected Property Address</div>
+                  <div style="font-size:9px;font-weight:600;background:#2D7A4F;color:#FFF;padding:2px 7px;border-radius:8px;">Auto-filled</div>
+                </div>
+                <div style="font-size:12px;color:#1C1A18;font-weight:500;">1847 Holliston Ave, Pasadena, CA 91104</div>
+              </div>
+              <!-- Requires input -->
+              <div style="border:1px solid #E8E5E0;border-radius:8px;padding:10px 12px;background:#FFFFFF;">
+                <div style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px;">Date of Loss Event</div>
+                <div style="font-size:12px;color:#BBBAB7;">Enter date…</div>
+              </div>
+            </div>
+
+            <!-- Submit bar -->
+            <div style="margin-top:20px;padding-top:16px;border-top:1px solid #E8E5E0;display:flex;align-items:center;gap:10px;">
+              <div style="font-size:11px;color:#888;">Submit via:</div>
+              <div style="font-size:11px;font-weight:600;color:#1C1A18;background:#EAF3EF;border:1px solid #C8E0D5;padding:4px 12px;border-radius:8px;">Email</div>
+              <div style="font-size:11px;font-weight:500;color:#888;padding:4px 12px;border:1px solid #E8E5E0;border-radius:8px;">External Form</div>
+              <div style="flex:1;"></div>
+              <div style="font-size:12px;font-weight:700;color:#FFFFFF;background:#2D7A4F;padding:8px 20px;border-radius:8px;">Submit Application</div>
+            </div>
+
+          </div>
+
+          <!-- RIGHT PANE — Matching clients -->
+          <div style="flex:1;overflow-y:auto;padding:20px 20px 32px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+              <div style="font-size:13px;font-weight:700;color:#1C1A18;">Matching Clients <span style="font-weight:400;color:#888;">14</span></div>
+              <div style="font-size:10px;color:#888;">Score ≤ 499 · Needs: Housing</div>
+            </div>
+            <!-- Filter pills -->
+            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;">
+              <div style="font-size:10px;font-weight:600;background:#E8F4FF;color:#1A5FA8;padding:3px 10px;border-radius:10px;">Score &lt; 500</div>
+              <div style="font-size:10px;font-weight:600;background:#FFF0F0;color:#C0392B;padding:3px 10px;border-radius:10px;">Housing: None–Disrupted</div>
+              <div style="font-size:10px;font-weight:600;background:#F5F5F5;color:#666;padding:3px 10px;border-radius:10px;">+ Add Filter</div>
+            </div>
+
+            <!-- Client rows -->
+            <div style="display:flex;flex-direction:column;gap:8px;">
+
+              <!-- Client row 1 — selected -->
+              <div style="background:#F0FAF5;border:1.5px solid #2D7A4F;border-radius:10px;padding:10px 12px;cursor:pointer;">
+                <div style="display:flex;align-items:center;gap:10px;">
+                  <div style="width:32px;height:32px;border-radius:50%;background:#2D7A4F;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#FFF;flex-shrink:0;">GI</div>
+                  <div style="flex:1;">
+                    <div style="font-size:12px;font-weight:700;color:#1C1A18;">Grace Iverson</div>
+                    <div style="display:flex;gap:5px;margin-top:4px;flex-wrap:wrap;">
+                      <div style="font-size:9px;background:#FFF0F0;color:#C0392B;padding:2px 7px;border-radius:8px;font-weight:600;">Housing: None</div>
+                      <div style="font-size:9px;background:#FFF7E6;color:#B8760A;padding:2px 7px;border-radius:8px;font-weight:600;">Score: 241</div>
+                    </div>
+                  </div>
+                  <div style="font-size:10px;font-weight:700;color:#FFFFFF;background:#2D7A4F;padding:4px 10px;border-radius:8px;flex-shrink:0;">Filling Form</div>
+                </div>
+              </div>
+
+              <!-- Client row 2 -->
+              <div style="background:#FFFFFF;border:1px solid #E8E5E0;border-radius:10px;padding:10px 12px;cursor:pointer;">
+                <div style="display:flex;align-items:center;gap:10px;">
+                  <div style="width:32px;height:32px;border-radius:50%;background:#E8E5E0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#888;flex-shrink:0;">MR</div>
+                  <div style="flex:1;">
+                    <div style="font-size:12px;font-weight:700;color:#1C1A18;">Maria Ramirez</div>
+                    <div style="display:flex;gap:5px;margin-top:4px;flex-wrap:wrap;">
+                      <div style="font-size:9px;background:#FFF0F0;color:#C0392B;padding:2px 7px;border-radius:8px;font-weight:600;">Housing: Disrupted</div>
+                      <div style="font-size:9px;background:#FFF7E6;color:#B8760A;padding:2px 7px;border-radius:8px;font-weight:600;">Score: 318</div>
+                    </div>
+                  </div>
+                  <div style="font-size:10px;font-weight:600;color:#2D7A4F;border:1px solid #C8E0D5;padding:4px 10px;border-radius:8px;flex-shrink:0;">Start Application</div>
+                </div>
+              </div>
+
+              <!-- Client row 3 -->
+              <div style="background:#FFFFFF;border:1px solid #E8E5E0;border-radius:10px;padding:10px 12px;cursor:pointer;">
+                <div style="display:flex;align-items:center;gap:10px;">
+                  <div style="width:32px;height:32px;border-radius:50%;background:#E8E5E0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#888;flex-shrink:0;">DL</div>
+                  <div style="flex:1;">
+                    <div style="font-size:12px;font-weight:700;color:#1C1A18;">Derek Liu</div>
+                    <div style="display:flex;gap:5px;margin-top:4px;flex-wrap:wrap;">
+                      <div style="font-size:9px;background:#FFF0F0;color:#C0392B;padding:2px 7px;border-radius:8px;font-weight:600;">Housing: None</div>
+                      <div style="font-size:9px;background:#FFF7E6;color:#B8760A;padding:2px 7px;border-radius:8px;font-weight:600;">Score: 195</div>
+                      <div style="font-size:9px;background:#F5F5F5;color:#888;padding:2px 7px;border-radius:8px;font-weight:600;">Applied 2026-04-12</div>
+                    </div>
+                  </div>
+                  <div style="font-size:10px;font-weight:500;color:#888;padding:4px 10px;flex-shrink:0;">Already Applied</div>
+                </div>
+              </div>
+
+              <!-- Client row 4 -->
+              <div style="background:#FFFFFF;border:1px solid #E8E5E0;border-radius:10px;padding:10px 12px;cursor:pointer;">
+                <div style="display:flex;align-items:center;gap:10px;">
+                  <div style="width:32px;height:32px;border-radius:50%;background:#E8E5E0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#888;flex-shrink:0;">TA</div>
+                  <div style="flex:1;">
+                    <div style="font-size:12px;font-weight:700;color:#1C1A18;">Tanya Adams</div>
+                    <div style="display:flex;gap:5px;margin-top:4px;flex-wrap:wrap;">
+                      <div style="font-size:9px;background:#FFF0F0;color:#C0392B;padding:2px 7px;border-radius:8px;font-weight:600;">Housing: Disrupted</div>
+                      <div style="font-size:9px;background:#FFF7E6;color:#B8760A;padding:2px 7px;border-radius:8px;font-weight:600;">Score: 402</div>
+                    </div>
+                  </div>
+                  <div style="font-size:10px;font-weight:600;color:#2D7A4F;border:1px solid #C8E0D5;padding:4px 10px;border-radius:8px;flex-shrink:0;">Start Application</div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="annotations" style="display:grid;grid-template-columns:1fr 1fr;gap:40px;">
+
+      <div>
+        <div class="ann-block">
+          <div class="ann-label">Role</div>
+          <div class="ann-body">
+            <p>Resource-first workflow. When a CM or Supervisor drills into a Resource card from the directory, they see the full resource detail <em>and</em> every client in their caseload who matches that resource — with matching reasons surfaced inline. Starting an application for any client is one tap: the form pre-populates automatically.</p>
+          </div>
+        </div>
+
+        <div class="ann-rule"></div>
+
+        <div class="ann-block">
+          <div class="ann-label">Dual-Pane Layout</div>
+          <ul class="ann-list">
+            <li><strong>Left pane (58%)</strong> — resource header (name, category tags, availability status), auto-fill banner (% pre-populated), application form fields. Green left border + "Auto-filled" chip on every pre-populated field.</li>
+            <li><strong>Right pane (42%)</strong> — "Matching Clients" list. Filter pills at top (Score threshold, Assessment domain, Needs tags). Each row: client avatar, name, match reason tags, recovery score. "Start Application" or "Already Applied" CTA per row.</li>
+            <li><strong>Selection model</strong> — clicking a client in the right pane populates the left pane form with that client's data. Highlighted row in green confirms selection.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div>
+        <div class="ann-block">
+          <div class="ann-label">Matching Logic</div>
+          <ul class="ann-list">
+            <li><strong>Area Needs tags</strong> — client's recorded needs (from intake or assessment) intersect with resource's service tags (Housing, Financial, Food, etc.).</li>
+            <li><strong>Assessment domain scores</strong> — clients with domain scores below "Stable" (i.e., None or Disrupted) in the resource's relevant domain are surfaced first.</li>
+            <li><strong>Recovery Score band</strong> — resource eligibility thresholds (e.g., Score ≤ 499) filter automatically. Supervisor can adjust the filter pill at the top of the pane.</li>
+            <li><strong>"Already Applied" guard</strong> — Vijilant checks <code>aid_applications</code> and shows prior submission date on the row. Prevents duplicate applications without blocking the CM from seeing the full list.</li>
+          </ul>
+        </div>
+
+        <div class="ann-rule"></div>
+
+        <div class="ann-block">
+          <div class="ann-label">UX Decisions</div>
+          <ul class="ann-list">
+            <li>Dual-pane is desktop-primary. On mobile, the resource detail and client list are separate tabs within the resource drawer — same data, stacked rather than side-by-side.</li>
+            <li>"Already Applied" status is informational, not a gate — the CM can still start a new application if needed (e.g., re-application after denial). The guard is a prompt, not a lock.</li>
+            <li>Supervisor scope: sees all clients in the org database. CM scope: sees own assigned caseload only. The matching query respects RLS automatically.</li>
+            <li>Supervisor can use this view to orchestrate a batch application campaign — filter to Score &lt; 500, select all eligible clients, initiate auto-draft applications in sequence without opening each profile individually.</li>
+          </ul>
+        </div>
+
+        <div class="ann-rule"></div>
+
+        <div class="ann-block">
+          <div class="ann-label">Entry Points</div>
+          <div class="nav-flow">
+            <div class="nav-step">Resources → tap Resource card</div>
+            <div class="nav-arrow">→</div>
+            <div class="nav-step">Screen 10</div>
+          </div>
+          <div class="nav-flow" style="margin-top:8px;">
+            <div class="nav-step">Client Aid tab → "Browse Resources"</div>
+            <div class="nav-arrow">→</div>
+            <div class="nav-step">Screen 10 (client pre-selected)</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
 
 
 <!-- ════════════════════════════════════════════════════════ -->
