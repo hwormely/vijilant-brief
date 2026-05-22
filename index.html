@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vigilant — Care Manager UI/UX Brief</title>
+<title>Vijilant — Care Manager UI/UX Brief</title>
 <style>
 
 /* ─── Tokens ──────────────────────────────────────────────── */
@@ -487,7 +487,7 @@ body {
 <!-- ════════════════════════════════════════════════════════ -->
 <div class="cover">
   <div class="cover-top">
-    <div class="cover-wordmark">V I G I L A N T</div>
+    <div class="cover-wordmark">V I J I L A N T</div>
     <div class="cover-type">UI / UX Brief · Care Manager + Supervisor</div>
   </div>
   <div class="cover-main">
@@ -1448,125 +1448,6 @@ body {
   </div>
 </div>
 
-
-<!-- ════════════════════════════════════════════════════════ -->
-<!-- SCREEN 10 — INTAKE WORKFLOW                              -->
-<!-- ════════════════════════════════════════════════════════ -->
-<div class="screen-divider"></div>
-<div class="screen-section">
-  <div class="screen-header">
-    <div class="screen-num">Screen 10</div>
-    <div class="screen-name">Intake Workflow</div>
-    <div class="screen-role">— HOLD Dena intake pipeline · Public form + Supervisor triage queue · Mobile + Web</div>
-  </div>
-  <div class="screen-body">
-    <div class="phone-wrap">
-      <div class="phone-label">Live Prototype</div>
-      <div class="phone-container">
-        <iframe class="phone-iframe" src="./embed-10-intake.html" title="Intake Workflow"></iframe>
-      </div>
-    </div>
-    <div class="annotations">
-
-      <div class="ann-block">
-        <div class="ann-label">Role</div>
-        <div class="ann-body">
-          <p>The complete survivor intake pipeline — from the public-facing QR form a survivor fills out on their phone, through a four-tab internal triage queue where supervisors verify, assign, and convert candidates into full clients. Built to the HOLD Dena workflow spec (v3), approved by LLP CM Leads Sara Potter and Marisol Espino for the Quality Works partnership team.</p>
-          <p style="margin-top:12px;"><strong>Key distinction:</strong> candidates are not clients until Quick Entry. The intake pipeline is a pre-client staging area, not a simplified client form.</p>
-        </div>
-      </div>
-
-      <div class="ann-rule"></div>
-
-      <div class="ann-block">
-        <div class="ann-label">The Nine-Step Workflow</div>
-        <ul class="ann-list">
-          <li><strong>1 · Discover</strong> — Survivor encounters an LLP flyer, social post, or partner referral with a QR code or short link.</li>
-          <li><strong>2 · Fill</strong> — Opens the public Vigilant intake form (17 questions, mobile-first, auto-save).</li>
-          <li><strong>3 · Submit</strong> — Record lands in <code>intake_submissions</code> as a <code>pending</code> candidate, timestamped and marketing-source-tagged.</li>
-          <li><strong>4 · Triage queue</strong> — Surfaces in the supervisor's Intake Queue with date, source badge, household size, primary language, and Area Needs at a glance.</li>
-          <li><strong>5 · Verify (Stephanie Alex)</strong> — Reviews ID + Eaton Fire eligibility. Marks <code>verified</code> or flags <code>needs_followup</code> with a flag reason.</li>
-          <li><strong>6 · Assign (CM Lead — Marisol or Sara)</strong> — Routes the verified candidate to a Care Manager by caseload, language, geo, and specialty. Uses the Assign modal (sorted least-loaded first, ⚠ over-capacity at ≥35 active clients).</li>
-          <li><strong>7 · Receive assignment</strong> — Assigned CM gets an in-platform notification and sees the candidate in their Assigned tab.</li>
-          <li><strong>8 · Quick Entry</strong> — CM creates the full <code>clients</code> row from candidate data. This is the moment a candidate becomes a client.</li>
-          <li><strong>9 · Full Assessment</strong> — Standard CM workflow takes over: recovery planning, goals, aid applications, follow-ups, score events.</li>
-        </ul>
-      </div>
-
-      <div class="ann-rule"></div>
-
-      <div class="ann-block">
-        <div class="ann-label">The 17-Field Public Questionnaire</div>
-        <div class="ann-body">
-          <p>All fields required unless noted. Photo ID is optional — <strong>never a hard block</strong>. Many survivors lost their IDs in the fire.</p>
-        </div>
-        <ul class="ann-list" style="margin-top:12px;">
-          <li><strong>1 · Name</strong> — free text, required</li>
-          <li><strong>2 · Date of Birth</strong> — date picker, required; flags elderly / minors in household</li>
-          <li><strong>3 · Photo ID Upload</strong> — file upload, <em>optional, strongly encouraged</em></li>
-          <li><strong>4 · Phone Number</strong> — required for CM outreach</li>
-          <li><strong>5 · Email Address</strong> — optional</li>
-          <li><strong>6 · Affected Address (City + ZIP)</strong> — required; drives geo routing + Eaton Fire eligibility</li>
-          <li><strong>7 · Living Situation</strong> — select one + Other-text: own / rent / other</li>
-          <li><strong>8 · Type of Damage</strong> — select one: lost home / badly damaged / minor / contaminated</li>
-          <li><strong>9 · Household Size</strong> — number, required</li>
-          <li><strong>10 · Marital Status</strong> — optional</li>
-          <li><strong>11 · Primary Language</strong> — select + Other-text; drives CM language-routing</li>
-          <li><strong>12 · Phone Carrier</strong> — optional; reserved for future SMS routing</li>
-          <li><strong>13 · Preferred Contact Method</strong> — multi-select: phone / text / email / no preference</li>
-          <li><strong>14 · How did you hear about us?</strong> — required; Pasadena Church surfaces a campus follow-up field</li>
-          <li><strong>15 · Area Needs</strong> — multi-select, mirrors resource directory tags 1:1: housing · financial · food_water · clothing · household_items · mental_health · medical · legal · rebuild · transportation · other</li>
-          <li><strong>16 · Home Insurance Status</strong> — select one, required</li>
-          <li><strong>17 · Employment Status</strong> — select one, required</li>
-        </ul>
-        <p style="margin-top:12px;color:var(--muted);font-size:13px;">Two hidden attribution fields: <code>marketing_source</code> (qr / link) and <code>marketing_campaign</code> (flyer / campaign ID).</p>
-      </div>
-
-      <div class="ann-rule"></div>
-
-      <div class="ann-block">
-        <div class="ann-label">Four-Tab Triage Queue</div>
-        <div class="ann-body"><p>Live count badges on each tab. Role-gated actions per tab.</p></div>
-        <ul class="ann-list" style="margin-top:12px;">
-          <li><strong>Pending</strong> — Stephanie (verify): actions: Verify ✓ · Flag · Reject</li>
-          <li><strong>Verified</strong> — CM Lead (assign): actions: Assign to CM → · Flag · Reject</li>
-          <li><strong>Assigned</strong> — Assigned CM or supervisor: action: Quick Entry → Create Client</li>
-          <li><strong>Follow-up</strong> — Stephanie (resolve): actions: Resolve & Verify ✓ · Reject</li>
-        </ul>
-        <p style="margin-top:12px;">Verification flag values: <code>no_id</code> (survivor lost ID in fire) · <code>ambiguous_match</code> (possible duplicate of existing client) · <code>out_of_zone</code> (address falls outside Eaton Fire impact zone)</p>
-        <p style="margin-top:8px;">Each candidate card shows: submission date · marketing source badge (e.g. <em>QR · altadena-flyer-v1</em>) · household size · primary language · damage type · Area Needs chips · contact lines · referral source · ⚠ "No photo ID uploaded" warning when applicable.</p>
-      </div>
-
-      <div class="ann-rule"></div>
-
-      <div class="ann-block">
-        <div class="ann-label">Demo State</div>
-        <div class="ann-body"><p>28 HOLD Dena candidates seeded for investor walkthroughs: 12 pending · 6 verified · 8 assigned · 2 needs-followup. Includes survivors speaking Spanish, Vietnamese, Korean, Arabic, Mandarin, and Urdu to demonstrate language-routing in the Assign modal.</p></div>
-      </div>
-
-      <div class="ann-rule"></div>
-
-      <div class="ann-block">
-        <div class="ann-label">Exits To</div>
-        <div class="nav-flow">
-          <div class="nav-step">Client Profile (04)</div>
-          <div class="nav-arrow">→ Quick Entry creates the client</div>
-        </div>
-        <div class="nav-flow" style="margin-top:8px;">
-          <div class="nav-step">Intake Queue (same screen)</div>
-          <div class="nav-arrow">→ After any verify / assign / flag action</div>
-        </div>
-        <div class="nav-flow" style="margin-top:8px;">
-          <div class="nav-step">Supervisor Dashboard (12)</div>
-          <div class="nav-arrow">→ Back nav or sidebar</div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</div>
-
-
 <!-- ════════════════════════════════════════════════════════ -->
 <!-- SCREEN 11 — CM BOARD (DESKTOP)                          -->
 <!-- ════════════════════════════════════════════════════════ -->
@@ -1677,7 +1558,7 @@ body {
     </div>
     <div style="display: flex; gap: 12px; flex-wrap: wrap;">
       <div style="font-size: 11px; font-weight: 600; letter-spacing: 0.1em; padding: 6px 16px; border: 1px solid #333; border-radius: 20px; color: #555; text-transform: uppercase;">Desktop First</div>
-      <div style="font-size: 11px; font-weight: 600; letter-spacing: 0.1em; padding: 6px 16px; border: 1px solid #333; border-radius: 20px; color: #555; text-transform: uppercase;">Screens 12–14</div>
+      <div style="font-size: 11px; font-weight: 600; letter-spacing: 0.1em; padding: 6px 16px; border: 1px solid #333; border-radius: 20px; color: #555; text-transform: uppercase;">Screens 12 and 14</div>
     </div>
   </div>
 </div>
@@ -1740,124 +1621,24 @@ body {
         <div class="ann-block">
           <div class="ann-label">Exits To</div>
           <div class="nav-flow">
-            <div class="nav-step">Metrics (13)</div>
+            <div class="nav-step">Metrics</div>
             <div class="nav-arrow">→ "Full metrics →" on a CM row</div>
           </div>
           <div class="nav-flow" style="margin-top:8px;">
-            <div class="nav-step">CM Detail (15)</div>
+            <div class="nav-step">CM Detail</div>
             <div class="nav-arrow">→ CM name in workload table</div>
           </div>
           <div class="nav-flow" style="margin-top:8px;">
             <div class="nav-step">Case File (04)</div>
             <div class="nav-arrow">→ Flagged case in queue</div>
           </div>
-          <div class="nav-flow" style="margin-top:8px;">
-            <div class="nav-step">Intake Queue (10)</div>
-            <div class="nav-arrow">→ Intake tab / sidebar link — 28 HOLD Dena candidates</div>
-          </div>
+
         </div>
       </div>
 
     </div>
   </div>
 </div>
-
-
-<!-- ════════════════════════════════════════════════════════ -->
-<!-- SCREEN 13 — METRICS                                     -->
-<!-- ════════════════════════════════════════════════════════ -->
-<div class="screen-divider"></div>
-<div class="screen-section">
-  <div class="screen-header">
-    <div class="screen-num">Screen 13</div>
-    <div class="screen-name">Metrics</div>
-    <div class="screen-role">— Three-scope activity view · Route: /reports · Mobile + Web</div>
-  </div>
-  <div class="screen-body desktop-layout">
-    <div class="desktop-frame-wrap">
-      <div class="phone-label">Live Prototype</div>
-      <div class="desktop-container">
-        <iframe class="desktop-iframe" src="./embed-13-metrics.html" title="Metrics"></iframe>
-      </div>
-    </div>
-    <div class="annotations" style="display:grid;grid-template-columns:1fr 1fr;gap:40px;">
-
-      <div>
-        <div class="ann-block">
-          <div class="ann-label">Role</div>
-          <div class="ann-body">
-            <p>A single Metrics screen that scopes its data based on the URL params used to reach it. The same screen serves three distinct views — org-wide (supervisor), per-CM (drill-down), and per-client (from RecoveryScoreRing tap). The scope is always visible in the screen subtitle and in the back button.</p>
-          </div>
-        </div>
-
-        <div class="ann-rule"></div>
-
-        <div class="ann-block">
-          <div class="ann-label">Three Scopes</div>
-          <ul class="ann-list">
-            <li><strong>/reports</strong> — Org-wide activity (supervisor) or own activity (CM). Reached from tab bar or sidebar.</li>
-            <li><strong>/reports?cmId=&lt;id&gt;</strong> — One CM's caseload metrics. Triggered by "Full metrics →" on the CM detail screen (15). Supervisor-only access.</li>
-            <li><strong>/reports?clientId=&lt;id&gt;</strong> — One client's metrics + score trend. Triggered by tapping the RecoveryScoreRing on a client profile. Available to all roles.</li>
-          </ul>
-          <p style="margin-top:12px;color:var(--muted);font-size:13px;">Priority: <code>clientId &gt; cmId &gt; org-wide</code>. If both params are present, the client-scoped view wins.</p>
-        </div>
-
-        <div class="ann-rule"></div>
-
-        <div class="ann-block">
-          <div class="ann-label">Layout</div>
-          <ul class="ann-list">
-            <li><strong>Period filter</strong> — Today · This Week · This Month · Quarter. Applies to all KPIs and charts on the screen.</li>
-            <li><strong>KPI cards</strong> — Notes logged · Follow-ups completed · New assessments · Aid applications submitted · Resources approved · Funding approved.</li>
-            <li><strong>Score trend</strong> — stock-chart style aggregate avg per period (per-client: individual trend line). NOT a per-client breakdown when in org or CM scope.</li>
-            <li><strong>Top Movers</strong> — improving + declining clients. Optional; hidden when 0.</li>
-            <li><strong>Badges acquired</strong> — optional; hidden when 0.</li>
-          </ul>
-        </div>
-      </div>
-
-      <div>
-        <div class="ann-block">
-          <div class="ann-label">UX Decisions</div>
-          <ul class="ann-list">
-            <li>Subtitle reflects scope — "Client activity · this week" / "Care Manager's activity · this week" / "Org-wide activity · this week" / "My activity · this week". Supervisor always knows what context they're reading.</li>
-            <li>← Back button surfaces above the title when any scope param is present. Returns to the surface that triggered the drill-in — CM detail, client profile, or previous screen.</li>
-            <li>CMs see this screen scoped to their own activity from the tab bar. Supervisors see org-wide by default. Same component, different scope — no duplicate screen to maintain.</li>
-            <li>Bottom padding: 140px on mobile (clears tab bar), 96px on web (clears sticky footer). Confirmed — last card was previously cut off on both surfaces.</li>
-            <li><strong>Regression rule:</strong> the "Full metrics →" on CM detail must stay scoped to that CM. Earlier builds bounced supervisors to the org-wide view, breaking the mental model. This was demoed to investors — do not regress.</li>
-          </ul>
-        </div>
-
-        <div class="ann-rule"></div>
-
-        <div class="ann-block">
-          <div class="ann-label">Hook</div>
-          <div class="ann-body"><p><code>useMetrics(period, cmId?, clientId?)</code> — three-arg form. Priority: clientId &gt; cmId &gt; org-wide. Single hook backs both mobile and web implementations.</p></div>
-        </div>
-
-        <div class="ann-rule"></div>
-
-        <div class="ann-block">
-          <div class="ann-label">Exits To</div>
-          <div class="nav-flow">
-            <div class="nav-step">CM Detail (15)</div>
-            <div class="nav-arrow">→ ← Back (when cmId param is set)</div>
-          </div>
-          <div class="nav-flow" style="margin-top:8px;">
-            <div class="nav-step">Client Profile (04)</div>
-            <div class="nav-arrow">→ ← Back (when clientId param is set)</div>
-          </div>
-          <div class="nav-flow" style="margin-top:8px;">
-            <div class="nav-step">Case File (04)</div>
-            <div class="nav-arrow">→ Client in Top Movers list</div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</div>
-
 
 <!-- ════════════════════════════════════════════════════════ -->
 <!-- SCREEN 14 — SETTINGS                                    -->
@@ -1930,215 +1711,11 @@ body {
   </div>
 </div>
 
-
-<!-- ════════════════════════════════════════════════════════ -->
-<!-- SCREEN 15 — CM DETAIL                                   -->
-<!-- ════════════════════════════════════════════════════════ -->
-<div class="screen-divider"></div>
-<div class="screen-section">
-  <div class="screen-header">
-    <div class="screen-num">Screen 15</div>
-    <div class="screen-name">CM Detail</div>
-    <div class="screen-role">— Supervisor-only · First-class supervisor surface · Mobile + Web</div>
-  </div>
-  <div class="screen-body">
-    <div class="phone-wrap">
-      <div class="phone-label">Supervisor Only</div>
-      <div class="phone-container" style="background:var(--green-light);display:flex;align-items:center;justify-content:center;min-height:400px;border-radius:12px;padding:32px;">
-        <div style="text-align:center;color:var(--green);">
-          <div style="font-size:48px;margin-bottom:12px;">🧑‍💼</div>
-          <div style="font-weight:700;font-size:15px;">CM Detail</div>
-          <div style="font-size:13px;color:var(--muted);margin-top:4px;">Supervisor drill-down</div>
-        </div>
-      </div>
-    </div>
-    <div class="annotations">
-
-      <div class="ann-block">
-        <div class="ann-label">Role</div>
-        <div class="ann-body">
-          <p>The supervisor's first-class view into a single Care Manager. Reached by tapping any CM name in the CMs tab (mobile) or clicking a CM row in the Care Managers sidebar item (web). Gives supervisors the full picture of one CM's capacity, performance, and caseload — before they decide to reassign, flag, or support.</p>
-        </div>
-      </div>
-
-      <div class="ann-rule"></div>
-
-      <div class="ann-block">
-        <div class="ann-label">Layout</div>
-        <ul class="ann-list">
-          <li><strong>Hero RecoveryScoreRing</strong> — large (72×72px) ring at top. Shows the CM's avg client Recovery Score, not an individual client score. Sets the tone for the whole view.</li>
-          <li><strong>"This week" KPI snapshot</strong> — compact 4-card block directly below the hero. KPIs: Notes logged · Follow-ups completed · Aid applications · Funding approved. Period is fixed to "this week" in this block.</li>
-          <li><strong>Caseload list (worst-first)</strong> — every client assigned to this CM, sorted by lowest Recovery Score first. Shows client name, triage tier badge, score ring (compact, 36×36px), and last-activity timestamp per row.</li>
-          <li><strong>"Full metrics →" button</strong> — routes to Metrics screen (13) with <code>?cmId=&lt;id&gt;</code> param. Stays scoped to this CM — does not bounce to org-wide.</li>
-        </ul>
-      </div>
-
-      <div class="ann-rule"></div>
-
-      <div class="ann-block">
-        <div class="ann-label">UX Decisions</div>
-        <ul class="ann-list">
-          <li>Worst-first caseload — supervisor immediately sees which of this CM's clients need attention, without scanning the whole list.</li>
-          <li>Full caseload, not a slice — the screen shows every client assigned to this CM. No truncation. Cap is 1000; pagination kicks in before that limit is raised again.</li>
-          <li>"This week" snapshot is always present — supervisor gets a fast read on CM activity before deciding whether to drill further into Metrics.</li>
-          <li>Hero ring is the CM's avg client score, not a personal performance grade — avoids surveillance framing while still surfacing the right information for supervisors.</li>
-        </ul>
-      </div>
-
-      <div class="ann-rule"></div>
-
-      <div class="ann-block">
-        <div class="ann-label">Exits To</div>
-        <div class="nav-flow">
-          <div class="nav-step">Metrics (13)</div>
-          <div class="nav-arrow">→ "Full metrics →" button (cmId-scoped)</div>
-        </div>
-        <div class="nav-flow" style="margin-top:8px;">
-          <div class="nav-step">Client Profile (04)</div>
-          <div class="nav-arrow">→ Tap any client row in the caseload list</div>
-        </div>
-        <div class="nav-flow" style="margin-top:8px;">
-          <div class="nav-step">CMs tab / Care Managers (12)</div>
-          <div class="nav-arrow">→ ← Back nav</div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</div>
-
-
-<!-- ════════════════════════════════════════════════════════ -->
-<!-- SCREEN 16 — PER-CLIENT METRICS                          -->
-<!-- ════════════════════════════════════════════════════════ -->
-<div class="screen-divider"></div>
-<div class="screen-section">
-  <div class="screen-header">
-    <div class="screen-num">Screen 16</div>
-    <div class="screen-name">Per-Client Metrics</div>
-    <div class="screen-role">— RecoveryScoreRing tap-target · Entry point to clientId-scoped /reports · All roles</div>
-  </div>
-  <div class="screen-body">
-    <div class="phone-wrap">
-      <div class="phone-label">All Roles</div>
-      <div class="phone-container" style="background:var(--surface);display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:400px;border-radius:12px;padding:32px;border:1px solid var(--border);">
-        <div style="text-align:center;">
-          <div style="width:72px;height:72px;border-radius:50%;border:6px solid var(--green);margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;color:var(--green);">620</div>
-          <div style="font-size:12px;color:var(--green);font-weight:600;letter-spacing:0.05em;">Full Metrics →</div>
-          <div style="font-size:11px;color:var(--muted);margin-top:8px;">RecoveryScoreRing tap target</div>
-        </div>
-      </div>
-    </div>
-    <div class="annotations">
-
-      <div class="ann-block">
-        <div class="ann-label">Role</div>
-        <div class="ann-body">
-          <p>The large RecoveryScoreRing on every client profile is a tap-target. Tapping it opens the Metrics screen (13) scoped to that one client via <code>?clientId=&lt;id&gt;</code>. A small green "Full Metrics →" caption sits below the ring as the visual affordance. This is the canonical and <em>only</em> entry point to a per-client trend view — no second navigation path, no sidebar shortcut.</p>
-        </div>
-      </div>
-
-      <div class="ann-rule"></div>
-
-      <div class="ann-block">
-        <div class="ann-label">What the Per-Client Metrics View Shows</div>
-        <ul class="ann-list">
-          <li><strong>Score trend</strong> — individual Recovery Score line chart over the selected period. This is the only screen in Vigilant where a single client's score history is visualized.</li>
-          <li><strong>Activity KPIs</strong> — Notes logged · Follow-ups · Aid applications · Resources approved · Funding approved, all scoped to this client.</li>
-          <li><strong>Score-event history</strong> — timestamped log of every score change event for this client, with delta and triggering assessment.</li>
-        </ul>
-      </div>
-
-      <div class="ann-rule"></div>
-
-      <div class="ann-block">
-        <div class="ann-label">UX Decisions</div>
-        <ul class="ann-list">
-          <li>RecoveryScoreRing is the tap-target — not a separate button. The ring is already the CM's primary focus point on the client profile; making it the entry to full trend data keeps the action discoverable without adding visual weight.</li>
-          <li>"Full Metrics →" caption is the only visual affordance — no additional icon, chip, or badge. Keeps the client profile uncluttered.</li>
-          <li>One entry point — do not propose alternative entry points (sidebar links, a "Trend" tab on the client profile, etc.) without explicit approval. Coherence over discoverability here.</li>
-          <li>Available to all roles — both CMs (for their own clients) and supervisors (for any client) can reach this view. The back button returns to whichever client profile triggered it.</li>
-        </ul>
-      </div>
-
-      <div class="ann-rule"></div>
-
-      <div class="ann-block">
-        <div class="ann-label">Exits To</div>
-        <div class="nav-flow">
-          <div class="nav-step">Client Profile (04)</div>
-          <div class="nav-arrow">→ ← Back nav (returns to triggering profile)</div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</div>
-
-
-<!-- ════════════════════════════════════════════════════════ -->
-<!-- LOCKED DESIGN RULES                                      -->
-<!-- ════════════════════════════════════════════════════════ -->
-<div class="screen-divider"></div>
-<div class="section">
-  <div class="section-label">Architecture</div>
-  <div class="section-heading">Locked Design Rules</div>
-  <div class="section-sub">These rules are non-negotiable. They are mirrored in CLAUDE.md and the codebase. Any proposed change to these surfaces requires explicit H approval before implementation.</div>
-
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:40px;">
-
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:28px;">
-      <div style="font-size:11px;font-weight:700;letter-spacing:0.12em;color:var(--green);text-transform:uppercase;margin-bottom:12px;">🔒 HOLD Dena Intake Workflow</div>
-      <ul class="ann-list">
-        <li>Intake queue tabs: <strong>Pending → Verified → Assigned → Follow-up</strong> (plus Accepted / Rejected as terminal states)</li>
-        <li>Verify is supervisor-only (Stephanie Alex)</li>
-        <li>Assign is supervisor-only (CM Leads Marisol Espino / Sara Potter)</li>
-        <li>Quick Entry / client creation by the assigned CM — or by a supervisor on any verified/assigned candidate</li>
-        <li>Candidates are <strong>not clients</strong> until Quick Entry</li>
-        <li>Photo ID is optional — <strong>never a hard block</strong></li>
-        <li>Area Needs taxonomy must match resource-directory tags 1:1</li>
-      </ul>
-    </div>
-
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:28px;">
-      <div style="font-size:11px;font-weight:700;letter-spacing:0.12em;color:var(--green);text-transform:uppercase;margin-bottom:12px;">🔒 Metrics Scope Params</div>
-      <ul class="ann-list">
-        <li><code>?cmId=&lt;id&gt;</code> and <code>?clientId=&lt;id&gt;</code> query params — both wired on mobile and web</li>
-        <li>Priority: <code>clientId &gt; cmId &gt; org-wide</code></li>
-        <li>Mobile: <code>router.push({'{ pathname: "/reports", params: { cmId } }'})</code></li>
-        <li>Web: <code>navigate("/reports?cmId=&lt;id&gt;")</code> / <code>?clientId=&lt;id&gt;</code></li>
-        <li><strong>Do not regress</strong> — investors saw the bounce on the prior build. "Full metrics →" on CM detail must stay CM-scoped, not redirect to org-wide.</li>
-      </ul>
-    </div>
-
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:28px;">
-      <div style="font-size:11px;font-weight:700;letter-spacing:0.12em;color:var(--green);text-transform:uppercase;margin-bottom:12px;">🔒 CM Detail Shows Full Caseload</div>
-      <ul class="ann-list">
-        <li>Supervisor CM detail must show <strong>every client assigned to the CM</strong> — no truncation</li>
-        <li><code>useClients()</code> cap is 1000 — if any org approaches this, move to true pagination or a server-side <code>assigned_cm_id</code> filter. Do not just bump the limit again.</li>
-        <li>Grace Iverson bug context: earlier 200-row cap silently cut her from 18 to 6 visible clients. Any limit change must be tested against late-alphabet names.</li>
-      </ul>
-    </div>
-
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:28px;">
-      <div style="font-size:11px;font-weight:700;letter-spacing:0.12em;color:var(--green);text-transform:uppercase;margin-bottom:12px;">🔒 Recovery Score (Pre-existing)</div>
-      <ul class="ann-list">
-        <li>Recovery Score is <strong>never manually entered or overridden</strong> — computed server-side only. No input, slider, chip selector, or override at any role level.</li>
-        <li><code>assessment_answers</code> stored for every submitted assessment, visible to all roles on the Assessment tab — including history from prior CMs.</li>
-        <li><strong>RecoveryScoreRing is the only visual representation</strong> of the Recovery Score — no bar charts, number-only displays, or alternative visualizations.</li>
-        <li>Assessment radio labels are <strong>text-only</strong> — the 1–5 internal scoring scale never surfaces in any rendered component at any role level on any surface. Labels only. Domain summary pills use short text (None / Disrupted / Partial / Stable / Strong).</li>
-      </ul>
-    </div>
-
-  </div>
-</div>
-
-
 <!-- ════════════════════════════════════════════════════════ -->
 <!-- FOOTER                                                   -->
 <!-- ════════════════════════════════════════════════════════ -->
 <div class="brief-footer">
-  <div class="brief-footer-brand">V I G I L A N T</div>
+  <div class="brief-footer-brand">V I J I L A N T</div>
   <div>UI/UX Brief · Care Manager + Supervisor · Design Reference · 2026</div>
   <div>The Legacy Land Project · Pasadena, CA</div>
 </div>
@@ -2940,7 +2517,7 @@ document.querySelectorAll('.desktop-iframe').forEach(fixDesktopIframe);
       <div class="ann-block">
         <div class="ann-label">ACCESS GATE</div>
         <div class="ann-body">
-          <p>Hidden behind role check: <code>profile?.role === 'admin' || profile?.role === 'supervisor'</code>. The Review Intake Queue button does not render for CMs. Direct URL access is also blocked by RLS on the intake_submissions table.</p>
+          <p>Available to Supervisors and Admins only. Care Managers see their own dashboard view.</p>
         </div>
       </div>
 

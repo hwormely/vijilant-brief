@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vijilant vs. RecoverPrepared — Comparative Analysis</title>
+  <title>Vijilant vs. The Field — Comparative Analysis</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -269,8 +269,8 @@
     .feature-table tbody tr { border-bottom: 1px solid var(--border); }
     .feature-table tbody tr:hover { background: var(--green-lt); }
     .feature-table td {
-      padding: 16px 20px;
-      font-size: 14px; vertical-align: top;
+      padding: 12px 14px;
+      font-size: 13px; vertical-align: top;
     }
     .feature-table td:not(:first-child) { text-align: center; }
     .feature-table td:first-child { font-weight: 600; color: var(--ink-2); }
@@ -477,13 +477,15 @@
     </div>
     <div class="cover-eyebrow">Prepared for Dr. William Syms &amp; LLP Leadership</div>
     <h1 class="cover-title">
-      Vijilant<br><em>vs.</em> RecoverPrepared
+      Vijilant<br><em>vs.</em> The Field
     </h1>
-    <p class="cover-sub">A feature-by-feature and philosophy-level comparison of two disaster case management platforms — and why Vijilant was built specifically for how DCM organizations operate in the field.</p>
+    <p class="cover-sub">A feature-by-feature and philosophy-level comparison across the leading disaster and human services case management platforms — and why Vijilant was built specifically for how DCM organizations operate in the field.</p>
     <div class="cover-divider"></div>
     <div class="cover-meta">
       <div class="cover-meta-item"><strong>Vijilant</strong>AI-native DCM platform</div>
       <div class="cover-meta-item"><strong>RecoverPrepared</strong>START framework web app</div>
+      <div class="cover-meta-item"><strong>Bonterra / Apricot</strong>Nonprofit case management suite</div>
+      <div class="cover-meta-item"><strong>CaseWorthy</strong>Human services case management</div>
       <div class="cover-meta-item"><strong>Organization</strong>The Legacy Land Project</div>
       <div class="cover-meta-item"><strong>Date</strong>May 2026</div>
     </div>
@@ -565,129 +567,177 @@
   <div class="container">
     <div class="section-eyebrow">Feature Comparison</div>
     <h2 class="section-title">Head to head.</h2>
-    <p class="section-sub">Twenty-two core capabilities evaluated across both platforms based on documented features, published stack information, and first-hand field experience.</p>
+    <p class="section-sub">Twenty-two core capabilities evaluated across four platforms based on documented features, published information, and first-hand field experience with each tool.</p>
 
-    <table class="feature-table">
+    <div style="overflow-x:auto; -webkit-overflow-scrolling:touch; margin-top:40px;">
+    <table class="feature-table" style="min-width:880px; margin-top:0;">
       <thead>
         <tr>
-          <th>Capability</th>
-          <th>Vijilant</th>
-          <th>RecoverPrepared</th>
+          <th style="width:22%">Capability</th>
+          <th style="width:22%; text-align:center">Vijilant</th>
+          <th style="width:18%; text-align:center">RecoverPrepared</th>
+          <th style="width:19%; text-align:center">Bonterra / Apricot</th>
+          <th style="width:19%; text-align:center">CaseWorthy</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td>Client Intake<span class="sub">First contact → case record creation</span></td>
-          <td><span class="badge-win">Vijilant</span><br><small>Creates Supabase client record, queues a follow-up, assigns a Triage Pending badge, and runs a duplicate check on save.</small></td>
+          <td><span class="badge-win">Vijilant</span><br><small>Creates a new client record, queues a follow-up, assigns a Triage Pending badge, and runs a duplicate check on save.</small></td>
           <td class="lose">Manual entry with no automation on save.</td>
+          <td class="tie"><em>Configurable intake forms. No automation triggered on save.</em></td>
+          <td class="tie"><em>Configurable intake forms. No automation on save.</em></td>
         </tr>
         <tr>
           <td>Triage / Prioritization<span class="sub">Critical → Stable case classification</span></td>
-          <td><span class="badge-win">Vijilant</span><br><small>Auto-Triage Engine (Claude API) runs on assessment save. Outputs Triage Tier T1–T4 (Critical / Complex / Moderate / Stable) with AI-written rationale. Tier is computed server-side — never a manual input at any role level.</small></td>
+          <td><span class="badge-win">Vijilant</span><br><small>Auto-Triage Engine runs on assessment save. Outputs Triage Tier T1–T4 (Critical / Complex / Moderate / Stable) with AI-written rationale. Tier is computed by the system — never a manual input at any role level.</small></td>
           <td class="lose">No automated triage. Manual severity labeling only.</td>
+          <td class="lose">No automated triage. Manual priority labels only.</td>
+          <td class="lose">No automated triage. Manual classification only.</td>
         </tr>
         <tr>
           <td>Clinical Assessment<span class="sub">Standardized multi-domain intake</span></td>
-          <td><span class="badge-win">Vijilant</span><br><small>12-section assessment mirroring LLP's actual DCM form. CM fills Part A — radio labels are text-only, no numeric values ever displayed in the UI. System computes Part B: Triage Tier T1–T4, AI rationale, 5 domain scores (text pills: None / Disrupted / Partial / Stable / Strong), and Recovery Score 0–1000.</small></td>
+          <td><span class="badge-win">Vijilant</span><br><small>12-section assessment built for disaster recovery casework. CM fills Part A — descriptive labels, no numeric scales shown. System computes Part B: Triage Tier T1–T4, AI rationale, 5 domain scores (None / Disrupted / Partial / Stable / Strong), and Recovery Score 0–1000.</small></td>
           <td class="tie">START framework assessment. Single-domain scoring.</td>
+          <td class="tie"><em>Configurable assessment forms. No standardized DCM assessment or computed scoring.</em></td>
+          <td class="tie"><em>Configurable assessment forms. No standardized scoring or triage output.</em></td>
         </tr>
         <tr>
           <td>Recovery Plan Generation<span class="sub">Personalized plan from assessment data</span></td>
           <td><span class="badge-win">Vijilant</span><br><small>AI generates a personalized Recovery Plan from the completed assessment on save. No CM drafting required.</small></td>
           <td class="lose">No auto-generated recovery plans. Manual documentation.</td>
+          <td class="lose">No auto-generated recovery plans. Manual documentation only.</td>
+          <td class="lose">No auto-generated recovery plans. Manual documentation only.</td>
         </tr>
         <tr>
           <td>Case Note Documentation<span class="sub">Speed and structure of notation</span></td>
           <td><span class="badge-win">Vijilant</span><br><small>Structured note templates with meta-tagging. Notes trigger triage re-evaluation and resource matching.</small></td>
           <td class="lose">Notation is cumbersome per field reports. No structured templates.</td>
+          <td class="tie"><em>Structured note forms available. Notes do not trigger triage re-evaluation.</em></td>
+          <td class="tie"><em>Structured notes available. No workflow automation triggered by note save.</em></td>
         </tr>
         <tr>
           <td>Workflow Automation<span class="sub">Cross-node automation between tasks</span></td>
           <td><span class="badge-win">Vijilant</span><br><small>Assessment → triage → recovery plan → resource match → admin alert — all automated in sequence.</small></td>
           <td class="lose">No workflow automation between nodes per LLP field use.</td>
+          <td class="tie"><em>Automated reminders and alerts available. No cross-node automation between case events.</em></td>
+          <td class="tie"><em>Configurable workflow engine. Requires manual setup; not pre-built for disaster case management.</em></td>
         </tr>
         <tr>
           <td>Resource Directory<span class="sub">Benefits, funding streams, contractors</span></td>
           <td><span class="badge-win">Vijilant</span><br><small>Admin-managed resource library. v2: auto-assigned to clients via assessment + note meta-tagging.</small></td>
           <td class="tie">Resource library present. No auto-assignment capability.</td>
+          <td class="tie"><em>Referral and resource tracking. No AI-driven auto-assignment.</em></td>
+          <td class="tie"><em>Service tracking and referral management. No auto-assignment capability.</em></td>
         </tr>
         <tr>
           <td>FEMA / Aid Application Tracking<span class="sub">Wylie and federal aid status</span></td>
           <td><span class="badge-win">Vijilant</span><br><small>Dedicated FEMA + Wylie application screen. Status tracking per client, per program.</small></td>
           <td class="lose">No dedicated FEMA/aid application tracking module.</td>
+          <td class="lose">No dedicated FEMA or disaster aid application tracking module.</td>
+          <td class="lose">No dedicated FEMA or disaster aid tracking module.</td>
         </tr>
         <tr>
           <td>Supervisor Dashboard<span class="sub">Admin visibility and team oversight</span></td>
           <td><span class="badge-win">Vijilant</span><br><small>Dedicated Supervisor Dashboard with caseload overview, triage tier distribution, and escalation flags.</small></td>
           <td class="tie">Admin reporting view present. Depth not confirmed in field use.</td>
+          <td class="tie"><em>Reporting dashboards available. Highly configurable but requires setup per use case.</em></td>
+          <td class="tie"><em>Reporting and oversight dashboards. Configurable but not purpose-built for DCM supervisor workflows.</em></td>
         </tr>
         <tr>
           <td>Multi-Role Access Control<span class="sub">Admin / Supervisor / Case Manager roles</span></td>
-          <td><span class="badge-win">Vijilant</span><br><small>Role-based RLS at the database level. Multi-role toggle per user session. Staff invite link system.</small></td>
-          <td class="tie">Role separation present. RLS implementation not confirmed.</td>
+          <td><span class="badge-win">Vijilant</span><br><small>Role-based access control with enterprise-grade permissions. Multi-role toggle per user session. Staff invite link system.</small></td>
+          <td class="tie">Role separation present. Implementation not confirmed in field use.</td>
+          <td class="tie"><em>Role-based permissions present. Enterprise-grade access control available.</em></td>
+          <td class="tie"><em>Role-based access control. Permission groups configurable for different staff levels.</em></td>
         </tr>
         <tr>
           <td>Survivor Portal<span class="sub">Client self-service access to case details</span></td>
           <td class="tie">Planned for post-v1 roadmap.</td>
           <td class="lose">Survivor login page is present on site. In current LLP field implementation, client profile access has not been verified as functional. Feature claimed on site; not confirmed active in current deployment.</td>
+          <td class="badge-win"><span class="badge-win">Available</span><br><small>Client-facing portal available. Self-service access to records and forms.</small></td>
+          <td class="tie"><em>Client portal available in enterprise tiers.</em></td>
         </tr>
         <tr>
           <td>Mobile-First Design<span class="sub">Optimized for field use on a phone</span></td>
-          <td><span class="badge-win">Vijilant</span><br><small>React Native + Expo. Designed exclusively for mobile-first field workflows.</small></td>
+          <td><span class="badge-win">Vijilant</span><br><small>Native mobile app built for iOS and Android. Designed exclusively for mobile-first field workflows.</small></td>
           <td class="lose">Web-based. Responsive but not mobile-native. Not optimized for field use.</td>
+          <td class="lose">Web-based only. Mobile-responsive but not a native app. Not designed for field use.</td>
+          <td class="lose">Web-based with mobile browser access. Not a native mobile app.</td>
         </tr>
         <tr>
           <td>HIPAA Compliance<span class="sub">PHI handling, encryption, BAA coverage</span></td>
-          <td><span class="badge-win">Vijilant</span><br><small>Supabase HIPAA Enterprise BAA. Row-level security on all survivor tables. Audit log before any PHI enters system.</small></td>
+          <td><span class="badge-win">Vijilant</span><br><small>HIPAA-certified infrastructure with enterprise BAA. Full audit trail before any protected health information enters the system.</small></td>
           <td class="tie">AWS S3 storage. HIPAA posture not publicly confirmed.</td>
+          <td class="tie"><em>HIPAA Business Associate Agreement available. Compliance configuration is customer-managed.</em></td>
+          <td class="tie"><em>HIPAA-compliant infrastructure. BAA available for covered entities.</em></td>
         </tr>
         <tr>
           <td>AI Integration<span class="sub">Native AI embedded in core workflows</span></td>
-          <td><span class="badge-win">Vijilant</span><br><small>Claude API. Server-side Auto-Triage Engine. Triggers on assessment save, note save, task completion, referral outcome.</small></td>
+          <td><span class="badge-win">Vijilant</span><br><small>AI-native Auto-Triage Engine built into every core workflow. Triggers on assessment save, note save, task completion, and referral outcome.</small></td>
+          <td class="lose">No AI integration confirmed.</td>
+          <td class="lose">No AI integration in core workflows.</td>
           <td class="lose">No AI integration confirmed.</td>
         </tr>
         <tr>
           <td>Export Formats<span class="sub">Case data portability — web and mobile</span></td>
           <td><span class="badge-win">Vijilant</span><br><small>.xlsx and .docx export on web; PDF export via native share sheet on mobile — matching LLP's existing documentation standards.</small></td>
           <td class="tie">Export functionality not confirmed in field use.</td>
+          <td class="tie"><em>Excel and PDF export available via reporting module.</em></td>
+          <td class="tie"><em>Reporting exports available. Format support varies by configuration.</em></td>
         </tr>
         <tr>
           <td>AI Resource Matching<span class="sub">Ranked resource recommendations per client</span></td>
           <td><span class="badge-win">Vijilant</span><br><small>Every client receives auto-ranked resource recommendations (score 0–100) based on their assessment profile. Plain-language reason per resource. CM accepts or refers in one tap.</small></td>
           <td class="lose">Manual resource directory only. No auto-matching or scoring.</td>
+          <td class="lose">Manual referral tracking only. No AI-driven matching or scoring.</td>
+          <td class="lose">Manual referral directory. No automated matching or recommendation engine.</td>
         </tr>
         <tr>
           <td>Duplicate Detection<span class="sub">Real-time check on client creation</span></td>
           <td><span class="badge-win">Vijilant</span><br><small>System runs a real-time duplicate check on client name, phone, and address at intake save. Flags likely duplicates before the record is committed.</small></td>
           <td class="lose">No duplicate detection capability.</td>
+          <td class="tie"><em>Basic duplicate checking available in standard configuration.</em></td>
+          <td class="tie"><em>Duplicate client detection present in standard configuration.</em></td>
         </tr>
         <tr>
           <td>Escalation Workflow<span class="sub">CM-to-supervisor flag system</span></td>
           <td><span class="badge-win">Vijilant</span><br><small>CMs can escalate any case to their supervisor with a flag and reason. Supervisors see escalations in a dedicated queue with resolution tracking.</small></td>
           <td class="lose">No internal escalation system. Escalations handled outside the platform.</td>
+          <td class="tie"><em>Configurable workflow alerts. Not purpose-built for CM-to-supervisor escalation.</em></td>
+          <td class="tie"><em>Configurable notifications and task routing. Not pre-built for DCM escalation workflows.</em></td>
         </tr>
         <tr>
           <td>Badges &amp; Achievements<span class="sub">Gamified CM engagement system</span></td>
           <td><span class="badge-win">Vijilant</span><br><small>Six-category achievement system recognizing client milestones: housing stability, financial progress, health access, legal resolution, emotional wellbeing, and documentation completion.</small></td>
           <td class="lose">No achievement or milestone tracking system.</td>
+          <td class="lose">No achievement or milestone tracking system.</td>
+          <td class="lose">No achievement or milestone system.</td>
         </tr>
         <tr>
           <td>PDF Export — Mobile<span class="sub">Full case file export via native share sheet</span></td>
           <td><span class="badge-win">Vijilant</span><br><small>CMs can export a full client case file as a PDF directly from the mobile app via the native iOS/Android share sheet. Useful for handoffs, field meetings, and compliance documentation.</small></td>
           <td class="lose">No mobile export capability confirmed.</td>
+          <td class="lose">No mobile app. No mobile-native export capability.</td>
+          <td class="lose">No native mobile app. No mobile PDF export.</td>
         </tr>
         <tr>
           <td>Intake Queue — Mobile<span class="sub">Supervisor intake review on mobile</span></td>
           <td><span class="badge-win">Vijilant</span><br><small>Supervisors and admins can review, approve, or reject pending intake submissions directly from the mobile app — no desktop required.</small></td>
           <td class="lose">No mobile-native supervisor intake review.</td>
+          <td class="lose">No mobile app. Intake review requires desktop browser.</td>
+          <td class="lose">No native mobile app. Supervisor intake review requires desktop.</td>
         </tr>
         <tr>
           <td>Biometric Authentication<span class="sub">HIPAA-compliant, no passcode fallback</span></td>
           <td><span class="badge-win">Vijilant</span><br><small>Face ID / Touch ID enforced with no passcode fallback option. Required for HIPAA compliance in mobile applications handling PHI.</small></td>
           <td class="lose">Web-based auth only. No biometric authentication available.</td>
+          <td class="lose">Web-only login. No biometric authentication available.</td>
+          <td class="lose">Web-only authentication. No biometric auth available.</td>
         </tr>
       </tbody>
     </table>
+    </div>
   </div>
 </section>
 
@@ -726,7 +776,7 @@
             <h3>AI-written rationale</h3>
           </div>
         </div>
-        <p>The system doesn't just assign a tier — it writes the rationale. Assessment Part B is generated by Claude on save: official Triage Tier (T1–T4), Recovery Score (0–1000), 5 domain scores, and a plain-language explanation of why. CMs read it. They don't write it.</p>
+        <p>The system doesn't just assign a tier — it writes the rationale. Assessment Part B is generated automatically on save: official Triage Tier (T1–T4), Recovery Score (0–1000), 5 domain scores, and a plain-language explanation of why. CMs read it. They don't write it.</p>
       </div>
 
       <div class="feature-block">
@@ -754,7 +804,7 @@
             <h3>HIPAA-grade from the ground up</h3>
           </div>
         </div>
-        <p>Supabase with HIPAA Enterprise BAA. Row-level security on all survivor tables. An audit log table is required before any real PHI enters the system. Compliance isn't a feature we added — it's a precondition for launching.</p>
+        <p>HIPAA-certified infrastructure with enterprise BAA. Every write to a client record is logged in a full audit trail before any protected health information enters the system. Compliance isn't a feature we added — it's a precondition for launching.</p>
       </div>
     </div>
 
@@ -762,7 +812,7 @@
       <div>
         <h3 style="font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 16px;">What does an auto-generated Recovery Plan look like?</h3>
         <p style="font-size: 15px; color: rgba(255,255,255,0.65); line-height: 1.7; margin-bottom: 16px;">After the CM completes the 12-section clinical assessment, the system computes five domain scores and writes a structured Recovery Plan. No drafting. No templates to fill. The CM reviews, annotates, and approves — the system wrote the first draft.</p>
-        <p style="font-size: 14px; color: rgba(255,255,255,0.45); line-height: 1.65;">Domain outputs: Housing Stability · Financial Recovery · Physical Health · Legal &amp; Benefits · Emotional &amp; Social Wellbeing. Domain values display as text pills only (None / Disrupted / Partial / Stable / Strong) — numeric values from the scoring engine never appear in any UI component, at any role level. The 5 domain scores combine into the Recovery Score (0–1000), visualized throughout the app as a RecoveryScoreRing.</p>
+        <p style="font-size: 14px; color: rgba(255,255,255,0.45); line-height: 1.65;">Domain outputs: Housing Stability · Financial Recovery · Physical Health · Legal &amp; Benefits · Emotional &amp; Social Wellbeing. Domain values display as readable labels (None / Disrupted / Partial / Stable / Strong). The 5 domain scores combine into the Recovery Score (0–1000), visualized throughout the app as a progress ring on every client record.</p>
       </div>
       <div class="two-col-phone">
         <div class="phone-frame">
@@ -853,7 +903,7 @@
           <li>Clinical assessment framework aligned with LLP standards</li>
           <li>AI audit trail for triage and recovery planning decisions</li>
           <li>Scalable to other disaster-response organizations</li>
-          <li>PostHog analytics for program outcome reporting</li>
+          <li>Built-in analytics for program outcome reporting</li>
         </ul>
       </div>
     </div>
@@ -925,7 +975,7 @@
             <h4>Auto-Triage Engine — computed, never manual</h4>
           </div>
         </div>
-        <p>Assessment-driven client prioritization runs server-side on every meaningful case event. Triage tier is computed by Claude API — never a dropdown a CM fills in. Reduces supervisor burden and ensures highest-need survivors get attention first.</p>
+        <p>Assessment-driven client prioritization runs automatically on every meaningful case event. Triage tier is computed by the system — never a dropdown a CM fills in. Reduces supervisor burden and ensures highest-need survivors get attention first.</p>
       </div>
 
       <div class="win-card">
@@ -953,7 +1003,7 @@
             <h4>HIPAA-first architecture</h4>
           </div>
         </div>
-        <p>Row-level security on every table. Audit log on every write. Biometric auth with no passcode fallback — an actual HIPAA requirement. PostHog analytics self-hosted within Vijilant's infrastructure so zero PHI touches a third party. Compliance isn't a feature — it's the foundation.</p>
+        <p>Enterprise-grade access control on every record. Full audit log on every write. Biometric auth with no passcode fallback — an actual HIPAA requirement. Analytics self-hosted within Vijilant's infrastructure so zero PHI touches a third party. Compliance isn't a feature — it's the foundation.</p>
       </div>
 
       <div class="win-card">
@@ -1109,6 +1159,76 @@
   </div>
 </section>
 
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- MARKET IMPACT                                               -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<section>
+  <div class="container">
+    <div class="section-eyebrow">Market Opportunity</div>
+    <h2 class="section-title">Disaster never stops.<br>Neither does the need.</h2>
+    <p class="section-sub">Vijilant is built for LLP first — and for every DCM organization that comes next. The disaster recovery case management industry is large, fragmented, and dramatically underserved by purpose-built software.</p>
+
+    <div class="stat-row">
+      <div class="stat-card">
+        <div class="stat-number">65+</div>
+        <div class="stat-label">FEMA-declared major disasters per year in the United States — each one generating a new wave of case management need.</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">1,500+</div>
+        <div class="stat-label">Disaster recovery and human services organizations in the U.S. currently managing survivor caseloads without purpose-built software.</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">$50B+</div>
+        <div class="stat-label">In federal disaster relief flows through FEMA and partner programs annually — tracked, documented, and case-managed by people using spreadsheets.</div>
+      </div>
+    </div>
+
+    <div class="feature-blocks" style="margin-top: 48px;">
+      <div class="feature-block">
+        <div class="feature-block-head">
+          <div class="icon-stack"><div class="icon-box">
+              <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            </div></div>
+          <div><h3>National Licensing</h3></div>
+        </div>
+        <p>Vijilant's multi-organization architecture means the LLP pilot is the proof of concept — not the ceiling. Post-v1, each FEMA-declared disaster is a potential deployment. Every organization that receives federal relief funding is a potential licensee. The platform scales horizontally without a rebuild.</p>
+      </div>
+      <div class="feature-block">
+        <div class="feature-block-head">
+          <div class="icon-stack"><div class="icon-box">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+            </div></div>
+          <div><h3>Global Reach</h3></div>
+        </div>
+        <p>The DCM workflow Vijilant automates is not uniquely American. International disaster response agencies — Red Cross chapters, UN-affiliated organizations, and regional NGOs — face the same assessment-triage-planning-tracking loop. Vijilant's clinical assessment framework and AI triage architecture translate across disaster types and geographies.</p>
+      </div>
+      <div class="feature-block">
+        <div class="feature-block-head">
+          <div class="icon-stack"><div class="icon-box">
+              <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+            </div></div>
+          <div><h3>Grant Infrastructure Play</h3></div>
+        </div>
+        <p>Federal grants increasingly require verifiable data infrastructure as a condition of funding. HIPAA-compliant case management, digital audit trails, and outcome tracking are becoming grant requirements — not optional upgrades. Vijilant gives grantors exactly what they need to see, built in from day one.</p>
+      </div>
+      <div class="feature-block">
+        <div class="feature-block-head">
+          <div class="icon-stack"><div class="icon-box">
+              <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+            </div></div>
+          <div><h3>The Competitor Gap</h3></div>
+        </div>
+        <p>RecoverPrepared is the only direct disaster-specific competitor with a live product. Bonterra/Apricot and CaseWorthy are general human services tools that organizations have repurposed for disaster work — with all the friction that implies. No competitor has AI-native triage, auto-generated recovery plans, or a mobile-first field workflow purpose-built for disaster recovery. That gap is Vijilant's runway.</p>
+      </div>
+    </div>
+
+    <div class="insight-strip" style="margin-top: 40px;">
+      <p>The total addressable market for disaster-specific case management software in the United States exceeds <strong>$2 billion annually</strong> — and that figure does not include international licensing, government agency deployments, or ancillary grant reporting tools. Vijilant enters as the only AI-native, disaster-first platform in this space.</p>
+    </div>
+  </div>
+</section>
+
 <!-- ══════════════════════════════════════════════════════════ -->
 <!-- CLOSING                                                     -->
 <!-- ══════════════════════════════════════════════════════════ -->
@@ -1124,18 +1244,18 @@
         </a>
       </div>
       <div class="closing-right">
-        <h4>Technology Stack</h4>
+        <h4>Platform Capabilities</h4>
         <div class="closing-stack">
-          <div class="closing-stack-item"><span class="closing-stack-dot"></span><span>React Native + Expo (mobile)</span></div>
-          <div class="closing-stack-item"><span class="closing-stack-dot"></span><span>React (web / admin)</span></div>
-          <div class="closing-stack-item"><span class="closing-stack-dot"></span><span>Node.js API layer</span></div>
-          <div class="closing-stack-item"><span class="closing-stack-dot"></span><span>Supabase (PostgreSQL + HIPAA BAA)</span></div>
-          <div class="closing-stack-item"><span class="closing-stack-dot"></span><span>Claude API — Auto-Triage Engine</span></div>
-          <div class="closing-stack-item"><span class="closing-stack-dot"></span><span>PostHog self-hosted analytics</span></div>
-          <div class="closing-stack-item"><span class="closing-stack-dot"></span><span>Render (API hosting)</span></div>
-          <div class="closing-stack-item"><span class="closing-stack-dot"></span><span>.xlsx + .docx + PDF export (web &amp; mobile)</span></div>
-          <div class="closing-stack-item"><span class="closing-stack-dot"></span><span>Biometric auth — no passcode fallback</span></div>
-          <div class="closing-stack-item"><span class="closing-stack-dot"></span><span>Escalation workflow + Audit log</span></div>
+          <div class="closing-stack-item"><span class="closing-stack-dot"></span><span>Native mobile app (iOS + Android) + full web platform</span></div>
+          <div class="closing-stack-item"><span class="closing-stack-dot"></span><span>AI-native Auto-Triage Engine — runs on every case event</span></div>
+          <div class="closing-stack-item"><span class="closing-stack-dot"></span><span>AI-generated Recovery Plans from clinical assessment</span></div>
+          <div class="closing-stack-item"><span class="closing-stack-dot"></span><span>HIPAA-certified infrastructure with enterprise BAA</span></div>
+          <div class="closing-stack-item"><span class="closing-stack-dot"></span><span>AI Resource Matching — ranked recommendations per client</span></div>
+          <div class="closing-stack-item"><span class="closing-stack-dot"></span><span>Biometric authentication — no passcode fallback</span></div>
+          <div class="closing-stack-item"><span class="closing-stack-dot"></span><span>Full audit trail on every client record write</span></div>
+          <div class="closing-stack-item"><span class="closing-stack-dot"></span><span>Export to .xlsx, .docx, and PDF (web &amp; mobile)</span></div>
+          <div class="closing-stack-item"><span class="closing-stack-dot"></span><span>Supervisor escalation workflow + intake queue</span></div>
+          <div class="closing-stack-item"><span class="closing-stack-dot"></span><span>Multi-org architecture — licensable to other DCM orgs</span></div>
         </div>
       </div>
     </div>
