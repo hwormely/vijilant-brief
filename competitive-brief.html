@@ -4,1288 +4,748 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Vijilant vs. The Field — Comparative Analysis</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:        #F8F6F2;
-      --card:      #FFFFFF;
-      --green:     #1F4D38;
-      --green-mid: #2E6E52;
-      --green-lt:  #EAF3EF;
-      --ink:       #141210;
-      --ink-2:     #3D3A36;
-      --ink-3:     #7A766F;
-      --ink-4:     #B0ABA3;
-      --border:    #EDEBE6;
-      --border-b:  #E5E2DC;
-      --amber:     #E5A328;
-      --amber-lt:  #FDF6E7;
-      --red:       #C0392B;
-      --red-lt:    #FDECEA;
+      --teal:       #3ECFB2;
+      --teal-mid:   #2ABFA4;
+      --teal-dark:  #1A9E8A;
+      --navy:       #1B2A4A;
+      --navy-mid:   #2A3F6B;
+      --coral:      #F4714F;
+      --coral-dark: #C2441A;
+      --warm-bg:    #F4F6FA;
+      --white:      #FFFFFF;
+      --gray-100:   #EEF1F7;
+      --gray-200:   #D8DDED;
+      --gray-400:   #8A94AD;
+      --gray-600:   #4A5568;
+      --grad-hero:    linear-gradient(135deg, #1B2A4A 0%, #1F3D5C 40%, #1A6B6B 70%, #3ECFB2 100%);
+      --grad-accent:  linear-gradient(135deg, #3ECFB2 0%, #F4714F 100%);
+      --grad-btn:     linear-gradient(135deg, #3ECFB2 0%, #F4714F 55%, #1B2A4A 100%);
+      --shadow:       0 2px 10px rgba(27,42,74,.08);
+      --ring-grad: conic-gradient(#C0392B 0deg, #E05540 45deg, #F4714F 90deg, #2ABFA4 180deg, #3ECFB2 225deg, #2A6B6B 270deg, #1B2A4A 315deg, #1B2A4A 360deg);
+      --ring-unfilled: #EEF1F7;
     }
 
     html { scroll-behavior: smooth; }
     body {
-      font-family: 'Plus Jakarta Sans', -apple-system, 'Helvetica Neue', sans-serif;
-      background: var(--bg);
-      color: var(--ink);
-      line-height: 1.6;
+      font-family: 'DM Sans', -apple-system, 'Helvetica Neue', sans-serif;
+      background: var(--warm-bg);
+      color: var(--navy);
+      line-height: 1.65;
       font-size: 16px;
       -webkit-font-smoothing: antialiased;
     }
 
-    /* ── LAYOUT ─────────────────────────────────────────────── */
-    .container { max-width: 960px; margin: 0 auto; padding: 0 32px; }
+    /* ── LAYOUT ─────────────────────────────────── */
+    .container { max-width: 1000px; margin: 0 auto; padding: 0 32px; }
     section { padding: 80px 0; }
-    section + section { border-top: 1px solid var(--border); }
+    section + section { border-top: 1px solid var(--gray-200); }
 
-    /* ── DARK SECTIONS ──────────────────────────────────────── */
-    .section-dark {
-      background: var(--green);
-      color: #fff;
-      border-top: none !important;
-    }
-    .section-dark .section-eyebrow { color: rgba(255,255,255,0.55); }
-    .section-dark .section-title   { color: #fff; }
-    .section-dark .section-sub     { color: rgba(255,255,255,0.72); }
+    /* ── DARK SECTIONS ──────────────────────────── */
+    .section-dark { background: var(--navy); color: #fff; position: relative; overflow: hidden; }
+    .section-dark h2 { color: #fff; }
+    .section-dark p  { color: rgba(255,255,255,.65); }
+    .orb { position: absolute; border-radius: 50%; filter: blur(80px); }
 
-    /* ── TYPOGRAPHY ─────────────────────────────────────────── */
-    .section-eyebrow {
-      font-size: 11px; font-weight: 700; letter-spacing: 0.14em;
-      text-transform: uppercase; color: var(--green);
-      margin-bottom: 12px;
-    }
-    .section-title {
-      font-size: clamp(28px, 4vw, 42px);
-      font-weight: 800; line-height: 1.15;
-      color: var(--ink); letter-spacing: -0.02em;
-      margin-bottom: 16px;
-    }
-    .section-sub {
-      font-size: 17px; color: var(--ink-3);
-      max-width: 620px; line-height: 1.65;
-    }
+    /* ── TYPOGRAPHY ─────────────────────────────── */
+    h2 { font-size: clamp(28px, 4vw, 42px); font-weight: 700; letter-spacing: -.02em; line-height: 1.15; margin-bottom: 14px; }
+    h2 em { font-style: normal; color: var(--teal); }
+    h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+    p  { color: var(--gray-600); font-size: 15px; line-height: 1.7; margin-bottom: 14px; }
+    p:last-child { margin-bottom: 0; }
 
-    /* ── ICON BOX ───────────────────────────────────────────── */
-    .icon-stack {
-      width: 36px; height: 36px;
-      flex-shrink: 0;
-    }
-    .icon-box {
-      width: 36px; height: 36px;
-      border-radius: 9px;
-      background: var(--green-lt);
-      display: flex; align-items: center; justify-content: center;
-    }
-    .icon-box svg {
-      width: 18px; height: 18px;
-      stroke: var(--green); fill: none;
-      stroke-width: 1.75;
-      stroke-linecap: round; stroke-linejoin: round;
-    }
-    .icon-box-dark {
-      width: 36px; height: 36px;
-      border-radius: 9px;
-      background: rgba(255,255,255,0.12);
-      display: flex; align-items: center; justify-content: center;
-    }
-    .icon-box-dark svg {
-      width: 18px; height: 18px;
-      stroke: rgba(255,255,255,0.85); fill: none;
-      stroke-width: 1.75;
-      stroke-linecap: round; stroke-linejoin: round;
-    }
-
-    /* ── COVER ──────────────────────────────────────────────── */
-    .cover {
-      background: var(--green);
-      padding: 100px 0 80px;
-    }
-    .cover-badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.18);
-      border-radius: 40px;
-      padding: 6px 16px 6px 10px;
-      font-size: 12px; font-weight: 600;
-      color: rgba(255,255,255,0.85);
-      letter-spacing: 0.04em;
-      margin-bottom: 36px;
-    }
-    .cover-badge span.dot {
-      width: 8px; height: 8px; border-radius: 50%;
-      background: #4ADE80; display: inline-block;
-    }
-    .cover-eyebrow {
-      font-size: 11px; font-weight: 700;
-      letter-spacing: 0.14em; text-transform: uppercase;
-      color: rgba(255,255,255,0.5);
-      margin-bottom: 18px;
-    }
-    .cover-title {
-      font-size: clamp(36px, 6vw, 62px);
-      font-weight: 800; line-height: 1.08;
-      color: #fff; letter-spacing: -0.03em;
-      margin-bottom: 24px;
-    }
-    .cover-title em { font-style: normal; color: rgba(255,255,255,0.45); }
-    .cover-sub {
-      font-size: 18px; color: rgba(255,255,255,0.7);
-      max-width: 580px; line-height: 1.65;
-      margin-bottom: 48px;
-    }
-    .cover-meta {
-      display: flex; gap: 32px; flex-wrap: wrap;
-    }
-    .cover-meta-item { font-size: 12px; color: rgba(255,255,255,0.45); letter-spacing: 0.06em; text-transform: uppercase; }
-    .cover-meta-item strong { display: block; font-size: 14px; font-weight: 600; color: rgba(255,255,255,0.8); margin-bottom: 2px; }
-    .cover-divider { width: 48px; height: 3px; background: rgba(255,255,255,0.2); border-radius: 2px; margin-bottom: 40px; }
-
-    /* ── STAT ROW ───────────────────────────────────────────── */
-    .stat-row {
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 24px; margin-top: 48px;
-    }
-    .stat-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 28px 24px;
-    }
-    .stat-number {
-      font-size: 40px; font-weight: 800;
-      color: var(--green); letter-spacing: -0.03em;
-      line-height: 1; margin-bottom: 8px;
-    }
-    .stat-label { font-size: 13px; color: var(--ink-3); line-height: 1.5; }
-
-    /* ── AMBER CALLOUT ──────────────────────────────────────── */
-    .amber-callout {
-      background: var(--amber-lt);
-      border: 1px solid rgba(229,163,40,0.3);
-      border-left: 4px solid var(--amber);
-      border-radius: 10px;
-      padding: 20px 24px;
-      margin-top: 32px;
-    }
-    .amber-callout-label {
-      font-size: 10px; font-weight: 700;
-      letter-spacing: 0.14em; text-transform: uppercase;
-      color: var(--amber); margin-bottom: 8px;
-    }
-    .amber-callout p { font-size: 14px; color: var(--ink-2); line-height: 1.65; }
-
-    /* ── PHONE FRAME ────────────────────────────────────────── */
-    .phone-frame {
-      display: inline-block;
-      position: relative;
-      width: 220px;
-      background: #1A1A1A;
-      border-radius: 38px;
-      padding: 14px 8px 18px 8px;
-      box-shadow: 0 24px 56px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.06);
-    }
-    .phone-screen-wrap {
-      width: 204px; height: 441px;
-      border-radius: 28px;
-      overflow: hidden;
-      background: #F8F6F2;
-    }
-    .phone-screen-wrap iframe {
-      width: 390px; height: 844px;
-      border: none; pointer-events: none;
-      transform: scale(0.5231);
-      transform-origin: 0 0;
-      display: block;
-    }
-
-    /* ── DESKTOP FRAME ──────────────────────────────────────── */
-    .desktop-frame {
-      background: #1A1A1A;
-      border-radius: 14px;
-      overflow: hidden;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.18);
-    }
-    .desktop-chrome {
-      background: #2A2A2A;
-      padding: 10px 16px;
-      display: flex; align-items: center; gap: 10px;
-    }
-    .chrome-dots { display: flex; gap: 6px; }
-    .chrome-dot { width: 12px; height: 12px; border-radius: 50%; }
-    .chrome-dot.red   { background: #FF5F57; }
-    .chrome-dot.amber { background: #FFBD2E; }
-    .chrome-dot.green { background: #28C840; }
-    .chrome-url {
-      flex: 1; background: #3A3A3A;
-      border-radius: 6px; padding: 4px 12px;
-      font-size: 11px; color: rgba(255,255,255,0.4);
-      font-family: 'Plus Jakarta Sans', sans-serif;
-    }
-    .desktop-screen-wrap {
-      width: 100%; height: 480px;
-      overflow: hidden;
-      background: #F8F6F2;
-    }
-    .desktop-screen-wrap iframe {
-      width: 1200px; height: 700px;
-      border: none; pointer-events: none;
-      transform: scale(0.747);
-      transform-origin: 0 0;
-      display: block;
-    }
-
-    /* ── 3-SCREEN SHOWCASE ──────────────────────────────────── */
-    .showcase-row {
-      display: flex; gap: 32px;
-      justify-content: center;
-      align-items: flex-end;
-      flex-wrap: wrap;
-      margin-top: 56px;
-    }
-    .showcase-item { text-align: center; }
-    .showcase-label {
-      margin-top: 16px;
-      font-size: 12px; font-weight: 600;
-      color: rgba(255,255,255,0.5);
-      letter-spacing: 0.08em; text-transform: uppercase;
-    }
-
-    /* ── FEATURE TABLE ──────────────────────────────────────── */
-    .feature-table { width: 100%; border-collapse: collapse; margin-top: 40px; }
-    .feature-table thead th {
-      padding: 12px 20px;
-      text-align: left;
-      font-size: 11px; font-weight: 700;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--ink-3);
-      border-bottom: 2px solid var(--border-b);
-    }
-    .feature-table thead th:not(:first-child) { text-align: center; }
-    .feature-table tbody tr { border-bottom: 1px solid var(--border); }
-    .feature-table tbody tr:hover { background: var(--green-lt); }
-    .feature-table td {
-      padding: 12px 14px;
-      font-size: 13px; vertical-align: top;
-    }
-    .feature-table td:not(:first-child) { text-align: center; }
-    .feature-table td:first-child { font-weight: 600; color: var(--ink-2); }
-    .feature-table td:first-child span.sub { display: block; font-weight: 400; color: var(--ink-3); font-size: 12px; margin-top: 2px; }
-    .win  { color: var(--green); font-weight: 700; }
-    .lose { color: var(--ink-4); }
-    .tie  { color: var(--ink-3); font-style: italic; }
-    .badge-win  { display: inline-block; background: var(--green-lt); color: var(--green); font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
-    .badge-no   { display: inline-block; background: var(--red-lt); color: var(--red); font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
-    .badge-tie  { display: inline-block; background: #F0EDE8; color: var(--ink-3); font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
-
-    /* ── FEATURE BLOCKS (AI section) ────────────────────────── */
-    .feature-blocks { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 40px; }
-    .feature-block {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 28px 24px;
-    }
-    .feature-block-head { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 16px; }
-    .feature-block h3 { font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
-    .feature-block p  { font-size: 14px; color: var(--ink-3); line-height: 1.65; }
-
-    /* ── TWO COL ────────────────────────────────────────────── */
-    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; margin-top: 48px; }
-    .two-col-rev { grid-template-columns: 1fr 1fr; }
-    .two-col-phone { display: flex; justify-content: center; }
-
-    /* ── AUDIENCE CARDS ─────────────────────────────────────── */
-    .audience-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 40px; }
-    .audience-card {
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 14px; padding: 28px 24px;
-    }
-    .audience-card-head { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 16px; }
-    .audience-card h3 { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 6px; }
-    .audience-card ul { list-style: none; padding: 0; }
-    .audience-card ul li {
-      font-size: 13px; color: rgba(255,255,255,0.65);
-      padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.07);
-      padding-left: 14px; position: relative;
-    }
-    .audience-card ul li:last-child { border-bottom: none; }
-    .audience-card ul li::before {
-      content: '';
-      position: absolute; left: 0; top: 14px;
-      width: 5px; height: 5px; border-radius: 50%;
-      background: rgba(255,255,255,0.3);
-    }
-
-    /* ── GAP CARDS ──────────────────────────────────────────── */
-    .gap-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 40px; }
-    .gap-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-left: 3px solid var(--amber);
-      border-radius: 10px; padding: 22px 20px;
-    }
-    .gap-card h4 { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
-    .gap-card p  { font-size: 13px; color: var(--ink-3); line-height: 1.6; }
-
-    /* ── WHY WINS ───────────────────────────────────────────── */
-    .wins-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-top: 40px; }
-    .win-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 14px; padding: 24px 20px;
-    }
-    .win-card-head { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 12px; }
-    .win-card h4 { font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
-    .win-card p  { font-size: 13px; color: var(--ink-3); line-height: 1.6; }
-    .desktop-showcase { margin-top: 48px; }
-    .desktop-showcase-label {
-      font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
-      text-transform: uppercase; color: var(--ink-3);
-      text-align: center; margin-bottom: 16px;
-    }
-
-    /* ── V2 META-TAGGING ────────────────────────────────────── */
-    .v2-banner {
-      background: var(--green);
-      color: #fff; border-radius: 12px;
-      padding: 14px 24px;
-      display: flex; align-items: center; gap: 16px;
-      margin-bottom: 40px;
-    }
-    .v2-pill {
-      background: rgba(255,255,255,0.18);
-      border-radius: 20px; padding: 4px 12px;
-      font-size: 11px; font-weight: 700;
-      letter-spacing: 0.08em; text-transform: uppercase;
-      white-space: nowrap;
-    }
-    .v2-banner p { font-size: 14px; color: rgba(255,255,255,0.8); line-height: 1.5; }
-    .flow-nodes {
-      display: flex; align-items: center; gap: 0;
-      margin: 40px 0; flex-wrap: wrap; justify-content: center;
-    }
-    .flow-node {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 12px; padding: 20px 22px;
-      min-width: 200px; flex: 1; max-width: 260px;
-      text-align: center;
-    }
-    .flow-node-icon {
+    /* ── HEADER ─────────────────────────────────── */
+    header { background: var(--grad-hero); position: relative; overflow: hidden; }
+    .header-inner { max-width: 1000px; margin: 0 auto; padding: 80px 32px; position: relative; z-index: 1; }
+    .logo-row { display: flex; align-items: center; gap: 12px; margin-bottom: 44px; }
+    .logo-mark {
       width: 44px; height: 44px; border-radius: 12px;
-      background: var(--green-lt);
+      background: var(--grad-accent);
       display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 12px;
+      font-family: 'DM Mono', monospace; font-size: 16px; font-weight: 500; color: white;
+      box-shadow: 0 8px 24px rgba(62,207,178,.4);
     }
-    .flow-node-icon svg {
-      width: 20px; height: 20px;
-      stroke: var(--green); fill: none;
-      stroke-width: 1.75;
-      stroke-linecap: round; stroke-linejoin: round;
+    .logo-word { font-family: 'DM Mono', monospace; font-size: 22px; font-weight: 500; color: white; letter-spacing: .02em; }
+    .header-eyebrow { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.5); margin-bottom: 12px; }
+    header h1 { font-size: clamp(36px, 5vw, 58px); font-weight: 700; color: white; letter-spacing: -.03em; line-height: 1.1; margin-bottom: 16px; }
+    header h1 em { font-style: normal; color: var(--teal); }
+    .header-sub { font-size: 17px; color: rgba(255,255,255,.6); max-width: 580px; line-height: 1.65; margin-bottom: 32px; }
+    .header-platforms { display: flex; gap: 12px; flex-wrap: wrap; }
+    .platform-pill {
+      padding: 7px 16px; border-radius: 20px;
+      background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15);
+      font-size: 13px; font-weight: 600; color: rgba(255,255,255,.8);
     }
-    .flow-node h4 { font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
-    .flow-node p  { font-size: 12px; color: var(--ink-3); line-height: 1.5; }
-    .flow-arrow {
-      font-size: 22px; color: var(--ink-4); padding: 0 8px;
-      flex-shrink: 0;
-    }
-    .insight-strip {
-      background: var(--green-lt);
-      border: 1px solid rgba(31,77,56,0.12);
-      border-radius: 10px; padding: 18px 24px;
-      margin-top: 32px;
-    }
-    .insight-strip p {
-      font-size: 14px; color: var(--ink-2); line-height: 1.65;
-    }
-    .insight-strip strong { color: var(--green); }
+    .platform-pill.active { background: rgba(62,207,178,.18); border-color: rgba(62,207,178,.35); color: var(--teal); }
 
-    /* ── FEMA SECTION ───────────────────────────────────────── */
-    .fema-content { display: flex; flex-direction: column; justify-content: center; }
-    .fema-content h3 { font-size: 22px; font-weight: 700; color: var(--ink); margin-bottom: 16px; }
-    .fema-content p { font-size: 15px; color: var(--ink-3); line-height: 1.7; margin-bottom: 16px; }
-    .fema-detail {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 10px; padding: 18px 20px;
-      margin-top: 8px;
+    /* ── STAT CALLOUTS ──────────────────────────── */
+    .stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin: 40px 0; }
+    .stat-card { background: var(--white); border-radius: 16px; padding: 28px; box-shadow: var(--shadow); }
+    .stat-val {
+      font-family: 'DM Mono', monospace; font-size: 44px; font-weight: 500; line-height: 1; margin-bottom: 6px;
+      background: var(--grad-accent); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
-    .fema-detail p { font-size: 13px; color: var(--ink-2); margin-bottom: 0; }
+    .stat-label { font-size: 14px; color: var(--gray-400); line-height: 1.4; }
 
-    /* ── CLOSING ────────────────────────────────────────────── */
-    .closing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
-    .closing-left h2 {
-      font-size: clamp(26px, 4vw, 38px);
-      font-weight: 800; color: #fff; line-height: 1.15;
-      letter-spacing: -0.02em; margin-bottom: 20px;
+    /* ── FIELD NOTE ─────────────────────────────── */
+    .field-note {
+      background: rgba(62,207,178,.06); border: 1.5px solid rgba(62,207,178,.22);
+      border-radius: 14px; padding: 24px 28px; margin: 36px 0;
     }
-    .closing-left p { font-size: 16px; color: rgba(255,255,255,0.65); line-height: 1.7; margin-bottom: 28px; }
-    .closing-cta {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: #fff; color: var(--green);
-      font-size: 14px; font-weight: 700;
-      border-radius: 8px; padding: 12px 24px;
-      text-decoration: none;
-    }
-    .closing-right {
-      background: rgba(255,255,255,0.07);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 14px; padding: 28px 24px;
-    }
-    .closing-right h4 { font-size: 13px; font-weight: 700; color: rgba(255,255,255,0.55); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 18px; }
-    .closing-stack { display: flex; flex-direction: column; gap: 12px; }
-    .closing-stack-item { display: flex; align-items: center; gap: 12px; }
-    .closing-stack-dot { width: 8px; height: 8px; border-radius: 50%; background: #4ADE80; flex-shrink: 0; }
-    .closing-stack-item span { font-size: 13px; color: rgba(255,255,255,0.7); }
+    .fn-label { font-family: 'DM Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: .09em; color: var(--teal-dark); margin-bottom: 10px; }
+    .fn-text { font-size: 14px; color: var(--gray-600); line-height: 1.7; }
 
-    /* ── FOOTER ─────────────────────────────────────────────── */
-    .footer {
-      background: #0E2B1E; padding: 32px 0;
-      text-align: center;
-    }
-    .footer p { font-size: 12px; color: rgba(255,255,255,0.35); }
+    /* ── RECOVERY RING ───────────────────────────── */
+    .ring { position: relative; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .ring-disc { border-radius: 50%; background: var(--ring-grad); -webkit-mask: radial-gradient(circle, transparent 54%, black 55%); mask: radial-gradient(circle, transparent 54%, black 55%); }
+    .ring-cap  { position: absolute; border-radius: 50%; background: conic-gradient(var(--ring-unfilled) 0deg 180deg, transparent 180deg 360deg); -webkit-mask: radial-gradient(circle, transparent 54%, black 55%); mask: radial-gradient(circle, transparent 54%, black 55%); }
+    .ring-label { position: absolute; text-align: center; pointer-events: none; }
+    .ring-score { font-family: 'DM Mono', monospace; font-weight: 500; line-height: 1; }
+    .ring-sub   { font-size: 8px; text-transform: uppercase; letter-spacing: .06em; color: var(--gray-400); margin-top: 1px; }
+    .ring-lg .ring-disc, .ring-lg .ring-cap { width: 72px; height: 72px; }
+    .ring-lg { width: 72px; height: 72px; }
+    .ring-lg .ring-score { font-size: 14px; }
+    .ring-demo { display: flex; align-items: center; gap: 32px; padding: 32px; border-radius: 16px; flex-wrap: wrap; }
+    .ring-demo-item { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .ring-caption { font-size: 11px; color: rgba(255,255,255,.45); font-family: 'DM Mono', monospace; text-align: center; }
 
-    /* ── RESPONSIVE ─────────────────────────────────────────── */
-    @media (max-width: 720px) {
-      .stat-row        { grid-template-columns: 1fr; }
-      .feature-blocks  { grid-template-columns: 1fr; }
-      .two-col         { grid-template-columns: 1fr; }
-      .audience-grid   { grid-template-columns: 1fr; }
-      .gap-grid        { grid-template-columns: 1fr; }
-      .wins-grid       { grid-template-columns: 1fr; }
-      .closing-grid    { grid-template-columns: 1fr; }
-      .flow-nodes      { flex-direction: column; }
-      .flow-arrow      { transform: rotate(90deg); }
+    /* ── SCREEN PREVIEWS ────────────────────────── */
+    .screens-section { background: var(--navy); }
+    .screens-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 32px; position: relative; z-index: 1; }
+    .screen-thumb {
+      background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12);
+      border-radius: 12px; padding: 20px; cursor: pointer;
     }
+    .screen-thumb:hover { background: rgba(62,207,178,.1); }
+    .screen-thumb-label { font-family: 'DM Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: .09em; color: rgba(255,255,255,.4); margin-bottom: 6px; }
+    .screen-thumb-title { font-size: 13px; font-weight: 600; color: white; }
+
+    /* ── FEATURE TABLE ───────────────────────────── */
+    .table-wrap { overflow-x: auto; margin: 32px 0; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 700px; }
+    thead th {
+      padding: 11px 14px; text-align: left;
+      font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500;
+      text-transform: uppercase; letter-spacing: .08em; color: var(--gray-400);
+      background: var(--gray-100); border-bottom: 2px solid var(--gray-200);
+    }
+    thead th:nth-child(2) { color: var(--teal-dark); }
+    tbody td { padding: 12px 14px; border-bottom: 1px solid var(--gray-100); vertical-align: top; line-height: 1.5; color: var(--gray-600); }
+    tbody tr:hover td { background: rgba(62,207,178,.03); }
+    tbody td:first-child { font-weight: 600; color: var(--navy); font-size: 13px; }
+    tbody td:nth-child(2) { background: rgba(62,207,178,.04); border-left: 2px solid rgba(62,207,178,.3); }
+    .win     { display: inline-flex; gap: 4px; align-items: center; padding: 2px 8px; border-radius: 8px; background: #EAF3EF; color: #2D7A4F; font-size: 11px; font-weight: 700; white-space: nowrap; }
+    .partial { display: inline-flex; gap: 4px; align-items: center; padding: 2px 8px; border-radius: 8px; background: #FDF6E7; color: #E5A328; font-size: 11px; font-weight: 600; }
+    .no      { display: inline-flex; gap: 4px; align-items: center; padding: 2px 8px; border-radius: 8px; background: #FDECEA; color: #C0392B; font-size: 11px; font-weight: 600; }
+
+    /* ── AI DIFFERENCE ──────────────────────────── */
+    .ai-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin: 32px 0; }
+    .ai-card { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); border-radius: 14px; padding: 24px; }
+    .ai-card h3 { color: white; margin-bottom: 8px; }
+    .ai-card p  { color: rgba(255,255,255,.6); font-size: 14px; }
+
+    /* ── FLOW ────────────────────────────────────── */
+    .flow { display: flex; align-items: flex-start; gap: 0; margin: 32px 0; position: relative; }
+    .flow::before { content: ''; position: absolute; top: 20px; left: 20px; right: 20px; height: 2px; background: linear-gradient(90deg, var(--teal), var(--coral), var(--navy)); opacity: .25; }
+    .flow-step { flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center; position: relative; z-index: 1; }
+    .flow-dot { width: 40px; height: 40px; border-radius: 50%; background: var(--grad-accent); display: flex; align-items: center; justify-content: center; font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500; color: white; margin-bottom: 10px; flex-shrink: 0; }
+    .flow-label { font-size: 12px; font-weight: 700; color: white; margin-bottom: 4px; }
+    .flow-sub   { font-size: 11px; color: rgba(255,255,255,.5); line-height: 1.4; max-width: 80px; }
+    .flow-arrow { font-size: 16px; color: rgba(255,255,255,.25); margin: 18px 6px 0; flex-shrink: 0; }
+
+    /* ── ROLES ───────────────────────────────────── */
+    .roles-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin: 32px 0; }
+    .role-card { border-radius: 16px; padding: 28px; position: relative; overflow: hidden; }
+    .role-card.cm  { background: var(--grad-hero); }
+    .role-card.sup { background: linear-gradient(135deg, var(--navy-mid), var(--navy)); }
+    .role-card h3  { color: white; margin-bottom: 10px; }
+    .role-card p   { color: rgba(255,255,255,.65); font-size: 14px; line-height: 1.65; }
+    .role-pill { display: inline-flex; padding: 4px 12px; border-radius: 12px; background: rgba(255,255,255,.1); font-size: 11px; font-weight: 600; color: rgba(255,255,255,.8); margin-bottom: 12px; }
+    .role-list { list-style: none; margin-top: 10px; }
+    .role-list li { font-size: 13px; color: rgba(255,255,255,.65); line-height: 1.6; padding: 3px 0; }
+    .role-list li::before { content: '→ '; color: var(--teal); }
+
+    /* ── HONEST SECTION ─────────────────────────── */
+    .honest-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 32px 0; }
+    .honest-card { background: var(--white); border-radius: 14px; padding: 22px; box-shadow: var(--shadow); }
+    .honest-card h4 { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+    .honest-card p  { font-size: 13px; color: var(--gray-600); line-height: 1.6; }
+
+    /* ── WIN REASONS ────────────────────────────── */
+    .win-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 32px 0; }
+    .win-card { background: var(--white); border-radius: 14px; padding: 22px; box-shadow: var(--shadow); border-top: 3px solid var(--teal); }
+    .win-card h4 { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+    .win-card p  { font-size: 13px; color: var(--gray-600); line-height: 1.6; }
+
+    /* ── MARKET ─────────────────────────────────── */
+    .market-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin: 32px 0; }
+    .mstat { text-align: center; }
+    .mstat-val   { font-family: 'DM Mono', monospace; font-size: 48px; font-weight: 500; background: var(--grad-accent); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1; margin-bottom: 8px; }
+    .mstat-label { font-size: 14px; color: rgba(255,255,255,.6); line-height: 1.5; }
+
+    /* ── CAPABILITY LIST ────────────────────────── */
+    .cap-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 28px; }
+    .cap-item { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; color: rgba(255,255,255,.75); padding: 4px 0; }
+    .cap-dot  { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); margin-top: 7px; flex-shrink: 0; }
+
+    /* ── FOOTER ─────────────────────────────────── */
+    footer { background: var(--navy); padding: 60px 0; }
+    .footer-inner { max-width: 1000px; margin: 0 auto; padding: 0 32px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
+    .footer-logo { display: flex; align-items: center; gap: 10px; }
+    .footer-mark { width: 36px; height: 36px; border-radius: 10px; background: var(--grad-accent); display: flex; align-items: center; justify-content: center; font-family: 'DM Mono', monospace; font-size: 14px; font-weight: 500; color: white; }
+    .footer-word { font-family: 'DM Mono', monospace; font-size: 16px; color: white; }
+    .footer-meta { font-size: 12px; color: rgba(255,255,255,.4); font-family: 'DM Mono', monospace; line-height: 1.6; }
+    .footer-cta  { padding: 11px 22px; border-radius: 11px; background: var(--grad-btn); color: white; font-size: 13px; font-weight: 700; text-decoration: none; display: inline-block; }
   </style>
 </head>
 <body>
 
-<!-- ══════════════════════════════════════════════════════════ -->
-<!-- COVER                                                       -->
-<!-- ══════════════════════════════════════════════════════════ -->
-<div class="cover">
-  <div class="container">
-    <div class="cover-badge">
-      <span class="dot"></span> Comparative Analysis Brief
+<!-- ─── HEADER ──────────────────────────────────────── -->
+<header>
+  <div class="orb" style="width:600px;height:600px;background:var(--teal);opacity:.15;top:-200px;right:-100px;"></div>
+  <div class="orb" style="width:400px;height:400px;background:var(--coral);opacity:.1;bottom:-100px;left:-60px;"></div>
+  <div class="header-inner">
+    <div class="logo-row">
+      <div class="logo-mark">Vj</div>
+      <div class="logo-word">Vijilant</div>
     </div>
-    <div class="cover-eyebrow">Prepared for Dr. William Syms &amp; LLP Leadership</div>
-    <h1 class="cover-title">
-      Vijilant<br><em>vs.</em> The Field
-    </h1>
-    <p class="cover-sub">A feature-by-feature and philosophy-level comparison across the leading disaster and human services case management platforms — and why Vijilant was built specifically for how DCM organizations operate in the field.</p>
-    <div class="cover-divider"></div>
-    <div class="cover-meta">
-      <div class="cover-meta-item"><strong>Vijilant</strong>AI-native DCM platform</div>
-      <div class="cover-meta-item"><strong>RecoverPrepared</strong>START framework web app</div>
-      <div class="cover-meta-item"><strong>Bonterra / Apricot</strong>Nonprofit case management suite</div>
-      <div class="cover-meta-item"><strong>CaseWorthy</strong>Human services case management</div>
-      <div class="cover-meta-item"><strong>Organization</strong>The Legacy Land Project</div>
-      <div class="cover-meta-item"><strong>Date</strong>May 2026</div>
+    <div class="header-eyebrow">Comparative Analysis Brief — Prepared for Dr. William Syms &amp; LLP Leadership</div>
+    <h1>Vijilant <em>vs.</em> The Field</h1>
+    <p class="header-sub">A feature-by-feature and philosophy-level comparison across the leading disaster and human services case management platforms — and why Vijilant was built specifically for how DCM organizations operate in the field.</p>
+    <div class="header-platforms">
+      <div class="platform-pill active">Vijilant · AI-native DCM platform</div>
+      <div class="platform-pill">RecoverPrepared · START framework web app</div>
+      <div class="platform-pill">Bonterra / Apricot · Nonprofit case management suite</div>
+      <div class="platform-pill">CaseWorthy · Human services case management</div>
     </div>
   </div>
-</div>
+</header>
 
-<!-- ══════════════════════════════════════════════════════════ -->
-<!-- EXECUTIVE SUMMARY                                           -->
-<!-- ══════════════════════════════════════════════════════════ -->
+<!-- ─── EXECUTIVE SUMMARY ──────────────────────────── -->
 <section>
   <div class="container">
-    <div class="section-eyebrow">Executive Summary</div>
-    <h2 class="section-title">Built for the field,<br>not the filing cabinet.</h2>
-    <p class="section-sub">RecoverPrepared established an early framework for survivor case coordination. Vijilant was built from the ground up to solve the actual friction points DCM case managers face every day — triage, documentation, automation, and real-time workflow — with AI embedded at every step.</p>
-
+    <h2>Built for the field,<br><em>not the filing cabinet.</em></h2>
+    <p>RecoverPrepared established an early framework for survivor case coordination. Vijilant was built from the ground up to solve the actual friction points DCM case managers face every day — triage, documentation, automation, and real-time workflow — with AI embedded at every step.</p>
     <div class="stat-row">
       <div class="stat-card">
-        <div class="stat-number">12-sec</div>
+        <div class="stat-val">12s</div>
         <div class="stat-label">Estimated average time to auto-triage a new intake — vs. manual assessment in every other platform.</div>
       </div>
       <div class="stat-card">
-        <div class="stat-number">0–1000</div>
-        <div class="stat-label">Recovery Score — computed automatically from the 12-section clinical assessment with no CM data entry required. Displayed as a Recovery Score Ring on every client record throughout the app.</div>
+        <div class="stat-val">0–1000</div>
+        <div class="stat-label">Recovery Score — computed automatically from the 12-section clinical assessment with no CM data entry required. Displayed as a Recovery Score Ring on every client record.</div>
       </div>
       <div class="stat-card">
-        <div class="stat-number">0</div>
+        <div class="stat-val">0</div>
         <div class="stat-label">Manual steps required to generate a Recovery Plan from a completed assessment. System writes it on save.</div>
       </div>
     </div>
-
-    <div class="amber-callout">
-      <div class="amber-callout-label">Field Note — From Current LLP Use of RecoverPrepared</div>
-      <p>As a Disaster Care Manager currently using RecoverPrepared alongside Vijilant's development, I can confirm three persistent friction points in daily field use: clients have been unable to access their own profiles to review case details, inputting case notation is cumbersome and slow, and there is no automation of any kind connecting the different nodes of our workflow. These are not edge cases — they are daily limitations that directly slow down survivor service delivery.</p>
+    <div class="field-note">
+      <div class="fn-label">Field Note — From Current LLP Use of RecoverPrepared</div>
+      <div class="fn-text">As a Disaster Care Manager currently using RecoverPrepared alongside Vijilant's development, I can confirm three persistent friction points in daily field use: clients have been unable to access their own profiles to review case details, inputting case notation is cumbersome and slow, and there is no automation of any kind connecting the different nodes of our workflow. These are not edge cases — they are daily limitations that directly slow down survivor service delivery.</div>
     </div>
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════════════════════ -->
-<!-- 3-SCREEN SHOWCASE                                           -->
-<!-- ══════════════════════════════════════════════════════════ -->
-<section class="section-dark">
+<!-- ─── VIJILANT IN ACTION ─────────────────────────── -->
+<section class="section-dark screens-section">
+  <div class="orb" style="width:500px;height:500px;background:var(--teal);opacity:.12;top:-150px;right:-100px;"></div>
+  <div class="orb" style="width:300px;height:300px;background:var(--coral);opacity:.08;bottom:-80px;left:-60px;"></div>
   <div class="container">
-    <div class="section-eyebrow">Vijilant in Action</div>
-    <h2 class="section-title">Three screens. One workflow.</h2>
-    <p class="section-sub">From the moment a CM opens the app, through client intake, all the way to a completed clinical assessment — Vijilant's 20+ screens are built around how case managers actually move through their day.</p>
-    <div class="showcase-row">
-      <div class="showcase-item">
-        <div class="phone-frame">
-          <div class="phone-screen-wrap">
-            <iframe src="./embed-02-dashboard.html" title="Daily Home"></iframe>
-          </div>
-        </div>
-        <div class="showcase-label">Daily Home</div>
+    <h2>Three screens.<br><em>One workflow.</em></h2>
+    <p>From the moment a CM opens the app, through client intake, all the way to a completed clinical assessment — Vijilant's 16+ screens are built around how case managers actually move through their day.</p>
+    <div class="screens-row">
+      <div class="screen-thumb">
+        <div class="screen-thumb-label">Daily Home</div>
+        <div class="screen-thumb-title">My Day Dashboard</div>
+        <p style="font-size:12px;color:rgba(255,255,255,.45);margin-top:6px;line-height:1.5">5-card KPI strip · Overdue follow-ups with gradient rings · Score drop alerts · New resources</p>
       </div>
-      <div class="showcase-item">
-        <div class="phone-frame">
-          <div class="phone-screen-wrap">
-            <iframe src="./embed-04-casefile.html" title="Case File"></iframe>
-          </div>
-        </div>
-        <div class="showcase-label">Case File + Recovery Plan</div>
+      <div class="screen-thumb">
+        <div class="screen-thumb-label">Case File + Recovery Plan</div>
+        <div class="screen-thumb-title">Client Detail</div>
+        <p style="font-size:12px;color:rgba(255,255,255,.45);margin-top:6px;line-height:1.5">72px gradient ring · 7 tabs · Aid applications with auto-fill · Audit trail</p>
       </div>
-      <div class="showcase-item">
-        <div class="phone-frame">
-          <div class="phone-screen-wrap">
-            <iframe src="./embed-06-assessment.html" title="Clinical Assessment"></iframe>
-          </div>
-        </div>
-        <div class="showcase-label">Clinical Assessment</div>
+      <div class="screen-thumb">
+        <div class="screen-thumb-label">Clinical Assessment</div>
+        <div class="screen-thumb-title">Assessment Form</div>
+        <p style="font-size:12px;color:rgba(255,255,255,.45);margin-top:6px;line-height:1.5">5 domains · Text-only labels · Q&amp;A display: → [answer] · Domain pills: None/Disrupted/Partial/Stable/Strong</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════════════════════ -->
-<!-- FEATURE COMPARISON TABLE                                    -->
-<!-- ══════════════════════════════════════════════════════════ -->
+<!-- ─── RECOVERY SCORE RING ────────────────────────── -->
+<section class="section-dark">
+  <div class="orb" style="width:500px;height:500px;background:var(--teal);opacity:.12;top:-150px;right:-80px;"></div>
+  <div class="container">
+    <h2>The Recovery Score Ring.<br><em>Our signature differentiator.</em></h2>
+    <p>The Recovery Score Ring is the signature visual element of Vijilant — a 0–1000 score ring that appears on every client record. Compact size (36px) in list views; large size (72px) in the client header. Score is computed server-side from the 5-domain assessment and updates automatically. Never manually entered, adjusted, or overridden at any role level. A ? icon on every ring opens a domain-level explainer popover.</p>
+    <div class="ring-demo" style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);">
+      <!-- Ring: 200 — Red zone -->
+      <div class="ring-demo-item">
+        <div class="ring ring-lg">
+          <div class="ring-disc"></div>
+          <div class="ring-cap" style="transform:rotate(72deg);"></div>
+          <div class="ring-label"><div class="ring-score" style="font-size:14px;color:#C0392B;">200</div></div>
+        </div>
+        <div class="ring-caption">T4 · 0–250<br>Red zone</div>
+      </div>
+      <!-- Ring: 412 — Coral zone -->
+      <div class="ring-demo-item">
+        <div class="ring ring-lg">
+          <div class="ring-disc"></div>
+          <div class="ring-cap" style="transform:rotate(148.3deg);"></div>
+          <div class="ring-label"><div class="ring-score" style="font-size:14px;color:#F4714F;">412</div></div>
+        </div>
+        <div class="ring-caption">T3 · 251–500<br>Coral zone</div>
+      </div>
+      <!-- Ring: 618 — Teal zone -->
+      <div class="ring-demo-item">
+        <div class="ring ring-lg">
+          <div class="ring-disc"></div>
+          <div class="ring-cap" style="transform:rotate(222.5deg);"></div>
+          <div class="ring-label"><div class="ring-score" style="font-size:14px;color:#3ECFB2;">618</div></div>
+        </div>
+        <div class="ring-caption">T2 · 501–750<br>Teal zone</div>
+      </div>
+      <!-- Ring: 820 — Navy zone -->
+      <div class="ring-demo-item">
+        <div class="ring ring-lg">
+          <div class="ring-disc"></div>
+          <div class="ring-cap" style="transform:rotate(295.2deg);"></div>
+          <div class="ring-label"><div class="ring-score" style="font-size:14px;color:#1B2A4A;">820</div></div>
+        </div>
+        <div class="ring-caption">T1 · 751–1000<br>Navy zone</div>
+      </div>
+      <div style="flex:1;min-width:200px;">
+        <p style="font-size:14px;color:rgba(255,255,255,.65);line-height:1.7;">The full gradient — Red → Coral → Teal → Navy — is always visible on the ring track, representing the full 0–1000 recovery scale. The client's score determines how far the filled arc travels. The color at the arc tip tells you instantly which band they're in. No competitor offers anything comparable.</p>
+        <p style="font-size:12px;font-family:'DM Mono',monospace;color:rgba(255,255,255,.4);margin-top:10px;">Score = computed server-side only. Never a manual input at any role level.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FEATURE TABLE ──────────────────────────────── -->
 <section>
   <div class="container">
-    <div class="section-eyebrow">Feature Comparison</div>
-    <h2 class="section-title">Head to head.</h2>
-    <p class="section-sub">Twenty-two core capabilities evaluated across four platforms based on documented features, published information, and first-hand field experience with each tool.</p>
-
-    <div style="overflow-x:auto; -webkit-overflow-scrolling:touch; margin-top:40px;">
-    <table class="feature-table" style="min-width:880px; margin-top:0;">
-      <thead>
-        <tr>
-          <th style="width:22%">Capability</th>
-          <th style="width:22%; text-align:center">Vijilant</th>
-          <th style="width:18%; text-align:center">RecoverPrepared</th>
-          <th style="width:19%; text-align:center">Bonterra / Apricot</th>
-          <th style="width:19%; text-align:center">CaseWorthy</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Client Intake<span class="sub">First contact → case record creation</span></td>
-          <td><span class="badge-win">Vijilant</span><br><small>Creates a new client record, queues a follow-up, assigns a Triage Pending badge, and runs a duplicate check on save.</small></td>
-          <td class="lose">Manual entry with no automation on save.</td>
-          <td class="tie"><em>Configurable intake forms. No automation triggered on save.</em></td>
-          <td class="tie"><em>Configurable intake forms. No automation on save.</em></td>
-        </tr>
-        <tr>
-          <td>Triage / Prioritization<span class="sub">Critical → Stable case classification</span></td>
-          <td><span class="badge-win">Vijilant</span><br><small>Auto-Triage Engine runs on assessment save. Outputs Triage Tier T1–T4 (Critical / Complex / Moderate / Stable) with AI-written rationale. Tier is computed by the system — never a manual input at any role level.</small></td>
-          <td class="lose">No automated triage. Manual severity labeling only.</td>
-          <td class="lose">No automated triage. Manual priority labels only.</td>
-          <td class="lose">No automated triage. Manual classification only.</td>
-        </tr>
-        <tr>
-          <td>Clinical Assessment<span class="sub">Standardized multi-domain intake</span></td>
-          <td><span class="badge-win">Vijilant</span><br><small>12-section assessment built for disaster recovery casework. CM fills Part A — descriptive labels, no numeric scales shown. System computes Part B: Triage Tier T1–T4, AI rationale, Recovery Score (0–1000), and a plain-language explanation — all displayed as a Recovery Score Ring on the client record.</small></td>
-          <td class="tie">START framework assessment. Single-domain scoring.</td>
-          <td class="tie"><em>Configurable assessment forms. No standardized DCM assessment or computed scoring.</em></td>
-          <td class="tie"><em>Configurable assessment forms. No standardized scoring or triage output.</em></td>
-        </tr>
-        <tr>
-          <td>Recovery Score Ring<span class="sub">Live 0–1000 recovery visualization on every client record</span></td>
-          <td><span class="badge-win">Vijilant</span><br><small>The Recovery Score Ring is the signature visual element of Vijilant — a 0–1000 score ring that appears on every client record. Compact size (36 px) in list views; large size (72 px) in the client header. Score is computed server-side from the 5-domain assessment and updates automatically on assessment save. Never manually entered, adjusted, or overridden at any role level. A ? icon on every ring opens a domain-level explainer popover.</small></td>
-          <td class="lose">No equivalent scoring ring or live recovery visualization.</td>
-          <td class="lose">No client-level recovery score visualization.</td>
-          <td class="lose">No automated recovery score or visual ring.</td>
-        </tr>
-        <tr>
-          <td>Recovery Plan Generation<span class="sub">Personalized plan from assessment data</span></td>
-          <td><span class="badge-win">Vijilant</span><br><small>AI generates a personalized Recovery Plan from the completed assessment on save. No CM drafting required.</small></td>
-          <td class="lose">No auto-generated recovery plans. Manual documentation.</td>
-          <td class="lose">No auto-generated recovery plans. Manual documentation only.</td>
-          <td class="lose">No auto-generated recovery plans. Manual documentation only.</td>
-        </tr>
-        <tr>
-          <td>Case Note Documentation<span class="sub">Speed and structure of notation</span></td>
-          <td><span class="badge-win">Vijilant</span><br><small>Structured note templates with meta-tagging. Notes trigger triage re-evaluation and resource matching.</small></td>
-          <td class="lose">Notation is cumbersome per field reports. No structured templates.</td>
-          <td class="tie"><em>Structured note forms available. Notes do not trigger triage re-evaluation.</em></td>
-          <td class="tie"><em>Structured notes available. No workflow automation triggered by note save.</em></td>
-        </tr>
-        <tr>
-          <td>Workflow Automation<span class="sub">Cross-node automation between tasks</span></td>
-          <td><span class="badge-win">Vijilant</span><br><small>Assessment → triage → recovery plan → resource match → admin alert — all automated in sequence.</small></td>
-          <td class="lose">No workflow automation between nodes per LLP field use.</td>
-          <td class="tie"><em>Automated reminders and alerts available. No cross-node automation between case events.</em></td>
-          <td class="tie"><em>Configurable workflow engine. Requires manual setup; not pre-built for disaster case management.</em></td>
-        </tr>
-        <tr>
-          <td>Resource Directory<span class="sub">Benefits, funding streams, contractors</span></td>
-          <td><span class="badge-win">Vijilant</span><br><small>Admin-managed resource library. v2: auto-assigned to clients via assessment + note meta-tagging.</small></td>
-          <td class="tie">Resource library present. No auto-assignment capability.</td>
-          <td class="tie"><em>Referral and resource tracking. No AI-driven auto-assignment.</em></td>
-          <td class="tie"><em>Service tracking and referral management. No auto-assignment capability.</em></td>
-        </tr>
-        <tr>
-          <td>Aid Application Builder + Auto-Fill<span class="sub">In-app form configuration, client auto-population, multi-mode submission</span></td>
-          <td><span class="badge-win">Vijilant</span><br><small>Supervisors configure AID org application templates inside Vijilant (field-by-field, mapped to client profile). ~88% of fields auto-populate (e.g., 15 of 17 Wylie Center fields). Auto-filled fields display with a green indicator; CM reviews and completes the remainder. Submission via email, direct API integration, or External Form mode (Jotform/Salesforce — URL pre-filled, CM marks submitted). New "Auto-Draft" status: system pre-populates the application the moment a match is identified — CM reviews rather than starts from scratch. Full audit trail: auto-draft created → CM reviewed → submitted → response logged.</small></td>
-          <td class="lose">No in-app application builder or template configurator. No client auto-population. No multi-mode submission.</td>
-          <td class="lose">No purpose-built aid application configurator. No auto-population from client profile into external forms. Manual tracking only.</td>
-          <td class="lose">No aid application builder or auto-fill system. Application tracking requires manual data entry. No submission integration.</td>
-        </tr>
-        <tr>
-          <td>Resource → Client Matching<span class="sub">See all eligible clients for a given resource — from the resource's perspective</span></td>
-          <td><span class="badge-win">Vijilant</span><br><small>From any Resource in the directory, CM or Supervisor sees every client in their caseload (or org-wide for Supervisor) who matches that resource — based on Area Needs tags, assessment answers, and Recovery Score band. Match reasons are tagged per client row. CM can initiate an auto-drafted application for any matching client directly from the resource view. "Already Applied" guard surfaces prior submission date — informational only, not a gate. Supervisor can filter to Score &lt; 500, select multiple clients, and launch batch auto-drafts in sequence.</small></td>
-          <td class="lose">No resource-to-client matching surface. Case workers manually identify which clients may qualify for a given resource.</td>
-          <td class="lose">No inverse resource-to-client matching. Referral management is client-first only — no resource-first discovery view.</td>
-          <td class="lose">No resource → client matching engine. Service tracking is client-initiated. No caseload-wide eligibility view per resource.</td>
-        </tr>
-        <tr>
-          <td>Supervisor Dashboard<span class="sub">Admin visibility and team oversight</span></td>
-          <td><span class="badge-win">Vijilant</span><br><small>Dedicated Supervisor Dashboard with caseload overview, triage tier distribution, and escalation flags.</small></td>
-          <td class="tie">Admin reporting view present. Depth not confirmed in field use.</td>
-          <td class="tie"><em>Reporting dashboards available. Highly configurable but requires setup per use case.</em></td>
-          <td class="tie"><em>Reporting and oversight dashboards. Configurable but not purpose-built for DCM supervisor workflows.</em></td>
-        </tr>
-        <tr>
-          <td>Multi-Role Access Control<span class="sub">Admin / Supervisor / Case Manager roles</span></td>
-          <td><span class="badge-win">Vijilant</span><br><small>Role-based access control with enterprise-grade permissions. Multi-role toggle per user session. Staff invite link system.</small></td>
-          <td class="tie">Role separation present. Implementation not confirmed in field use.</td>
-          <td class="tie"><em>Role-based permissions present. Enterprise-grade access control available.</em></td>
-          <td class="tie"><em>Role-based access control. Permission groups configurable for different staff levels.</em></td>
-        </tr>
-        <tr>
-          <td>Survivor Portal<span class="sub">Client self-service access to case details</span></td>
-          <td class="tie">Planned for post-v1 roadmap.</td>
-          <td class="lose">Survivor login page is present on site. In current LLP field implementation, client profile access has not been verified as functional. Feature claimed on site; not confirmed active in current deployment.</td>
-          <td class="badge-win"><span class="badge-win">Available</span><br><small>Client-facing portal available. Self-service access to records and forms.</small></td>
-          <td class="tie"><em>Client portal available in enterprise tiers.</em></td>
-        </tr>
-        <tr>
-          <td>Mobile-First Design<span class="sub">Optimized for field use on a phone</span></td>
-          <td><span class="badge-win">Vijilant</span><br><small>Native mobile app built for iOS and Android. Designed exclusively for mobile-first field workflows.</small></td>
-          <td class="lose">Web-based. Responsive but not mobile-native. Not optimized for field use.</td>
-          <td class="lose">Web-based only. Mobile-responsive but not a native app. Not designed for field use.</td>
-          <td class="lose">Web-based with mobile browser access. Not a native mobile app.</td>
-        </tr>
-        <tr>
-          <td>HIPAA Compliance<span class="sub">PHI handling, encryption, BAA coverage</span></td>
-          <td><span class="badge-win">Vijilant</span><br><small>HIPAA-certified infrastructure with enterprise BAA. Full audit trail before any protected health information enters the system.</small></td>
-          <td class="tie">AWS S3 storage. HIPAA posture not publicly confirmed.</td>
-          <td class="tie"><em>HIPAA Business Associate Agreement available. Compliance configuration is customer-managed.</em></td>
-          <td class="tie"><em>HIPAA-compliant infrastructure. BAA available for covered entities.</em></td>
-        </tr>
-        <tr>
-          <td>AI Integration<span class="sub">Native AI embedded in core workflows</span></td>
-          <td><span class="badge-win">Vijilant</span><br><small>AI-native Auto-Triage Engine built into every core workflow. Triggers on assessment save, note save, task completion, and referral outcome.</small></td>
-          <td class="lose">No AI integration confirmed.</td>
-          <td class="lose">No AI integration in core workflows.</td>
-          <td class="lose">No AI integration confirmed.</td>
-        </tr>
-        <tr>
-          <td>Export Formats<span class="sub">Case data portability — web and mobile</span></td>
-          <td><span class="badge-win">Vijilant</span><br><small>.xlsx and .docx export on web; PDF export via native share sheet on mobile — matching LLP's existing documentation standards.</small></td>
-          <td class="tie">Export functionality not confirmed in field use.</td>
-          <td class="tie"><em>Excel and PDF export available via reporting module.</em></td>
-          <td class="tie"><em>Reporting exports available. Format support varies by configuration.</em></td>
-        </tr>
-        <tr>
-          <td>AI Resource Matching<span class="sub">Ranked resource recommendations per client</span></td>
-          <td><span class="badge-win">Vijilant</span><br><small>Every client receives auto-ranked resource recommendations (score 0–100) based on their assessment profile. Plain-language reason per resource. CM accepts or refers in one tap.</small></td>
-          <td class="lose">Manual resource directory only. No auto-matching or scoring.</td>
-          <td class="lose">Manual referral tracking only. No AI-driven matching or scoring.</td>
-          <td class="lose">Manual referral directory. No automated matching or recommendation engine.</td>
-        </tr>
-        <tr>
-          <td>Duplicate Detection<span class="sub">Real-time check on client creation</span></td>
-          <td><span class="badge-win">Vijilant</span><br><small>System runs a real-time duplicate check on client name, phone, and address at intake save. Flags likely duplicates before the record is committed.</small></td>
-          <td class="lose">No duplicate detection capability.</td>
-          <td class="tie"><em>Basic duplicate checking available in standard configuration.</em></td>
-          <td class="tie"><em>Duplicate client detection present in standard configuration.</em></td>
-        </tr>
-        <tr>
-          <td>Escalation Workflow<span class="sub">CM-to-supervisor flag system</span></td>
-          <td><span class="badge-win">Vijilant</span><br><small>CMs can escalate any case to their supervisor with a flag and reason. Supervisors see escalations in a dedicated queue with resolution tracking.</small></td>
-          <td class="lose">No internal escalation system. Escalations handled outside the platform.</td>
-          <td class="tie"><em>Configurable workflow alerts. Not purpose-built for CM-to-supervisor escalation.</em></td>
-          <td class="tie"><em>Configurable notifications and task routing. Not pre-built for DCM escalation workflows.</em></td>
-        </tr>
-        <tr>
-          <td>Badges &amp; Achievements<span class="sub">Gamified CM engagement system</span></td>
-          <td><span class="badge-win">Vijilant</span><br><small>Six-category achievement system recognizing client milestones: housing stability, financial progress, health access, legal resolution, emotional wellbeing, and documentation completion.</small></td>
-          <td class="lose">No achievement or milestone tracking system.</td>
-          <td class="lose">No achievement or milestone tracking system.</td>
-          <td class="lose">No achievement or milestone system.</td>
-        </tr>
-        <tr>
-          <td>PDF Export — Mobile<span class="sub">Full case file export via native share sheet</span></td>
-          <td><span class="badge-win">Vijilant</span><br><small>CMs can export a full client case file as a PDF directly from the mobile app via the native iOS/Android share sheet. Useful for handoffs, field meetings, and compliance documentation.</small></td>
-          <td class="lose">No mobile export capability confirmed.</td>
-          <td class="lose">No mobile app. No mobile-native export capability.</td>
-          <td class="lose">No native mobile app. No mobile PDF export.</td>
-        </tr>
-        <tr>
-          <td>Intake Queue — Mobile<span class="sub">Supervisor intake review on mobile</span></td>
-          <td><span class="badge-win">Vijilant</span><br><small>Supervisors and admins can review, approve, or reject pending intake submissions directly from the mobile app — no desktop required.</small></td>
-          <td class="lose">No mobile-native supervisor intake review.</td>
-          <td class="lose">No mobile app. Intake review requires desktop browser.</td>
-          <td class="lose">No native mobile app. Supervisor intake review requires desktop.</td>
-        </tr>
-        <tr>
-          <td>Biometric Authentication<span class="sub">HIPAA-compliant, no passcode fallback</span></td>
-          <td><span class="badge-win">Vijilant</span><br><small>Face ID / Touch ID enforced with no passcode fallback option. Required for HIPAA compliance in mobile applications handling PHI.</small></td>
-          <td class="lose">Web-based auth only. No biometric authentication available.</td>
-          <td class="lose">Web-only login. No biometric authentication available.</td>
-          <td class="lose">Web-only authentication. No biometric auth available.</td>
-        </tr>
-      </tbody>
-    </table>
+    <h2>Head to head.<br><em>Twenty-two capabilities.</em></h2>
+    <p>Evaluated across four platforms based on documented features, published information, and first-hand field experience with each tool.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:200px;">Capability</th>
+            <th>Vijilant</th>
+            <th>RecoverPrepared</th>
+            <th>Bonterra / Apricot</th>
+            <th>CaseWorthy</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Client Intake<br><span style="font-weight:400;font-size:11px;color:var(--gray-400);">First contact → case record</span></td>
+            <td><span class="win">✓ Full</span> Creates record, queues follow-up, assigns Triage Pending badge, runs duplicate check on save.</td>
+            <td>Manual entry. No automation on save.</td>
+            <td><span class="partial">Configurable</span> No automation triggered on save.</td>
+            <td><span class="partial">Configurable</span> No automation on save.</td>
+          </tr>
+          <tr>
+            <td>Triage / Prioritization<br><span style="font-weight:400;font-size:11px;color:var(--gray-400);">Critical → Stable classification</span></td>
+            <td><span class="win">✓ AI</span> Auto-Triage Engine runs on assessment save. Outputs T1–T4 with AI-written rationale. Tier is computed — never a manual input at any role level.</td>
+            <td><span class="no">✗</span> No automated triage. Manual severity labeling only.</td>
+            <td><span class="no">✗</span> No automated triage. Manual priority labels only.</td>
+            <td><span class="no">✗</span> No automated triage. Manual classification only.</td>
+          </tr>
+          <tr>
+            <td>Clinical Assessment<br><span style="font-weight:400;font-size:11px;color:var(--gray-400);">Standardized multi-domain intake</span></td>
+            <td><span class="win">✓ Built-in</span> 12-section assessment built for disaster recovery. CM fills Part A — descriptive labels, no numeric scales shown. System computes Part B: Triage Tier T1–T4, AI rationale, Recovery Score (0–1000), plain-language explanation.</td>
+            <td><span class="partial">Partial</span> START framework assessment. Single-domain scoring.</td>
+            <td><span class="no">✗</span> Configurable forms. No standardized DCM assessment or computed scoring.</td>
+            <td><span class="no">✗</span> Configurable forms. No standardized scoring or triage output.</td>
+          </tr>
+          <tr>
+            <td>Recovery Score Ring<br><span style="font-weight:400;font-size:11px;color:var(--gray-400);">Live 0–1000 recovery visualization</span></td>
+            <td><span class="win">✓ Signature</span> The Recovery Score Ring appears on every client record. 36px in list views; 72px in client header. Gradient arc (Red→Coral→Teal→Navy) represents the full 0–1000 scale. Score updates automatically on assessment save. A ? icon opens a domain-level explainer popover.</td>
+            <td><span class="no">✗</span> No equivalent scoring ring or live recovery visualization.</td>
+            <td><span class="no">✗</span> No client-level recovery score visualization.</td>
+            <td><span class="no">✗</span> No automated recovery score or visual ring.</td>
+          </tr>
+          <tr>
+            <td>Recovery Plan Generation<br><span style="font-weight:400;font-size:11px;color:var(--gray-400);">Personalized plan from assessment</span></td>
+            <td><span class="win">✓ AI</span> AI generates a personalized Recovery Plan from the completed assessment on save. No CM drafting required.</td>
+            <td><span class="no">✗</span> No auto-generated recovery plans. Manual documentation.</td>
+            <td><span class="no">✗</span> No auto-generated recovery plans. Manual documentation only.</td>
+            <td><span class="no">✗</span> No auto-generated recovery plans. Manual documentation only.</td>
+          </tr>
+          <tr>
+            <td>Case Note Documentation<br><span style="font-weight:400;font-size:11px;color:var(--gray-400);">Speed and structure of notation</span></td>
+            <td><span class="win">✓ Structured</span> Structured note templates with meta-tagging. Notes trigger triage re-evaluation and resource matching.</td>
+            <td><span class="partial">Friction</span> Notation is cumbersome per field reports. No structured templates.</td>
+            <td><span class="partial">Available</span> Structured note forms available. Notes do not trigger triage re-evaluation.</td>
+            <td><span class="partial">Available</span> Structured notes available. No workflow automation triggered by note save.</td>
+          </tr>
+          <tr>
+            <td>Workflow Automation<br><span style="font-weight:400;font-size:11px;color:var(--gray-400);">Cross-node automation</span></td>
+            <td><span class="win">✓ Full</span> Assessment → triage → recovery plan → resource match → admin alert — all automated in sequence.</td>
+            <td><span class="no">✗</span> No workflow automation between nodes per LLP field use.</td>
+            <td><span class="partial">Limited</span> Automated reminders and alerts available. No cross-node automation between case events.</td>
+            <td><span class="partial">Configurable</span> Workflow engine requires manual setup; not pre-built for disaster case management.</td>
+          </tr>
+          <tr>
+            <td>Resource Directory<br><span style="font-weight:400;font-size:11px;color:var(--gray-400);">Benefits, funding, contractors</span></td>
+            <td><span class="win">✓ Active</span> Admin-managed resource library. v2: auto-assigned to clients via assessment + note meta-tagging. New Resources module surfaces additions in the dashboard.</td>
+            <td><span class="partial">Available</span> Resource library present. No auto-assignment capability.</td>
+            <td><span class="partial">Available</span> Referral and resource tracking. No AI-driven auto-assignment.</td>
+            <td><span class="partial">Available</span> Service tracking and referral management. No auto-assignment capability.</td>
+          </tr>
+          <tr>
+            <td>Aid Application Builder + Auto-Fill<br><span style="font-weight:400;font-size:11px;color:var(--gray-400);">In-app form config, auto-population, submission</span></td>
+            <td><span class="win">✓ Full</span> Supervisors configure AID org application templates inside Vijilant. ~88% of fields auto-populate from client profile (e.g., 15 of 17 Wylie Center fields). Auto-filled fields display with green indicator; CM reviews the remainder. Submission via email, direct API integration, or External Form mode. Auto-Draft status: system pre-populates on match. Full audit trail: draft created → CM reviewed → submitted → response logged.</td>
+            <td><span class="no">✗</span> No in-app application builder or template configurator. No client auto-population. No multi-mode submission.</td>
+            <td><span class="no">✗</span> No purpose-built aid application configurator. No auto-population from client profile into external forms. Manual tracking only.</td>
+            <td><span class="no">✗</span> No aid application builder or auto-fill system. Application tracking requires manual data entry. No submission integration.</td>
+          </tr>
+          <tr>
+            <td>Resource → Client Matching<br><span style="font-weight:400;font-size:11px;color:var(--gray-400);">See all eligible clients for a given resource</span></td>
+            <td><span class="win">✓ Full</span> From any Resource in the directory, CM or Supervisor sees every client in their caseload (or org-wide for Supervisor) who matches that resource — based on Area Needs tags, assessment answers, and Recovery Score band. Match reasons tagged per client row. Supervisor can filter to Score &lt; 500, select multiple clients, and launch batch auto-drafts in sequence.</td>
+            <td><span class="no">✗</span> No resource-to-client matching surface. Workers manually identify which clients may qualify.</td>
+            <td><span class="no">✗</span> No inverse resource-to-client matching. Referral management is client-first only.</td>
+            <td><span class="no">✗</span> No resource → client matching engine. Service tracking is client-initiated.</td>
+          </tr>
+          <tr>
+            <td>Supervisor Dashboard<br><span style="font-weight:400;font-size:11px;color:var(--gray-400);">Admin visibility and team oversight</span></td>
+            <td><span class="win">✓ Full</span> Dedicated Supervisor Dashboard: 5-card KPI strip, 3-col module row (Score Drop Alerts, CMs Over Capacity, New Resources), Intake Pipeline full-width.</td>
+            <td><span class="partial">Limited</span> Admin reporting view present. Depth not confirmed in field use.</td>
+            <td><span class="partial">Configurable</span> Reporting dashboards available. Requires setup per use case.</td>
+            <td><span class="partial">Configurable</span> Reporting and oversight dashboards. Configurable but not purpose-built for DCM supervisor workflows.</td>
+          </tr>
+          <tr>
+            <td>Multi-Role Access Control<br><span style="font-weight:400;font-size:11px;color:var(--gray-400);">Admin / Supervisor / CM roles</span></td>
+            <td><span class="win">✓ Full</span> Role-based access control with enterprise-grade permissions. Multi-role toggle per user session. Staff invite link system.</td>
+            <td><span class="partial">Available</span> Role separation present. Implementation not confirmed in field use.</td>
+            <td><span class="partial">Available</span> Role-based permissions present. Enterprise-grade access control available.</td>
+            <td><span class="partial">Available</span> Role-based access control. Permission groups configurable for different staff levels.</td>
+          </tr>
+          <tr>
+            <td>Survivor Portal<br><span style="font-weight:400;font-size:11px;color:var(--gray-400);">Client self-service access to case details</span></td>
+            <td><span class="win">✓ Live v1</span> Secure tokenized link. Survivors see their Recovery Score ring, Recovery Plan (read-only), aid application statuses, can message their CM directly, upload documents, and sign applications requiring their authorization.</td>
+            <td><span class="partial">Claimed</span> Survivor login page present on site. In current LLP field implementation, client profile access has not been verified as functional.</td>
+            <td><span class="win">Available</span> Client-facing portal available. Self-service access to records and forms.</td>
+            <td><span class="partial">Enterprise only</span> Client portal available in enterprise tiers.</td>
+          </tr>
+          <tr>
+            <td>Mobile-First Design<br><span style="font-weight:400;font-size:11px;color:var(--gray-400);">Optimized for field use on a phone</span></td>
+            <td><span class="win">✓ Native</span> Native mobile app built for iOS and Android. Designed exclusively for mobile-first field workflows.</td>
+            <td><span class="no">Web only</span> Web-based. Responsive but not mobile-native. Not optimized for field use.</td>
+            <td><span class="no">Web only</span> Web-based only. Mobile-responsive but not a native app. Not designed for field use.</td>
+            <td><span class="no">Web only</span> Web-based with mobile browser access. Not a native mobile app.</td>
+          </tr>
+          <tr>
+            <td>HIPAA Compliance<br><span style="font-weight:400;font-size:11px;color:var(--gray-400);">PHI handling, encryption, BAA coverage</span></td>
+            <td><span class="win">✓ Full</span> HIPAA-certified infrastructure with enterprise BAA. Full audit trail before any PHI enters the system. Biometric auth with no passcode fallback. Analytics self-hosted.</td>
+            <td><span class="partial">Unconfirmed</span> AWS S3 storage. HIPAA posture not publicly confirmed.</td>
+            <td><span class="partial">Available</span> HIPAA BAA available. Compliance configuration is customer-managed.</td>
+            <td><span class="partial">Available</span> HIPAA-compliant infrastructure. BAA available for covered entities.</td>
+          </tr>
+          <tr>
+            <td>AI Integration<br><span style="font-weight:400;font-size:11px;color:var(--gray-400);">Native AI in core workflows</span></td>
+            <td><span class="win">✓ Native</span> AI-native Auto-Triage Engine built into every core workflow. Triggers on assessment save, note save, task completion, and referral outcome.</td>
+            <td><span class="no">✗</span> No AI integration confirmed.</td>
+            <td><span class="no">✗</span> No AI integration in core workflows.</td>
+            <td><span class="no">✗</span> No AI integration confirmed.</td>
+          </tr>
+          <tr>
+            <td>Export Formats<br><span style="font-weight:400;font-size:11px;color:var(--gray-400);">Case data portability</span></td>
+            <td><span class="win">✓ Full</span> .xlsx and .docx export on web; PDF export via native share sheet on mobile — matching LLP's existing documentation standards.</td>
+            <td><span class="partial">Unconfirmed</span> Export functionality not confirmed in field use.</td>
+            <td><span class="partial">Available</span> Excel and PDF export available via reporting module.</td>
+            <td><span class="partial">Available</span> Reporting exports available. Format support varies by configuration.</td>
+          </tr>
+          <tr>
+            <td>AI Resource Matching<br><span style="font-weight:400;font-size:11px;color:var(--gray-400);">Ranked recommendations per client</span></td>
+            <td><span class="win">✓ AI</span> Every client receives auto-ranked resource recommendations (score 0–100) based on their assessment profile. Plain-language reason per resource. CM accepts or refers in one tap.</td>
+            <td><span class="no">✗</span> Manual resource directory only. No auto-matching or scoring.</td>
+            <td><span class="no">✗</span> Manual referral tracking only. No AI-driven matching or scoring.</td>
+            <td><span class="no">✗</span> Manual referral directory. No automated matching or recommendation engine.</td>
+          </tr>
+          <tr>
+            <td>Duplicate Detection<br><span style="font-weight:400;font-size:11px;color:var(--gray-400);">Real-time check on client creation</span></td>
+            <td><span class="win">✓ Real-time</span> System runs a real-time duplicate check on client name, phone, and address at intake save. Flags likely duplicates before the record is committed.</td>
+            <td><span class="no">✗</span> No duplicate detection capability.</td>
+            <td><span class="partial">Basic</span> Basic duplicate checking available in standard configuration.</td>
+            <td><span class="partial">Basic</span> Duplicate client detection present in standard configuration.</td>
+          </tr>
+          <tr>
+            <td>Escalation Workflow<br><span style="font-weight:400;font-size:11px;color:var(--gray-400);">CM-to-supervisor flag system</span></td>
+            <td><span class="win">✓ Full</span> CMs can escalate any case to their supervisor with a flag and reason. Supervisors see escalations in a dedicated queue with resolution tracking.</td>
+            <td><span class="no">✗</span> No internal escalation system. Escalations handled outside the platform.</td>
+            <td><span class="partial">Configurable</span> Workflow alerts available. Not purpose-built for CM-to-supervisor escalation.</td>
+            <td><span class="partial">Configurable</span> Configurable notifications and task routing. Not pre-built for DCM escalation workflows.</td>
+          </tr>
+          <tr>
+            <td>Badges &amp; Achievements<br><span style="font-weight:400;font-size:11px;color:var(--gray-400);">Gamified CM engagement</span></td>
+            <td><span class="win">✓ Built-in</span> Achievement system recognizing client milestones: housing stability, financial progress, health access, legal resolution, emotional wellbeing, and documentation completion. SVG icon tiles — earned (gradient bg) vs. locked (gray bg, 45% opacity).</td>
+            <td><span class="no">✗</span> No achievement or milestone tracking system.</td>
+            <td><span class="no">✗</span> No achievement or milestone tracking system.</td>
+            <td><span class="no">✗</span> No achievement or milestone system.</td>
+          </tr>
+          <tr>
+            <td>PDF Export — Mobile<br><span style="font-weight:400;font-size:11px;color:var(--gray-400);">Full case file export via native share sheet</span></td>
+            <td><span class="win">✓ Native</span> CMs can export a full client case file as a PDF directly from the mobile app via the native iOS/Android share sheet. Useful for handoffs, field meetings, and compliance documentation.</td>
+            <td><span class="no">✗</span> No mobile export capability confirmed.</td>
+            <td><span class="no">✗</span> No mobile app. No mobile-native export capability.</td>
+            <td><span class="no">✗</span> No native mobile app. No mobile PDF export.</td>
+          </tr>
+          <tr>
+            <td>Biometric Authentication<br><span style="font-weight:400;font-size:11px;color:var(--gray-400);">HIPAA-compliant, no passcode fallback</span></td>
+            <td><span class="win">✓ Enforced</span> Face ID / Touch ID enforced with no passcode fallback option. Required for HIPAA compliance in mobile applications handling PHI.</td>
+            <td><span class="no">✗</span> Web-based auth only. No biometric authentication available.</td>
+            <td><span class="no">✗</span> Web-only login. No biometric authentication available.</td>
+            <td><span class="no">✗</span> Web-only authentication. No biometric auth available.</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════════════════════ -->
-<!-- THE AI DIFFERENCE                                           -->
-<!-- ══════════════════════════════════════════════════════════ -->
+<!-- ─── THE AI DIFFERENCE ──────────────────────────── -->
 <section class="section-dark">
+  <div class="orb" style="width:600px;height:600px;background:var(--teal);opacity:.1;top:-200px;right:-100px;"></div>
   <div class="container">
-    <div class="section-eyebrow">The AI Difference</div>
-    <h2 class="section-title">Not AI as a feature.<br>AI as the infrastructure.</h2>
-    <p class="section-sub">RecoverPrepared does not integrate AI into its workflow. Vijilant's Auto-Triage Engine runs on every assessment save, every case note, every task completion — surfacing the right information to the right person at the right moment.</p>
-
-    <div class="feature-blocks">
-      <div class="feature-block">
-        <div class="feature-block-head">
-          <div class="icon-stack">
-<div class="icon-box">
-              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>
-            </div>
-          </div>
-          <div>
-            <h3>Triage that updates itself</h3>
-          </div>
-        </div>
+    <h2>Not AI as a feature.<br><em>AI as the infrastructure.</em></h2>
+    <p>RecoverPrepared does not integrate AI into its workflow. Vijilant's Auto-Triage Engine runs on every assessment save, every case note, every task completion — surfacing the right information to the right person at the right moment.</p>
+    <div class="flow">
+      <div class="flow-step"><div class="flow-dot">1</div><div class="flow-label">CM saves assessment</div><div class="flow-sub">Part A complete — descriptive labels only</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="flow-dot">2</div><div class="flow-label">Auto-Triage Engine runs</div><div class="flow-sub">T1–T4 assigned with AI-written rationale</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="flow-dot">3</div><div class="flow-label">Recovery Score computed</div><div class="flow-sub">0–1000, displayed as gradient ring</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="flow-dot">4</div><div class="flow-label">Recovery Plan generated</div><div class="flow-sub">Full 5-domain plan — no drafting</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="flow-dot">5</div><div class="flow-label">Resources matched</div><div class="flow-sub">Auto-ranked 0–100 per client</div></div>
+    </div>
+    <div class="ai-grid">
+      <div class="ai-card">
+        <h3>Triage that updates itself</h3>
         <p>Every time a case note is saved, a task is completed, or a referral outcome is logged, the Auto-Triage Engine re-evaluates the client's tier. Critical cases don't stay buried in a flat list — they surface automatically.</p>
       </div>
-
-      <div class="feature-block">
-        <div class="feature-block-head">
-          <div class="icon-stack">
-<div class="icon-box">
-              <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-            </div>
-          </div>
-          <div>
-            <h3>AI-written rationale</h3>
-          </div>
-        </div>
+      <div class="ai-card">
+        <h3>AI-written rationale</h3>
         <p>The system doesn't just assign a tier — it writes the rationale. Assessment Part B is generated automatically on save: official Triage Tier (T1–T4), Recovery Score (0–1000), and a plain-language explanation of why. CMs read it. They don't write it.</p>
       </div>
-
-      <div class="feature-block">
-        <div class="feature-block-head">
-          <div class="icon-stack">
-<div class="icon-box">
-              <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
-            </div>
-          </div>
-          <div>
-            <h3>Recovery Plan generated on save</h3>
-          </div>
-        </div>
-        <p>When a 12-section assessment is completed, the system computes a Recovery Score (0–1000) and generates a full, personalized Recovery Plan — Housing, Financial, Health, Legal, Emotional — without the CM drafting a single line. It's ready to review in seconds.</p>
+      <div class="ai-card">
+        <h3>Recovery Plan generated on save</h3>
+        <p>When a 12-section assessment is completed, the system computes a Recovery Score (0–1000) and generates a full, personalized Recovery Plan — Housing, Financial, Health, Legal, Emotional — without the CM drafting a single line.</p>
       </div>
-
-      <div class="feature-block">
-        <div class="feature-block-head">
-          <div class="icon-stack">
-<div class="icon-box">
-              <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-            </div>
-          </div>
-          <div>
-            <h3>HIPAA-grade from the ground up</h3>
-          </div>
-        </div>
-        <p>HIPAA-certified infrastructure with enterprise BAA. Every write to a client record is logged in a full audit trail before any protected health information enters the system. Compliance isn't a feature we added — it's a precondition for launching.</p>
-      </div>
-    </div>
-
-    <div class="two-col" style="margin-top: 56px;">
-      <div>
-        <h3 style="font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 16px;">What does an auto-generated Recovery Plan look like?</h3>
-        <p style="font-size: 15px; color: rgba(255,255,255,0.65); line-height: 1.7; margin-bottom: 16px;">After the CM completes the 12-section clinical assessment, the system generates a Recovery Score (0–1000) and writes a structured Recovery Plan. No drafting. No templates to fill. The CM reviews, annotates, and approves — the system wrote the first draft.</p>
-        <p style="font-size: 14px; color: rgba(255,255,255,0.45); line-height: 1.65;">Recovery Plan covers: Housing Stability · Financial Recovery · Emotional Wellbeing · Documentation · Support Network. The Recovery Score (0–1000) is visualized throughout the app as a Recovery Score Ring on every client record — compact in list views, full-size in the client header.</p>
-      </div>
-      <div class="two-col-phone">
-        <div class="phone-frame">
-          <div class="phone-screen-wrap">
-            <iframe src="./embed-07-recoveryplan.html" title="Recovery Plan"></iframe>
-          </div>
-        </div>
+      <div class="ai-card">
+        <h3>HIPAA-grade from the ground up</h3>
+        <p>HIPAA-certified infrastructure with enterprise BAA. Every write to a client record is logged in a full audit trail before any PHI enters the system. Biometric auth enforced. Analytics self-hosted within Vijilant's infrastructure — zero PHI touches a third party.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════════════════════ -->
-<!-- AUDIENCE GRID                                               -->
-<!-- ══════════════════════════════════════════════════════════ -->
-<section class="section-dark" style="border-top: 1px solid rgba(255,255,255,0.08) !important;">
-  <div class="container">
-    <div class="section-eyebrow">Who This Serves</div>
-    <h2 class="section-title">Built for every role<br>in the room.</h2>
-    <p class="section-sub">Vijilant isn't a general case management platform repurposed for disaster work. Every role — from the front-line CM to the executive director — has a purpose-built view.</p>
-
-    <div class="audience-grid">
-      <div class="audience-card">
-        <div class="audience-card-head">
-          <div class="icon-stack">
-<div class="icon-box-dark">
-              <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-            </div>
-          </div>
-          <h3>Case Managers</h3>
-        </div>
-        <ul>
-          <li>Daily Home dashboard with task queue and flagged cases</li>
-          <li>Structured intake with duplicate detection on save</li>
-          <li>12-section clinical assessment with AI-generated Part B</li>
-          <li>Instant Recovery Plan — no drafting required</li>
-          <li>FEMA and Wylie aid application tracking per client</li>
-        </ul>
-      </div>
-
-      <div class="audience-card">
-        <div class="audience-card-head">
-          <div class="icon-stack">
-<div class="icon-box-dark">
-              <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-            </div>
-          </div>
-          <h3>Supervisors</h3>
-        </div>
-        <ul>
-          <li>Caseload overview with triage tier distribution</li>
-          <li>Escalation flags for Critical and Complex cases</li>
-          <li>Team-level workload visibility</li>
-          <li>Resource gap alerts via v2 meta-tagging system</li>
-          <li>Audit log access for compliance oversight</li>
-        </ul>
-      </div>
-
-      <div class="audience-card">
-        <div class="audience-card-head">
-          <div class="icon-stack">
-<div class="icon-box-dark">
-              <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>
-            </div>
-          </div>
-          <h3>Organization Admins</h3>
-        </div>
-        <ul>
-          <li>Staff invite link system with role assignment</li>
-          <li>Resource library management and categorization</li>
-          <li>v2 urgency alerts when resource categories are depleted</li>
-          <li>Export to .xlsx and .docx for reporting and compliance</li>
-          <li>Multi-organization architecture for licensing model</li>
-        </ul>
-      </div>
-
-      <div class="audience-card">
-        <div class="audience-card-head">
-          <div class="icon-stack">
-<div class="icon-box-dark">
-              <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
-            </div>
-          </div>
-          <h3>Grantors &amp; Funders</h3>
-        </div>
-        <ul>
-          <li>Verifiable HIPAA-compliant data infrastructure</li>
-          <li>Clinical assessment framework aligned with LLP standards</li>
-          <li>AI audit trail for triage and recovery planning decisions</li>
-          <li>Scalable to other disaster-response organizations</li>
-          <li>Built-in analytics for program outcome reporting</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════════════════════════════════════════════════ -->
-<!-- HONEST GAPS                                                 -->
-<!-- ══════════════════════════════════════════════════════════ -->
+<!-- ─── WHO THIS SERVES ────────────────────────────── -->
 <section>
   <div class="container">
-    <div class="section-eyebrow">Honest Assessment</div>
-    <h2 class="section-title">Where we're still building.</h2>
-    <p class="section-sub">Vijilant is purpose-built and field-tested in concept — but v1 is the beginning. These are real gaps we're closing methodically, not afterthoughts.</p>
-
-    <div class="gap-grid">
-      <div class="gap-card">
-        <h4>Survivor-facing portal — planned post-v1</h4>
-        <p>Client self-service access to their own case records is on the roadmap. v1 is optimized for CM and supervisor workflows first. Survivor portal comes in the business-enterprise phase with appropriate consent and security infrastructure.</p>
+    <h2>Built for every role<br><em>in the room.</em></h2>
+    <p>Vijilant isn't a general case management platform repurposed for disaster work. Every role — from the front-line CM to the executive director — has a purpose-built view.</p>
+    <div class="roles-grid">
+      <div class="role-card cm">
+        <div style="position:absolute;width:200px;height:200px;border-radius:50%;background:var(--teal);filter:blur(60px);opacity:.2;top:-60px;right:-40px;"></div>
+        <div style="position:relative;z-index:1;">
+          <div class="role-pill">Case Managers</div>
+          <h3>Your day, organized.</h3>
+          <ul class="role-list">
+            <li>Daily Home dashboard with task queue and flagged cases</li>
+            <li>Structured intake with duplicate detection on save</li>
+            <li>12-section clinical assessment with AI-generated Part B</li>
+            <li>Instant Recovery Plan — no drafting required</li>
+            <li>Aid application tracking per client with auto-fill</li>
+            <li>Recovery Score ring on every client record</li>
+          </ul>
+        </div>
       </div>
-      <div class="gap-card">
+      <div class="role-card sup">
+        <div style="position:absolute;width:200px;height:200px;border-radius:50%;background:var(--coral);filter:blur(60px);opacity:.15;bottom:-60px;right:-40px;"></div>
+        <div style="position:relative;z-index:1;">
+          <div class="role-pill">Supervisors &amp; Admins</div>
+          <h3>Your org, visible.</h3>
+          <ul class="role-list">
+            <li>Org Overview dashboard with 5 KPIs and 3-col module row</li>
+            <li>Score drop alerts across all CMs (≥100 pts / 30 days)</li>
+            <li>CMs Over Capacity flag (≥35 active clients)</li>
+            <li>Intake Pipeline: Pending → Verified → Assigned → Follow-up</li>
+            <li>Batch auto-draft aid applications across matched clients</li>
+            <li>Audit log access for compliance oversight</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:20px;" class="roles-grid">
+      <div class="role-card" style="background:linear-gradient(135deg,#1A6B6B,var(--navy));">
+        <div style="position:relative;z-index:1;">
+          <div class="role-pill">Organization Admins</div>
+          <h3>Your platform, configured.</h3>
+          <ul class="role-list">
+            <li>Staff invite link system with role assignment</li>
+            <li>Resource library management and categorization</li>
+            <li>Aid application template builder — field-by-field, mapped to client profile</li>
+            <li>Export to .xlsx and .docx for reporting and compliance</li>
+            <li>Multi-organization architecture for licensing model</li>
+          </ul>
+        </div>
+      </div>
+      <div class="role-card" style="background:linear-gradient(135deg,var(--navy-mid),#1A4060);">
+        <div style="position:relative;z-index:1;">
+          <div class="role-pill">Grantors &amp; Funders</div>
+          <h3>What you need to see.</h3>
+          <ul class="role-list">
+            <li>Verifiable HIPAA-compliant data infrastructure</li>
+            <li>Clinical assessment framework aligned with LLP standards</li>
+            <li>AI audit trail for triage and recovery planning decisions</li>
+            <li>Scalable to other disaster-response organizations</li>
+            <li>Built-in analytics for program outcome reporting</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── HONEST ASSESSMENT ─────────────────────────── -->
+<section style="background:var(--gray-100);">
+  <div class="container">
+    <h2>Where we're<br><em>still building.</em></h2>
+    <p>Vijilant is purpose-built and field-tested in concept — but v1 is the beginning. These are real gaps we're closing methodically, not afterthoughts.</p>
+    <div class="honest-grid">
+      <div class="honest-card">
         <h4>No production deployment at scale yet</h4>
         <p>Vijilant is in active development and currently validated against LLP's real caseload context. First production deployment is the LLP pilot. RecoverPrepared has more field time — that matters and we respect it.</p>
       </div>
-      <div class="gap-card">
+      <div class="honest-card">
         <h4>AI rationale is only as good as the assessment input</h4>
         <p>The Auto-Triage Engine relies on the quality and completeness of assessment data entered by CMs. Incomplete assessments produce lower-confidence triage outputs. This is disclosed in the system and surfaced in the UI.</p>
       </div>
-      <div class="gap-card">
+      <div class="honest-card">
         <h4>Enterprise multi-org configurability is phase 2</h4>
-        <p>The architecture supports multi-tenancy from day one. Phase 2 lets any DCM organization configure Vijilant to its own program without a services engagement: <strong>import an aid partner's existing application form — PDF, DOCX, or a link — and Vijilant auto-builds the template</strong> (no field-by-field setup), and <strong>define its own intake questionnaire and recovery assessment</strong>. The option entry-points already ship in the app (Template Builder import + Organization Setup); the parsing and per-org configuration engines are the post-LLP-pilot build. This is the direct answer to incumbents like Apricot and CaseWorthy, where standing up a new form means a manual rebuild or a paid configuration cycle.</p>
+        <p>The architecture supports multi-tenancy from day one. Phase 2 lets any DCM organization configure Vijilant to its own program without a services engagement: import an aid partner's existing application form and Vijilant auto-builds the template. The option entry-points already ship in the app; the parsing and per-org configuration engines are the post-LLP-pilot build.</p>
+      </div>
+      <div class="honest-card">
+        <h4>Survivor portal is live but early</h4>
+        <p>The survivor portal shipped with v1 core features: recovery ring, recovery plan, aid applications, messaging, document upload, and application signature. Full consent and security infrastructure for broader public access is a post-pilot build.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════════════════════ -->
-<!-- WHY VIJILANT WINS                                           -->
-<!-- ══════════════════════════════════════════════════════════ -->
+<!-- ─── WHY VIJILANT WINS ──────────────────────────── -->
 <section>
   <div class="container">
-    <div class="section-eyebrow">Why Vijilant Wins</div>
-    <h2 class="section-title">Six reasons this is<br>the better platform.</h2>
-    <p class="section-sub">Not in theory. In the specific, documented, architectural, and workflow decisions — twenty-two features built and live — that separate Vijilant from what's currently available to DCM organizations.</p>
-
-    <div class="wins-grid">
+    <h2>Six reasons this is<br><em>the better platform.</em></h2>
+    <p>Not in theory. In the specific, documented, architectural, and workflow decisions that separate Vijilant from what's currently available to DCM organizations.</p>
+    <div class="win-grid">
       <div class="win-card">
-        <div class="win-card-head">
-          <div class="icon-stack">
-<div class="icon-box">
-              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>
-            </div>
-          </div>
-          <div>
-            <h4>Built for disaster recovery, not adapted for it</h4>
-          </div>
-        </div>
-        <p>Vijilant's data model, triage engine, and workflows are purpose-built for the Eaton Fire recovery context — and replicable across FEMA-declared disasters. This is not a generic social services tool that LLP is making work. It's a platform that starts from the actual job.</p>
+        <h4>Built for disaster recovery, not adapted for it</h4>
+        <p>Vijilant's data model, triage engine, and workflows are purpose-built for the Eaton Fire recovery context — and replicable across FEMA-declared disasters. This is not a generic social services tool that LLP is making work.</p>
       </div>
-
       <div class="win-card">
-        <div class="win-card-head">
-          <div class="icon-stack">
-<div class="icon-box">
-              <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-            </div>
-          </div>
-          <div>
-            <h4>Auto-Triage Engine — computed, never manual</h4>
-          </div>
-        </div>
+        <h4>Auto-Triage Engine — computed, never manual</h4>
         <p>Assessment-driven client prioritization runs automatically on every meaningful case event. Triage tier is computed by the system — never a dropdown a CM fills in. Reduces supervisor burden and ensures highest-need survivors get attention first.</p>
       </div>
-
       <div class="win-card">
-        <div class="win-card-head">
-          <div class="icon-stack">
-<div class="icon-box">
-              <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-            </div>
-          </div>
-          <div>
-            <h4>AI Resource Matching — score 0–100 per client</h4>
-          </div>
-        </div>
-        <p>Every client automatically receives ranked resource recommendations based on their assessment profile. Each resource has a match score from 0–100 and a plain-language reason. CMs accept or refer with one tap — no manual directory search required.</p>
+        <h4>Recovery Score Ring — signature visual</h4>
+        <p>No competitor offers an automated recovery visualization. The gradient ring (Red→Coral→Teal→Navy) appears on every client record at two sizes, updating automatically on every assessment save.</p>
       </div>
-
       <div class="win-card">
-        <div class="win-card-head">
-          <div class="icon-stack">
-<div class="icon-box">
-              <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
-            </div>
-          </div>
-          <div>
-            <h4>HIPAA-first architecture</h4>
-          </div>
-        </div>
-        <p>Enterprise-grade access control on every record. Full audit log on every write. Biometric auth with no passcode fallback — an actual HIPAA requirement. Analytics self-hosted within Vijilant's infrastructure so zero PHI touches a third party. Compliance isn't a feature — it's the foundation.</p>
+        <h4>AI Resource Matching — score 0–100 per client</h4>
+        <p>Every client automatically receives ranked resource recommendations based on their assessment profile. Each resource has a match score and a plain-language reason. CMs accept or refer with one tap — no manual directory search required.</p>
       </div>
-
       <div class="win-card">
-        <div class="win-card-head">
-          <div class="icon-stack">
-<div class="icon-box">
-              <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-            </div>
-          </div>
-          <div>
-            <h4>Supervisor oversight built in</h4>
-          </div>
-        </div>
-        <p>Escalation flags, intake queue, team management, audit log — supervisor tools are first-class in Vijilant, not afterthoughts. CMs can escalate any case in one tap. Supervisors see it immediately in a dedicated resolution queue. The whole organization moves together.</p>
+        <h4>HIPAA-first architecture</h4>
+        <p>Enterprise-grade access control on every record. Full audit log on every write. Biometric auth with no passcode fallback — an actual HIPAA requirement. Analytics self-hosted within Vijilant's infrastructure. Compliance isn't a feature — it's the foundation.</p>
       </div>
-
       <div class="win-card">
-        <div class="win-card-head">
-          <div class="icon-stack">
-<div class="icon-box">
-              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
-            </div>
-          </div>
-          <div>
-            <h4>Nimble and licensable</h4>
-          </div>
-        </div>
+        <h4>Nimble and licensable</h4>
         <p>v1 ships to LLP. Post-v1 roadmap: enterprise licensing to other disaster care organizations. Multi-tenancy is in the architecture from day one. RecoverPrepared is a fixed product. Vijilant is a platform — and the next FEMA-declared disaster is the next deployment opportunity.</p>
       </div>
     </div>
+  </div>
+</section>
 
-    <div class="desktop-showcase">
-      <div class="desktop-showcase-label">CM Board — Team Caseload Overview</div>
-      <div class="desktop-frame">
-        <div class="desktop-chrome">
-          <div class="chrome-dots">
-            <div class="chrome-dot red"></div>
-            <div class="chrome-dot amber"></div>
-            <div class="chrome-dot green"></div>
-          </div>
-          <div class="chrome-url">vijilant.app/cm-board</div>
-        </div>
-        <div class="desktop-screen-wrap">
-          <iframe src="./embed-11-cmboard.html" title="CM Board"></iframe>
-        </div>
+<!-- ─── MARKET OPPORTUNITY ────────────────────────── -->
+<section class="section-dark">
+  <div class="orb" style="width:600px;height:600px;background:var(--teal);opacity:.1;top:-200px;right:-100px;"></div>
+  <div class="orb" style="width:300px;height:300px;background:var(--coral);opacity:.08;bottom:-60px;left:-40px;"></div>
+  <div class="container">
+    <h2>Disaster never stops.<br><em>Neither does the need.</em></h2>
+    <p>Vijilant is built for LLP first — and for every DCM organization that comes next. The disaster recovery case management industry is large, fragmented, and dramatically underserved by purpose-built software.</p>
+    <div class="market-stats">
+      <div class="mstat">
+        <div class="mstat-val">65+</div>
+        <div class="mstat-label">FEMA-declared major disasters per year in the United States — each one generating a new wave of case management need.</div>
+      </div>
+      <div class="mstat">
+        <div class="mstat-val">1,500+</div>
+        <div class="mstat-label">Disaster recovery and human services organizations in the U.S. currently managing survivor caseloads without purpose-built software.</div>
+      </div>
+      <div class="mstat">
+        <div class="mstat-val">$50B+</div>
+        <div class="mstat-label">In federal disaster relief flows through FEMA and partner programs annually — tracked, documented, and case-managed by people using spreadsheets.</div>
       </div>
     </div>
-
-    <div class="desktop-showcase" style="margin-top: 32px;">
-      <div class="desktop-showcase-label">Supervisor Dashboard — Org-Level Triage View</div>
-      <div class="desktop-frame">
-        <div class="desktop-chrome">
-          <div class="chrome-dots">
-            <div class="chrome-dot red"></div>
-            <div class="chrome-dot amber"></div>
-            <div class="chrome-dot green"></div>
-          </div>
-          <div class="chrome-url">vijilant.app/supervisor</div>
-        </div>
-        <div class="desktop-screen-wrap">
-          <iframe src="./embed-12-supervisor.html" title="Supervisor Dashboard"></iframe>
-        </div>
-      </div>
+    <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:32px;margin:32px 0;">
+      <h3 style="color:white;margin-bottom:12px;">The Competitor Gap</h3>
+      <p>RecoverPrepared is the only direct disaster-specific competitor with a live product. Bonterra/Apricot and CaseWorthy are general human services tools that organizations have repurposed for disaster work — with all the friction that implies. No competitor has AI-native triage, auto-generated recovery plans, a survivor portal with signature-capable aid applications, or a mobile-first field workflow purpose-built for disaster recovery. That gap is Vijilant's runway.</p>
+      <p style="margin-top:12px;">The total addressable market for disaster-specific case management software in the United States exceeds <strong style="color:var(--teal);">$2 billion annually</strong> — and that figure does not include international licensing, government agency deployments, or ancillary grant reporting tools. Vijilant enters as the only AI-native, disaster-first platform in this space.</p>
     </div>
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════════════════════ -->
-<!-- V2 RESOURCE META-TAGGING                                    -->
-<!-- ══════════════════════════════════════════════════════════ -->
-<section>
-  <div class="container">
-    <div class="section-eyebrow">AI Resource Matching</div>
-    <h2 class="section-title">Resources that find<br>the client.</h2>
-    <p class="section-sub">In standard case management, CMs manually search for applicable resources and assign them. Vijilant inverts this — the resource directory becomes active, not passive. AI Resource Matching is live in v1.</p>
-
-    <div class="v2-banner">
-      <div class="v2-pill">v1 — Live Now</div>
-      <p>AI Resource Matching: Every client automatically receives ranked resource recommendations (score 0–100) based on their completed assessment profile. Plain-language reason per resource. CMs accept or refer with one tap. No manual search required.</p>
-    </div>
-
-    <div class="flow-nodes">
-      <div class="flow-node">
-        <div class="flow-node-icon">
-          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-        </div>
-        <h4>Assessment &amp; Case Notes</h4>
-        <p>CM completes assessment or saves a case note. System reads need categories indicated in the data.</p>
-      </div>
-      <div class="flow-arrow">→</div>
-      <div class="flow-node">
-        <div class="flow-node-icon">
-          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        </div>
-        <h4>Meta-Tag Matching</h4>
-        <p>System cross-references resource library tags against client need indicators in real time.</p>
-      </div>
-      <div class="flow-arrow">→</div>
-      <div class="flow-node">
-        <div class="flow-node-icon">
-          <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-        </div>
-        <h4>Auto-Assignment + Alerts</h4>
-        <p>Matching resources appear on the client record. Admins receive urgency alerts when resource categories run low.</p>
-      </div>
-    </div>
-
-    <div class="insight-strip">
-      <p>The same meta-tagging system that assigns resources to clients also works in reverse: when multiple clients are flagged as needing a resource category that has no active entries in the directory, <strong>the system notifies the relevant admin</strong> that a resource gap exists and needs to be filled. This closes the loop between frontline casework and organizational resource planning — something no current DCM platform automates.</p>
-    </div>
-
-    <div class="two-col" style="margin-top: 48px;">
-      <div class="two-col-phone">
-        <div class="phone-frame">
-          <div class="phone-screen-wrap">
-            <iframe src="./embed-09-resources.html" title="Resources Directory"></iframe>
-          </div>
-        </div>
-      </div>
-      <div>
-        <h3 style="font-size: 20px; font-weight: 700; color: var(--ink); margin-bottom: 16px;">What the resource directory looks like today</h3>
-        <p style="font-size: 15px; color: var(--ink-3); line-height: 1.7; margin-bottom: 16px;">Even in v1, CMs and admins can browse and manage the resource library from within the app. Resources are organized by category — Housing, Financial, Health, Legal, Benefits — and are accessible from any client's case file.</p>
-        <p style="font-size: 14px; color: var(--ink-3); line-height: 1.65;">In v2, this directory becomes the engine that drives auto-assignment. The v1 structure is already built to support that transition without a schema change.</p>
-      </div>
+<!-- ─── CLOSING ───────────────────────────────────── -->
+<section class="section-dark" style="border-top:none;">
+  <div class="orb" style="width:500px;height:500px;background:var(--teal);opacity:.1;top:-100px;left:-100px;"></div>
+  <div class="container" style="text-align:center;position:relative;z-index:1;">
+    <h2 style="font-size:clamp(32px,5vw,52px);">The platform DCM organizations<br>have been waiting for.</h2>
+    <p style="max-width:600px;margin:0 auto 36px;font-size:17px;">Vijilant is not a general case management tool. It is not a repurposed nonprofit software product. It is a purpose-built, AI-native, HIPAA-compliant platform designed by a working Disaster Care Manager for the exact workflow LLP and organizations like it navigate every day.</p>
+    <a href="mailto:hwormely@thelegacylandproject.org" class="footer-cta">Get in touch</a>
+    <div class="cap-grid" style="max-width:760px;margin:48px auto 0;text-align:left;">
+      <div class="cap-item"><div class="cap-dot"></div>Native mobile app (iOS + Android) + full web platform</div>
+      <div class="cap-item"><div class="cap-dot"></div>AI-native Auto-Triage Engine — runs on every case event</div>
+      <div class="cap-item"><div class="cap-dot"></div>Recovery Score Ring — 0–1000 gradient ring on every client record</div>
+      <div class="cap-item"><div class="cap-dot"></div>AI-generated Recovery Plans from clinical assessment</div>
+      <div class="cap-item"><div class="cap-dot"></div>HIPAA-certified infrastructure with enterprise BAA</div>
+      <div class="cap-item"><div class="cap-dot"></div>AI Resource Matching — ranked recommendations per client</div>
+      <div class="cap-item"><div class="cap-dot"></div>Survivor Portal — ring, plan, apps, messages, documents, signature</div>
+      <div class="cap-item"><div class="cap-dot"></div>Biometric authentication — no passcode fallback</div>
+      <div class="cap-item"><div class="cap-dot"></div>Full audit trail on every client record write</div>
+      <div class="cap-item"><div class="cap-dot"></div>Export to .xlsx, .docx, and PDF (web &amp; mobile)</div>
+      <div class="cap-item"><div class="cap-dot"></div>Supervisor escalation workflow + intake queue</div>
+      <div class="cap-item"><div class="cap-dot"></div>Multi-org architecture — licensable to other DCM orgs</div>
     </div>
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════════════════════ -->
-<!-- FEMA / AID APPLICATIONS                                     -->
-<!-- ══════════════════════════════════════════════════════════ -->
-<section style="border-top: 1px solid var(--border);">
-  <div class="container">
-    <div class="section-eyebrow">Aid Application Tracking</div>
-    <h2 class="section-title">FEMA, Wylie, and<br>every program in between.</h2>
-
-    <div class="two-col" style="margin-top: 48px;">
-      <div class="fema-content">
-        <h3>One screen. Every program status.</h3>
-        <p>Tracking a survivor's active aid applications across FEMA, Wylie, and other programs currently lives in spreadsheets, email threads, or case manager memory. Vijilant brings all of it into a single, structured screen — per client, per program, with status and notes in one place.</p>
-        <div class="fema-detail">
-          <p>RecoverPrepared has no dedicated aid application tracking module. Vijilant's FEMA / Aid screen is built specifically for the multi-program complexity of disaster recovery — because that's the actual workflow case managers are navigating every day.</p>
-        </div>
-      </div>
-      <div class="two-col-phone">
-        <div class="phone-frame">
-          <div class="phone-screen-wrap">
-            <iframe src="./embed-08-wylieapp.html" title="FEMA / Aid Applications"></iframe>
-          </div>
-        </div>
-      </div>
+<!-- ─── FOOTER ────────────────────────────────────── -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">
+      <div class="footer-mark">Vj</div>
+      <div class="footer-word">Vijilant</div>
     </div>
+    <div class="footer-meta">
+      Vijilant — Disaster Case Management Platform · The Legacy Land Project · Pasadena, CA · May 2026<br>
+      Prepared for Dr. William Syms, grantors, funders, and LLP leadership. Confidential — not for public distribution.
+    </div>
+    <a href="mailto:hwormely@thelegacylandproject.org" class="footer-cta">Get in touch</a>
   </div>
-</section>
-
-
-<!-- ══════════════════════════════════════════════════════════ -->
-<!-- MARKET IMPACT                                               -->
-<!-- ══════════════════════════════════════════════════════════ -->
-<section>
-  <div class="container">
-    <div class="section-eyebrow">Market Opportunity</div>
-    <h2 class="section-title">Disaster never stops.<br>Neither does the need.</h2>
-    <p class="section-sub">Vijilant is built for LLP first — and for every DCM organization that comes next. The disaster recovery case management industry is large, fragmented, and dramatically underserved by purpose-built software.</p>
-
-    <div class="stat-row">
-      <div class="stat-card">
-        <div class="stat-number">65+</div>
-        <div class="stat-label">FEMA-declared major disasters per year in the United States — each one generating a new wave of case management need.</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-number">1,500+</div>
-        <div class="stat-label">Disaster recovery and human services organizations in the U.S. currently managing survivor caseloads without purpose-built software.</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-number">$50B+</div>
-        <div class="stat-label">In federal disaster relief flows through FEMA and partner programs annually — tracked, documented, and case-managed by people using spreadsheets.</div>
-      </div>
-    </div>
-
-    <div class="feature-blocks" style="margin-top: 48px;">
-      <div class="feature-block">
-        <div class="feature-block-head">
-          <div class="icon-stack"><div class="icon-box">
-              <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-            </div></div>
-          <div><h3>National Licensing</h3></div>
-        </div>
-        <p>Vijilant's multi-organization architecture means the LLP pilot is the proof of concept — not the ceiling. Post-v1, each FEMA-declared disaster is a potential deployment. Every organization that receives federal relief funding is a potential licensee. The platform scales horizontally without a rebuild.</p>
-      </div>
-      <div class="feature-block">
-        <div class="feature-block-head">
-          <div class="icon-stack"><div class="icon-box">
-              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
-            </div></div>
-          <div><h3>Global Reach</h3></div>
-        </div>
-        <p>The DCM workflow Vijilant automates is not uniquely American. International disaster response agencies — Red Cross chapters, UN-affiliated organizations, and regional NGOs — face the same assessment-triage-planning-tracking loop. Vijilant's clinical assessment framework and AI triage architecture translate across disaster types and geographies.</p>
-      </div>
-      <div class="feature-block">
-        <div class="feature-block-head">
-          <div class="icon-stack"><div class="icon-box">
-              <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
-            </div></div>
-          <div><h3>Grant Infrastructure Play</h3></div>
-        </div>
-        <p>Federal grants increasingly require verifiable data infrastructure as a condition of funding. HIPAA-compliant case management, digital audit trails, and outcome tracking are becoming grant requirements — not optional upgrades. Vijilant gives grantors exactly what they need to see, built in from day one.</p>
-      </div>
-      <div class="feature-block">
-        <div class="feature-block-head">
-          <div class="icon-stack"><div class="icon-box">
-              <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-            </div></div>
-          <div><h3>The Competitor Gap</h3></div>
-        </div>
-        <p>RecoverPrepared is the only direct disaster-specific competitor with a live product. Bonterra/Apricot and CaseWorthy are general human services tools that organizations have repurposed for disaster work — with all the friction that implies. No competitor has AI-native triage, auto-generated recovery plans, or a mobile-first field workflow purpose-built for disaster recovery. That gap is Vijilant's runway.</p>
-      </div>
-    </div>
-
-    <div class="insight-strip" style="margin-top: 40px;">
-      <p>The total addressable market for disaster-specific case management software in the United States exceeds <strong>$2 billion annually</strong> — and that figure does not include international licensing, government agency deployments, or ancillary grant reporting tools. Vijilant enters as the only AI-native, disaster-first platform in this space.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════════════════════════════════════════════════ -->
-<!-- CLOSING                                                     -->
-<!-- ══════════════════════════════════════════════════════════ -->
-<section class="section-dark" style="border-top: none;">
-  <div class="container">
-    <div class="closing-grid">
-      <div class="closing-left">
-        <h2>The platform DCM<br>organizations have<br>been waiting for.</h2>
-        <p>Vijilant is not a general case management tool. It is not a repurposed nonprofit software product. It is a purpose-built, AI-native, HIPAA-compliant platform designed by a working Disaster Care Manager for the exact workflow LLP and organizations like it navigate every day.</p>
-        <a href="mailto:hwormely@thelegacylandproject.org" class="closing-cta">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          Get in touch
-        </a>
-      </div>
-      <div class="closing-right">
-        <h4>Platform Capabilities</h4>
-        <div class="closing-stack">
-          <div class="closing-stack-item"><span class="closing-stack-dot"></span><span>Native mobile app (iOS + Android) + full web platform</span></div>
-          <div class="closing-stack-item"><span class="closing-stack-dot"></span><span>AI-native Auto-Triage Engine — runs on every case event</span></div>
-          <div class="closing-stack-item"><span class="closing-stack-dot"></span><span>Recovery Score Ring — 0–1000 live score on every client record</span></div>
-          <div class="closing-stack-item"><span class="closing-stack-dot"></span><span>AI-generated Recovery Plans from clinical assessment</span></div>
-          <div class="closing-stack-item"><span class="closing-stack-dot"></span><span>HIPAA-certified infrastructure with enterprise BAA</span></div>
-          <div class="closing-stack-item"><span class="closing-stack-dot"></span><span>AI Resource Matching — ranked recommendations per client</span></div>
-          <div class="closing-stack-item"><span class="closing-stack-dot"></span><span>Biometric authentication — no passcode fallback</span></div>
-          <div class="closing-stack-item"><span class="closing-stack-dot"></span><span>Full audit trail on every client record write</span></div>
-          <div class="closing-stack-item"><span class="closing-stack-dot"></span><span>Export to .xlsx, .docx, and PDF (web &amp; mobile)</span></div>
-          <div class="closing-stack-item"><span class="closing-stack-dot"></span><span>Supervisor escalation workflow + intake queue</span></div>
-          <div class="closing-stack-item"><span class="closing-stack-dot"></span><span>Multi-org architecture — licensable to other DCM orgs</span></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════════════════════════════════════════════════ -->
-<!-- FOOTER                                                       -->
-<!-- ══════════════════════════════════════════════════════════ -->
-<div class="footer">
-  <div class="container">
-    <p>Vijilant — Disaster Case Management Platform &nbsp;·&nbsp; The Legacy Land Project &nbsp;·&nbsp; Pasadena, CA &nbsp;·&nbsp; May 2026</p>
-    <p style="margin-top: 6px;">Prepared for Dr. William Syms, grantors, funders, and LLP leadership. Confidential — not for public distribution.</p>
-  </div>
-</div>
+</footer>
 
 </body>
 </html>
