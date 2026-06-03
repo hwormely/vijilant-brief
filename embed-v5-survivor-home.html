@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--teal:#3ECFB2;--teal-dark:#1A9E8A;--navy:#1B2A4A;--coral:#F4714F;--warm-bg:#F4F6FA;--gray-100:#EEF1F7;--gray-200:#D8DDED;--gray-400:#8A94AD;--t1-bg:#FDECEA;--t1-text:#C0392B;--grad-hero:linear-gradient(135deg,#1B2A4A 0%,#1F3D5C 40%,#1A6B6B 70%,#3ECFB2 100%);--grad-accent:linear-gradient(135deg,#3ECFB2 0%,#F4714F 100%);--grad-btn:linear-gradient(135deg,#3ECFB2 0%,#F4714F 55%,#1B2A4A 100%);--shadow:0 2px 10px rgba(27,42,74,.08);--ring-grad:conic-gradient(#C0392B 0deg,#E05540 45deg,#F4714F 90deg,#2ABFA4 180deg,#3ECFB2 225deg,#2A6B6B 270deg,#1B2A4A 315deg,#1B2A4A 360deg);--ring-unfilled:rgba(255,255,255,.15)}
+body{font-family:'DM Sans',-apple-system,sans-serif;background:var(--warm-bg);margin:0;font-size:13px}
+.ring{position:relative;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.ring-disc{border-radius:50%;background:var(--ring-grad);-webkit-mask:radial-gradient(circle,transparent 54%,black 55%);mask:radial-gradient(circle,transparent 54%,black 55%)}
+.ring-cap{position:absolute;border-radius:50%;background:conic-gradient(var(--ring-unfilled) 0deg 180deg,transparent 180deg 360deg);-webkit-mask:radial-gradient(circle,transparent 54%,black 55%);mask:radial-gradient(circle,transparent 54%,black 55%)}
+.ring-label{position:absolute;text-align:center}
+.rlg .ring-disc,.rlg .ring-cap{width:60px;height:60px}.rlg{width:60px;height:60px}
+</style>
+</head>
+<body>
+<!-- Hero -->
+<div style="background:var(--grad-hero);padding:14px 16px 24px;position:relative;overflow:hidden">
+  <div style="position:absolute;width:200px;height:200px;border-radius:50%;background:var(--teal);filter:blur(60px);opacity:.2;top:-60px;right:-40px"></div>
+  <div style="position:absolute;width:140px;height:140px;border-radius:50%;background:var(--coral);filter:blur(50px);opacity:.14;bottom:-40px;left:-30px"></div>
+  <div style="position:relative;z-index:1;margin-bottom:14px">
+    <div style="font-size:10px;color:rgba(255,255,255,.4);font-family:'DM Mono',monospace;margin-bottom:3px">YOUR CASE</div>
+    <div style="font-size:17px;font-weight:700;color:white;margin-bottom:2px">Marcus Thompson</div>
+    <div style="font-family:'DM Mono',monospace;font-size:9px;color:rgba(255,255,255,.45)">VGL-2025-0031 · Eaton Canyon Fire</div>
+    <div style="display:flex;gap:5px;margin-top:6px"><span style="background:var(--t1-bg);color:var(--t1-text);font-size:9px;font-weight:700;padding:2px 7px;border-radius:7px">T1 Critical</span><span style="padding:2px 7px;border-radius:7px;background:rgba(255,255,255,.1);font-size:9px;color:rgba(255,255,255,.6)">Active</span></div>
+  </div>
+  <!-- Ring + CM card -->
+  <div style="display:flex;align-items:center;gap:14px;position:relative;z-index:1;margin-bottom:-16px">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:3px">
+      <div class="ring rlg">
+        <div class="ring-disc"></div>
+        <div class="ring-cap" style="transform:rotate(148.3deg)"></div>
+        <div class="ring-label"><div style="font-family:'DM Mono',monospace;font-size:13px;color:white">412</div><div style="font-size:7px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.05em">Recovery</div></div>
+      </div>
+      <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;font-size:7px;color:rgba(255,255,255,.5)">?</div>
+    </div>
+    <div style="flex:1;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:10px">
+      <div style="font-size:9px;color:rgba(255,255,255,.4);font-family:'DM Mono',monospace;margin-bottom:5px">YOUR CARE MANAGER</div>
+      <div style="display:flex;align-items:center;gap:7px;margin-bottom:8px">
+        <div style="width:26px;height:26px;border-radius:50%;background:var(--grad-accent);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:white">H</div>
+        <div><div style="font-size:12px;font-weight:700;color:white">Horace Wormely</div><div style="font-size:9px;color:rgba(255,255,255,.5)">Disaster Care Manager</div></div>
+      </div>
+      <div style="background:var(--grad-btn);color:white;border-radius:8px;padding:7px;text-align:center;font-size:10px;font-weight:700">Message CM</div>
+    </div>
+  </div>
+</div>
+
+<div style="padding:24px 14px 14px;display:flex;flex-direction:column;gap:10px">
+  <!-- Status grid -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+    <div style="background:white;border-radius:11px;padding:11px;text-align:center;box-shadow:var(--shadow)"><div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--gray-400);margin-bottom:3px">Recovery Plan</div><div style="font-size:12px;font-weight:700;color:var(--teal-dark)">Ready →</div></div>
+    <div style="background:white;border-radius:11px;padding:11px;text-align:center;box-shadow:var(--shadow)"><div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--gray-400);margin-bottom:3px">Applications</div><div style="font-size:12px;font-weight:700;color:var(--navy)">3 active</div></div>
+    <div style="background:white;border-radius:11px;padding:11px;text-align:center;box-shadow:var(--shadow)"><div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--gray-400);margin-bottom:3px">Documents</div><div style="font-size:12px;font-weight:700;color:var(--coral-dark, #C2441A)">2 needed</div></div>
+    <div style="background:white;border-radius:11px;padding:11px;text-align:center;box-shadow:var(--shadow)"><div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--gray-400);margin-bottom:3px">Messages</div><div style="font-size:12px;font-weight:700;color:var(--teal-dark)">1 new</div></div>
+  </div>
+  <!-- Action items -->
+  <div style="background:white;border-radius:11px;padding:12px;box-shadow:var(--shadow)">
+    <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:9px;display:flex;align-items:center;justify-content:space-between">Action needed <span style="background:#FDECEA;color:#C0392B;font-size:9px;font-weight:700;padding:2px 7px;border-radius:7px">2 items</span></div>
+    <div style="display:flex;align-items:center;gap:9px;padding:7px 0;border-bottom:1px solid var(--gray-100)">
+      <div style="width:26px;height:26px;border-radius:7px;background:#FDECEA;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C0392B" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
+      <div style="flex:1"><div style="font-size:11px;font-weight:600;color:var(--navy)">Upload address verification</div><div style="font-size:9px;color:var(--gray-400)">For Wylie Center application</div></div>
+      <div style="background:var(--grad-btn);color:white;border-radius:7px;padding:5px 9px;font-size:10px;font-weight:700">Upload</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:9px;padding:7px 0">
+      <div style="width:26px;height:26px;border-radius:7px;background:#E8F4FF;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1A5FA8" stroke-width="2" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
+      <div style="flex:1"><div style="font-size:11px;font-weight:600;color:var(--navy)">Sign FEMA consent form</div><div style="font-size:9px;color:var(--gray-400)">Application #VGL-FEMA-0031</div></div>
+      <div style="background:var(--grad-btn);color:white;border-radius:7px;padding:5px 9px;font-size:10px;font-weight:700">Sign</div>
+    </div>
+  </div>
+</div>
+
+<!-- Survivor nav (4 tabs) -->
+<div style="background:white;border-top:1px solid var(--gray-100);display:flex;padding:7px 0 18px">
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px">
+    <svg width="19" height="19" viewBox="0 0 24 24"><defs><linearGradient id="gsn1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#3ECFB2"/><stop offset="100%" stop-color="#F4714F"/></linearGradient></defs><rect x="3" y="3" width="8" height="8" rx="1.5" fill="url(#gsn1)"/><rect x="13" y="3" width="8" height="8" rx="1.5" fill="url(#gsn1)" opacity=".7"/><rect x="3" y="13" width="8" height="8" rx="1.5" fill="url(#gsn1)" opacity=".7"/><rect x="13" y="13" width="8" height="8" rx="1.5" fill="url(#gsn1)" opacity=".45"/></svg>
+    <div style="font-size:8px;color:var(--teal-dark)">My Case</div>
+    <div style="width:3px;height:3px;border-radius:50%;background:linear-gradient(135deg,#3ECFB2,#F4714F)"></div>
+  </div>
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#8A94AD" stroke-width="1.5" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><div style="font-size:8px;color:var(--gray-400)">Plan</div></div>
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#8A94AD" stroke-width="1.5" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg><div style="font-size:8px;color:var(--gray-400)">Apps</div></div>
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;position:relative"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#8A94AD" stroke-width="1.5" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><div style="position:absolute;top:0;right:14px;width:7px;height:7px;border-radius:50%;background:var(--coral);border:1.5px solid var(--warm-bg)"></div><div style="font-size:8px;color:var(--gray-400)">Messages</div></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--teal:#3ECFB2;--teal-dark:#1A9E8A;--navy:#1B2A4A;--navy-mid:#2A3F6B;--coral:#F4714F;--warm-bg:#F4F6FA;--gray-100:#EEF1F7;--gray-200:#D8DDED;--gray-400:#8A94AD;--t1-bg:#FDECEA;--t1-text:#C0392B;--t2-bg:#FDF6E7;--t2-text:#E5A328;--t3-bg:#E8F4FF;--t3-text:#1A5FA8;--grad-hero:linear-gradient(135deg,#1B2A4A 0%,#1F3D5C 40%,#1A6B6B 70%,#3ECFB2 100%);--grad-accent:linear-gradient(135deg,#3ECFB2 0%,#F4714F 100%);--shadow:0 2px 10px rgba(27,42,74,.08);--ring-grad:conic-gradient(#C0392B 0deg,#E05540 45deg,#F4714F 90deg,#2ABFA4 180deg,#3ECFB2 225deg,#2A6B6B 270deg,#1B2A4A 315deg,#1B2A4A 360deg);--ring-unfilled:#EEF1F7}
+body{font-family:'DM Sans',-apple-system,sans-serif;background:var(--warm-bg);margin:0;font-size:13px}
+.ring{position:relative;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.ring-disc{border-radius:50%;background:var(--ring-grad);-webkit-mask:radial-gradient(circle,transparent 54%,black 55%);mask:radial-gradient(circle,transparent 54%,black 55%)}
+.ring-cap{position:absolute;border-radius:50%;background:conic-gradient(var(--ring-unfilled) 0deg 180deg,transparent 180deg 360deg);-webkit-mask:radial-gradient(circle,transparent 54%,black 55%);mask:radial-gradient(circle,transparent 54%,black 55%)}
+.ring-label{position:absolute;text-align:center}
+.rsm .ring-disc,.rsm .ring-cap{width:32px;height:32px}.rsm{width:32px;height:32px}
+.badge{display:inline-flex;align-items:center;padding:2px 7px;border-radius:8px;font-size:9px;font-weight:700;white-space:nowrap}
+.crow{display:flex;align-items:center;gap:10px;padding:11px 14px;border-bottom:1px solid var(--gray-100);background:white}
+</style>
+</head>
+<body>
+<div style="background:var(--grad-hero);padding:14px 16px 18px;position:relative;overflow:hidden">
+  <div style="position:absolute;width:200px;height:200px;border-radius:50%;background:var(--teal);filter:blur(60px);opacity:.2;top:-60px;right:-40px"></div>
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;position:relative;z-index:1">
+    <div style="font-family:'DM Mono',monospace;font-size:18px;font-weight:500;color:white">My Cases</div>
+    <div style="width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--teal),#2ABFA4);display:flex;align-items:center;justify-content:center"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1B2A4A" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+  </div>
+  <div style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:9px 12px;display:flex;align-items:center;gap:7px;position:relative;z-index:1;margin-bottom:10px">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <span style="font-size:12px;color:rgba(255,255,255,.4)">Search clients…</span>
+  </div>
+  <div style="display:flex;gap:6px;position:relative;z-index:1">
+    <div style="padding:4px 10px;border-radius:12px;background:var(--teal);color:var(--navy);font-size:10px;font-weight:700">All 47</div>
+    <div style="padding:4px 10px;border-radius:12px;background:rgba(244,113,79,.2);border:1px solid rgba(244,113,79,.3);color:var(--coral);font-size:10px;font-weight:600">T1 · 6</div>
+    <div style="padding:4px 10px;border-radius:12px;background:rgba(255,255,255,.1);color:rgba(255,255,255,.6);font-size:10px">T2 · 8</div>
+    <div style="padding:4px 10px;border-radius:12px;background:rgba(255,255,255,.1);color:rgba(255,255,255,.6);font-size:10px">T3 · 22</div>
+  </div>
+</div>
+<div style="background:var(--gray-100);padding:5px 14px;display:flex;gap:10px">
+  <span style="font-size:8px;font-family:'DM Mono',monospace;color:var(--gray-400)">KEY</span>
+  <span style="display:flex;align-items:center;gap:3px;font-size:8px;color:var(--gray-400)"><span style="width:6px;height:6px;border-radius:1px;background:#E53E3E;display:block"></span>No longer seeking</span>
+  <span style="display:flex;align-items:center;gap:3px;font-size:8px;color:var(--gray-400)"><span style="width:6px;height:6px;border-radius:1px;background:var(--coral);display:block"></span>Active outreach</span>
+</div>
+<!-- Rows -->
+<div class="crow" style="border-left:3px solid var(--coral)">
+  <div style="width:32px;height:32px;border-radius:9px;background:var(--grad-accent);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:white;flex-shrink:0">MT</div>
+  <div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:600;color:var(--navy)">Marcus Thompson</div><div style="font-size:9px;font-family:'DM Mono',monospace;color:var(--gray-400)">VGL-0031 · 8d · no response</div></div>
+  <div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px">
+    <span class="badge" style="background:var(--t1-bg);color:var(--t1-text)">T1</span>
+    <div style="display:flex;align-items:center;gap:2px"><div class="ring rsm"><div class="ring-disc"></div><div class="ring-cap" style="transform:rotate(148.3deg)"></div><div class="ring-label"><div style="font-family:'DM Mono',monospace;font-size:7px;color:#F4714F">412</div></div></div><div style="width:11px;height:11px;border-radius:50%;border:1.5px solid var(--gray-200);display:flex;align-items:center;justify-content:center;font-size:7px;color:var(--gray-400)">?</div></div>
+  </div>
+</div>
+<div class="crow" style="border-left:3px solid var(--coral)">
+  <div style="width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,var(--coral),#C2441A);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:white;flex-shrink:0">SK</div>
+  <div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:600;color:var(--navy)">Sandra Kim</div><div style="font-size:9px;font-family:'DM Mono',monospace;color:var(--gray-400)">VGL-0019 · 2d · follow-up</div></div>
+  <div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px">
+    <span class="badge" style="background:var(--t2-bg);color:var(--t2-text)">T2</span>
+    <div style="display:flex;align-items:center;gap:2px"><div class="ring rsm"><div class="ring-disc"></div><div class="ring-cap" style="transform:rotate(176.8deg)"></div><div class="ring-label"><div style="font-family:'DM Mono',monospace;font-size:7px;color:#F4714F">491</div></div></div><div style="width:11px;height:11px;border-radius:50%;border:1.5px solid var(--gray-200);display:flex;align-items:center;justify-content:center;font-size:7px;color:var(--gray-400)">?</div></div>
+  </div>
+</div>
+<div class="crow" style="border-left:3px solid var(--gray-200)">
+  <div style="width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,var(--navy-mid),#3A5A8A);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:white;flex-shrink:0">JR</div>
+  <div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:600;color:var(--navy)">James Rivera</div><div style="font-size:9px;font-family:'DM Mono',monospace;color:var(--gray-400)">VGL-0044 · Today · home visit</div></div>
+  <div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px">
+    <span class="badge" style="background:var(--t3-bg);color:var(--t3-text)">T3</span>
+    <div style="display:flex;align-items:center;gap:2px"><div class="ring rsm"><div class="ring-disc"></div><div class="ring-cap" style="transform:rotate(222.5deg)"></div><div class="ring-label"><div style="font-family:'DM Mono',monospace;font-size:7px;color:#3ECFB2">618</div></div></div><div style="width:11px;height:11px;border-radius:50%;border:1.5px solid var(--gray-200);display:flex;align-items:center;justify-content:center;font-size:7px;color:var(--gray-400)">?</div></div>
+  </div>
+</div>
+<div class="crow" style="border-left:3px solid #E53E3E;opacity:.7">
+  <div style="width:32px;height:32px;border-radius:9px;background:#C05050;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:white;flex-shrink:0">DL</div>
+  <div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:600;color:var(--navy)">Denise Lopez</div><div style="font-size:9px;font-family:'DM Mono',monospace;color:var(--gray-400)">VGL-0008 · No longer seeking</div></div>
+  <div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px">
+    <span class="badge" style="background:#EDEBE6;color:#7A766F">Closed</span>
+    <span style="font-size:11px;color:var(--gray-400)">—</span>
+  </div>
+</div>
+<div class="crow" style="border-left:3px solid var(--coral)">
+  <div style="width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,#5B8ADE,var(--navy-mid));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:white;flex-shrink:0">AP</div>
+  <div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:600;color:var(--navy)">Alicia Perez</div><div style="font-size:9px;font-family:'DM Mono',monospace;color:var(--gray-400)">VGL-0052 · 5d · assessment pending</div></div>
+  <div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px">
+    <span class="badge" style="background:var(--t2-bg);color:var(--t2-text)">T2</span>
+    <div style="display:flex;align-items:center;gap:2px"><div class="ring rsm"><div class="ring-disc"></div><div class="ring-cap" style="transform:rotate(139.7deg)"></div><div class="ring-label"><div style="font-family:'DM Mono',monospace;font-size:7px;color:#F4714F">388</div></div></div><div style="width:11px;height:11px;border-radius:50%;border:1.5px solid var(--gray-200);display:flex;align-items:center;justify-content:center;font-size:7px;color:var(--gray-400)">?</div></div>
+  </div>
+</div>
+<!-- Nav -->
+<div style="background:white;border-top:1px solid var(--gray-100);display:flex;padding:7px 0 18px;margin-top:8px">
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#8A94AD" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg><div style="font-size:8px;color:var(--gray-400)">Dashboard</div></div>
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px">
+    <svg width="19" height="19" viewBox="0 0 24 24"><defs><linearGradient id="gnav" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#3ECFB2"/><stop offset="100%" stop-color="#F4714F"/></linearGradient></defs><circle cx="9" cy="7" r="4" fill="url(#gnav)"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2" fill="url(#gnav)" opacity=".7"/></svg>
+    <div style="font-size:8px;color:var(--teal-dark)">Clients</div>
+    <div style="width:3px;height:3px;border-radius:50%;background:linear-gradient(135deg,#3ECFB2,#F4714F)"></div>
+  </div>
+  <div style="flex:1;display:flex;align-items:center;justify-content:center"><div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#3ECFB2,#F4714F,#1B2A4A);display:flex;align-items:center;justify-content:center;margin-top:-12px;box-shadow:0 4px 14px rgba(62,207,178,.4)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#8A94AD" stroke-width="1.5" stroke-linecap="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg><div style="font-size:8px;color:var(--gray-400)">Resources</div></div>
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#8A94AD" stroke-width="1.5" stroke-linecap="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg><div style="font-size:8px;color:var(--gray-400)">Metrics</div></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vijilant — CM Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --teal:#3ECFB2;--teal-dark:#1A9E8A;--navy:#1B2A4A;--navy-mid:#2A3F6B;
+  --coral:#F4714F;--coral-dark:#C2441A;
+  --warm-bg:#F4F6FA;--gray-100:#EEF1F7;--gray-200:#D8DDED;--gray-400:#8A94AD;--gray-600:#4A5568;
+  --t1-bg:#FDECEA;--t1-text:#C0392B;--t2-bg:#FDF6E7;--t2-text:#E5A328;
+  --grad-hero:linear-gradient(135deg,#1B2A4A 0%,#1F3D5C 40%,#1A6B6B 70%,#3ECFB2 100%);
+  --grad-accent:linear-gradient(135deg,#3ECFB2 0%,#F4714F 100%);
+  --shadow:0 2px 10px rgba(27,42,74,.08);
+  --ring-grad:conic-gradient(#C0392B 0deg,#E05540 45deg,#F4714F 90deg,#2ABFA4 180deg,#3ECFB2 225deg,#2A6B6B 270deg,#1B2A4A 315deg,#1B2A4A 360deg);
+  --ring-unfilled:#EEF1F7;
+}
+body{font-family:'DM Sans',-apple-system,sans-serif;background:var(--warm-bg);margin:0;line-height:1.4;font-size:13px;overflow-x:hidden}
+.ring{position:relative;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.ring-disc{border-radius:50%;background:var(--ring-grad);-webkit-mask:radial-gradient(circle,transparent 54%,black 55%);mask:radial-gradient(circle,transparent 54%,black 55%)}
+.ring-cap{position:absolute;border-radius:50%;background:conic-gradient(var(--ring-unfilled) 0deg 180deg,transparent 180deg 360deg);-webkit-mask:radial-gradient(circle,transparent 54%,black 55%);mask:radial-gradient(circle,transparent 54%,black 55%)}
+.ring-label{position:absolute;text-align:center;pointer-events:none}
+.ring-sm .ring-disc,.ring-sm .ring-cap{width:32px;height:32px}
+.ring-sm{width:32px;height:32px}
+</style>
+</head>
+<body>
+<!-- Hero -->
+<div style="background:var(--grad-hero);padding:16px 18px 28px;position:relative;overflow:hidden">
+  <div style="position:absolute;width:200px;height:200px;border-radius:50%;background:var(--teal);filter:blur(60px);opacity:.2;top:-60px;right:-40px"></div>
+  <div style="position:absolute;width:140px;height:140px;border-radius:50%;background:var(--coral);filter:blur(50px);opacity:.15;bottom:-30px;left:-30px"></div>
+  <div style="position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+    <div style="display:flex;align-items:center;gap:8px">
+      <div style="width:28px;height:28px;border-radius:50%;background:var(--grad-accent);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:white">H</div>
+      <div><div style="font-size:10px;color:rgba(255,255,255,.45)">Good morning,</div><div style="font-size:14px;font-weight:700;color:white">Horace</div></div>
+    </div>
+    <div style="position:relative;width:28px;height:28px;border-radius:8px;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.8)" stroke-width="1.5" stroke-linecap="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      <div style="position:absolute;top:5px;right:5px;width:6px;height:6px;border-radius:50%;background:var(--coral);border:1px solid #1B2A4A"></div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;position:relative;z-index:1;margin-bottom:-20px">
+    <div style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:11px">
+      <div style="font-family:'DM Mono',monospace;font-size:22px;font-weight:500;color:white;line-height:1;margin-bottom:2px">47</div>
+      <div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:rgba(255,255,255,.45)">Active Clients</div>
+      <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--teal);margin-top:2px">+3 this week</div>
+    </div>
+    <div style="background:rgba(62,207,178,.18);border:1px solid rgba(62,207,178,.3);border-radius:12px;padding:11px">
+      <div style="font-family:'DM Mono',monospace;font-size:22px;font-weight:500;color:white;line-height:1;margin-bottom:2px">12</div>
+      <div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:rgba(255,255,255,.45)">Follow-ups Due</div>
+      <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--coral);margin-top:2px">4 overdue</div>
+    </div>
+    <div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:11px">
+      <div style="font-family:'DM Mono',monospace;font-size:22px;font-weight:500;color:white;line-height:1;margin-bottom:2px">8</div>
+      <div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:rgba(255,255,255,.45)">Notes This Week</div>
+    </div>
+    <div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:11px">
+      <div style="font-family:'DM Mono',monospace;font-size:22px;font-weight:500;color:white;line-height:1;margin-bottom:2px">3</div>
+      <div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:rgba(255,255,255,.45)">Aid Apps</div>
+      <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--teal);margin-top:2px">1 approved</div>
+    </div>
+  </div>
+</div>
+
+<div style="padding:28px 14px 14px;display:flex;flex-direction:column;gap:12px">
+  <!-- Overdue Follow-ups -->
+  <div style="background:white;border-radius:12px;padding:13px;box-shadow:var(--shadow)">
+    <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:10px;display:flex;align-items:center;justify-content:space-between">
+      Overdue Follow-ups
+      <span style="background:var(--t1-bg);color:var(--t1-text);font-size:9px;font-weight:700;padding:2px 7px;border-radius:8px">4</span>
+    </div>
+    <!-- Marcus 412 -->
+    <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--gray-100)">
+      <div style="width:26px;height:26px;border-radius:7px;background:var(--grad-accent);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:white;flex-shrink:0">MT</div>
+      <div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:600;color:var(--navy)">Marcus Thompson</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--gray-400)">VGL-0031 · 8d overdue</div></div>
+      <div class="ring ring-sm"><div class="ring-disc"></div><div class="ring-cap" style="transform:rotate(148.3deg)"></div><div class="ring-label"><div style="font-family:'DM Mono',monospace;font-size:7px;color:#F4714F">412</div></div></div>
+      <div style="width:12px;height:12px;border-radius:50%;border:1.5px solid var(--gray-200);display:flex;align-items:center;justify-content:center;font-size:8px;color:var(--gray-400);flex-shrink:0">?</div>
+    </div>
+    <!-- James 618 -->
+    <div style="display:flex;align-items:center;gap:8px;padding:6px 0">
+      <div style="width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,var(--navy-mid),#3A5A8A);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:white;flex-shrink:0">JR</div>
+      <div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:600;color:var(--navy)">James Rivera</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--gray-400)">VGL-0044 · 3d overdue</div></div>
+      <div class="ring ring-sm"><div class="ring-disc"></div><div class="ring-cap" style="transform:rotate(222.5deg)"></div><div class="ring-label"><div style="font-family:'DM Mono',monospace;font-size:7px;color:#3ECFB2">618</div></div></div>
+      <div style="width:12px;height:12px;border-radius:50%;border:1.5px solid var(--gray-200);display:flex;align-items:center;justify-content:center;font-size:8px;color:var(--gray-400);flex-shrink:0">?</div>
+    </div>
+  </div>
+
+  <!-- Score Drop Alerts -->
+  <div style="background:white;border-radius:12px;padding:13px;box-shadow:var(--shadow)">
+    <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:10px;display:flex;align-items:center;justify-content:space-between">
+      Score Drop Alerts
+      <span style="background:var(--t2-bg);color:var(--t2-text);font-size:9px;font-weight:700;padding:2px 7px;border-radius:8px">2</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--gray-100)">
+      <div style="width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,var(--navy-mid),#3A5A8A);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:white;flex-shrink:0">SK</div>
+      <div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--navy)">Sandra Kim</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--gray-400)">VGL-0019</div></div>
+      <div style="font-family:'DM Mono',monospace;font-size:11px;font-weight:700;color:var(--coral-dark)">↓ 140 pts</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;padding:6px 0">
+      <div style="width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,#5B8ADE,var(--navy-mid));display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:white;flex-shrink:0">AP</div>
+      <div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--navy)">Alicia Perez</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--gray-400)">VGL-0052</div></div>
+      <div style="font-family:'DM Mono',monospace;font-size:11px;font-weight:700;color:var(--coral-dark)">↓ 112 pts</div>
+    </div>
+  </div>
+
+  <!-- Recent Activity -->
+  <div style="background:white;border-radius:12px;padding:13px;box-shadow:var(--shadow)">
+    <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:10px">Recent Activity</div>
+    <div style="display:flex;align-items:flex-start;gap:8px;padding:5px 0;border-bottom:1px solid var(--gray-100)"><div style="width:7px;height:7px;border-radius:50%;background:var(--teal);margin-top:3px;flex-shrink:0"></div><div style="font-size:11px;color:var(--gray-600);flex:1"><strong style="color:var(--navy)">Note added</strong> — James Rivera</div><div style="font-size:9px;font-family:'DM Mono',monospace;color:var(--gray-400)">10m</div></div>
+    <div style="display:flex;align-items:flex-start;gap:8px;padding:5px 0;border-bottom:1px solid var(--gray-100)"><div style="width:7px;height:7px;border-radius:50%;background:var(--coral);margin-top:3px;flex-shrink:0"></div><div style="font-size:11px;color:var(--gray-600);flex:1"><strong style="color:var(--navy)">Score dropped</strong> — Sandra Kim ↓140</div><div style="font-size:9px;font-family:'DM Mono',monospace;color:var(--gray-400)">1h</div></div>
+    <div style="display:flex;align-items:flex-start;gap:8px;padding:5px 0"><div style="width:7px;height:7px;border-radius:50%;background:var(--teal);margin-top:3px;flex-shrink:0"></div><div style="font-size:11px;color:var(--gray-600);flex:1"><strong style="color:var(--navy)">Aid app submitted</strong> — Marcus Thompson</div><div style="font-size:9px;font-family:'DM Mono',monospace;color:var(--gray-400)">2h</div></div>
+  </div>
+</div>
+
+<!-- Mobile nav -->
+<div style="background:white;border-top:1px solid var(--gray-100);display:flex;padding:7px 0 18px;margin-top:auto">
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px">
+    <svg width="19" height="19" viewBox="0 0 24 24"><defs><linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#3ECFB2"/><stop offset="100%" stop-color="#F4714F"/></linearGradient></defs><rect x="3" y="3" width="8" height="8" rx="1.5" fill="url(#g1)"/><rect x="13" y="3" width="8" height="8" rx="1.5" fill="url(#g1)" opacity=".7"/><rect x="3" y="13" width="8" height="8" rx="1.5" fill="url(#g1)" opacity=".7"/><rect x="13" y="13" width="8" height="8" rx="1.5" fill="url(#g1)" opacity=".45"/></svg>
+    <div style="font-size:8px;color:var(--teal-dark)">Dashboard</div>
+    <div style="width:3px;height:3px;border-radius:50%;background:var(--grad-accent)"></div>
+  </div>
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#8A94AD" stroke-width="1.5" stroke-linecap="round"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg><div style="font-size:8px;color:var(--gray-400)">Clients</div></div>
+  <div style="flex:1;display:flex;align-items:center;justify-content:center"><div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#3ECFB2,#F4714F,#1B2A4A);display:flex;align-items:center;justify-content:center;margin-top:-12px;box-shadow:0 4px 14px rgba(62,207,178,.4)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#8A94AD" stroke-width="1.5" stroke-linecap="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg><div style="font-size:8px;color:var(--gray-400)">Resources</div></div>
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#8A94AD" stroke-width="1.5" stroke-linecap="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg><div style="font-size:8px;color:var(--gray-400)">Metrics</div></div>
+</div>
+</body>
+</html>

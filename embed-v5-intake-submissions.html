@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}:root{--teal:#3ECFB2;--teal-dark:#1A9E8A;--navy:#1B2A4A;--navy-mid:#2A3F6B;--coral:#F4714F;--coral-dark:#C2441A;--warm-bg:#F4F6FA;--gray-100:#EEF1F7;--gray-200:#D8DDED;--gray-400:#8A94AD;--gray-600:#4A5568;--shadow:0 2px 10px rgba(27,42,74,.08)}body{font-family:'DM Sans',-apple-system,sans-serif;background:var(--warm-bg);margin:0;font-size:12px;display:flex;min-height:660px;overflow:hidden}</style>
+</head>
+<body>
+<!-- Sidebar -->
+<div style="width:190px;background:var(--navy);min-height:660px;padding:18px 0;flex-shrink:0;position:relative;overflow:hidden">
+  <div style="position:absolute;width:180px;height:180px;border-radius:50%;background:#3ECFB2;filter:blur(80px);opacity:.1;bottom:-50px;left:-50px"></div>
+  <div style="display:flex;align-items:center;gap:8px;padding:0 16px 16px;border-bottom:1px solid rgba(255,255,255,.07);margin-bottom:10px;position:relative;z-index:1">
+    <div style="width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,#3ECFB2,#F4714F);display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:11px;font-weight:500;color:white">Vj</div>
+    <div style="font-family:'DM Mono',monospace;font-size:13px;font-weight:500;color:white">Vijilant</div>
+  </div>
+  <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.09em;text-transform:uppercase;color:rgba(255,255,255,.27);padding:0 16px;margin:10px 0 4px;position:relative;z-index:1">Supervisor</div>
+  <div style="display:flex;align-items:center;gap:8px;padding:8px 16px;font-size:11px;font-weight:500;color:white;background:rgba(62,207,178,.12);position:relative;z-index:1">
+    <div style="position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:16px;background:#3ECFB2;border-radius:0 2px 2px 0"></div>
+    <svg width="13" height="13" viewBox="0 0 24 24"><defs><linearGradient id="gisb" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#3ECFB2"/><stop offset="100%" stop-color="#F4714F"/></linearGradient></defs><rect x="3" y="3" width="8" height="8" rx="1.5" fill="url(#gisb)"/><rect x="13" y="3" width="8" height="8" rx="1.5" fill="url(#gisb)" opacity=".6"/><rect x="3" y="13" width="8" height="8" rx="1.5" fill="url(#gisb)" opacity=".6"/><rect x="13" y="13" width="8" height="8" rx="1.5" fill="url(#gisb)" opacity=".35"/></svg>Dashboard</div>
+  <div style="display:flex;align-items:center;gap:8px;padding:8px 16px;font-size:11px;font-weight:500;color:rgba(255,255,255,.5);position:relative;z-index:1"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg>Care Managers</div>
+  <div style="display:flex;align-items:center;gap:8px;padding:8px 16px;font-size:11px;font-weight:500;color:rgba(255,255,255,.5);position:relative;z-index:1"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><circle cx="17" cy="10" r="3"/><path d="M21 21v-1.5a3 3 0 0 0-2-2.83"/></svg>All Clients <span style="margin-left:auto;background:#3ECFB2;color:#1B2A4A;font-size:9px;font-weight:700;font-family:'DM Mono',monospace;padding:1px 5px;border-radius:5px">87</span></div>
+  <div style="display:flex;align-items:center;gap:8px;padding:8px 16px;font-size:11px;font-weight:500;color:rgba(255,255,255,.5);position:relative;z-index:1"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>Resources</div>
+  <div style="display:flex;align-items:center;gap:8px;padding:8px 16px;font-size:11px;font-weight:500;color:rgba(255,255,255,.5);position:relative;z-index:1"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Metrics</div>
+</div>
+<!-- Main -->
+<div style="flex:1;padding:20px;background:var(--warm-bg);overflow:hidden">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+    <div><div style="font-family:'DM Mono',monospace;font-size:18px;font-weight:500;color:var(--navy)">Intake Submissions</div><div style="font-size:10px;color:var(--gray-400);margin-top:2px">Supervisor · Review &amp; assign incoming clients</div></div>
+  </div>
+  <!-- Pipeline tabs -->
+  <div style="display:flex;border-bottom:2px solid var(--gray-100);margin-bottom:0">
+    <div style="padding:9px 13px;font-size:11px;font-weight:600;color:var(--teal-dark);border-bottom:2px solid #3ECFB2;margin-bottom:-2px;display:flex;align-items:center;gap:5px"><div style="width:6px;height:6px;border-radius:50%;background:#F4714F"></div>Pending <span style="font-family:'DM Mono',monospace;font-size:9px;background:#F4714F;color:white;padding:1px 5px;border-radius:7px">7</span></div>
+    <div style="padding:9px 13px;font-size:11px;font-weight:600;color:var(--gray-400)">Verified <span style="font-family:'DM Mono',monospace;font-size:9px;background:var(--gray-100);color:var(--gray-600);padding:1px 5px;border-radius:7px">12</span></div>
+    <div style="padding:9px 13px;font-size:11px;font-weight:600;color:var(--gray-400)">Assigned <span style="font-family:'DM Mono',monospace;font-size:9px;background:var(--gray-100);color:var(--gray-600);padding:1px 5px;border-radius:7px">9</span></div>
+    <div style="padding:9px 13px;font-size:11px;font-weight:600;color:var(--gray-400)">Follow-up <span style="font-family:'DM Mono',monospace;font-size:9px;background:#FDF6E7;color:#E5A328;padding:1px 5px;border-radius:7px">3</span></div>
+  </div>
+  <!-- Table header -->
+  <div style="display:grid;grid-template-columns:2fr 1fr .8fr .7fr 1.2fr;padding:8px 14px;background:var(--gray-100);border-bottom:1px solid var(--gray-200)">
+    <div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--gray-400);font-family:'DM Mono',monospace">Candidate</div>
+    <div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--gray-400);font-family:'DM Mono',monospace">Needs</div>
+    <div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--gray-400);font-family:'DM Mono',monospace">Submitted</div>
+    <div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--gray-400);font-family:'DM Mono',monospace">Flags</div>
+    <div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--gray-400);font-family:'DM Mono',monospace">Actions</div>
+  </div>
+  <!-- Row 1 -->
+  <div style="display:grid;grid-template-columns:2fr 1fr .8fr .7fr 1.2fr;padding:11px 14px;border-bottom:1px solid var(--gray-100);background:white;align-items:center">
+    <div><div style="font-size:12px;font-weight:600;color:var(--navy)">Tomás Reyes</div><div style="font-size:10px;color:var(--gray-400)">Household: 4 · Spanish · Wildfire</div></div>
+    <div style="display:flex;gap:4px;flex-wrap:wrap"><span style="padding:2px 6px;border-radius:6px;background:var(--gray-100);color:var(--gray-600);font-size:9px">Housing</span><span style="padding:2px 6px;border-radius:6px;background:var(--gray-100);color:var(--gray-600);font-size:9px">Employ.</span></div>
+    <div style="font-size:10px;font-family:'DM Mono',monospace;color:var(--gray-400)">2 days ago</div>
+    <div><span style="background:#FDECEA;color:#C0392B;font-size:9px;font-weight:700;padding:2px 6px;border-radius:6px">No ID</span></div>
+    <div style="display:flex;gap:5px">
+      <div style="background:linear-gradient(135deg,#3ECFB2,#F4714F,#1B2A4A);color:white;border-radius:7px;padding:5px 9px;font-size:9px;font-weight:700">Verify ✓</div>
+      <div style="background:var(--gray-100);border:1px solid var(--gray-200);color:var(--gray-600);border-radius:7px;padding:5px 8px;font-size:9px;font-weight:600">Flag</div>
+    </div>
+  </div>
+  <!-- Row 2 -->
+  <div style="display:grid;grid-template-columns:2fr 1fr .8fr .7fr 1.2fr;padding:11px 14px;border-bottom:1px solid var(--gray-100);background:white;align-items:center">
+    <div><div style="font-size:12px;font-weight:600;color:var(--navy)">Diane Ortega</div><div style="font-size:10px;color:var(--gray-400)">Household: 2 · English · Wildfire</div></div>
+    <div><span style="padding:2px 6px;border-radius:6px;background:var(--gray-100);color:var(--gray-600);font-size:9px">Housing</span></div>
+    <div style="font-size:10px;font-family:'DM Mono',monospace;color:var(--gray-400)">3 days ago</div>
+    <div style="font-size:10px;color:var(--gray-400)">—</div>
+    <div style="display:flex;gap:5px">
+      <div style="background:linear-gradient(135deg,#3ECFB2,#F4714F,#1B2A4A);color:white;border-radius:7px;padding:5px 9px;font-size:9px;font-weight:700">Verify ✓</div>
+      <div style="background:var(--gray-100);border:1px solid var(--gray-200);color:var(--gray-600);border-radius:7px;padding:5px 8px;font-size:9px;font-weight:600">Flag</div>
+    </div>
+  </div>
+  <!-- Row 3 -->
+  <div style="display:grid;grid-template-columns:2fr 1fr .8fr .7fr 1.2fr;padding:11px 14px;background:white;align-items:center">
+    <div><div style="font-size:12px;font-weight:600;color:var(--navy)">Bernard Williams</div><div style="font-size:10px;color:var(--gray-400)">Household: 1 · English · Wildfire</div></div>
+    <div style="display:flex;gap:4px;flex-wrap:wrap"><span style="padding:2px 6px;border-radius:6px;background:var(--gray-100);color:var(--gray-600);font-size:9px">Mental</span><span style="padding:2px 6px;border-radius:6px;background:var(--gray-100);color:var(--gray-600);font-size:9px">Financial</span></div>
+    <div style="font-size:10px;font-family:'DM Mono',monospace;color:var(--gray-400)">4 days ago</div>
+    <div><span style="background:#FDF6E7;color:#E5A328;font-size:9px;font-weight:700;padding:2px 6px;border-radius:6px">Out-zone</span></div>
+    <div style="display:flex;gap:5px">
+      <div style="background:linear-gradient(135deg,#3ECFB2,#F4714F,#1B2A4A);color:white;border-radius:7px;padding:5px 9px;font-size:9px;font-weight:700">Verify ✓</div>
+      <div style="background:var(--gray-100);border:1px solid var(--gray-200);color:var(--gray-600);border-radius:7px;padding:5px 8px;font-size:9px;font-weight:600">Flag</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
