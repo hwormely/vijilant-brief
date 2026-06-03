@@ -85,17 +85,33 @@
     .screen-num{font-family:'DM Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--teal-dark);margin-bottom:4px}
     .screen-name{font-size:clamp(24px,3.5vw,34px);font-weight:700;letter-spacing:-.02em;color:var(--navy);margin-bottom:4px}
     .screen-role{font-size:14px;color:var(--gray-400)}
-    .screen-body{display:grid;grid-template-columns:375px 1fr;gap:48px;align-items:start}
+    /* Phone displays at 220×476px. iframe rendered at 375×812 then zoomed down. */
+    .screen-body{display:grid;grid-template-columns:220px 1fr;gap:48px;align-items:start}
     .screen-body.desktop-layout{display:block}
     .phone-wrap{display:flex;flex-direction:column;align-items:flex-start;gap:10px}
     .phone-label{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--gray-400)}
-    .phone-container{width:375px;height:812px;border-radius:44px;overflow:hidden;box-shadow:0 40px 80px rgba(27,42,74,.25),0 0 0 10px #1a1a1a,0 0 0 12px #2a2a2a;background:white;flex-shrink:0}
-    .phone-iframe{width:375px;height:812px;border:none;display:block}
+    .phone-container{
+      width:220px;height:476px;border-radius:34px;overflow:hidden;
+      box-shadow:0 32px 64px rgba(27,42,74,.3),0 0 0 9px #1a1a1a,0 0 0 11px #2a2a2a;
+      background:white;flex-shrink:0;
+    }
+    .phone-iframe{
+      width:375px;height:812px;border:none;display:block;
+      zoom:0.587;pointer-events:none;vertical-align:top;
+    }
     .desktop-frame-wrap{margin-bottom:40px}
-    .desktop-container{border-radius:14px;overflow:hidden;box-shadow:0 24px 60px rgba(27,42,74,.2);background:var(--navy);border:1px solid rgba(255,255,255,.07)}
+    /* Desktop: iframe rendered at 960×600 zoomed to ~640×400 */
+    .desktop-container{
+      border-radius:14px;overflow:hidden;
+      box-shadow:0 24px 60px rgba(27,42,74,.2);
+      background:var(--navy);border:1px solid rgba(255,255,255,.07);
+    }
     .desktop-titlebar{height:30px;background:#0f0f1a;display:flex;align-items:center;padding:0 14px;gap:6px}
     .dt{width:10px;height:10px;border-radius:50%}.dt-r{background:#FF5F57}.dt-y{background:#FFBD2E}.dt-g{background:#28C840}
-    .desktop-iframe{width:100%;height:660px;border:none;display:block}
+    .desktop-iframe{
+      width:960px;height:600px;border:none;display:block;
+      zoom:0.667;pointer-events:none;vertical-align:top;
+    }
 
     /* Annotations */
     .annotations{display:flex;flex-direction:column;gap:0}
