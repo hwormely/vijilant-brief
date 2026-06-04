@@ -175,7 +175,7 @@
   <div class="orb" style="width:400px;height:400px;background:var(--coral);opacity:.1;bottom:-100px;left:-60px;"></div>
   <div class="header-inner">
     <div class="logo-row"><div class="logo-mark">Vj</div><div class="logo-word">Vijilant</div></div>
-    <div class="eyebrow">Competitive Analysis Brief — The Legacy Land Project · May 2026</div>
+    <div class="eyebrow">Competitive Analysis Brief — The Legacy Land Project · June 2026</div>
     <h1>Vijilant <em>coordinates.</em><br>The field documents.</h1>
     <p class="header-sub">Every platform in this space was built for a different job and bolted onto disaster work. Vijilant wasn't. Here's what that difference looks like when you're managing 47 survivors after a wildfire.</p>
     <div class="platform-row">
@@ -334,7 +334,7 @@
           <tr><td>Survivor Portal</td><td><span class="win">✓ Live in v1</span> Secure tokenized link — no login credentials. Survivors see their recovery ring, recovery plan, application statuses. Can message their CM, upload documents, and sign applications requiring their authorization.</td><td><span class="partial">Claimed</span> Survivor login present on site. Not confirmed functional in LLP deployment.</td><td><span class="win">Available</span> Client portal available. No recovery ring or application signature.</td><td><span class="partial">Enterprise only</span> Available in higher tiers.</td></tr>
           <tr><td>Mobile-First Design</td><td><span class="win">✓ Native</span> iOS + Android native app. Every screen designed for the field — not the office.</td><td><span class="no">Web only</span> Responsive but not mobile-native. Not built for field use.</td><td><span class="no">Web only</span> Not a native app.</td><td><span class="no">Web only</span> Mobile browser access only.</td></tr>
           <tr><td>HIPAA Compliance</td><td><span class="win">✓ Full</span> Enterprise BAA. Audit log on every write before any PHI enters. Biometric auth — no passcode fallback. Self-hosted analytics. Zero PHI touches a third party.</td><td><span class="partial">Unconfirmed</span> AWS S3 storage. HIPAA posture not publicly documented.</td><td><span class="partial">Available</span> BAA available. Customer-managed compliance configuration.</td><td><span class="partial">Available</span> BAA available.</td></tr>
-          <tr><td>AI Integration</td><td><span class="win">✓ Native</span> AI is the infrastructure, not a feature. Auto-Triage Engine runs on every meaningful case event — not as an add-on, as the foundation.</td><td><span class="no">✗</span> No AI integration confirmed.</td><td><span class="no">✗</span> No AI in core workflows.</td><td><span class="no">✗</span> No AI integration confirmed.</td></tr>
+          <tr><td>AI Integration</td><td><span class="win">✓ Disaster-native</span> AI is the infrastructure, not a feature. The Auto-Triage Engine understands FEMA program logic, disaster-specific risk factors, and recovery trajectory — firing on every case event with domain knowledge no general platform has. CM approves every AI output; professional judgment is non-optional architecture.</td><td><span class="no">✗</span> No AI integration confirmed.</td><td><span class="partial">General AI (Que)</span> Activity summaries, automated note capture, early intervention signals, and data integrity review — launched May 2026. General-purpose social care AI with no disaster-specific logic: no FEMA program awareness, no Recovery Score, no disaster triage.</td><td><span class="no">✗</span> No AI integration confirmed.</td></tr>
           <tr><td>Export Formats</td><td><span class="win">✓ Full</span> .xlsx and .docx on web. PDF via native iOS/Android share sheet. Matches LLP's existing documentation standards from day one.</td><td><span class="partial">Unconfirmed</span> Export capability not verified at LLP.</td><td><span class="partial">Available</span> Excel and PDF export via reporting module.</td><td><span class="partial">Available</span> Available. Format support varies.</td></tr>
           <tr><td>AI Resource Matching</td><td><span class="win">✓ AI</span> Every client gets ranked resource recommendations based on their assessment profile. Plain-language reason per resource. CM accepts or refers in one tap.</td><td><span class="no">✗</span> Manual directory only. No matching.</td><td><span class="no">✗</span> Manual referral tracking only.</td><td><span class="no">✗</span> Manual directory. No recommendation engine.</td></tr>
           <tr><td>Duplicate Detection</td><td><span class="win">✓ Real-time</span> Runs on client name + phone + address at intake save. Flags likely duplicates before the record commits.</td><td><span class="no">✗</span> No duplicate detection.</td><td><span class="partial">Basic</span> Basic check in standard configuration.</td><td><span class="partial">Basic</span> Present in standard configuration.</td></tr>
@@ -352,8 +352,8 @@
 <section class="dark">
   <div class="orb" style="width:600px;height:600px;background:var(--teal);opacity:.1;top:-200px;right:-100px;"></div>
   <div class="wrap">
-    <h2>Every other platform runs<br><em>after the CM does the work.</em></h2>
-    <p style="max-width:560px;">RecoverPrepared has no AI integration. Bonterra and CaseWorthy don't either. Vijilant's Auto-Triage Engine fires on every assessment save, every case note, every task completion. The system works between visits — not just during them.</p>
+    <h2>General AI documents.<br><em>Disaster-native AI acts.</em></h2>
+    <p style="max-width:600px;">Bonterra just shipped AI — note capture, activity summaries, early intervention signals. That's real, and it closes the documentation gap for general nonprofit work. But it doesn't know what FEMA IHP is. It doesn't understand the difference between a T2 survivor with lapsed ALE and one with a live insurance claim. It can't compute a Recovery Score from a 5-domain clinical assessment. RecoverPrepared and CaseWorthy have no AI at all. Vijilant's Auto-Triage Engine was built for the specific, structured context of disaster case management — and that is not something a general-purpose AI can replicate by adding a note-capture feature.</p>
     <div class="flow">
       <div class="flow-step"><div class="flow-dot">1</div><div class="flow-label">Assessment saved</div><div class="flow-sub">CM fills Part A. Descriptive labels only.</div></div>
       <div class="flow-arrow">→</div>
@@ -365,7 +365,7 @@
       <div class="flow-arrow">→</div>
       <div class="flow-step"><div class="flow-dot">5</div><div class="flow-label">Apps pre-filled</div><div class="flow-sub">~88% of fields populated. CM reviews the rest.</div></div>
     </div>
-    <p style="font-size:14px;color:rgba(255,255,255,.55);margin-top:20px;">One assessment save triggers five downstream events. In every other platform on this list, a CM would complete each of those steps manually — if the step existed at all.</p>
+    <p style="font-size:14px;color:rgba(255,255,255,.55);margin-top:20px;">One assessment save triggers five downstream events — each one disaster-specific. No general-purpose AI assistant produces a Recovery Score, generates a disaster triage rationale, or pre-fills a FEMA aid application. That is what disaster-native AI means.</p>
   </div>
 </section>
 
@@ -481,7 +481,7 @@
     </div>
     <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:32px;margin:32px 0;">
       <h3 style="color:white;margin-bottom:12px;">The competitive gap is real — and it isn't closing</h3>
-      <p>RecoverPrepared is the only direct disaster-specific competitor with a live product. Bonterra and CaseWorthy are general human services tools that organizations have made work — with all the friction that implies. None of them have AI-native triage. None of them have a recovery visualization. None of them have a mobile-first field workflow designed specifically for disaster response. None of them have a survivor portal with in-app signatures. The gap isn't narrowing. It's the runway.</p>
+      <p>RecoverPrepared is the only direct disaster-specific competitor with a live product. Bonterra recently launched general-purpose AI (Que) for note capture and activity summaries — a meaningful step for nonprofit work broadly, but one that does not address disaster-native triage, FEMA program logic, or recovery trajectory. CaseWorthy has no AI. None of them have a disaster-specific data model. None of them have a Recovery Score Ring. None of them have a mobile-first field workflow designed for disaster response. None of them have a survivor portal with in-app signatures. The gap on disaster-native intelligence isn't narrowing. It's the runway.</p>
     </div>
   </div>
 </section>
@@ -495,7 +495,7 @@
     <a href="mailto:hwormely@thelegacylandproject.org" class="footer-cta">Get in touch</a>
     <div class="cap-grid" style="max-width:760px;margin:48px auto 0;text-align:left;">
       <div class="cap-item"><div class="cap-dot"></div>Native iOS + Android + full web platform</div>
-      <div class="cap-item"><div class="cap-dot"></div>AI Auto-Triage Engine on every case event</div>
+      <div class="cap-item"><div class="cap-dot"></div>Disaster-native AI Auto-Triage Engine on every case event</div>
       <div class="cap-item"><div class="cap-dot"></div>Recovery Score Ring — 0–1000, every client, auto-updated</div>
       <div class="cap-item"><div class="cap-dot"></div>Recovery Plans generated from assessment on save</div>
       <div class="cap-item"><div class="cap-dot"></div>Enterprise HIPAA BAA + biometric auth</div>
@@ -514,7 +514,7 @@
 <footer>
   <div class="footer-inner">
     <div class="footer-logo"><div class="footer-mark">Vj</div><div class="footer-word">Vijilant</div></div>
-    <div class="footer-meta">Vijilant — Disaster Case Management Platform · The Legacy Land Project · Pasadena, CA · May 2026<br>Prepared for Dr. William Syms, grantors, funders, and LLP leadership. Confidential.</div>
+    <div class="footer-meta">Vijilant — Disaster Case Management Platform · The Legacy Land Project · Pasadena, CA · June 2026<br>Prepared for Dr. William Syms, grantors, funders, and LLP leadership. Confidential.</div>
     <a href="mailto:hwormely@thelegacylandproject.org" class="footer-cta">Get in touch</a>
   </div>
 </footer>
