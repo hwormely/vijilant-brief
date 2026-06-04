@@ -70,14 +70,14 @@
     .flow-zones{display:flex;flex-direction:column;gap:28px;position:relative;z-index:1}
     .flow-zone{padding:18px 22px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:12px}
     .flow-zone-label{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.4);margin-bottom:14px}
-    .flow-row{display:flex;align-items:flex-end;gap:8px;flex-wrap:wrap}
-    .flow-node{display:flex;flex-direction:column;align-items:center;gap:4px}
+    .flow-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .flow-node{display:flex;flex-direction:column;align-items:center;gap:4px;position:relative}
     .flow-box{padding:8px 14px;border-radius:10px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);font-size:12px;font-weight:600;color:white;text-align:center;white-space:nowrap}
     .flow-box.primary{background:rgba(62,207,178,.2);border-color:rgba(62,207,178,.35);color:var(--teal)}
     .flow-box.secondary{background:rgba(255,255,255,.06)}
     .flow-box.desktop{background:rgba(62,207,178,.1);border-color:rgba(62,207,178,.2);color:rgba(255,255,255,.8);font-size:11px}
-    .flow-num{font-family:'DM Mono',monospace;font-size:10px;color:rgba(255,255,255,.35)}
-    .flow-arrow{font-size:16px;color:rgba(255,255,255,.25);padding-bottom:20px;flex-shrink:0}
+    .flow-num{font-family:'DM Mono',monospace;font-size:10px;color:rgba(255,255,255,.35);margin-top:4px}
+    .flow-arrow{font-size:16px;color:rgba(255,255,255,.25);flex-shrink:0;align-self:center}
 
     /* Screens */
     .screen-section{padding:64px 0;border-top:1px solid var(--gray-200)}
@@ -175,27 +175,74 @@
     .footer-word{font-family:'DM Mono',monospace;font-size:16px;color:white}
     .footer-meta{font-size:12px;color:rgba(255,255,255,.4);font-family:'DM Mono',monospace}
 
-    /* ============================================================
-       MOBILE RESPONSIVE — index.html
-       ============================================================ */
-    @media (max-width: 700px) {
-      .wrap { padding: 0 18px; }
-      section.screen-section { padding: 40px 0; }
-      .screen-body { grid-template-columns: 1fr !important; gap: 28px; }
-      .phone-wrap { align-items: center; width: 100%; }
-      .phone-container { width: min(280px, 80vw); height: auto; aspect-ratio: 375 / 812; }
-      .phone-iframe { zoom: calc(min(280px, 80vw) / 375); height: 812px; }
-      .desktop-frame-wrap { width: 100%; }
-      .desktop-container { width: 100% !important; }
-      .desktop-iframe { width: 960px; zoom: calc((100vw - 36px) / 960); }
-      .cover-meta { flex-direction: column; gap: 8px; }
-      .nav-flow-group { flex-direction: column; align-items: flex-start; }
-      h1.cover-title { font-size: clamp(28px, 8vw, 52px); }
+        /* ============================================================
+       MOBILE RESPONSIVE — index.html (v2 — correct selectors + phone zoom)
+    ============================================================ */
+    @media (max-width: 720px) {
+      .wrap { padding: 0 16px !important; }
+
+      /* Nav flow — stack zones, wrap rows */
+      .flow-zone { padding: 14px 14px; }
+      .flow-row { gap: 6px; }
+      .flow-box { font-size: 11px; padding: 7px 11px; white-space: normal; text-align: center; min-width: 0; }
+
+      /* Phone frames — scale to viewport */
+      .screen-body { grid-template-columns: 1fr !important; gap: 24px; }
+      .phone-wrap { align-items: center !important; width: 100%; }
+
+      /* Phone container: fix both width AND height together using a scale factor */
+      /* At 720px viewport with 32px padding = 688px available. Target max 320px wide. */
+      /* phone scale = min(320, 688) / 375 = 0.853 → container = 320×693 */
+      .phone-container {
+        width: min(320px, calc(100vw - 32px)) !important;
+        height: calc(min(320px, calc(100vw - 32px)) / 375 * 812) !important;
+        border-radius: 24px !important;
+      }
+      .phone-iframe {
+        zoom: calc(min(320px, calc(100vw - 32px)) / 375) !important;
+        height: 812px !important;
+        width: 375px !important;
+      }
+
+      /* Desktop frames — scale down to fit */
+      .desktop-frame-wrap { width: 100%; overflow: hidden; }
+      .desktop-container { width: 100% !important; max-width: 640px; }
+      .desktop-iframe {
+        width: 960px !important;
+        zoom: calc(min(640px, calc(100vw - 32px)) / 960) !important;
+      }
+
+      /* Cover */
+      h1.cover-title { font-size: clamp(26px, 7vw, 48px) !important; }
+      .cover-inner { padding: 48px 16px !important; }
+
+      /* Ring demo */
+      .ring-demo-box { gap: 16px; padding: 16px; }
+
+      /* Autofill demo */
+      .autofill-demo { gap: 6px; }
+
+      /* Annotations */
+      .ann-list li { font-size: 13px; }
+      .ann-body p { font-size: 13px; }
     }
+
     @media (max-width: 480px) {
-      .phone-container { width: min(230px, 90vw); }
-      .phone-iframe { zoom: calc(min(230px, 90vw) / 375); }
+      .phone-container {
+        width: calc(100vw - 32px) !important;
+        height: calc((100vw - 32px) / 375 * 812) !important;
+        border-radius: 20px !important;
+      }
+      .phone-iframe {
+        zoom: calc((100vw - 32px) / 375) !important;
+      }
+      .desktop-iframe {
+        zoom: calc((100vw - 32px) / 960) !important;
+      }
+      .flow-box { font-size: 10px; padding: 6px 9px; }
+      .flow-zones { gap: 16px; }
     }
+
   </style>
 </head>
 <body>
@@ -319,13 +366,13 @@
           <div class="flow-zone-label">Within Client Detail — Tab Navigation</div>
           <div class="flow-row" style="gap:6px;flex-wrap:wrap;">
             <div class="flow-node"><div class="flow-box secondary">Notes</div><div class="flow-num">07a</div></div>
-            <div class="flow-arrow" style="padding-bottom:20px;color:rgba(255,255,255,.2);">|</div>
+            <div class="flow-arrow" style="color:rgba(255,255,255,.2);">|</div>
             <div class="flow-node"><div class="flow-box secondary">Assessments</div><div class="flow-num">08</div></div>
-            <div class="flow-arrow" style="padding-bottom:20px;color:rgba(255,255,255,.2);">|</div>
+            <div class="flow-arrow" style="color:rgba(255,255,255,.2);">|</div>
             <div class="flow-node"><div class="flow-box secondary">Recovery Plan</div></div>
-            <div class="flow-arrow" style="padding-bottom:20px;color:rgba(255,255,255,.2);">|</div>
+            <div class="flow-arrow" style="color:rgba(255,255,255,.2);">|</div>
             <div class="flow-node"><div class="flow-box secondary">Follow-ups</div></div>
-            <div class="flow-arrow" style="padding-bottom:20px;color:rgba(255,255,255,.2);">|</div>
+            <div class="flow-arrow" style="color:rgba(255,255,255,.2);">|</div>
             <div class="flow-node"><div class="flow-box secondary">Applications</div><div class="flow-num">07e</div></div>
           </div>
           <div style="font-size:12px;color:rgba(255,255,255,.4);margin-top:10px;font-style:italic;">Tabs persist within a single client. Back nav returns to the list the CM came from.</div>
