@@ -102,7 +102,7 @@
     .desktop-frame-wrap{margin-bottom:40px}
     /* Desktop: iframe rendered at 960×600 zoomed to ~640×400 */
     .desktop-container{
-      border-radius:14px;overflow:hidden;
+      width:640px;border-radius:14px;overflow:hidden;
       box-shadow:0 24px 60px rgba(27,42,74,.2);
       background:var(--navy);border:1px solid rgba(255,255,255,.07);
     }
@@ -174,6 +174,28 @@
     .footer-mark{width:36px;height:36px;border-radius:10px;background:var(--grad-accent);display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:14px;font-weight:500;color:white}
     .footer-word{font-family:'DM Mono',monospace;font-size:16px;color:white}
     .footer-meta{font-size:12px;color:rgba(255,255,255,.4);font-family:'DM Mono',monospace}
+
+    /* ============================================================
+       MOBILE RESPONSIVE — index.html
+       ============================================================ */
+    @media (max-width: 700px) {
+      .wrap { padding: 0 18px; }
+      section.screen-section { padding: 40px 0; }
+      .screen-body { grid-template-columns: 1fr !important; gap: 28px; }
+      .phone-wrap { align-items: center; width: 100%; }
+      .phone-container { width: min(280px, 80vw); height: auto; aspect-ratio: 375 / 812; }
+      .phone-iframe { zoom: calc(min(280px, 80vw) / 375); height: 812px; }
+      .desktop-frame-wrap { width: 100%; }
+      .desktop-container { width: 100% !important; }
+      .desktop-iframe { width: 960px; zoom: calc((100vw - 36px) / 960); }
+      .cover-meta { flex-direction: column; gap: 8px; }
+      .nav-flow-group { flex-direction: column; align-items: flex-start; }
+      h1.cover-title { font-size: clamp(28px, 8vw, 52px); }
+    }
+    @media (max-width: 480px) {
+      .phone-container { width: min(230px, 90vw); }
+      .phone-iframe { zoom: calc(min(230px, 90vw) / 375); }
+    }
   </style>
 </head>
 <body>

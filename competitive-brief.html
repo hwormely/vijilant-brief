@@ -165,6 +165,52 @@
     .footer-word { font-family:'DM Mono',monospace; font-size:16px; color:white; }
     .footer-meta { font-size:11px; color:rgba(255,255,255,.4); font-family:'DM Mono',monospace; line-height:1.6; }
     .footer-cta { padding:11px 22px; border-radius:11px; background:var(--grad-btn); color:white; font-size:13px; font-weight:700; text-decoration:none; display:inline-block; }
+
+    /* ============================================================
+       MOBILE RESPONSIVE — competitive-brief.html
+       ============================================================ */
+    @media (max-width: 700px) {
+      .wrap { padding: 0 18px; }
+      section { padding: 48px 0; }
+      .header-inner { padding: 52px 18px; }
+      .stats { grid-template-columns: 1fr 1fr; }
+      .stats .stat:last-child { grid-column: 1 / -1; }
+      .platform-row { gap: 6px; }
+      .platform-pill { font-size: 11px; padding: 6px 12px; }
+      /* Screen grid — single column */
+      .screen-grid { grid-template-columns: 1fr !important; justify-items: center; }
+      .phone-wrap { width: 220px; }
+      /* Desk wrap — scale down */
+      .desk-wrap { width: 100%; }
+      .desk-wrap iframe { zoom: calc((100vw - 36px) / 960); }
+      /* Feature table — horizontal scroll */
+      .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      table { min-width: 640px; }
+      /* Roles */
+      .roles-grid { grid-template-columns: 1fr; }
+      /* Win grid */
+      .win-grid { grid-template-columns: 1fr 1fr; }
+      /* Honest grid */
+      .honest-grid { grid-template-columns: 1fr; }
+      /* Market stats */
+      .market-stats { grid-template-columns: 1fr; }
+      .mstat { text-align: left; }
+      /* Capability list */
+      .cap-grid { grid-template-columns: 1fr; }
+      /* Flow */
+      .flow { flex-direction: column; align-items: center; gap: 12px; }
+      .flow::before { display: none; }
+      .flow-arrow { transform: rotate(90deg); margin: 4px 0; }
+      .flow-sub { max-width: 200px; }
+      /* Ring demo */
+      .ring-demo { justify-content: center; }
+    }
+    @media (max-width: 480px) {
+      .win-grid { grid-template-columns: 1fr; }
+      .stats { grid-template-columns: 1fr; }
+      .stats .stat:last-child { grid-column: auto; }
+      header h1 { font-size: clamp(28px, 8vw, 44px); }
+    }
   </style>
 </head>
 <body>
