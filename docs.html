@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Vijilant — Architecture & Roadmap Docs</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --teal:#3ECFB2; --teal-mid:#2ABFA4; --teal-dark:#1A9E8A;
+    --navy:#1B2A4A; --navy-mid:#2A3F6B; --navy-deep:#0F1A30;
+    --coral:#F4714F; --coral-dark:#C2441A;
+    --red:#C0392B; --amber:#E5A328;
+    --warm-bg:#F4F6FA; --white:#FFFFFF;
+    --parchment:#FAF8F3;
+    --gray-100:#EEF1F7; --gray-200:#D8DDED; --gray-300:#C2CADC;
+    --gray-400:#8A94AD; --gray-500:#6B7589; --gray-600:#4A5568;
+    --grad-hero: linear-gradient(135deg,#1B2A4A 0%,#1F3D5C 40%,#1A6B6B 70%,#3ECFB2 100%);
+    --grad-accent: linear-gradient(135deg,#3ECFB2 0%,#F4714F 100%);
+    --grad-btn:    linear-gradient(135deg,#3ECFB2 0%,#F4714F 55%,#1B2A4A 100%);
+    --shadow:0 2px 10px rgba(27,42,74,.08);
+  }
+  html, body { height: 100%; }
+  body {
+    font-family:'DM Sans',-apple-system,'Helvetica Neue',sans-serif;
+    background:var(--warm-bg); color:var(--navy);
+    font-size:15px; line-height:1.65; -webkit-font-smoothing:antialiased;
+  }
+
+  /* Top bar (matches the brief site cover) */
+  header.top {
+    background: var(--grad-hero);
+    padding: 28px 40px 24px;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+  }
+  .top-inner { display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap; }
+  .top-brand { display:flex; align-items:center; gap:14px; color:#fff; }
+  .top-mark {
+    width:42px; height:42px; border-radius:12px; background:var(--grad-accent);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'DM Mono',monospace; font-size:16px; font-weight:500; color:#fff;
+    box-shadow:0 8px 24px rgba(62,207,178,.4);
+  }
+  .top-word { font-family:'DM Mono',monospace; font-size:18px; font-weight:500; letter-spacing:.02em; }
+  .top-eyebrow { font-family:'DM Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:.14em; color:rgba(255,255,255,.55); margin-bottom:4px; }
+  .top-title { font-size:20px; font-weight:600; color:#fff; letter-spacing:-.01em; }
+  .top-back a {
+    font-family:'DM Mono',monospace; font-size:11px; letter-spacing:.1em; text-transform:uppercase;
+    color:rgba(255,255,255,.7); text-decoration:none; padding:8px 14px;
+    border:1px solid rgba(255,255,255,.2); border-radius:6px; transition:all .15s;
+  }
+  .top-back a:hover { background:rgba(255,255,255,.08); color:#fff; border-color:rgba(255,255,255,.35); }
+
+  /* Layout */
+  .layout { display:grid; grid-template-columns: 280px 1fr; min-height: calc(100vh - 98px); }
+  nav.side {
+    background:#fff; border-right:1px solid var(--gray-200);
+    padding:24px 0; position:sticky; top:0; height:calc(100vh - 98px); overflow-y:auto;
+  }
+  nav.side .group { padding:0 24px 8px; }
+  nav.side .group-label {
+    font-family:'DM Mono',monospace; font-size:10px; text-transform:uppercase;
+    letter-spacing:.1em; color:var(--gray-400); margin-bottom:10px; margin-top:18px;
+  }
+  nav.side a.doc {
+    display:block; padding:8px 24px; color:var(--navy); text-decoration:none;
+    font-size:14px; font-weight:500; border-left:3px solid transparent; transition:all .12s;
+  }
+  nav.side a.doc:hover { background:var(--warm-bg); border-left-color:var(--teal); color:var(--teal-dark); }
+  nav.side a.doc.active { background:var(--warm-bg); border-left-color:var(--coral); color:var(--coral-dark); }
+  nav.side a.doc .meta {
+    display:block; font-family:'DM Mono',monospace; font-size:10px; color:var(--gray-400); margin-top:2px;
+  }
+
+  /* Article */
+  article.doc-content {
+    padding: 40px 56px 80px; max-width: 980px; margin: 0 auto; background: var(--warm-bg);
+  }
+  .doc-meta {
+    display:inline-block; font-family:'DM Mono',monospace; font-size:10px;
+    text-transform:uppercase; letter-spacing:.14em; color:var(--teal-dark); margin-bottom:10px;
+  }
+  .doc-title { font-size:34px; font-weight:700; letter-spacing:-.02em; line-height:1.2; margin-bottom:8px; color:var(--navy); }
+  .doc-sub { font-size:15px; color:var(--gray-500); margin-bottom:28px; }
+
+  /* Markdown content styling */
+  article.doc-content .md h1 { font-size:30px; font-weight:700; letter-spacing:-.02em; margin: 32px 0 12px; color: var(--navy); border-bottom: 1px solid var(--gray-200); padding-bottom: 8px; }
+  article.doc-content .md h2 { font-size:22px; font-weight:700; letter-spacing:-.01em; margin: 28px 0 10px; color: var(--navy); }
+  article.doc-content .md h3 { font-size:17px; font-weight:600; margin: 22px 0 8px; color: var(--navy); }
+  article.doc-content .md h4 { font-size:14px; font-weight:600; margin: 16px 0 6px; color: var(--navy); font-family:'DM Mono',monospace; text-transform: uppercase; letter-spacing: .06em; }
+  article.doc-content .md p { margin: 8px 0 12px; color: var(--navy); }
+  article.doc-content .md ul, article.doc-content .md ol { margin: 8px 0 16px 22px; }
+  article.doc-content .md li { margin: 4px 0; color: var(--navy); }
+  article.doc-content .md li > p { margin: 4px 0; }
+  article.doc-content .md a { color: var(--teal-dark); text-decoration: underline; text-decoration-color: rgba(26,158,138,.35); text-underline-offset: 2px; }
+  article.doc-content .md a:hover { color: var(--coral-dark); text-decoration-color: var(--coral); }
+  article.doc-content .md strong { color: var(--navy); font-weight: 700; }
+  article.doc-content .md em { color: var(--navy-mid); font-style: italic; }
+  article.doc-content .md code {
+    background: #FFF; border: 1px solid var(--gray-200); border-radius: 4px;
+    padding: 1px 6px; font-family:'DM Mono',monospace; font-size: 12px; color: var(--teal-dark);
+  }
+  article.doc-content .md pre {
+    background: var(--navy); color: #E8EEF7; border-radius: 8px;
+    padding: 14px 18px; margin: 12px 0 18px; overflow-x: auto;
+    font-family:'DM Mono',monospace; font-size: 12px; line-height: 1.55;
+    border: 1px solid var(--navy-deep);
+  }
+  article.doc-content .md pre code { background: none; border: none; color: inherit; padding: 0; font-size: inherit; }
+  article.doc-content .md blockquote {
+    border-left: 3px solid var(--teal); background: #fff; padding: 12px 18px;
+    margin: 12px 0 18px; color: var(--navy-mid); border-radius: 0 6px 6px 0;
+  }
+  article.doc-content .md hr { border: none; border-top: 1px solid var(--gray-200); margin: 32px 0; }
+
+  /* Tables — v5 styled */
+  article.doc-content .md table { width: 100%; border-collapse: collapse; margin: 14px 0 20px; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: var(--shadow); }
+  article.doc-content .md thead { background: var(--navy); }
+  article.doc-content .md thead th { color: #fff; text-align: left; padding: 10px 14px; font-family:'DM Mono',monospace; font-size: 11px; font-weight: 500; letter-spacing: .04em; text-transform: uppercase; border-bottom: 1px solid var(--navy-deep); }
+  article.doc-content .md tbody td { padding: 10px 14px; border-bottom: 1px solid var(--gray-200); font-size: 13px; vertical-align: top; }
+  article.doc-content .md tbody tr:last-child td { border-bottom: none; }
+  article.doc-content .md tbody tr:nth-child(even) { background: #FBFCFE; }
+
+  /* Tier ramp accent pills (auto-applied to "Tier X" tokens via JS) */
+  .tier-pill { display: inline-block; padding: 1px 8px; border-radius: 999px; font-family:'DM Mono',monospace; font-size: 10px; font-weight: 600; letter-spacing: .05em; }
+  .tier-pill.t1 { background: var(--navy); color: #fff; }
+  .tier-pill.t2 { background: var(--teal); color: var(--navy); }
+  .tier-pill.t3 { background: var(--coral); color: #fff; }
+  .tier-pill.t4 { background: var(--red); color: #fff; }
+
+  /* Status pills */
+  .status-pill { display: inline-block; padding: 1px 8px; border-radius: 4px; font-family:'DM Mono',monospace; font-size: 10px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+  .status-pill.shipped { background: rgba(26,158,138,.15); color: var(--teal-dark); }
+  .status-pill.staged  { background: rgba(244,113,79,.15);  color: var(--coral-dark); }
+  .status-pill.gap     { background: rgba(192,57,43,.13);   color: var(--red); }
+  .status-pill.partial { background: rgba(229,163,40,.15);  color: var(--amber); }
+
+  footer.bottom {
+    background: var(--navy); color: rgba(255,255,255,.7);
+    padding: 28px 56px; font-family:'DM Mono',monospace; font-size: 11px; letter-spacing: .04em;
+  }
+  footer.bottom a { color: var(--teal); text-decoration: none; }
+  footer.bottom a:hover { color: var(--coral); }
+
+  @media (max-width: 880px) {
+    .layout { grid-template-columns: 1fr; }
+    nav.side { position: static; height: auto; border-right: none; border-bottom: 1px solid var(--gray-200); }
+    article.doc-content { padding: 24px 20px 48px; }
+  }
+
+  .loading { color: var(--gray-400); font-family:'DM Mono',monospace; font-size: 12px; padding: 40px 0; text-align: center; }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-inner">
+    <div class="top-brand">
+      <div class="top-mark">V</div>
+      <div>
+        <div class="top-eyebrow">Vijilant · Architecture & Roadmap</div>
+        <div class="top-word">vijilant</div>
+      </div>
+    </div>
+    <div class="top-back"><a href="./">← Back to brief</a></div>
+  </div>
+</header>
+
+<div class="layout">
+
+  <nav class="side">
+    <div class="group">
+      <div class="group-label">Architecture</div>
+      <a class="doc" data-doc="architecture-map" href="architecture-map.html">
+        Architecture Map
+        <span class="meta">interactive · 74 nodes</span>
+      </a>
+    </div>
+
+    <div class="group">
+      <div class="group-label">Roadmaps</div>
+      <a class="doc" data-doc="feature-roadmap" href="#feature-roadmap">
+        Built vs. Remaining
+        <span class="meta">what ships in 7 days</span>
+      </a>
+      <a class="doc" data-doc="uiux-role-roadmap" href="#uiux-role-roadmap">
+        UI/UX by Role
+        <span class="meta">5 roles · every screen</span>
+      </a>
+      <a class="doc" data-doc="migration-roadmap" href="#migration-roadmap">
+        HOLD Dena → Vijilant
+        <span class="meta">LLP cutover · 21 days</span>
+      </a>
+    </div>
+
+    <div class="group">
+      <div class="group-label">Plans</div>
+      <a class="doc" data-doc="surprises-plan" href="#surprises-plan">
+        5 Surprises — Fix Plan
+        <span class="meta">drift items · effort + risk</span>
+      </a>
+      <a class="doc" data-doc="security-hardening" href="#security-hardening">
+        Security Hardening
+        <span class="meta">15 attack scenarios</span>
+      </a>
+      <a class="doc" data-doc="enterprise-gap-analysis" href="#enterprise-gap-analysis">
+        Enterprise Gap Analysis
+        <span class="meta">Apple-team review</span>
+      </a>
+    </div>
+
+    <div class="group">
+      <div class="group-label">Audit</div>
+      <a class="doc" data-doc="document-audit" href="#document-audit">
+        Document Audit
+        <span class="meta">alignment · continuity</span>
+      </a>
+    </div>
+  </nav>
+
+  <article class="doc-content">
+    <span class="doc-meta" id="doc-meta">Vijilant docs</span>
+    <h1 class="doc-title" id="doc-title">Loading…</h1>
+    <p class="doc-sub" id="doc-sub"></p>
+    <div class="md" id="md"></div>
+  </article>
+
+</div>
+
+<footer class="bottom">
+  Vijilant · WRMLY LLC · v5 design system · compiled 2026-06-06
+</footer>
+
+<script>
+"use strict";
+
+// Doc registry — keep in sync with the .md files in this folder.
+const DOCS = {
+  'feature-roadmap':         { file: 'feature-roadmap.md',         title: 'Vijilant — Built vs. Remaining',          sub: 'What is in production today, what is staged, what is still ahead. 7-day stand-up plan.' },
+  'uiux-role-roadmap':       { file: 'uiux-role-roadmap.md',       title: 'Vijilant — UI/UX Roadmap by Role',         sub: 'Every screen, organized by who sees it. CM · CM Lead · Supervisor · Admin · Survivor.' },
+  'migration-roadmap':       { file: 'migration-roadmap.md',       title: 'HOLD Dena → Vijilant Migration',           sub: 'How LLP moves its survivor caseload off Recover Prepared (HOLD Dena) onto Vijilant. 21-day plan.' },
+  'surprises-plan':          { file: 'surprises-plan.md',          title: 'Plan to Close the 5 Architecture Surprises',sub: 'Each drift item from the architecture map, with effort, risk, and a sequence.' },
+  'security-hardening':      { file: 'security-hardening.md',      title: 'Adversarial Security Hardening Plan',      sub: '15 attack scenarios from opportunist to nation-state. What we already win; what to close this week.' },
+  'enterprise-gap-analysis': { file: 'enterprise-gap-analysis.md', title: 'Enterprise Gap Analysis',                   sub: 'Reviewed from an elite-SaaS bar. Schema · identity · compliance · ops · developer experience.' },
+  'document-audit':          { file: 'document-audit.md',          title: 'Document Audit',                           sub: 'Alignment, comprehensiveness, continuity across ~66 Vijilant documents.' },
+};
+
+const md = document.getElementById('md');
+const titleEl = document.getElementById('doc-title');
+const subEl   = document.getElementById('doc-sub');
+const metaEl  = document.getElementById('doc-meta');
+
+function getCurrent() {
+  const hash = (location.hash || '').replace(/^#/, '');
+  return DOCS[hash] ? hash : 'feature-roadmap';
+}
+
+async function render(id) {
+  const doc = DOCS[id];
+  if (!doc) return;
+
+  // Highlight nav
+  document.querySelectorAll('nav.side a.doc').forEach(a => {
+    a.classList.toggle('active', a.dataset.doc === id);
+  });
+
+  titleEl.textContent = doc.title;
+  subEl.textContent   = doc.sub;
+  metaEl.textContent  = id.replace(/-/g, ' ');
+  md.innerHTML = '<div class="loading">Loading ' + doc.file + '…</div>';
+
+  try {
+    const res = await fetch(doc.file, { cache: 'no-cache' });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const text = await res.text();
+    // Strip the leading H1 from the .md so we don't double-render the title.
+    const stripped = text.replace(/^# .*\n+/, '');
+    md.innerHTML = marked.parse(stripped, { gfm: true, breaks: false });
+    enrichTierMentions(md);
+    enrichStatusPills(md);
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  } catch (e) {
+    md.innerHTML = '<div class="loading">Failed to load ' + doc.file + ' (' + e.message + ').<br>Open it directly: <a href="' + doc.file + '">' + doc.file + '</a></div>';
+  }
+}
+
+// Tier-pill enrichment — auto-wrap "T1"/"T2"/"T3"/"T4" with v5 tier colors when adjacent to word boundaries.
+function enrichTierMentions(root) {
+  const re = /\bT([1-4])\b/g;
+  function walk(node) {
+    if (node.nodeType === 3) {
+      const txt = node.nodeValue;
+      if (!re.test(txt)) return;
+      re.lastIndex = 0;
+      const frag = document.createDocumentFragment();
+      let last = 0, m;
+      while ((m = re.exec(txt)) !== null) {
+        if (m.index > last) frag.appendChild(document.createTextNode(txt.slice(last, m.index)));
+        const span = document.createElement('span');
+        span.className = 'tier-pill t' + m[1];
+        span.textContent = 'T' + m[1];
+        frag.appendChild(span);
+        last = m.index + m[0].length;
+      }
+      if (last < txt.length) frag.appendChild(document.createTextNode(txt.slice(last)));
+      node.replaceWith(frag);
+    } else if (node.nodeType === 1 && !['CODE','PRE','A'].includes(node.tagName)) {
+      [...node.childNodes].forEach(walk);
+    }
+  }
+  walk(root);
+}
+
+// Status-pill enrichment for the build status doc.
+function enrichStatusPills(root) {
+  const map = { 'SHIPPED': 'shipped', 'STAGED': 'staged', 'GAP': 'gap', 'PARTIAL': 'partial', 'PLANNED': 'partial', 'BUILT, GATED': 'staged' };
+  // Word-boundary anchored, only on bold tokens
+  root.querySelectorAll('strong').forEach(el => {
+    const t = el.textContent.trim();
+    if (map[t]) {
+      const span = document.createElement('span');
+      span.className = 'status-pill ' + map[t];
+      span.textContent = t;
+      el.replaceWith(span);
+    }
+  });
+}
+
+window.addEventListener('hashchange', () => render(getCurrent()));
+render(getCurrent());
+
+// Make sidebar links update the hash without full reload
+document.querySelectorAll('nav.side a.doc[data-doc]').forEach(a => {
+  if (a.getAttribute('href').startsWith('#')) {
+    a.addEventListener('click', (ev) => {
+      ev.preventDefault();
+      location.hash = a.dataset.doc;
+    });
+  }
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1669 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Vigilant · Architecture Map</title>
+<style>
+  :root{
+    --bg:#0F0F0F;       --panel:#161616;      --panel-2:#1c1c1c;
+    --border:#2a2a2a;   --text:#e8e8e8;       --muted:#8a8a8a;
+    --client:#4ea1ff;   --route:#7bd389;      --service:#c792ea;
+    --db:#ffb86b;       --external:#ff6b9d;   --critical:#ff3860;
+    --accent:#f5b942;   --accent-2:#ff7a45;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;
+    font-size:13px;line-height:1.45;overflow:hidden;-webkit-font-smoothing:antialiased}
+  header{position:fixed;top:0;left:0;right:0;height:54px;background:var(--panel);
+    border-bottom:1px solid var(--border);display:flex;align-items:center;gap:14px;
+    padding:0 16px;z-index:10}
+  header h1{font-size:14px;font-weight:600;margin:0;letter-spacing:.2px}
+  header h1 .sub{color:var(--muted);font-weight:400;margin-left:8px;font-size:12px}
+  .chips{display:flex;gap:6px;flex-wrap:wrap;flex:1;justify-content:center}
+  .chip{background:transparent;border:1px solid var(--border);color:var(--muted);
+    padding:5px 11px;border-radius:14px;cursor:pointer;font-size:12px;letter-spacing:.2px;
+    transition:all .15s}
+  .chip:hover{color:var(--text);border-color:#444}
+  .chip.active{background:var(--text);color:#000;border-color:var(--text)}
+  .chip.crit.active{background:var(--critical);color:#fff;border-color:var(--critical)}
+  .chip.fix.active{background:var(--accent);color:#000;border-color:var(--accent)}
+  .zoom{display:flex;gap:4px}
+  .zoom button{background:var(--panel-2);border:1px solid var(--border);color:var(--text);
+    width:30px;height:28px;border-radius:5px;cursor:pointer;font-size:13px}
+  .zoom button:hover{background:#222}
+  main{position:fixed;top:54px;left:0;right:380px;bottom:0;background:var(--bg);
+    overflow:hidden;cursor:grab}
+  main.dragging{cursor:grabbing}
+  #viewport{transform-origin:0 0;will-change:transform}
+  aside{position:fixed;top:54px;right:0;width:380px;bottom:0;background:var(--panel);
+    border-left:1px solid var(--border);overflow-y:auto;padding:18px 18px 32px;
+    font-size:13px}
+  aside h2{font-size:13px;font-weight:600;margin:0 0 4px;letter-spacing:.2px}
+  aside .pill{display:inline-block;font-size:10.5px;font-weight:500;letter-spacing:.4px;
+    text-transform:uppercase;padding:2px 7px;border-radius:3px;margin-right:6px;
+    background:var(--panel-2);color:var(--muted);border:1px solid var(--border)}
+  aside .pill.crit{background:var(--critical);color:#fff;border-color:var(--critical)}
+  aside h3{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;
+    color:var(--muted);margin:18px 0 6px;border-bottom:1px solid var(--border);padding-bottom:6px}
+  aside .path{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,monospace;
+    font-size:11.5px;color:var(--accent);word-break:break-all;background:var(--panel-2);
+    padding:6px 8px;border-radius:4px;border:1px solid var(--border);margin:6px 0}
+  aside .role{color:var(--text);margin:6px 0;font-size:13px}
+  aside .plain{color:var(--muted);font-size:12.5px;margin:6px 0;line-height:1.5}
+  aside ul{margin:6px 0;padding-left:18px;color:var(--muted)}
+  aside ul li{margin:4px 0;font-size:12px}
+  aside .edge-item{display:block;color:var(--muted);font-size:12px;margin:3px 0;padding:3px 0;
+    border-bottom:1px dashed var(--border)}
+  aside .edge-item b{color:var(--text);font-weight:500}
+  aside .fix-item{background:var(--panel-2);border-left:2px solid var(--accent);
+    padding:6px 9px;margin:5px 0;font-size:12px;border-radius:0 3px 3px 0}
+  aside .bug-item{background:var(--panel-2);border-left:2px solid var(--critical);
+    padding:6px 9px;margin:5px 0;font-size:12px;border-radius:0 3px 3px 0}
+  aside .bug-item .sev{font-size:10px;text-transform:uppercase;color:var(--critical);
+    font-weight:600;letter-spacing:.4px;margin-right:6px}
+  aside .surprise{background:var(--panel-2);border:1px solid var(--border);
+    padding:9px 11px;margin:7px 0;border-radius:4px;font-size:12px}
+  aside .surprise b{color:var(--accent)}
+  .legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px;font-size:11px;color:var(--muted)}
+  .legend span{display:inline-flex;align-items:center;gap:5px}
+  .legend i{display:inline-block;width:10px;height:10px;border-radius:2px}
+
+  /* SVG node + edge styling */
+  svg{display:block;user-select:none}
+  .cluster{fill:var(--panel-2);stroke:var(--border);stroke-width:1}
+  .cluster-label{fill:var(--muted);font-size:11px;font-weight:600;
+    text-transform:uppercase;letter-spacing:.7px}
+  .node rect{fill:var(--panel);stroke:var(--border);stroke-width:1.4;cursor:pointer;
+    transition:filter .12s,stroke-width .12s}
+  .node.color-client rect{stroke:var(--client)}
+  .node.color-route rect{stroke:var(--route)}
+  .node.color-service rect{stroke:var(--service)}
+  .node.color-db rect{stroke:var(--db)}
+  .node.color-external rect{stroke:var(--external)}
+  .node.critical rect{stroke:var(--critical);stroke-width:2.2}
+  .node text.lbl{fill:var(--text);font-size:12px;font-weight:600;pointer-events:none}
+  .node text.sub{fill:var(--muted);font-size:11px;pointer-events:none;
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  .node text.dead{fill:var(--critical);font-size:10.5px;font-weight:600;letter-spacing:.4px;
+    text-transform:uppercase;pointer-events:none}
+  .node:hover rect{filter:brightness(1.4)}
+  .node.selected rect{stroke-width:2.4;filter:brightness(1.5)}
+  .node.dimmed{opacity:.13}
+
+  .edge{fill:none;stroke:#3a3a3a;stroke-width:1.1;pointer-events:none;
+    transition:opacity .12s,stroke-width .12s}
+  .edge.kind-critical{stroke:var(--critical);stroke-width:1.9}
+  .edge.kind-api{stroke:var(--external);stroke-width:1.3}
+  .edge.kind-db{stroke:var(--db);stroke-width:1.3}
+  .edge.kind-mount{stroke:var(--client);stroke-width:1.1;stroke-dasharray:3 3}
+  .edge.dimmed{opacity:.05}
+  .edge-label{fill:var(--muted);font-size:10px;pointer-events:none;
+    font-family:ui-monospace,Menlo,monospace}
+  .edge-label.kind-critical{fill:#ff6b80}
+
+  .badge{cursor:pointer}
+  .badge circle{stroke:var(--bg);stroke-width:1.5}
+  .badge text{font-size:9.5px;font-weight:700;fill:#000;pointer-events:none;text-anchor:middle}
+  .badge.fix circle{fill:var(--accent)}
+  .badge.bug circle{fill:var(--critical)}
+  .badge.bug text{fill:#fff}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Vigilant <span class="sub">~/vigilant · pnpm+turbo monorepo · architecture map</span></h1>
+  <div class="chips" id="chips"></div>
+  <div class="zoom">
+    <button id="zoom-out" title="Zoom out">−</button>
+    <button id="zoom-fit" title="Fit">⊡</button>
+    <button id="zoom-in"  title="Zoom in">+</button>
+  </div>
+</header>
+
+<main id="main">
+  <svg id="svg" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <marker id="arr-normal"   viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#3a3a3a"/></marker>
+      <marker id="arr-critical" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ff3860"/></marker>
+      <marker id="arr-api"      viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ff6b9d"/></marker>
+      <marker id="arr-db"       viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ffb86b"/></marker>
+      <marker id="arr-mount"    viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4ea1ff"/></marker>
+    </defs>
+    <g id="viewport"></g>
+  </svg>
+</main>
+
+<aside id="sidebar"></aside>
+
+<script>
+"use strict";
+
+// ── Cluster boxes (left-to-right columns) ──────────────────────────────────────
+const clusters = [
+  { id: 'client',   label: 'Clients',                 x:   40, y:  10, w: 360, h: 1820 },
+  { id: 'server',   label: 'API server entry',        x:  460, y:  10, w: 360, h: 1820 },
+  { id: 'route',    label: 'Routes (/api/…)',          x:  880, y:  10, w: 380, h: 1820 },
+  { id: 'service',  label: 'Services & lib',          x: 1320, y:  10, w: 360, h: 1820 },
+  { id: 'db',       label: 'Data (Supabase)',         x: 1740, y:  10, w: 360, h: 1820 },
+  { id: 'external', label: 'External services',       x: 2160, y:  10, w: 320, h: 1820 },
+];
+
+// ── Node factory + registry ───────────────────────────────────────────────────
+const N = (id, cluster, label, sub, x, y, w, h, color, opts = {}) => ({
+  id, cluster, label, sub, x, y, w, h, color, ...opts
+});
+
+// Helper geometry
+const W = 290, H = 64;        // standard node footprint inside a 360-wide cluster
+const Wn = 320, Hn = 70;      // larger node for route cluster (380 wide)
+const G = 8;                  // vertical gap
+
+// Column X positions:
+const CX = { client: 55, server: 475, route: 910, service: 1335, db: 1755, external: 2175 };
+
+let yClient = 60, yServer = 60, yRoute = 60, yLib = 60, yDb = 60, yExt = 60;
+const next = (kind) => {
+  switch(kind){
+    case 'client':  { const y = yClient;  yClient  += H+G;  return y; }
+    case 'server':  { const y = yServer;  yServer  += H+G;  return y; }
+    case 'route':   { const y = yRoute;   yRoute   += Hn+G; return y; }
+    case 'service': { const y = yLib;     yLib     += H+G;  return y; }
+    case 'db':      { const y = yDb;      yDb      += H+G;  return y; }
+    case 'external':{ const y = yExt;     yExt     += H+G;  return y; }
+  }
+};
+
+const nodes = [
+  // ─── CLIENTS ────────────────────────────────────────────────────────────────
+  N('web-main','client','web · main.tsx','apps/web/src/main.tsx',
+    CX.client, next('client'), W, H, 'client', {
+    role:  'React + Vite app entry. Wires Honeybadger boundary, TanStack Query, i18next, listens to Supabase auth state.',
+    plain: 'The starting point for the desktop web app. Boots React, plugs in error tracking, fetches the user profile + organization from Supabase the moment auth state lands.',
+    path:  'apps/web/src/main.tsx:1-103',
+    notes: ['line:32 onAuthStateChange — pre-warms API /health while loading profile','line:97 HoneybadgerErrorBoundary wraps the tree (web SDK works here)','line:91 HMR-safe — unsubscribes the auth listener'],
+    tag:   ['overview','auth','web','all'],
+  }),
+  N('web-app','client','web · App.tsx','React Router v6 routes',
+    CX.client, next('client'), W, H, 'client', {
+    role:  'BrowserRouter with lazy-loaded pages, layered gates: ProtectedRoute → StaffOnlyGate / SurvivorOnlyGate → OrgStateGate (BAA + lifecycle) → Layout.',
+    plain: 'The desktop routing tree. Decides what the user sees based on whether they are signed in, what role they have, and whether their organization has signed the HIPAA agreement.',
+    path:  'apps/web/src/App.tsx:1-137',
+    notes: ['line:84 ProtectedRoute parent','line:106 OrgStateGate — BAA + org lifecycle gate','line:101 PlatformAdminGate → /operator','line:87 SurvivorPortal renders OUTSIDE Layout (own chrome)','line:64 ResettingErrorBoundary resets per route'],
+    tag:   ['overview','auth','web','billing','all'],
+  }),
+  N('web-supabase','client','web · supabase.ts','direct Supabase client (anon key)',
+    CX.client, next('client'), W, H, 'client', {
+    role:  'Anon-key Supabase client. Reads pass through RLS — most desktop reads bypass the API server.',
+    plain: 'Lets the desktop talk directly to the database for reads. The database enforces who can see what via row-level security.',
+    path:  'apps/web/src/lib/supabase.ts',
+    notes: ['Anon key only — RLS-enforced on every query','Most page-level reads go here, not through the API'],
+    tag:   ['overview','auth','web','db','all'],
+  }),
+  N('web-api','client','web · api.ts','fetch wrapper, Bearer → API',
+    CX.client, next('client'), W, H, 'client', {
+    role:  'Authed fetch helper. Attaches Supabase access_token; apiGet/apiPost/apiPatch/apiDownload for server-side mutations + exports.',
+    plain: 'The bridge from the desktop to the Express server. Every server-only action (assessments, AI briefs, exports, billing) goes through here.',
+    path:  'apps/web/src/lib/api.ts (464 lines)',
+    notes: ['Bearer token from supabase.auth.getSession()','apiDownload streams .docx / .xlsx exports'],
+    tag:   ['overview','auth','web','all'],
+  }),
+  N('web-auth-store','client','web · authStore.ts','zustand · session/profile/org',
+    CX.client, next('client'), W, H, 'client', {
+    role:  'In-memory auth slice: session, profile, organization, initializing flag.',
+    plain: 'Holds who you are while you use the app — your account, your org, your role.',
+    path:  'apps/web/src/store/authStore.ts',
+    notes: ['initializing flag prevents premature redirects','setAuth + clearAuth are the only mutators'],
+    tag:   ['auth','web','all'],
+  }),
+
+  N('mobile-layout','client','mobile · _layout.tsx','Expo Router root',
+    CX.client, next('client'), W, H, 'client', {
+    role:  'React Native entry. Boots a TanStack Query client with AES-256 encrypted AsyncStorage cache; key in expo-secure-store. Enforces a 30-min HIPAA idle logout.',
+    plain: 'The starting point for the iOS/Android app. Sets up offline storage that is encrypted so PHI never sits in plain text on the phone, and signs the user out automatically after 30 minutes of no use.',
+    path:  'apps/mobile/app/_layout.tsx:1-476',
+    notes: ['line:69-71 CACHE_KEY_NAME / CACHE_STORAGE_KEY — encrypted persisted cache','line:74 IDLE_TIMEOUT_MS = 30 min (HIPAA §164.312(a)(2)(iii))','line:25-29 @honeybadger-io/js REMOVED — web SDK breaks RN; native SDK not installed → mobile is currently UNINSTRUMENTED','line:53 registerOfflineMutationDefaults → durable replay','line:86-97 5-sec timeout race so a hung native module doesn\'t blank-screen the app at boot'],
+    tag:   ['overview','auth','mobile','offline','all'],
+  }),
+  N('mobile-api','client','mobile · api.ts','authed fetch wrapper',
+    CX.client, next('client'), W, H, 'client', {
+    role:  'apiGet / apiPost over fetch with Supabase Bearer token. Throws on missing session.',
+    plain: 'The bridge from the phone to the Express server. Adds the user\'s auth token to every request.',
+    path:  'apps/mobile/lib/api.ts:1-45',
+    notes: ['Reads EXPO_PUBLIC_API_URL (Render: vigilant-qr89.onrender.com)','Throws "Not authenticated" if no session'],
+    tag:   ['overview','mobile','all'],
+  }),
+  N('mobile-supabase','client','mobile · supabase.ts','RN-safe Supabase client',
+    CX.client, next('client'), W, H, 'client', {
+    role:  'Supabase client with AsyncStorage adapter + noopLock — works around RN\'s missing window/document/navigator.locks.',
+    plain: 'Lets the phone app talk to the database directly. Several React Native-specific tweaks so supabase-js does not crash because the browser APIs it expects don\'t exist on a phone.',
+    path:  'apps/mobile/lib/supabase.ts:1-39',
+    notes: ['AsyncStorage adapter (sessions exceed SecureStore\'s 2KB key limit)','line:27 noopLock — RN is single-threaded, no cross-tab locks needed','EXPO_PUBLIC_SUPABASE_URL/ANON_KEY'],
+    tag:   ['auth','mobile','db','all'],
+  }),
+  N('mobile-auth-store','client','mobile · authStore.ts','zustand · session/profile/org/role',
+    CX.client, next('client'), W, H, 'client', {
+    role:  'Auth slice for the phone. Adds activeRole for users with multi-role profiles.',
+    plain: 'Holds the user\'s identity, organization, and the role they\'re currently acting as on the phone.',
+    path:  'apps/mobile/store/authStore.ts:1-31',
+    notes: ['permitted_roles enables admin-acts-as-CM via activeRole','clearAuth blanks everything on sign-out'],
+    tag:   ['auth','mobile','all'],
+  }),
+  N('mobile-hooks','client','mobile · hooks/*','47 React-Query hooks',
+    CX.client, next('client'), W, H, 'client', {
+    role:  'Cataloged data hooks (useClients, useClient, useDashboard, useVJ, useNotifications, …). Most read direct from Supabase; mutations that need server logic (assessments, briefs, AI drafts, exports) go through lib/api.ts.',
+    plain: 'A drawer of pre-built data fetchers for every screen — clients list, dashboard, messages, recovery plan, etc. Each one knows whether to hit the database directly or go through the server.',
+    path:  'apps/mobile/hooks/ (47 files)',
+    notes: ['Direct-to-Supabase: useClients, useClientNotes, useResources','Through-API: useDashboard, useVJ, useExportPdf, useSubmitAidApplication','useScrollToTopOnTabPress — double-tap-to-top UX, locked v5 detail'],
+    tag:   ['overview','mobile','all'],
+  }),
+
+  N('survivor-portal-web','client','SurvivorPortal','/portal — own chrome',
+    CX.client, next('client'), W, H, 'client', {
+    role:  'Survivor self-service page. No Layout chrome. Lets a survivor see their case, message their CM, sign documents.',
+    plain: 'The page a disaster survivor sees when they sign in — their case, their tasks, their messages with their case manager. Locked to their own data.',
+    path:  'apps/web/src/pages/SurvivorPortal.tsx',
+    notes: ['Gated by SurvivorOnlyGate (StaffOnlyGate would bounce a staff user to /)','RLS guarantees survivors only see their own thread'],
+    tag:   ['survivor','web','messages','all'],
+  }),
+
+  // ─── API SERVER ENTRY ──────────────────────────────────────────────────────
+  N('api-index','server','api · index.ts','Express 5 entry + mount table',
+    CX.server, next('server'), W, H, 'service', {
+    role:  'Express 5 server. helmet → CORS → STRIPE WEBHOOK (raw body, pre-rate-limit) → body parsers (varying size caps) → rate limiter → /api/* mounts → cron → error handlers.',
+    plain: 'The Express server itself. Wires every URL prefix to its router, in a specific order that matters. Stripe\'s webhook must come first with the raw bytes for signature checking; big payloads (signatures, audio, gov-ID images) need their own caps before the global 50KB limit.',
+    path:  'apps/api/src/index.ts:1-176',
+    notes: ['line:44-46 fail-fast on missing env vars (SUPABASE_URL, ANTHROPIC_API_KEY, …)','line:65 Stripe webhook mounted with express.raw BEFORE rate limiter','line:71-79 body parser order: /intake/survivor 15MB, /signature-requests 2MB, /baa 2MB, /notation 25MB, then global 50KB','line:108-110 QUADRUPLE MOUNT on /api/clients — assessments + clients + briefs + aiDrafts','line:147-153 cron 0 8 * * * UTC — overdue follow-ups','line:160 Honeybadger error handler before our own catch-all'],
+    tag:   ['overview','server','all'],
+    critical: true,
+  }),
+  N('mw-requireAuth','server','middleware/auth.ts','requireAuth — JWT → org/role',
+    CX.server, next('server'), W, H, 'service', {
+    role:  'Validates the Bearer JWT via supabase.auth.getUser(), then loads the profile row (org_id, role, permitted_roles, is_active). Populates req.userId / orgId / userRole / permittedRoles / clientIp.',
+    plain: 'The gatekeeper for every authenticated API call. Confirms the user\'s token is real, fetches their organization + role from the database, and attaches that info so every route handler knows who is calling.',
+    path:  'apps/api/src/middleware/auth.ts:1-66',
+    notes: ['Uses service-role supabase (bypasses RLS) — org filter still applied per-query downstream','503 deactivated-account check','permitted_roles enables multi-role users'],
+    tag:   ['overview','auth','server','all'],
+    critical: true,
+  }),
+  N('mw-platformAdmin','server','middleware/platformAdmin.ts','requirePlatformAdmin',
+    CX.server, next('server'), W, H, 'service', {
+    role:  'Cross-org gate. Checks platform_admins for the calling user; admits to /api/operator.',
+    plain: 'A stricter gatekeeper that only lets the small number of Vigilant platform staff into the operator console — the place where orgs are provisioned, comped, and audited.',
+    path:  'apps/api/src/middleware/platformAdmin.ts',
+    notes: ['Used by routes/operator.ts','Joined to auth_is_platform_admin() in SQL (migration 047)'],
+    tag:   ['platform','auth','server','all'],
+  }),
+  N('cron','server','node-cron · 8AM UTC','overdue follow-up emails',
+    CX.server, next('server'), W, H, 'service', {
+    role:  'Daily scheduled task. Calls sendOverdueNotifications() from routes/notifications.ts.',
+    plain: 'Runs once a day at 8 AM UTC to email case managers about any overdue follow-ups.',
+    path:  'apps/api/src/index.ts:147-153',
+    notes: ['Only runs when CRON_SECRET is set','Honors notification_preferences.overdue_followup_emails'],
+    tag:   ['notifications','server','all'],
+  }),
+  N('rate-limit','server','express-rate-limit','100 req/min/IP on /api',
+    CX.server, next('server'), W, H, 'service', {
+    role:  'Global /api/* limiter. Stripe webhook and public intake have their own (or skip).',
+    plain: 'Stops any one IP from hammering the API. The webhook and public sign-up paths are exempt or have their own limits.',
+    path:  'apps/api/src/index.ts:86-92',
+    notes: ['Stripe webhook mounted BEFORE this — retries are never throttled','intake survivor: 5/IP/15min (own limiter)','leads: 10/IP/15min'],
+    tag:   ['server','all'],
+  }),
+
+  // ─── ROUTES ─────────────────────────────────────────────────────────────────
+  N('rt-clients','route','routes/clients.ts','970 lines · 14 endpoints',
+    CX.route, next('route'), Wn, Hn, 'route', {
+    role:  'The /api/clients monolith. POST · GET / · GET /archived · GET /:id · PATCH /:id · PATCH /:id/reassign · PATCH /:id/tier · POST /:id/notes · POST /:id/followups · PATCH /:id/followups/:fid/complete · POST /:id/goals · PATCH /:id/goals/:goalId · PATCH /:id/archive · PATCH /:id/unarchive.',
+    plain: 'The single biggest file in the API. Everything you can do with a client other than running an assessment lives here — create, edit, assign, change priority, add notes, follow-ups, goals, and archive.',
+    path:  'apps/api/src/routes/clients.ts (970 lines)',
+    notes: ['Mounted on /api/clients ALONGSIDE assessments, briefs, aiDrafts','Returns assigned_cm_name (joined from profiles)','POST /:id/notes invalidates the brief cache','Worth a future split'],
+    tag:   ['overview','clients','clients-core','all'],
+    critical: true,
+  }),
+  N('rt-assessments','route','routes/assessments.ts','389 lines · the assessment seam',
+    CX.route, next('route'), Wn, Hn, 'route', {
+    role:  'POST /:id/assessments · POST /:id/triage · POST /:id/recovery-plan/generate. Calls computeDomainScores → triageEngine → optional Claude rationale → recovery-plan Claude generation → writes goals + audit.',
+    plain: 'The headline feature. A case manager submits an assessment; the server computes a 0–1000 Recovery Score, decides the triage tier, calls Claude to generate a recovery task list, and stores everything. This is the spine of the app.',
+    path:  'apps/api/src/routes/assessments.ts:1-389',
+    notes: ['line:67-95 Recovery plan via Claude Opus 4.7','line:48 runRecoveryPlanEngine — best-effort, swallows errors so the assessment write still commits','line:9 imports triageEngine + computeDomainScores','line:10-11 invalidates brief + supervisor brief on write'],
+    tag:   ['overview','clients-core','assessment','recovery','all'],
+    critical: true,
+  }),
+  N('rt-briefs','route','routes/briefs.ts','GET /api/clients/:id/brief',
+    CX.route, next('route'), Wn, Hn, 'route', {
+    role:  'Per-client 3-part AI brief (state · next action · risk). In-process Map<clientId, …> cache, 5-min TTL. invalidateBrief() exported.',
+    plain: 'A short AI-written summary of a single client\'s situation, shown on the client page. Cached in memory for 5 minutes; refreshes when something material changes.',
+    path:  'apps/api/src/routes/briefs.ts (132 lines)',
+    notes: ['Imports lib/ai/clientBrief directly — bypasses the ai/ barrel','Cache lives in process memory — does not survive Render restarts','Mounted on /api/clients (third of four routers there)'],
+    tag:   ['clients-core','ai','all'],
+  }),
+  N('rt-supervisorBrief','route','routes/supervisorBrief.ts','GET /api/supervisor-brief',
+    CX.route, next('route'), Wn, Hn, 'route', {
+    role:  'Org-wide brief: caseload · top priority · concerns. Supervisor/admin only. Same TTL pattern.',
+    plain: 'A short AI-written summary for supervisors and admins about the whole organization. Case managers cannot see it.',
+    path:  'apps/api/src/routes/supervisorBrief.ts (249 lines)',
+    notes: ['Direct import lib/ai/supervisorBrief','5-min in-process cache, invalidated by writes'],
+    tag:   ['clients-core','supervisor','ai','all'],
+  }),
+  N('rt-aiDrafts','route','routes/aiDrafts.ts','POST /clients/:id/ai-draft/*',
+    CX.route, next('route'), Wn, Hn, 'route', {
+    role:  'AI draft endpoints — case note draft, AID application prefill, post-assessment proposal, survivor message draft.',
+    plain: 'When the case manager asks the AI to write a draft (a note, a message, a form filling), this routes the request to the right Claude call.',
+    path:  'apps/api/src/routes/aiDrafts.ts (358 lines)',
+    notes: ['Calls lib/ai/noteDraft, lib/ai/aidPrefill, lib/ai/postAssessmentProposal, lib/ai/survivorMessage','Mounted on /api/clients (fourth router there)'],
+    tag:   ['clients-core','ai','aid','messages','all'],
+  }),
+  N('rt-dashboard','route','routes/dashboard.ts','GET /api/dashboard',
+    CX.route, next('route'), Wn, Hn, 'route', {
+    role:  'Role-shaped dashboard. CM gets caseload + overdue + recovery rings; supervisor/admin gets a 3-column org view with CM workloads + T4 queue + recent audit feed.',
+    plain: 'The home screen on both phone and desktop. Different shape per role: a case manager sees their own caseload; a supervisor sees the whole org.',
+    path:  'apps/api/src/routes/dashboard.ts (341 lines)',
+    notes: ['line:33 7 parallel Supabase queries fan-out','Reads latest_client_assessments view + auth.users via admin API'],
+    tag:   ['overview','clients-core','supervisor','all'],
+  }),
+  N('rt-vj','route','routes/vj.ts','POST /api/vj/chat (SSE)',
+    CX.route, next('route'), Wn, Hn, 'route', {
+    role:  'Streaming SSE chat with VJ. Agentic tool-use loop with claude-sonnet-4-5: text + tool_call + tool_result events. MAX_ITERATIONS=10. Session-only history (nothing persisted).',
+    plain: 'The "VJ" assistant a case manager talks to. Streams tokens back as Claude writes them; can call tools (look up a client, draft a note, …) and feed the results back to Claude inside the same turn.',
+    path:  'apps/api/src/routes/vj.ts:1-318',
+    notes: ['line:41 MAX_ITERATIONS=10 (tool-loop safety)','line:42 MODEL=claude-sonnet-4-5','Tools defined and executed in lib/vjTools.ts (891 lines)','System prompt is role-conditional, lib/vjSystemPrompt.ts'],
+    tag:   ['overview','vj','ai','all'],
+    critical: true,
+  }),
+  N('rt-notation','route','routes/notation.ts','AI Call Notation (Stage 9)',
+    CX.route, next('route'), Wn, Hn, 'route', {
+    role:  'Consent-gated session lifecycle: POST /sessions → POST /sessions/:id/ingest → STT → summarize → DRAFT → POST /drafts/:id/approve writes a real case_note. NOTATION_ENABLED env-gated.',
+    plain: 'The newest feature: a case manager records a conversation (with consent), the audio is transcribed and Claude turns it into a draft case note. The CM reviews and approves. Off by default.',
+    path:  'apps/api/src/routes/notation.ts:1-217',
+    notes: ['line:21 NOTATION_ENABLED env flag','line:32 STAFF roles only — survivors never reach','25MB body cap on /api/notation (audio)','BAA gate on writes (raises BAA_NOT_SIGNED:… → 403)','line:35 isBaaError helper surfaces gate errors as friendly 403'],
+    tag:   ['notation','ai','all'],
+  }),
+  N('rt-stripe-webhook','route','routes/stripeWebhook.ts','POST /api/webhooks/stripe',
+    CX.route, next('route'), Wn, Hn, 'route', {
+    role:  'Stripe → org subscription state. Signature-verified, idempotent. Special body parser (express.raw) — see api/index.ts:65.',
+    plain: 'Stripe tells us when an organization\'s subscription changes — paid, failed, canceled. Updates our database accordingly. The wiring has to take the raw bytes (not parsed JSON) or Stripe\'s signature check would fail.',
+    path:  'apps/api/src/routes/stripeWebhook.ts:1-115',
+    notes: ['Mounted with express.raw BEFORE /api rate limiter so retries are never throttled','Maps Stripe statuses → org.status (active|canceled)','Idempotent via stripe_webhook_events table'],
+    tag:   ['billing','stripe','all'],
+    critical: true,
+  }),
+  N('rt-billing','route','routes/billing.ts','GET plans · checkout · 501c3',
+    CX.route, next('route'), Wn, Hn, 'route', {
+    role:  'Public plans + addons catalog; authed checkout session creation; nonprofit application intake.',
+    plain: 'The billing surface: list available plans, start a Stripe checkout, file a 501c3 application for the Recovery Access Program.',
+    path:  'apps/api/src/routes/billing.ts (163 lines)',
+    notes: ['Plans + addons catalog is PUBLIC (no auth)','Uses lib/stripe.ts for the SDK client'],
+    tag:   ['billing','stripe','all'],
+  }),
+  N('rt-baa','route','routes/baa.ts','BAA e-signature',
+    CX.route, next('route'), Wn, Hn, 'route', {
+    role:  'GET /status · POST /sign · GET /pdf. Records ESIGN evidence (signer, IP, UA, template version) and generates a signed PDF. Flips organizations.baa_status=signed → unblocks PHI writes.',
+    plain: 'The HIPAA Business Associate Agreement signing flow. Until this happens, the database blocks every attempt to insert PHI for that organization.',
+    path:  'apps/api/src/routes/baa.ts (99 lines)',
+    notes: ['Admin role only','Database-level BAA gate trigger on 10 PHI tables (migration 048)','baaTemplate.ts is LABELED PLACEHOLDER — needs counsel sign-off'],
+    tag:   ['billing','baa','onboarding','all'],
+  }),
+  N('rt-orgSignup','route','routes/orgSignup.ts','self-serve org creation',
+    CX.route, next('route'), Wn, Hn, 'route', {
+    role:  'POST / — Starter or Professional self-serve signup. Captures org legal info, HIPAA role (CE / BA), records MSA + DPA acceptances, creates the org + first admin profile.',
+    plain: 'Lets a new organization sign themselves up if they fit one of the smaller tiers. Bigger tiers go through sales.',
+    path:  'apps/api/src/routes/orgSignup.ts (124 lines)',
+    notes: ['HIPAA role can set baa_status="not_required" (BA-only orgs)','Writes org_signup_profiles + legal_acceptances'],
+    tag:   ['onboarding','billing','all'],
+  }),
+  N('rt-operator','route','routes/operator.ts','/api/operator/* (platform-admin)',
+    CX.route, next('route'), Wn, Hn, 'route', {
+    role:  'Platform admin console: provision orgs, comp orgs, view leads queue, decide nonprofit applications.',
+    plain: 'The Vigilant platform team\'s control room — only a handful of people can use it.',
+    path:  'apps/api/src/routes/operator.ts (185 lines)',
+    notes: ['Gated by middleware/platformAdmin','Calls lib/orgProvision for provisioning','Acts cross-org (no orgId scope)'],
+    tag:   ['platform','onboarding','billing','all'],
+  }),
+  N('rt-intake','route','routes/intake.ts','PUBLIC /intake/:token',
+    CX.route, next('route'), Wn, Hn, 'route', {
+    role:  'Unauthenticated. Token-scoped intake form for survivors invited by an org. Has its own rate limiter.',
+    plain: 'When a case manager sends an invite link to a survivor, this is the public page the survivor fills out. No login required, just the secret link.',
+    path:  'apps/api/src/routes/intake.ts (120 lines)',
+    notes: ['No requireAuth','Validates token against intake_invitations + expiry'],
+    tag:   ['intake','public','all'],
+  }),
+  N('rt-survivorSignup','route','routes/survivorSignup.ts','PUBLIC self-signup + gov-ID',
+    CX.route, next('route'), Wn, Hn, 'route', {
+    role:  'Unauthenticated POST /intake/survivor/signup. 5/IP/15min. Accepts a base64 gov-ID image (up to 15MB body cap), runs Claude verification via lib/ai/govIdVerify.',
+    plain: 'A survivor signing themselves up. They upload a photo of their government ID; the AI checks it looks legitimate. Public, rate-limited tightly, big body allowed for the photo.',
+    path:  'apps/api/src/routes/survivorSignup.ts (352 lines)',
+    notes: ['15MB body cap (base64-inflated 10MB image)','Calls lib/ai/govIdVerify (Claude vision)','Writes gov_id_uploads to private Supabase Storage bucket'],
+    tag:   ['intake','public','survivor','ai','all'],
+  }),
+  N('rt-portal','route','routes/portal.ts','/api/portal/* (survivor)',
+    CX.route, next('route'), Wn, Hn, 'route', {
+    role:  'Survivor-authenticated endpoints: own case, own documents, own messages.',
+    plain: 'When a survivor signs in, this is what their app calls — limited strictly to their own data.',
+    path:  'apps/api/src/routes/portal.ts (206 lines)',
+    notes: ['Role-gated to survivor','RLS double-protection on every read'],
+    tag:   ['survivor','messages','all'],
+  }),
+  N('rt-aid-apps','route','routes/aid-applications.ts','AID applications',
+    CX.route, next('route'), Wn, Hn, 'route', {
+    role:  'CRUD on per-client benefit applications (FEMA IA, SBA, state programs, …). Tracks status enum draft → submitted → under_review → approved/denied.',
+    plain: 'Tracks every aid application a case manager is helping a survivor with — FEMA, SBA, state funds — and where each one is in the process.',
+    path:  'apps/api/src/routes/aid-applications.ts (176 lines)',
+    notes: ['No org_id column on table — security via join to clients','aid_application_answers stores question-by-question replies'],
+    tag:   ['aid','clients-core','all'],
+  }),
+  N('rt-aid-templates','route','routes/aid-templates.ts','aid template management',
+    CX.route, next('route'), Wn, Hn, 'route', {
+    role:  'CRUD on aid_templates + aid_template_fields. Admins build the per-program question set; CMs fill them in.',
+    plain: 'Admins design which questions an aid application asks. Different programs need different forms.',
+    path:  'apps/api/src/routes/aid-templates.ts (122 lines)',
+    notes: ['useActivateAidTemplate (mobile + web) hits this','Field types: text, select, date, boolean, money'],
+    tag:   ['aid','all'],
+  }),
+  N('rt-form-templates','route','routes/form-templates.ts','custom forms (Phase 2)',
+    CX.route, next('route'), Wn, Hn, 'route', {
+    role:  'Org-scoped CRUD on form_templates (kind=assessment | intake | …). One ACTIVE per (org,kind). Drives the dynamic renderer.',
+    plain: 'Lets orgs build their own assessment forms instead of using the built-in one. New as of Phase 2 — only the data layer is fully wired, builder UI is partial.',
+    path:  'apps/api/src/routes/form-templates.ts (259 lines)',
+    notes: ['Backward-compatible: apps fall back to built-in form when no active row','Definition JSONB = sections/fields tree'],
+    tag:   ['forms','all'],
+  }),
+  N('rt-signatures','route','routes/signatures.ts','e-signature requests',
+    CX.route, next('route'), Wn, Hn, 'route', {
+    role:  'POST · GET · PATCH on signature_requests. Survivor signs a release; canvas PNG body capped at 2MB.',
+    plain: 'When a release-of-information form needs the survivor\'s signature, this is what handles the request and the signed image.',
+    path:  'apps/api/src/routes/signatures.ts (374 lines)',
+    notes: ['2MB body cap on /api/signature-requests','PNG → bytea in DB','Records signer name + IP + UA + timestamp'],
+    tag:   ['signatures','survivor','all'],
+  }),
+  N('rt-messages','route','routes/messages.ts','Stage 7 messaging',
+    CX.route, next('route'), Wn, Hn, 'route', {
+    role:  'GET /api/conversations · GET /:id/messages · POST /:id/messages · GET /api/clients/:clientId/conversation. Mounted bare on /api after the /api/clients routers.',
+    plain: 'The unified inbox feature. Conversations between case manager and survivor, or among staff. Notifications also live here — the standalone bell was removed.',
+    path:  'apps/api/src/routes/messages.ts (211 lines)',
+    notes: ['Realtime via Supabase publication (migration 046)','Survivor sees only their own dm_survivor thread (RLS)','Mounted on /api after /api/clients routers — disjoint sub-paths'],
+    tag:   ['messages','survivor','all'],
+  }),
+  N('rt-notifications','route','routes/notifications.ts','notifications + cron worker',
+    CX.route, next('route'), Wn, Hn, 'route', {
+    role:  'GET/PATCH on notifications table + exports sendOverdueNotifications() which the cron runs daily. Resend-backed emails.',
+    plain: 'Where in-app notifications live AND the daily "you have overdue follow-ups" emailer.',
+    path:  'apps/api/src/routes/notifications.ts (114 lines)',
+    notes: ['Imports lib/email (Resend)','Honors notification_preferences.overdue_followup_emails per user'],
+    tag:   ['notifications','messages','all'],
+  }),
+  N('rt-invitations','route','routes/invitations.ts','staff invites',
+    CX.route, next('route'), Wn, Hn, 'route', {
+    role:  'Admin invites a new staff member to the org. Emails an /accept-invite link.',
+    plain: 'How a new case manager or admin gets onto an existing organization.',
+    path:  'apps/api/src/routes/invitations.ts (227 lines)',
+    notes: ['Resend email','Token-gated accept'],
+    tag:   ['auth','onboarding','all'],
+  }),
+  N('rt-intake-submissions','route','routes/intake-submissions.ts','triage queue',
+    CX.route, next('route'), Wn, Hn, 'route', {
+    role:  'GET inbox + accept/dismiss for intake_submissions. Accepting creates a client.',
+    plain: 'The pile of survivors who filled out the public intake form, waiting for a case manager to accept them onto the caseload.',
+    path:  'apps/api/src/routes/intake-submissions.ts (359 lines)',
+    notes: ['Duplicate-detection runs here','Accept → creates a clients row + assigned_cm_id'],
+    tag:   ['intake','clients-core','all'],
+  }),
+  N('rt-resources','route','routes/resources.ts','community resources',
+    CX.route, next('route'), Wn, Hn, 'route', {
+    role:  'CRUD on resources (food banks, shelters, …) + resource_matches (CM-curated matches per client).',
+    plain: 'The catalog of community resources case managers point survivors to, plus per-client recommendations.',
+    path:  'apps/api/src/routes/resources.ts (231 lines)',
+    notes: ['resource_matches table exists LIVE but is in a BACKFILL migration, not numbered sequence','useMetrics tracks recommended-vs-accepted ratios'],
+    tag:   ['resources','clients-core','all'],
+  }),
+  N('rt-profile','route','routes/profile.ts','profile + push tokens + prefs',
+    CX.route, next('route'), Wn, Hn, 'route', {
+    role:  'GET / PATCH on own profile + notification preferences + push token registration (legacy).',
+    plain: 'What the user sees in Settings — name, role, preferences for which emails to receive.',
+    path:  'apps/api/src/routes/profile.ts (232 lines)',
+    notes: ['notification_preferences own-row RLS','expo-notifications was removed (SIGABRT on RN 0.83) — push tokens are vestigial'],
+    tag:   ['auth','notifications','all'],
+  }),
+  N('rt-audit-reports-exports','route','audit · reports · exports','three small surfaces',
+    CX.route, next('route'), Wn, Hn, 'route', {
+    role:  'audit.ts (audit-log read) · reports.ts (aggregate stats for the Reports page) · exports.ts (.docx case summary + .xlsx caseload, with audit row).',
+    plain: 'Three related views: the audit log (who did what), the reports page (counts and trends), and the export endpoints that turn the data into Word and Excel files.',
+    path:  'apps/api/src/routes/{audit,reports,exports}.ts',
+    notes: ['exports.ts uses docx + ExcelJS — only place those libs are touched','exports renders strength labels (Stable, Strong, …) not raw 0–100 numbers per CLAUDE.md rule 4'],
+    tag:   ['audit','exports','reports','all'],
+  }),
+  N('rt-leads','route','routes/leads.ts','PUBLIC enterprise/gov leads',
+    CX.route, next('route'), Wn, Hn, 'route', {
+    role:  'Public POST. Captures Enterprise / Government / Sponsored Access inquiries. No PHI, no payment. 10/IP/15min limiter.',
+    plain: 'When a big org or a 501(c)(3) inquires about a sales/RAP plan, this captures the form into a queue a human reviews.',
+    path:  'apps/api/src/routes/leads.ts:1-44',
+    notes: ['No requireAuth','Service-role insert into signup_leads'],
+    tag:   ['onboarding','public','all'],
+  }),
+  N('rt-health','route','routes/health.ts','GET /health',
+    CX.route, next('route'), Wn, Hn, 'route', {
+    role:  'Simple { ok: true } responder. Used by Render monitoring + main.tsx pre-warm.',
+    plain: 'A simple "are you alive?" endpoint Render uses to monitor the server.',
+    path:  'apps/api/src/routes/health.ts:1-10',
+    notes: ['Mounted BEFORE /api rate limiter (line:83) so health checks never get 429\'d'],
+    tag:   ['server','all'],
+  }),
+
+  // ─── SERVICES / LIB ─────────────────────────────────────────────────────────
+  N('lib-supabase','service','lib/supabase.ts','service-role client (RLS bypass)',
+    CX.service, next('service'), W, H, 'service', {
+    role:  'Service-role Supabase client. 30 callers — every route + service module reads/writes via this one singleton.',
+    plain: 'The single shared connection to the database for the API. Bypasses row-level security; every query must therefore add an org filter explicitly. This is the spine of the data layer.',
+    path:  'apps/api/src/lib/supabase.ts:1-13',
+    notes: ['Imported 30 times across routes + lib','SUPABASE_SERVICE_ROLE_KEY → never exposed to clients','RLS is defense-in-depth, code-level filters are the primary gate'],
+    tag:   ['overview','server','db','all'],
+    critical: true,
+  }),
+  N('lib-audit','service','lib/audit.ts','logAudit() — 8 callers',
+    CX.service, next('service'), W, H, 'service', {
+    role:  'Inserts an audit_log row with action, table, record id, change diff, ip, ua. INSERT-only at the DB level — updates/deletes blocked by rule.',
+    plain: 'Records every meaningful action so the org has a tamper-evident history. Once written, audit rows cannot be edited or deleted.',
+    path:  'apps/api/src/lib/audit.ts:1-25',
+    notes: ['Bastion flagged migration 010: service-role writes silently skip the DB-layer audit trigger when app.audit_user_id is unset — explicit logAudit() at every write site is the workaround','Every PHI mutation in routes calls this'],
+    tag:   ['audit','server','db','all'],
+  }),
+  N('lib-anthropic','service','lib/anthropic.ts','Claude SDK singleton',
+    CX.service, next('service'), W, H, 'service', {
+    role:  'Lazy-init Anthropic client. _resetAnthropicClientForTests() exists for the eval harness.',
+    plain: 'The shared Claude client for the API. Built once, reused.',
+    path:  'apps/api/src/lib/anthropic.ts:1-21',
+    notes: ['ANTHROPIC_API_KEY required at boot','Direct callers: routes/assessments + lib/ai/client + lib/notation/summarize'],
+    tag:   ['ai','server','all'],
+  }),
+  N('lib-computeDomainScores','service','lib/computeDomainScores.ts','507 lines · scoring engine',
+    CX.service, next('service'), W, H, 'service', {
+    role:  'Deterministic scoring. 5 visible domains (housing .225, financial .18, health .18, emotional .18, employment .135) + 2 silent modifiers (documentation .05, support_network .05) = 1.0. Pure 0–100 → answer_value (1–5) → component (0|25|50|75|100) → weighted Recovery Score 0–1000.',
+    plain: 'The math behind the Recovery Score. Takes the answers a case manager entered, runs them through fixed formulas, and produces a 0–1000 score and per-domain ratings. No AI involved.',
+    path:  'apps/api/src/lib/computeDomainScores.ts:1-507',
+    notes: ['LOCKED H 2026-05-24','Documentation + Support Network NOT returned — silent modifiers','extractTriageSignals + extractCrisisFlag also exported','SOLE caller: routes/assessments.ts + lib/triageEngine.ts'],
+    tag:   ['clients-core','assessment','recovery','all'],
+    critical: true,
+  }),
+  N('lib-triageEngine','service','lib/triageEngine.ts','deterministic tier + AI rationale',
+    CX.service, next('service'), W, H, 'service', {
+    role:  'Tier = band of 0–1000 score (≥750 T1 · 500-749 T2 · 250-499 T3 · <250 T4). Crisis flag forces T4. Claude (via runAi from lib/ai) writes the rationale only — never the tier.',
+    plain: 'Decides whether a client is Stable, Moderate, Complex, or Critical. The decision is purely arithmetic; Claude only writes the explanation.',
+    path:  'apps/api/src/lib/triageEngine.ts:1-216',
+    notes: ['LOCKED H 2026-05-24, REVISED from "lowest single domain"','TIER_LABELS exported','ONLY caller of lib/ai/index.ts (runAi + MODELS barrel)'],
+    tag:   ['clients-core','assessment','recovery','ai','all'],
+    critical: true,
+  }),
+  N('lib-vjSystemPrompt','service','lib/vjSystemPrompt.ts','VJ system prompt builder',
+    CX.service, next('service'), W, H, 'service', {
+    role:  'Role-conditional system prompt for the VJ Claude loop. Bakes in role (CM | supervisor | admin), org name, user first name.',
+    plain: 'The instructions Claude reads at the start of every VJ conversation — what its job is, what it can and cannot do, which tools it has.',
+    path:  'apps/api/src/lib/vjSystemPrompt.ts:1-101',
+    notes: ['Single caller: routes/vj.ts'],
+    tag:   ['vj','ai','all'],
+  }),
+  N('lib-vjTools','service','lib/vjTools.ts','891 lines · all VJ tool defs + executors',
+    CX.service, next('service'), W, H, 'service', {
+    role:  'getToolsForRole(role) → tool schemas; executeTool(name, input, …) → results. Reads + writes through service-role Supabase + audit log.',
+    plain: 'Every tool VJ can call — look up a client, count overdue follow-ups, draft a note, … — defined in one file, executed in one file. The biggest non-route file in the API.',
+    path:  'apps/api/src/lib/vjTools.ts:1-891',
+    notes: ['Single caller: routes/vj.ts','Every write tool calls lib/audit','Role gates inside each executeTool branch','Worth a future split per tool family'],
+    tag:   ['vj','ai','all'],
+    critical: true,
+  }),
+  N('lib-ai-index','service','lib/ai/index.ts','barrel: runAi + MODELS + embeddings',
+    CX.service, next('service'), W, H, 'service', {
+    role:  'Intended single seam for every Claude call. EXPORTS: runAi, MODELS, embeddings provider. ACTUAL CALLERS: only lib/triageEngine.ts — routes still import lib/ai/* files directly.',
+    plain: 'A barrel module that was supposed to be the one door every AI call passes through, so observability and caching live in one place. In practice most routes still go around it.',
+    path:  'apps/api/src/lib/ai/index.ts:1-19',
+    notes: ['One first-party caller (triageEngine)','Internal lib/ai modules DO use it (runAi + MODELS)','Centralization is partial'],
+    tag:   ['ai','all'],
+  }),
+  N('lib-ai-client','service','lib/ai/client.ts','runAi · provider seam',
+    CX.service, next('service'), W, H, 'service', {
+    role:  'runAi({model, messages, system, …}) wrapping anthropic.messages.create. Pins MODELS = {sonnet45, opus47, haiku45}. Where prompt caching + retries + observability would live.',
+    plain: 'The underlying function that actually talks to Claude. All the internal AI tasks (briefs, drafts, gov-ID check) go through it.',
+    path:  'apps/api/src/lib/ai/client.ts',
+    notes: ['Reads ANTHROPIC_API_KEY via getAnthropicClient','MODELS const is the single source of model truth'],
+    tag:   ['ai','all'],
+  }),
+  N('lib-ai-clientBrief','service','lib/ai/clientBrief.ts','3-part per-client brief',
+    CX.service, next('service'), W, H, 'service', {
+    role:  'Builds the client snapshot, calls runAi, returns the brief. Caller: routes/briefs.ts.',
+    plain: 'The AI summary shown at the top of the client page.',
+    path:  'apps/api/src/lib/ai/clientBrief.ts',
+    notes: ['Has eval coverage','Snapshot includes latest assessment + recent notes + follow-ups + goals'],
+    tag:   ['ai','clients-core','all'],
+  }),
+  N('lib-ai-supervisorBrief','service','lib/ai/supervisorBrief.ts','org-wide brief',
+    CX.service, next('service'), W, H, 'service', {
+    role:  'Builds org snapshot, calls runAi, returns brief. Caller: routes/supervisorBrief.ts.',
+    plain: 'The AI summary shown on the supervisor dashboard.',
+    path:  'apps/api/src/lib/ai/supervisorBrief.ts',
+    notes: ['Has eval coverage','Pulls caseload + T4 queue + recent escalations'],
+    tag:   ['ai','supervisor','all'],
+  }),
+  N('lib-ai-noteDraft','service','lib/ai/noteDraft.ts','AI case-note draft',
+    CX.service, next('service'), W, H, 'service', {
+    role:  'Drafts a case note from CM-provided context. Caller: routes/aiDrafts.ts.',
+    plain: 'Helps a case manager write a case note draft they can edit and save.',
+    path:  'apps/api/src/lib/ai/noteDraft.ts',
+    notes: ['Has eval coverage','Caller: aiDrafts.ts (direct, bypasses lib/ai barrel)'],
+    tag:   ['ai','clients-core','all'],
+  }),
+  N('lib-ai-aidPrefill','service','lib/ai/aidPrefill.ts','AID application prefill',
+    CX.service, next('service'), W, H, 'service', {
+    role:  'Given a client + a template, drafts answers to each field. Caller: routes/aiDrafts.ts.',
+    plain: 'Pre-fills FEMA / SBA-style applications with what we already know about the survivor.',
+    path:  'apps/api/src/lib/ai/aidPrefill.ts',
+    notes: ['Has eval coverage','Knows which fields are sensitive and leaves them blank'],
+    tag:   ['ai','aid','all'],
+  }),
+  N('lib-ai-postAssessmentProposal','service','lib/ai/postAssessmentProposal.ts','recovery plan proposal',
+    CX.service, next('service'), W, H, 'service', {
+    role:  'After an assessment is filed, drafts a proposed recovery plan from the section data. Used inside the assessment route.',
+    plain: 'Writes the first cut of the recovery plan immediately after the assessment is saved.',
+    path:  'apps/api/src/lib/ai/postAssessmentProposal.ts',
+    notes: ['Has eval coverage','Caller in routes/assessments.ts'],
+    tag:   ['ai','clients-core','recovery','all'],
+  }),
+  N('lib-ai-survivorMessage','service','lib/ai/survivorMessage.ts','outbound survivor message draft',
+    CX.service, next('service'), W, H, 'service', {
+    role:  'Drafts a message to a survivor in the CM\'s voice. Caller: routes/aiDrafts.ts.',
+    plain: 'Drafts an outbound message to a survivor — for the case manager to edit and send.',
+    path:  'apps/api/src/lib/ai/survivorMessage.ts',
+    notes: ['Has eval coverage','Tone calibrated to "professional, human, not corporate"'],
+    tag:   ['ai','messages','survivor','all'],
+  }),
+  N('lib-ai-govIdVerify','service','lib/ai/govIdVerify.ts','Claude vision · gov-ID check',
+    CX.service, next('service'), W, H, 'service', {
+    role:  'Claude vision call against the uploaded gov-ID image. Returns confidence + extracted fields. Caller: routes/survivorSignup.ts.',
+    plain: 'Looks at the photo of an ID a survivor uploads during self-signup and tells us whether it looks like a real government ID.',
+    path:  'apps/api/src/lib/ai/govIdVerify.ts',
+    notes: ['Has eval coverage','Image lives in a private Supabase Storage bucket','Result determines whether the signup is auto-approved or queued for review'],
+    tag:   ['ai','intake','survivor','all'],
+  }),
+  N('lib-ai-embeddings','service','lib/ai/embeddings.ts','Voyage embeddings · case_embeddings',
+    CX.service, next('service'), W, H, 'service', {
+    role:  'EMBEDDING_DIM + Voyage provider + STUB_PROVIDER + contentHash + cosineSim. Feeds case_embeddings (pgvector).',
+    plain: 'Turns case content into vector "fingerprints" so the system can search by meaning, not just keywords.',
+    path:  'apps/api/src/lib/ai/embeddings.ts',
+    notes: ['pgvector via case_embeddings table','STUB_PROVIDER for test paths'],
+    tag:   ['ai','vector','all'],
+  }),
+  N('lib-notation-stt','service','lib/notation/stt.ts','Deepgram STT (dormant)',
+    CX.service, next('service'), W, H, 'service', {
+    role:  'transcribe(audio) → text. Live mode uses Deepgram Nova-3 Multilingual (EN+ES). Off until DEEPGRAM_API_KEY set + BAA signed. Test stub otherwise.',
+    plain: 'Turns recorded audio into text. Currently off — needs the Deepgram BAA before it can carry PHI.',
+    path:  'apps/api/src/lib/notation/stt.ts',
+    notes: ['sttLiveAvailable() reports whether the Deepgram key is set','Bilingual default: EN + ES'],
+    tag:   ['notation','ai','all'],
+  }),
+  N('lib-notation-summarize','service','lib/notation/summarize.ts','Claude bilingual draft',
+    CX.service, next('service'), W, H, 'service', {
+    role:  'summarizeToDraft(transcript) → bilingual case-note draft. Forces emit_case_note tool on Claude. SUMMARIZE_MODEL + SUMMARIZE_PROMPT_VERSION exported for audit.',
+    plain: 'Takes the transcript and asks Claude to write a structured case note in both English and Spanish.',
+    path:  'apps/api/src/lib/notation/summarize.ts',
+    notes: ['Uses getAnthropicClient directly (not the ai/ barrel)','claude-sonnet-4-5','Forced tool call so output is structured'],
+    tag:   ['notation','ai','all'],
+  }),
+  N('lib-stripe','service','lib/stripe.ts','Stripe SDK + webhook secret',
+    CX.service, next('service'), W, H, 'service', {
+    role:  'getStripe() singleton; stripeWebhookSecret() helper.',
+    plain: 'Holds the Stripe connection and the secret used to verify Stripe\'s webhook calls.',
+    path:  'apps/api/src/lib/stripe.ts:1-28',
+    notes: ['Callers: routes/billing + routes/stripeWebhook','Stripe test keys live in apps/api/.env (gitignored)'],
+    tag:   ['billing','stripe','all'],
+  }),
+  N('lib-email','service','lib/email.ts','Resend client + sendEmail',
+    CX.service, next('service'), W, H, 'service', {
+    role:  'Wraps Resend SDK. Callers: routes/notifications (overdue cron), routes/aid-applications (status emails).',
+    plain: 'How the system actually sends emails — overdue reminders, aid status updates, invites.',
+    path:  'apps/api/src/lib/email.ts:1-35',
+    notes: ['Needs RESEND_API_KEY + EMAIL_FROM','No-op in dev when keys absent'],
+    tag:   ['notifications','email','all'],
+  }),
+  N('lib-baaPdf','service','lib/baaPdf.ts','signed BAA PDF builder',
+    CX.service, next('service'), W, H, 'service', {
+    role:  'Renders the signed BAA into a PDF (jsPDF). Caller: routes/baa.',
+    plain: 'Generates the PDF copy of a signed Business Associate Agreement.',
+    path:  'apps/api/src/lib/baaPdf.ts:1-62',
+    notes: ['jsPDF dependency','Embeds template version + signature timestamp'],
+    tag:   ['baa','onboarding','all'],
+  }),
+  N('lib-baaTemplate','service','lib/baaTemplate.ts','BAA template + version',
+    CX.service, next('service'), W, H, 'service', {
+    role:  'BAA_TEMPLATE_VERSION + the actual template text.',
+    plain: 'The wording of the HIPAA Business Associate Agreement, version-stamped.',
+    path:  'apps/api/src/lib/baaTemplate.ts:1-45',
+    notes: ['LABELED PLACEHOLDER — needs counsel sign-off before binding','Bump BAA_TEMPLATE_VERSION on any text change'],
+    tag:   ['baa','onboarding','all'],
+  }),
+  N('lib-orgProvision','service','lib/orgProvision.ts','org create helper',
+    CX.service, next('service'), W, H, 'service', {
+    role:  'Creates an organization + first admin profile + initial subscription row. Used by self-serve signup AND operator console.',
+    plain: 'The shared logic for spinning up a new organization, called from both the self-serve flow and the platform-admin console.',
+    path:  'apps/api/src/lib/orgProvision.ts:1-28',
+    notes: ['Callers: routes/orgSignup + routes/operator','Idempotent on the org slug'],
+    tag:   ['onboarding','all'],
+  }),
+  N('lib-honeybadger','service','lib/honeybadger.ts','API error reporter',
+    CX.service, next('service'), W, H, 'service', {
+    role:  'Honeybadger client for the API. Imported FIRST in index.ts so configure() runs before any module can throw.',
+    plain: 'Catches and reports any crash on the API server. Scrubs PHI from the report before sending.',
+    path:  'apps/api/src/lib/honeybadger.ts:1-36',
+    notes: ['Inert when HONEYBADGER_API_KEY unset','beforeNotify filters PHI fields','Mounted as Express request handler + error handler'],
+    tag:   ['observability','server','all'],
+  }),
+  N('lib-systemFormTemplates','service','lib/systemFormTemplates.ts','DEAD — zero callers',
+    CX.service, next('service'), W, H, 'service', {
+    role:  'Defines built-in form templates and helpers to seed them. 276 lines with passing tests, but NO production caller.',
+    plain: 'Code that was meant to seed the database with default forms but is not actually called by anything in the running app. Part of an unfinished Phase 2 step ("system template seed").',
+    path:  'apps/api/src/lib/systemFormTemplates.ts:1-276',
+    notes: ['Verified: only systemFormTemplates.test.ts imports this — zero callers in routes / index / lib','Phase 2 build plan step 7 ("system template seed") was not yet implemented when the architecture work paused','Either land step 7 or delete'],
+    tag:   ['forms','dead','all'],
+  }),
+
+  // ─── DATA (Supabase) ────────────────────────────────────────────────────────
+  N('db-core','db','clients · profiles · organizations','core identity tables',
+    CX.db, next('db'), W, H, 'db', {
+    role:  'organizations (org row + lifecycle + baa_status + hipaa_role) · profiles (user row + role + permitted_roles + is_active) · clients (survivor row + triage_tier + assigned_cm_id + archived_at).',
+    plain: 'The three central tables: organizations, people who work for them, and the survivors they help.',
+    path:  'supabase/migrations/001_enums.sql + 002_tables.sql + 012/014/016/047/048/049',
+    notes: ['RLS on every table','clients.archived_at is null = active','profiles.permitted_roles enables multi-role','organizations.baa_status drives the BAA gate trigger'],
+    tag:   ['overview','clients-core','auth','db','all'],
+    critical: true,
+  }),
+  N('db-assessments','db','recovery_assessments + view','+ recovery_score_events',
+    CX.db, next('db'), W, H, 'db', {
+    role:  'recovery_assessments rows + the latest_client_assessments view (DISTINCT ON client_id, security_invoker=on per migration 035) + the append-only recovery_score_events feed.',
+    plain: 'Every assessment ever filed, a view that picks the latest one per client for fast dashboard reads, and an append-only score history for the ring chart.',
+    path:  'migrations 002, 009, 022, 033, 035, 037',
+    notes: ['overall_score is 0–1000 (CHECK widened in 033)','5 domain components 0–100','recovery_score_events feeds client_current_recovery_score view','035 flipped views to security_invoker=on per Bastion review'],
+    tag:   ['clients-core','assessment','recovery','db','all'],
+    critical: true,
+  }),
+  N('db-recovery-goals','db','recovery_goals','plan tasks',
+    CX.db, next('db'), W, H, 'db', {
+    role:  'Per-client recovery tasks. category (housing | financial | health | documentation | support_network), status (open | in_progress | complete), priority, progress_pct.',
+    plain: 'The recovery plan tasks — what a survivor and their CM are working on.',
+    path:  'migration 002 + 028',
+    notes: ['Written by routes/assessments.ts after triage','Web + mobile use the same shape'],
+    tag:   ['clients-core','recovery','db','all'],
+    critical: true,
+  }),
+  N('db-case-work','db','case_notes + follow_ups','+ audit_follow_ups',
+    CX.db, next('db'), W, H, 'db', {
+    role:  'case_notes (per-encounter narrative + note_type vocab) + follow_ups (next-action with due_date, completed_at). Audit trigger on follow_ups (032).',
+    plain: 'The day-to-day case work: notes the CM writes after every encounter and follow-up tasks with deadlines.',
+    path:  'migrations 002, 021, 032',
+    notes: ['Overdue follow-up cron reads this','Note types defined in 021 vocabulary'],
+    tag:   ['clients-core','db','all'],
+  }),
+  N('db-messaging','db','conversations + messages','+ conversation_members',
+    CX.db, next('db'), W, H, 'db', {
+    role:  'Stage 7 messaging schema (045). conversation_members + RLS keep survivors to their own dm_survivor thread.',
+    plain: 'The inbox tables — conversations, members of each, and the messages themselves.',
+    path:  'migrations 045 + 046 (realtime publication)',
+    notes: ['HIPAA-reviewed','PHI-free notify trigger','Realtime publication includes conversations/messages/notifications'],
+    tag:   ['messages','survivor','db','all'],
+  }),
+  N('db-notifications','db','notifications + prefs','+ push_tokens',
+    CX.db, next('db'), W, H, 'db', {
+    role:  'notifications row per event · notification_preferences (own-row RLS) · push_tokens (vestigial — expo-notifications was removed).',
+    plain: 'In-app notifications, per-user delivery preferences, and (unused) device push tokens.',
+    path:  'migrations 011, 031, 034',
+    notes: ['MEMORY STALE: the older "no notifications table" note is wrong — 031 added it, 034 added preferences'],
+    tag:   ['notifications','db','all'],
+  }),
+  N('db-aid','db','aid_applications + answers','+ templates + fields',
+    CX.db, next('db'), W, H, 'db', {
+    role:  'aid_applications (status enum) · aid_application_answers (per-field) · aid_templates · aid_template_fields. No org_id on applications — secured via join to clients.',
+    plain: 'Tracks every aid application (FEMA, SBA, …) per survivor and the question/answer schema for each template.',
+    path:  'migrations 020, 025, 026, 027, 028, 029, 030',
+    notes: ['RLS via join, not direct org column','answers store typed values: text/number/date/select/money'],
+    tag:   ['aid','db','all'],
+  }),
+  N('db-intake','db','intake submissions + invitations','+ gov_id_uploads',
+    CX.db, next('db'), W, H, 'db', {
+    role:  'intake_invitations (token, expiry) · intake_submissions (public form payload) · gov_id_uploads (image refs to private Storage bucket).',
+    plain: 'Tables behind the public sign-up funnels — invite-link intake and survivor self-signup.',
+    path:  'migrations 020, 040, 041',
+    notes: ['gov_id image is in Supabase Storage; only a reference lives in this table','Submissions wait for CM acceptance to become clients'],
+    tag:   ['intake','survivor','db','all'],
+  }),
+  N('db-resources','db','resources + resource_matches','schema drift',
+    CX.db, next('db'), W, H, 'db', {
+    role:  'resources (community resource catalog) + resource_matches (per-client recommendations + status).',
+    plain: 'The catalog of food banks, shelters, programs, plus which ones a CM has matched to which survivors.',
+    path:  'migrations + supabase/migrations/BACKFILL_resource_matches.sql',
+    notes: ['DRIFT: resource_matches CREATE TABLE lives in a BACKFILL_ file, not in the numbered migration sequence — fragile if a fresh environment runs only numbered migrations','Queried in 6 places across code'],
+    tag:   ['resources','db','dead','all'],
+  }),
+  N('db-signatures','db','signature_requests','+ legal_acceptances',
+    CX.db, next('db'), W, H, 'db', {
+    role:  'signature_requests (PNG bytea + signer name + IP + UA) · legal_acceptances (append-only MSA/BAA/DPA/order-form trail).',
+    plain: 'Where signed forms (release-of-information, BAA, MSA) and their evidence get stored.',
+    path:  'migrations + 050',
+    notes: ['ESIGN evidence: name + IP + UA + timestamp + template version'],
+    tag:   ['signatures','baa','onboarding','db','all'],
+  }),
+  N('db-notation','db','notation_sessions/transcripts','+ consent + draft notes',
+    CX.db, next('db'), W, H, 'db', {
+    role:  'notation_sessions · notation_consent_records (consent script version, parties) · notation_transcripts (text + audio_hash, NO raw audio) · notation_draft_notes (bilingual draft → on approval becomes a real case_note).',
+    plain: 'The Stage 9 tables behind AI Call Notation. We store the transcript but not the audio.',
+    path:  'migration 052',
+    notes: ['Service-role-only RLS (no authenticated policy)','Joined to the 048 BAA gate trigger','Retention: transcript 18mo, consent 6yr'],
+    tag:   ['notation','db','all'],
+  }),
+  N('db-billing','db','subscriptions + plans + addons','+ stripe_webhook_events + billing_audit',
+    CX.db, next('db'), W, H, 'db', {
+    role:  'plans + addons + subscription_addons (catalog) · subscriptions (per-org) · stripe_webhook_events (idempotency) · billing_audit_log (no profile/org FK on purpose).',
+    plain: 'Everything to do with money: plans, add-ons, who is subscribed to what, and the Stripe events we have processed.',
+    path:  'migrations 047, 049, 050, 051',
+    notes: ['plans (tier × cadence × self_serve × seat_cap × prices × onboarding)','signup_leads queues enterprise / gov / sponsored access / 501c3','plans + addons catalog is PUBLIC via the API'],
+    tag:   ['billing','stripe','onboarding','db','all'],
+  }),
+  N('db-audit','db','audit_log + client_documents','INSERT-only audit',
+    CX.db, next('db'), W, H, 'db', {
+    role:  'audit_log (user_id, action, table_name, record_id, changes jsonb, ip, ua) — INSERT-only by rule; updates/deletes blocked. client_documents (uploaded artifacts + audit trigger 033).',
+    plain: 'The tamper-evident history of every meaningful action and the client document store.',
+    path:  'migrations 005, 010, 018, 037',
+    notes: ['INSERT-only at the table level','Migration 010 caveat: service-role writes skip the DB trigger if app.audit_user_id unset → routes call logAudit() explicitly'],
+    tag:   ['audit','db','all'],
+  }),
+  N('db-platform','db','platform_admins','cross-org admin gate',
+    CX.db, next('db'), W, H, 'db', {
+    role:  'platform_admins (user_id, granted_by, granted_at) backing auth_is_platform_admin().',
+    plain: 'The small list of people who can use the Operator Console across all organizations.',
+    path:  'migration 047',
+    notes: ['INFO advisor: rls_enabled_no_policy (intentional)','Seeded operator: htest@vijilant-test.dev'],
+    tag:   ['platform','auth','db','all'],
+  }),
+  N('db-badges','db','badges + user_badges','recognition system',
+    CX.db, next('db'), W, H, 'db', {
+    role:  'badges (definitions) + user_badges (earned). Mobile useMyBadges hook surfaces them.',
+    plain: 'In-app recognition: badges users earn for meaningful actions.',
+    path:  'migration 019',
+    notes: ['Surfaced on mobile profile screen only (web does not display)'],
+    tag:   ['recognition','db','all'],
+  }),
+  N('db-embeddings','db','case_embeddings','pgvector',
+    CX.db, next('db'), W, H, 'db', {
+    role:  'pgvector column. Fed by lib/ai/embeddings (Voyage). Underpins semantic similarity over cases.',
+    plain: 'Vector "fingerprints" of case content for semantic search and "find similar" features.',
+    path:  'migration 038',
+    notes: ['EMBEDDING_DIM defined in lib/ai/embeddings.ts','contentHash dedup so the same text is not re-embedded'],
+    tag:   ['ai','vector','db','all'],
+  }),
+  N('db-misc','db','disaster_zones + form_templates','+ org_signup_profiles + org_goals',
+    CX.db, next('db'), W, H, 'db', {
+    role:  'disaster_zones (mapping context) · form_templates (Phase 2 custom forms) · org_signup_profiles (HIPAA role + legal entity captured at signup) · public.org_goals.',
+    plain: 'The smaller specialized tables — disaster geofencing, custom org forms, signup profile data, organization goals.',
+    path:  'migrations 023, 036, 051',
+    notes: ['form_templates supports the unfinished dynamic-form builder','org_signup_profiles holds EIN, nonprofit details, hipaa_role'],
+    tag:   ['forms','onboarding','db','all'],
+  }),
+
+  // ─── EXTERNAL ───────────────────────────────────────────────────────────────
+  N('ext-anthropic','external','Anthropic · Claude','sonnet-4-5 / opus-4-7 / haiku-4-5',
+    CX.external, next('external'), W, H, 'external', {
+    role:  'All AI calls. VJ streaming chat → sonnet-4-5. Recovery plan + briefs → opus-4-7. Note draft / AID prefill / gov-ID vision → sonnet-4-5. Notation summarize → sonnet-4-5.',
+    plain: 'Anthropic\'s Claude — the AI behind every "AI" feature in the product.',
+    path:  'env: ANTHROPIC_API_KEY (Render)',
+    notes: ['lib/anthropic.ts singleton','lib/ai/client.ts MODELS pin','Vision used for gov-ID checks','Forced tool calls in notation summarize and recovery-plan generation for structured outputs'],
+    tag:   ['ai','external','all'],
+    critical: true,
+  }),
+  N('ext-stripe','external','Stripe','subscriptions + webhook',
+    CX.external, next('external'), W, H, 'external', {
+    role:  'Subscription management. Customer + Subscription objects. Webhook → /api/webhooks/stripe (signature-verified, idempotent).',
+    plain: 'The payment processor. Charges customers and notifies us about every status change.',
+    path:  'env: STRIPE_SECRET_KEY + STRIPE_WEBHOOK_SECRET',
+    notes: ['Stays TEST until counsel-approved BAA + Terms ship','Sees NO PHI — metadata limited to org_id + org_name','seed-stripe-products.mjs reads env, never hardcodes secrets'],
+    tag:   ['billing','stripe','external','all'],
+  }),
+  N('ext-resend','external','Resend','transactional email',
+    CX.external, next('external'), W, H, 'external', {
+    role:  'Outbound email: overdue follow-up cron, invitation links, aid status emails, password reset.',
+    plain: 'The email sender.',
+    path:  'env: RESEND_API_KEY + EMAIL_FROM',
+    notes: ['No PHI in subject lines or bodies — links + counts only','No-op when keys absent (dev safety)'],
+    tag:   ['notifications','email','external','all'],
+  }),
+  N('ext-deepgram','external','Deepgram · Nova-3','STT (DORMANT)',
+    CX.external, next('external'), W, H, 'external', {
+    role:  'Multilingual speech-to-text (EN+ES default). Off until DEEPGRAM_API_KEY set and BAA signed.',
+    plain: 'Will turn recorded audio into text — once the contract for handling PHI is signed. Off today.',
+    path:  'env: DEEPGRAM_API_KEY (UNSET)',
+    notes: ['BAA-gated','Test mode uses a synthetic transcript so the rest of the pipeline can be exercised','Live audio also needs expo-audio on mobile — not yet added'],
+    tag:   ['notation','ai','external','all'],
+  }),
+  N('ext-supabase','external','Supabase platform','Auth · Postgres · Storage · Realtime',
+    CX.external, next('external'), W, H, 'external', {
+    role:  'Hosted Postgres + auth.users + Storage (gov-ID bucket) + realtime publication for messaging.',
+    plain: 'The hosting service for the database, authentication, file uploads, and real-time updates.',
+    path:  'project: ezcaausjenhlylbhlmtd',
+    notes: ['auth.users is read via admin.listUsers in dashboard.ts','Realtime publication covers conversations/messages/notifications','Free-tier security advisor (HIBP) is Pro-gated — DEFERRED'],
+    tag:   ['db','auth','external','all'],
+    critical: true,
+  }),
+  N('ext-honeybadger','external','Honeybadger','error reporting',
+    CX.external, next('external'), W, H, 'external', {
+    role:  'Crash + error reporting for API (Node SDK) and web (React SDK). Mobile is currently UNINSTRUMENTED.',
+    plain: 'Tells the team when something crashes in production. Web and the server are wired; the phone app is not.',
+    path:  'env: HONEYBADGER_API_KEY',
+    notes: ['Mobile imports were removed (web SDK incompatible with RN) — native SDK pending','beforeNotify PHI-scrubs every payload'],
+    tag:   ['observability','external','all'],
+  }),
+  N('ext-voyage','external','Voyage AI','embeddings',
+    CX.external, next('external'), W, H, 'external', {
+    role:  'Vector embeddings provider for case_embeddings.',
+    plain: 'Generates the vector "fingerprints" of case content.',
+    path:  'env: VOYAGE_API_KEY',
+    notes: ['makeVoyageProvider in lib/ai/embeddings.ts','STUB_PROVIDER for tests'],
+    tag:   ['ai','vector','external','all'],
+  }),
+];
+
+// ── Edges ──────────────────────────────────────────────────────────────────────
+const E = (from, to, kind, label, tag = ['all']) => ({ from, to, kind, label, tag });
+const edges = [
+  // Clients → server entry
+  E('web-main','api-index','mount','GET /health pre-warm',['overview','auth','web','all']),
+  E('web-api','api-index','normal','POST /api/* (Bearer JWT)',['overview','web','all']),
+  E('web-supabase','ext-supabase','db','direct reads (RLS)',['overview','web','db','all']),
+  E('web-app','web-api','normal','page mutations',['overview','web','all']),
+  E('web-app','web-supabase','db','page reads',['overview','web','db','all']),
+  E('mobile-layout','mobile-supabase','normal','auth subscribe',['overview','mobile','all']),
+  E('mobile-hooks','mobile-supabase','db','direct reads (RLS)',['overview','mobile','db','all']),
+  E('mobile-hooks','mobile-api','normal','authed mutations',['overview','mobile','all']),
+  E('mobile-supabase','ext-supabase','db','session + queries',['overview','mobile','db','all']),
+  E('mobile-api','api-index','normal','POST /api/* (Bearer JWT)',['overview','mobile','all']),
+  E('survivor-portal-web','web-api','normal','/api/portal/*',['survivor','web','all']),
+  E('survivor-portal-web','web-supabase','db','own data (RLS)',['survivor','web','db','all']),
+
+  // API entry → middleware
+  E('api-index','mw-requireAuth','mount','use(requireAuth) per route',['overview','auth','server','all']),
+  E('api-index','rate-limit','mount','use(apiLimiter)',['server','all']),
+  E('api-index','cron','mount','schedule(0 8 * * *)',['notifications','server','all']),
+  E('mw-requireAuth','lib-supabase','db','auth.getUser + profile lookup',['overview','auth','server','db','all']),
+
+  // API index → routes (mount edges)
+  E('api-index','rt-clients','mount','/api/clients',['overview','clients-core','all']),
+  E('api-index','rt-assessments','mount','/api/clients (assessments)',['overview','clients-core','assessment','all']),
+  E('api-index','rt-briefs','mount','/api/clients (briefs)',['clients-core','ai','all']),
+  E('api-index','rt-supervisorBrief','mount','/api/supervisor-brief',['clients-core','supervisor','ai','all']),
+  E('api-index','rt-aiDrafts','mount','/api/clients (ai-draft)',['clients-core','ai','all']),
+  E('api-index','rt-dashboard','mount','/api/dashboard',['overview','clients-core','all']),
+  E('api-index','rt-vj','mount','/api/vj',['overview','vj','all']),
+  E('api-index','rt-notation','mount','/api/notation (25MB)',['notation','all']),
+  E('api-index','rt-stripe-webhook','mount','/api/webhooks/stripe (RAW, pre-limit)',['billing','stripe','all']),
+  E('api-index','rt-billing','mount','/api/billing',['billing','stripe','all']),
+  E('api-index','rt-baa','mount','/api/baa (2MB)',['baa','onboarding','all']),
+  E('api-index','rt-orgSignup','mount','/api/org-signup',['onboarding','all']),
+  E('api-index','rt-operator','mount','/api/operator',['platform','all']),
+  E('api-index','rt-intake','mount','/intake (public)',['intake','public','all']),
+  E('api-index','rt-survivorSignup','mount','/intake/survivor (15MB, public)',['intake','public','survivor','all']),
+  E('api-index','rt-portal','mount','/api/portal',['survivor','all']),
+  E('api-index','rt-aid-apps','mount','/api/aid-applications',['aid','all']),
+  E('api-index','rt-aid-templates','mount','/api/aid-templates',['aid','all']),
+  E('api-index','rt-form-templates','mount','/api/form-templates',['forms','all']),
+  E('api-index','rt-signatures','mount','/api/signature-requests (2MB)',['signatures','all']),
+  E('api-index','rt-messages','mount','/api',['messages','all']),
+  E('api-index','rt-notifications','mount','/api/notifications',['notifications','all']),
+  E('api-index','rt-invitations','mount','/api/invitations',['auth','onboarding','all']),
+  E('api-index','rt-intake-submissions','mount','/api/intake-submissions',['intake','clients-core','all']),
+  E('api-index','rt-resources','mount','/api/resources',['resources','all']),
+  E('api-index','rt-profile','mount','/api/profile',['auth','notifications','all']),
+  E('api-index','rt-audit-reports-exports','mount','/api/{audit,reports,exports}',['audit','reports','exports','all']),
+  E('api-index','rt-leads','mount','/api/leads (public)',['onboarding','public','all']),
+  E('api-index','rt-health','mount','/health (pre-limit)',['server','all']),
+  E('cron','rt-notifications','normal','sendOverdueNotifications()',['notifications','all']),
+
+  // Routes → lib (service edges)
+  // The critical path (assessment seam)
+  E('rt-assessments','lib-computeDomainScores','critical','1 · computeDomainScores',['overview','clients-core','assessment','recovery','all']),
+  E('rt-assessments','lib-triageEngine','critical','2 · triage tier + rationale',['overview','clients-core','assessment','recovery','all']),
+  E('rt-assessments','lib-anthropic','critical','3 · recovery plan (Claude Opus)',['overview','clients-core','recovery','ai','all']),
+  E('rt-assessments','lib-audit','critical','4 · logAudit(ASSESSMENT)',['overview','clients-core','assessment','all']),
+  E('rt-assessments','lib-supabase','critical','5 · INSERT assessment + goals',['overview','clients-core','assessment','recovery','db','all']),
+  E('rt-assessments','rt-briefs','critical','invalidateBrief(clientId)',['overview','clients-core','ai','all']),
+  E('rt-assessments','rt-supervisorBrief','critical','invalidateSupervisorBrief(orgId)',['overview','clients-core','supervisor','ai','all']),
+
+  // VJ path
+  E('rt-vj','lib-vjSystemPrompt','critical','buildVJSystemPrompt(role)',['overview','vj','ai','all']),
+  E('rt-vj','lib-vjTools','critical','getToolsForRole + executeTool',['overview','vj','ai','all']),
+  E('rt-vj','lib-anthropic','critical','messages.stream → sonnet-4-5',['overview','vj','ai','all']),
+  E('lib-vjTools','lib-supabase','db','tool reads/writes (org-scoped)',['vj','db','all']),
+  E('lib-vjTools','lib-audit','normal','logAudit on every write tool',['vj','audit','all']),
+
+  // Stripe webhook path
+  E('rt-stripe-webhook','lib-stripe','critical','constructEvent (signature verify)',['billing','stripe','all']),
+  E('rt-stripe-webhook','lib-supabase','critical','UPSERT subscriptions + UPDATE org status',['billing','stripe','db','all']),
+
+  // Briefs path
+  E('rt-briefs','lib-ai-clientBrief','normal','generateClientBrief',['clients-core','ai','all']),
+  E('rt-supervisorBrief','lib-ai-supervisorBrief','normal','generateSupervisorBrief',['clients-core','supervisor','ai','all']),
+  E('rt-aiDrafts','lib-ai-noteDraft','normal','draft note',['clients-core','ai','all']),
+  E('rt-aiDrafts','lib-ai-aidPrefill','normal','prefill AID',['aid','ai','all']),
+  E('rt-aiDrafts','lib-ai-postAssessmentProposal','normal','propose plan',['clients-core','ai','recovery','all']),
+  E('rt-aiDrafts','lib-ai-survivorMessage','normal','draft message',['ai','messages','survivor','all']),
+  E('rt-survivorSignup','lib-ai-govIdVerify','normal','verify gov-ID',['intake','survivor','ai','all']),
+
+  // AI service barrel use
+  E('lib-triageEngine','lib-ai-index','normal','runAi (sole external caller)',['ai','clients-core','all']),
+  E('lib-ai-index','lib-ai-client','normal','runAi',['ai','all']),
+  E('lib-ai-index','lib-ai-embeddings','normal','embeddings provider',['ai','vector','all']),
+  E('lib-ai-clientBrief','lib-ai-client','normal','runAi',['ai','clients-core','all']),
+  E('lib-ai-supervisorBrief','lib-ai-client','normal','runAi',['ai','supervisor','all']),
+  E('lib-ai-noteDraft','lib-ai-client','normal','runAi',['ai','clients-core','all']),
+  E('lib-ai-aidPrefill','lib-ai-client','normal','runAi',['ai','aid','all']),
+  E('lib-ai-postAssessmentProposal','lib-ai-client','normal','runAi',['ai','recovery','all']),
+  E('lib-ai-survivorMessage','lib-ai-client','normal','runAi',['ai','messages','all']),
+  E('lib-ai-govIdVerify','lib-ai-client','normal','runAi (vision)',['ai','intake','all']),
+  E('lib-ai-client','lib-anthropic','normal','messages.create',['ai','all']),
+  E('lib-ai-embeddings','ext-voyage','api','embed batch',['ai','vector','all']),
+
+  // Notation chain
+  E('rt-notation','lib-notation-stt','normal','transcribe()',['notation','ai','all']),
+  E('rt-notation','lib-notation-summarize','normal','summarizeToDraft',['notation','ai','all']),
+  E('rt-notation','lib-supabase','db','sessions / transcripts / drafts',['notation','db','all']),
+  E('lib-notation-stt','ext-deepgram','api','Nova-3 (DORMANT)',['notation','ai','external','all']),
+  E('lib-notation-summarize','lib-anthropic','normal','sonnet-4-5 (forced tool)',['notation','ai','all']),
+
+  // Clients + dashboard + others → supabase
+  E('rt-clients','lib-supabase','db','CRUD clients/notes/follow-ups/goals',['clients-core','db','all']),
+  E('rt-clients','lib-audit','normal','logAudit on every PHI write',['clients-core','audit','all']),
+  E('rt-clients','rt-briefs','normal','invalidateBrief on note/followup/goal',['clients-core','ai','all']),
+  E('rt-clients','rt-supervisorBrief','normal','invalidateSupervisorBrief',['supervisor','ai','all']),
+  E('rt-dashboard','lib-supabase','db','7 parallel queries',['overview','clients-core','db','all']),
+  E('rt-dashboard','ext-supabase','db','auth.admin.listUsers (for last_sign_in_at)',['overview','clients-core','external','db','all']),
+  E('rt-vj','lib-supabase','db','session-only history loader',['vj','db','all']),
+
+  // Other routes → lib + db
+  E('rt-billing','lib-stripe','normal','checkout sessions',['billing','stripe','all']),
+  E('rt-billing','lib-supabase','db','plans + addons + nonprofit-apply',['billing','db','all']),
+  E('rt-baa','lib-baaPdf','normal','buildBaaPdf',['baa','onboarding','all']),
+  E('rt-baa','lib-baaTemplate','normal','BAA_TEMPLATE_VERSION',['baa','onboarding','all']),
+  E('rt-baa','lib-supabase','db','organizations.baa_status + legal_acceptances',['baa','onboarding','db','all']),
+  E('rt-orgSignup','lib-orgProvision','normal','provisionOrg(...)',['onboarding','all']),
+  E('rt-orgSignup','lib-supabase','db','organizations + profiles',['onboarding','db','all']),
+  E('rt-operator','lib-orgProvision','normal','platform-admin provisioning',['platform','onboarding','all']),
+  E('rt-operator','lib-supabase','db','cross-org reads/writes',['platform','db','all']),
+  E('rt-operator','mw-platformAdmin','mount','requirePlatformAdmin',['platform','auth','all']),
+  E('rt-intake','lib-supabase','db','intake_invitations + submissions',['intake','db','all']),
+  E('rt-intake-submissions','lib-supabase','db','accept → INSERT clients',['intake','clients-core','db','all']),
+  E('rt-survivorSignup','lib-supabase','db','clients + gov_id_uploads',['intake','survivor','db','all']),
+  E('rt-survivorSignup','ext-supabase','db','Storage bucket (gov-ID)',['intake','survivor','external','db','all']),
+  E('rt-portal','lib-supabase','db','own data only',['survivor','db','all']),
+  E('rt-aid-apps','lib-supabase','db','aid_applications + answers',['aid','db','all']),
+  E('rt-aid-apps','lib-email','api','status update email',['aid','email','all']),
+  E('rt-aid-templates','lib-supabase','db','aid_templates + fields',['aid','db','all']),
+  E('rt-form-templates','lib-supabase','db','form_templates CRUD',['forms','db','all']),
+  E('rt-signatures','lib-supabase','db','signature_requests',['signatures','db','all']),
+  E('rt-messages','lib-supabase','db','conversations + messages',['messages','db','all']),
+  E('rt-messages','ext-supabase','db','realtime publication',['messages','external','db','all']),
+  E('rt-notifications','lib-email','api','overdue cron emails',['notifications','email','all']),
+  E('rt-notifications','lib-supabase','db','notifications + prefs',['notifications','db','all']),
+  E('rt-invitations','lib-email','api','invite email',['auth','email','onboarding','all']),
+  E('rt-invitations','lib-supabase','db','public.invitations',['auth','onboarding','db','all']),
+  E('rt-resources','lib-supabase','db','resources + resource_matches',['resources','db','all']),
+  E('rt-profile','lib-supabase','db','profile + notification_preferences',['auth','notifications','db','all']),
+  E('rt-audit-reports-exports','lib-supabase','db','audit + agg + exports',['audit','reports','exports','db','all']),
+  E('rt-audit-reports-exports','lib-audit','normal','logAudit(EXPORT)',['exports','audit','all']),
+  E('rt-leads','lib-supabase','db','signup_leads (service-role)',['onboarding','public','db','all']),
+
+  // Lib → external
+  E('lib-anthropic','ext-anthropic','api','messages.create / stream',['ai','external','all']),
+  E('lib-supabase','ext-supabase','db','service-role queries',['overview','db','external','all']),
+  E('lib-stripe','ext-stripe','api','Stripe SDK',['billing','stripe','external','all']),
+  E('lib-email','ext-resend','api','Resend API',['notifications','email','external','all']),
+  E('lib-honeybadger','ext-honeybadger','api','crash + error reports',['observability','external','all']),
+  E('api-index','lib-honeybadger','mount','requestHandler + errorHandler',['observability','server','all']),
+
+  // Lib → DB (data layer detail)
+  E('lib-supabase','db-core','db','clients/profiles/organizations',['overview','clients-core','db','all']),
+  E('lib-supabase','db-assessments','db','recovery_assessments + view',['clients-core','assessment','recovery','db','all']),
+  E('lib-supabase','db-recovery-goals','db','recovery_goals',['clients-core','recovery','db','all']),
+  E('lib-supabase','db-case-work','db','case_notes + follow_ups',['clients-core','db','all']),
+  E('lib-supabase','db-messaging','db','conversations + messages',['messages','db','all']),
+  E('lib-supabase','db-notifications','db','notifications + prefs',['notifications','db','all']),
+  E('lib-supabase','db-aid','db','aid_applications + templates',['aid','db','all']),
+  E('lib-supabase','db-intake','db','intake_invitations + submissions',['intake','db','all']),
+  E('lib-supabase','db-resources','db','resources + resource_matches',['resources','db','all']),
+  E('lib-supabase','db-signatures','db','signature_requests + legal_acceptances',['signatures','baa','db','all']),
+  E('lib-supabase','db-notation','db','notation_*',['notation','db','all']),
+  E('lib-supabase','db-billing','db','subscriptions + plans + addons',['billing','db','all']),
+  E('lib-audit','db-audit','db','audit_log INSERT-only',['audit','db','all']),
+  E('mw-platformAdmin','db-platform','db','platform_admins lookup',['platform','auth','db','all']),
+  E('lib-ai-embeddings','db-embeddings','db','case_embeddings UPSERT',['ai','vector','db','all']),
+  E('rt-form-templates','db-misc','db','form_templates',['forms','db','all']),
+  E('rt-orgSignup','db-misc','db','org_signup_profiles',['onboarding','db','all']),
+];
+
+// ── Fixes & known bugs registries (cite-able only) ─────────────────────────────
+const FIXES = {
+  'lib-systemFormTemplates': [
+    { n: 1, t: 'Phase 2 step 7 (system template seed) — land it (call from a one-time seed) or delete this file + its tests.' },
+  ],
+  'mobile-layout': [
+    { n: 1, t: 'Install @honeybadger-io/react-native and re-instrument the mobile entry — the explanatory comment at :25-29 already tracks this as a follow-up.' },
+  ],
+  'rt-clients': [
+    { n: 1, t: 'Split routes/clients.ts (970 lines, 14 endpoints) into clients-crud + clients-notes + clients-followups + clients-goals + clients-lifecycle.' },
+  ],
+  'lib-vjTools': [
+    { n: 1, t: 'Split vjTools.ts (891 lines) per tool family — reads / writes / drafts / lookups — so one file change does not require re-reading the whole tool layer.' },
+  ],
+  'lib-ai-index': [
+    { n: 1, t: 'Route AI imports through the barrel everywhere (routes/briefs, routes/supervisorBrief, routes/aiDrafts, routes/survivorSignup currently bypass it). Then prompt caching + retry + telemetry live in one place.' },
+  ],
+  'api-index': [
+    { n: 1, t: 'The quadruple mount on /api/clients (assessments + clients + briefs + aiDrafts) is fragile — if any two ever overlap a sub-path Express silently picks first-match. Document or merge.' },
+  ],
+  'db-resources': [
+    { n: 1, t: 'resource_matches CREATE TABLE lives in BACKFILL_resource_matches.sql, not in the numbered migration sequence — fresh environments running only numbered migrations would skip it. Promote to a numbered migration.' },
+  ],
+};
+
+const KNOWN_BUGS = {
+  'lib-systemFormTemplates': [
+    { sev: 'low', t: '276 lines of code with passing tests but zero production callers — pure dead weight in the bundle. Verified by grep: only systemFormTemplates.test.ts imports it.' },
+  ],
+  'mobile-layout': [
+    { sev: 'high', t: 'Mobile error reporting is silent. apps/mobile/package.json:line ~"@honeybadger-io/js" is installed but the import was removed (apps/mobile/app/_layout.tsx:25-29) because the web SDK throws on RN; the React-Native SDK is not installed. Production crashes go nowhere.' },
+  ],
+  'db-resources': [
+    { sev: 'med', t: 'Schema drift: resource_matches is queried by 6 files but its CREATE TABLE lives in supabase/migrations/BACKFILL_resource_matches.sql, not in a numbered migration. A fresh apply will miss the table.' },
+  ],
+  'lib-baaTemplate': [
+    { sev: 'high', t: 'BAA template text is a LABELED PLACEHOLDER (baaTemplate.ts:1-45). Counsel sign-off is required before live signing. BAA_TEMPLATE_VERSION must bump on text change.' },
+  ],
+  'lib-audit': [
+    { sev: 'med', t: 'Migration 010 caveat (per Bastion review): service-role writes silently skip the DB-layer audit trigger when app.audit_user_id is unset. logAudit() must be called explicitly at every PHI write site. No code-level enforcement of this rule yet.' },
+  ],
+  'rt-stripe-webhook': [
+    { sev: 'med', t: 'Stripe.Subscription.current_period_end has moved between API versions (subscription-level vs item-level). The route reads both defensively (stripeWebhook.ts:28) — keep the eslint-disable cast but verify against new Stripe API versions on every bump.' },
+  ],
+};
+
+// ── Filter chips ──────────────────────────────────────────────────────────────
+const chips = [
+  { id: 'overview',     label: 'Overview' },
+  { id: 'clients-core', label: 'Client work' },
+  { id: 'assessment',   label: 'Assessment & triage' },
+  { id: 'recovery',     label: 'Recovery plan' },
+  { id: 'vj',           label: 'VJ AI chat' },
+  { id: 'notation',     label: 'Call Notation' },
+  { id: 'messages',     label: 'Messaging' },
+  { id: 'aid',          label: 'AID applications' },
+  { id: 'intake',       label: 'Intake & sign-up' },
+  { id: 'survivor',     label: 'Survivor portal' },
+  { id: 'billing',      label: 'Billing & Stripe' },
+  { id: 'onboarding',   label: 'Org onboarding' },
+  { id: 'notifications',label: 'Notifications' },
+  { id: 'all',          label: 'Show all wires' },
+  { id: 'fixes',        label: 'Roadmap & bugs', kind: 'fix' },
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Rendering
+// ─────────────────────────────────────────────────────────────────────────────
+const SVG_NS = 'http://www.w3.org/2000/svg';
+const SVG = document.getElementById('svg');
+const VP  = document.getElementById('viewport');
+
+// Compute SVG size based on cluster extents
+const SVG_W = clusters.reduce((m,c)=>Math.max(m, c.x+c.w), 0) + 40;
+const SVG_H = clusters.reduce((m,c)=>Math.max(m, c.y+c.h), 0) + 40;
+SVG.setAttribute('viewBox', `0 0 ${SVG_W} ${SVG_H}`);
+SVG.setAttribute('width', SVG_W);
+SVG.setAttribute('height', SVG_H);
+
+// Index helpers
+const nodeById = Object.fromEntries(nodes.map(n => [n.id, n]));
+const edgesByNode = nodes.reduce((m,n)=>{ m[n.id] = { in: [], out: [] }; return m; }, {});
+edges.forEach(e => {
+  if (!edgesByNode[e.from] || !edgesByNode[e.to]) { console.warn('edge refers to unknown node', e); return; }
+  edgesByNode[e.from].out.push(e);
+  edgesByNode[e.to].in.push(e);
+});
+
+// Render clusters
+clusters.forEach(c => {
+  const g = document.createElementNS(SVG_NS, 'g');
+  const rect = document.createElementNS(SVG_NS, 'rect');
+  rect.setAttribute('class','cluster');
+  rect.setAttribute('x', c.x); rect.setAttribute('y', c.y);
+  rect.setAttribute('width', c.w); rect.setAttribute('height', c.h);
+  rect.setAttribute('rx', 8);
+  g.appendChild(rect);
+  const txt = document.createElementNS(SVG_NS, 'text');
+  txt.setAttribute('class','cluster-label');
+  txt.setAttribute('x', c.x + 18); txt.setAttribute('y', c.y + 28);
+  txt.textContent = c.label;
+  g.appendChild(txt);
+  VP.appendChild(g);
+});
+
+// Render edges first (under nodes)
+const edgesLayer = document.createElementNS(SVG_NS, 'g');
+edgesLayer.setAttribute('id','edges');
+VP.appendChild(edgesLayer);
+
+function nodeAnchor(node, side) {
+  // side: 'left' | 'right'
+  return {
+    x: side === 'left' ? node.x : node.x + node.w,
+    y: node.y + node.h / 2,
+  };
+}
+
+function edgePath(fromNode, toNode) {
+  // Always exit on the side closer to destination
+  const fromRight = (fromNode.x + fromNode.w / 2) < (toNode.x + toNode.w / 2);
+  const a = nodeAnchor(fromNode, fromRight ? 'right' : 'left');
+  const b = nodeAnchor(toNode,   fromRight ? 'left'  : 'right');
+  const dx = Math.max(40, Math.abs(b.x - a.x) * 0.4);
+  const c1x = fromRight ? a.x + dx : a.x - dx;
+  const c2x = fromRight ? b.x - dx : b.x + dx;
+  return `M ${a.x} ${a.y} C ${c1x} ${a.y}, ${c2x} ${b.y}, ${b.x} ${b.y}`;
+}
+
+edges.forEach((e, i) => {
+  const f = nodeById[e.from], t = nodeById[e.to];
+  if (!f || !t) return;
+  const p = document.createElementNS(SVG_NS, 'path');
+  p.setAttribute('class', `edge kind-${e.kind}`);
+  p.setAttribute('d', edgePath(f, t));
+  p.setAttribute('marker-end', `url(#arr-${e.kind})`);
+  p.dataset.from = e.from; p.dataset.to = e.to; p.dataset.idx = String(i);
+  e._el = p;
+  edgesLayer.appendChild(p);
+
+  // Edge label — only render when label is short enough and edge spans clusters
+  if (e.label && Math.abs((t.x + t.w/2) - (f.x + f.w/2)) > 80) {
+    const fromRight = (f.x + f.w/2) < (t.x + t.w/2);
+    const a = nodeAnchor(f, fromRight ? 'right' : 'left');
+    const b = nodeAnchor(t, fromRight ? 'left'  : 'right');
+    // stagger by edge index in the same gutter so labels don't pile up
+    const lbl = document.createElementNS(SVG_NS, 'text');
+    lbl.setAttribute('class', `edge-label kind-${e.kind}`);
+    const mx = (a.x + b.x) / 2;
+    const my = (a.y + b.y) / 2 + ((i % 5) - 2) * 6;
+    lbl.setAttribute('x', mx); lbl.setAttribute('y', my);
+    lbl.setAttribute('text-anchor','middle');
+    lbl.textContent = e.label;
+    e._lbl = lbl;
+    edgesLayer.appendChild(lbl);
+  }
+});
+
+// Render nodes
+const nodesLayer = document.createElementNS(SVG_NS, 'g');
+nodesLayer.setAttribute('id','nodes');
+VP.appendChild(nodesLayer);
+
+function truncate(s, max) {
+  if (s.length <= max) return s;
+  return s.slice(0, max - 1) + '…';
+}
+
+nodes.forEach(n => {
+  const g = document.createElementNS(SVG_NS, 'g');
+  g.setAttribute('class', `node color-${n.color}${n.critical ? ' critical' : ''}`);
+  g.dataset.id = n.id;
+
+  const rect = document.createElementNS(SVG_NS, 'rect');
+  rect.setAttribute('x', n.x); rect.setAttribute('y', n.y);
+  rect.setAttribute('width', n.w); rect.setAttribute('height', n.h);
+  rect.setAttribute('rx', 6);
+  g.appendChild(rect);
+
+  const lbl = document.createElementNS(SVG_NS, 'text');
+  lbl.setAttribute('class','lbl');
+  lbl.setAttribute('x', n.x + 12);
+  lbl.setAttribute('y', n.y + 22);
+  lbl.textContent = truncate(n.label, 36);
+  g.appendChild(lbl);
+
+  if (n.sub) {
+    const sub = document.createElementNS(SVG_NS, 'text');
+    sub.setAttribute('class','sub');
+    sub.setAttribute('x', n.x + 12);
+    sub.setAttribute('y', n.y + 40);
+    sub.textContent = truncate(n.sub, 44);
+    g.appendChild(sub);
+  }
+
+  // Dead-code marker
+  if ((n.tag||[]).includes('dead')) {
+    const d = document.createElementNS(SVG_NS, 'text');
+    d.setAttribute('class','dead');
+    d.setAttribute('x', n.x + 12);
+    d.setAttribute('y', n.y + n.h - 10);
+    d.textContent = '⚠ schema / dead-code surface';
+    g.appendChild(d);
+  }
+
+  // Fix + bug badges
+  const fixCount = (FIXES[n.id] || []).length;
+  const bugCount = (KNOWN_BUGS[n.id] || []).length;
+  if (fixCount) {
+    const b = document.createElementNS(SVG_NS, 'g');
+    b.setAttribute('class','badge fix');
+    const cx = n.x + n.w - 12 - (bugCount ? 22 : 0);
+    const cy = n.y + 12;
+    const c  = document.createElementNS(SVG_NS, 'circle');
+    c.setAttribute('cx', cx); c.setAttribute('cy', cy); c.setAttribute('r', 8);
+    b.appendChild(c);
+    const tx = document.createElementNS(SVG_NS, 'text');
+    tx.setAttribute('x', cx); tx.setAttribute('y', cy + 3);
+    tx.textContent = String(fixCount);
+    b.appendChild(tx);
+    g.appendChild(b);
+  }
+  if (bugCount) {
+    const b = document.createElementNS(SVG_NS, 'g');
+    b.setAttribute('class','badge bug');
+    const cx = n.x + n.w - 12;
+    const cy = n.y + 12;
+    const c  = document.createElementNS(SVG_NS, 'circle');
+    c.setAttribute('cx', cx); c.setAttribute('cy', cy); c.setAttribute('r', 8);
+    b.appendChild(c);
+    const tx = document.createElementNS(SVG_NS, 'text');
+    tx.setAttribute('x', cx); tx.setAttribute('y', cy + 3);
+    tx.textContent = String(bugCount);
+    b.appendChild(tx);
+    g.appendChild(b);
+  }
+
+  n._el = g;
+  nodesLayer.appendChild(g);
+
+  g.addEventListener('mouseenter', () => { if (!selectedId) renderSidebar(n.id, true); });
+  g.addEventListener('mouseleave', () => { if (!selectedId) renderDefaultSidebar(); });
+  g.addEventListener('click', (ev) => { ev.stopPropagation(); selectNode(n.id); });
+});
+
+// ── Chips ──────────────────────────────────────────────────────────────────────
+const chipsEl = document.getElementById('chips');
+let activeChip = 'overview';
+
+chips.forEach(c => {
+  const b = document.createElement('button');
+  b.className = 'chip';
+  if (c.kind === 'fix')  b.classList.add('fix');
+  if (c.id === 'overview') b.classList.add('active');
+  b.textContent = c.label;
+  b.dataset.id = c.id;
+  b.addEventListener('click', () => {
+    chipsEl.querySelectorAll('.chip').forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    activeChip = c.id;
+    applyFilter();
+  });
+  chipsEl.appendChild(b);
+});
+
+function applyFilter() {
+  if (activeChip === 'fixes') {
+    // Dim everything without a fix or bug
+    nodes.forEach(n => {
+      const has = (FIXES[n.id]?.length || 0) + (KNOWN_BUGS[n.id]?.length || 0);
+      n._el.classList.toggle('dimmed', !has);
+    });
+    edges.forEach(e => e._el.classList.toggle('dimmed', true));
+    edges.forEach(e => { if (e._lbl) e._lbl.style.display = 'none'; });
+    return;
+  }
+  if (activeChip === 'all') {
+    nodes.forEach(n => n._el.classList.remove('dimmed'));
+    edges.forEach(e => e._el.classList.remove('dimmed'));
+    edges.forEach(e => { if (e._lbl) e._lbl.style.display = ''; });
+    return;
+  }
+  nodes.forEach(n => n._el.classList.toggle('dimmed', !(n.tag||[]).includes(activeChip)));
+  edges.forEach(e => e._el.classList.toggle('dimmed', !(e.tag||[]).includes(activeChip)));
+  edges.forEach(e => { if (e._lbl) e._lbl.style.display = (e.tag||[]).includes(activeChip) ? '' : 'none'; });
+}
+
+applyFilter(); // initial = Overview
+
+// ── Sidebar ────────────────────────────────────────────────────────────────────
+const sidebar = document.getElementById('sidebar');
+let selectedId = null;
+
+function renderDefaultSidebar() {
+  selectedId = null;
+  nodes.forEach(n => n._el.classList.remove('selected'));
+  sidebar.innerHTML = `
+    <h2>Vigilant · the shape of the system</h2>
+    <div class="plain">
+      Two clients — a desktop web app (React + Vite) and a phone app (Expo / React Native) —
+      both talk directly to Supabase for most reads, and to an Express 5 server for
+      mutations that need server-side logic (assessments, AI, exports, Stripe).
+      Claude is the brain behind every "AI" feature.
+    </div>
+    <div class="legend">
+      <span><i style="background:#ff3860"></i>critical path</span>
+      <span><i style="background:#7bd389"></i>route</span>
+      <span><i style="background:#c792ea"></i>service / lib</span>
+      <span><i style="background:#ffb86b"></i>db</span>
+      <span><i style="background:#ff6b9d"></i>external</span>
+      <span><i style="background:#4ea1ff"></i>client</span>
+    </div>
+
+    <h3>The seam — assessment → triage → plan</h3>
+    <div class="plain">
+      The headline feature: a case manager submits an assessment via
+      <b>POST /api/clients/:id/assessments</b>. The route runs
+      <b>computeDomainScores</b> (pure math, 5 visible domains + 2 silent modifiers
+      = 0–1000 Recovery Score) → <b>triageEngine</b> (deterministic tier by score
+      band; crisis flag forces T4) → <b>Claude Opus 4.7</b> for the recovery plan
+      task list → audit + DB writes → invalidates both client + supervisor briefs.
+      Click the red-outlined nodes to walk that spine.
+    </div>
+
+    <h3>Notable findings</h3>
+
+    <div class="surprise">
+      <b>Dead code:</b> <code>apps/api/src/lib/systemFormTemplates.ts</code> (276 lines, full test
+      coverage) has <b>zero production callers</b>. It is part of an unfinished Phase 2 step
+      ("system template seed") that was never wired up. Either land step 7 or delete the file.
+    </div>
+
+    <div class="surprise">
+      <b>The "AI barrel" intent is only partially enforced.</b>
+      <code>lib/ai/index.ts</code> was meant to be the single seam for every Claude call.
+      In reality only <code>lib/triageEngine.ts</code> imports the barrel — every other
+      caller (<code>routes/briefs</code>, <code>routes/supervisorBrief</code>,
+      <code>routes/aiDrafts</code>, <code>routes/survivorSignup</code>) imports the
+      underlying <code>lib/ai/*</code> module directly. Centralized prompt caching /
+      observability cannot land until these are routed through the barrel.
+    </div>
+
+    <div class="surprise">
+      <b>Quadruple mount on <code>/api/clients</code>.</b>
+      <code>apps/api/src/index.ts:108-111</code> mounts <i>four</i> routers on the same
+      prefix — <code>assessments</code>, <code>clients</code>, <code>briefs</code>,
+      <code>aiDrafts</code>. Express picks first-match silently; the four files maintain
+      disjoint sub-paths today, but any overlap is invisible drift.
+    </div>
+
+    <div class="surprise">
+      <b>Mobile error reporting is uninstrumented.</b>
+      <code>@honeybadger-io/js</code> is installed in <code>apps/mobile/package.json</code>
+      but the import was removed (<code>apps/mobile/app/_layout.tsx:25-29</code>) because
+      the web SDK throws on React Native. The native RN SDK is not installed.
+      Production mobile crashes go nowhere.
+    </div>
+
+    <div class="surprise">
+      <b>The biggest files are concentration risks.</b>
+      <code>routes/clients.ts</code> = 970 lines (14 endpoints — POST/GET/PATCH/PATCH
+      reassign/PATCH tier/POST notes/POST followups/PATCH followups/POST goals/PATCH
+      goals/PATCH archive/PATCH unarchive/GET archived/GET :id).
+      <code>lib/vjTools.ts</code> = 891 lines holding the entire VJ tool definition AND
+      execution layer in one file. Splitting each per-family would lower the cost of
+      every edit.
+    </div>
+
+    <div class="surprise">
+      <b>Schema drift:</b> <code>resource_matches</code> is referenced by 6 files but its
+      <code>CREATE TABLE</code> lives in <code>supabase/migrations/BACKFILL_resource_matches.sql</code>,
+      <i>not</i> in the numbered migration sequence. A fresh apply that only runs the
+      numbered files will skip this table.
+    </div>
+
+    <div class="surprise">
+      <b>Single auth gate, defense in depth.</b>
+      <code>middleware/auth.ts</code> validates the Supabase JWT, then every downstream
+      query uses the <i>service-role</i> Supabase client (bypassing RLS) but adds an
+      explicit <code>org_id</code> filter. RLS is layered behind that as a second wall.
+      <code>lib/supabase.ts</code> is the most-imported file in the API (30 callers).
+    </div>
+
+    <h3>How to read this map</h3>
+    <ul>
+      <li>Six columns, left → right: <b>Clients · API entry · Routes · Services · Data · External</b>.</li>
+      <li>Red-outlined nodes are on the <b>critical path</b>. Red edges trace the assessment seam.</li>
+      <li><b>Click</b> any node for its file path, role, notes, and incoming + outgoing edges.</li>
+      <li><b>Hover</b> previews; clicking elsewhere clears the selection.</li>
+      <li>The <b>filter chips</b> at the top isolate a feature; <i>Roadmap & bugs</i> shows only nodes with fix/bug badges.</li>
+      <li>Drag the canvas to pan; mouse wheel zooms in/out around the cursor; <i>⊡</i> fits.</li>
+    </ul>
+  `;
+}
+
+function renderSidebar(id, isHover) {
+  const n = nodeById[id]; if (!n) return;
+  if (!isHover) selectedId = id;
+  nodes.forEach(x => x._el.classList.toggle('selected', x.id === id));
+
+  // Dim non-connected
+  const conn = new Set([id]);
+  (edgesByNode[id]?.in || []).forEach(e => conn.add(e.from));
+  (edgesByNode[id]?.out || []).forEach(e => conn.add(e.to));
+  nodes.forEach(x => {
+    if (activeChip === 'all' || activeChip === 'overview' || activeChip === 'fixes') {
+      // chips already manage dimming; don't override when "all"
+    }
+    x._el.classList.toggle('dimmed', !conn.has(x.id));
+  });
+  edges.forEach(e => {
+    const on = e.from === id || e.to === id;
+    e._el.classList.toggle('dimmed', !on);
+    if (e._lbl) e._lbl.style.display = on ? '' : 'none';
+  });
+
+  const fixes = FIXES[id] || [];
+  const bugs  = KNOWN_BUGS[id] || [];
+  const ins   = edgesByNode[id]?.in  || [];
+  const outs  = edgesByNode[id]?.out || [];
+
+  sidebar.innerHTML = `
+    <h2>
+      ${n.critical ? '<span class="pill crit">CRITICAL</span>' : ''}
+      <span class="pill">${n.cluster}</span>
+      ${n.label}
+    </h2>
+    <div class="role">${n.role}</div>
+    <div class="plain"><i>Plain English —</i> ${n.plain}</div>
+    <div class="path">${n.path}</div>
+
+    ${n.notes?.length ? `<h3>Notes</h3><ul>${n.notes.map(x=>`<li>${x}</li>`).join('')}</ul>` : ''}
+
+    ${bugs.length  ? `<h3>Known bugs</h3>${bugs.map(b=>`<div class="bug-item"><span class="sev">${b.sev}</span>${b.t}</div>`).join('')}` : ''}
+    ${fixes.length ? `<h3>Suggested fixes / roadmap</h3>${fixes.map(f=>`<div class="fix-item"><b>${f.n}.</b> ${f.t}</div>`).join('')}` : ''}
+
+    ${ins.length ? `<h3>Incoming (${ins.length})</h3>${ins.map(e=>`<span class="edge-item"><b>${nodeById[e.from].label}</b> · <i>${e.kind}</i> · ${e.label||''}</span>`).join('')}` : ''}
+    ${outs.length ? `<h3>Outgoing (${outs.length})</h3>${outs.map(e=>`<span class="edge-item"><b>→ ${nodeById[e.to].label}</b> · <i>${e.kind}</i> · ${e.label||''}</span>`).join('')}` : ''}
+  `;
+}
+
+function selectNode(id) {
+  if (selectedId === id) { // click again to deselect
+    selectedId = null;
+    nodes.forEach(x => x._el.classList.remove('selected'));
+    applyFilter();
+    renderDefaultSidebar();
+    return;
+  }
+  renderSidebar(id, false);
+}
+
+// Click on background clears
+document.getElementById('main').addEventListener('click', () => {
+  selectedId = null;
+  nodes.forEach(x => x._el.classList.remove('selected'));
+  applyFilter();
+  renderDefaultSidebar();
+});
+
+renderDefaultSidebar();
+
+// ── Pan + zoom ────────────────────────────────────────────────────────────────
+const main = document.getElementById('main');
+let scale = 1, tx = 0, ty = 0;
+
+function applyTransform() {
+  VP.setAttribute('transform', `translate(${tx} ${ty}) scale(${scale})`);
+}
+
+function fit() {
+  const rect = main.getBoundingClientRect();
+  const sX = rect.width  / SVG_W;
+  const sY = rect.height / SVG_H;
+  scale = Math.min(sX, sY) * 0.95;
+  tx = (rect.width  - SVG_W * scale) / 2;
+  ty = (rect.height - SVG_H * scale) / 2;
+  // Use the SVG width/height for the inner viewBox to react to scale
+  SVG.style.width  = rect.width  + 'px';
+  SVG.style.height = rect.height + 'px';
+  SVG.setAttribute('viewBox', `0 0 ${rect.width} ${rect.height}`);
+  applyTransform();
+}
+
+window.addEventListener('resize', fit);
+
+let dragging = false, dragX = 0, dragY = 0;
+main.addEventListener('mousedown', (ev) => {
+  // ignore drag on nodes — keep click selection
+  if (ev.target.closest('.node')) return;
+  dragging = true; dragX = ev.clientX; dragY = ev.clientY;
+  main.classList.add('dragging');
+});
+window.addEventListener('mouseup', () => { dragging = false; main.classList.remove('dragging'); });
+window.addEventListener('mousemove', (ev) => {
+  if (!dragging) return;
+  tx += ev.clientX - dragX; ty += ev.clientY - dragY;
+  dragX = ev.clientX; dragY = ev.clientY;
+  applyTransform();
+});
+
+main.addEventListener('wheel', (ev) => {
+  ev.preventDefault();
+  const rect = main.getBoundingClientRect();
+  const mx = ev.clientX - rect.left;
+  const my = ev.clientY - rect.top;
+  const factor = ev.deltaY < 0 ? 1.1 : 1/1.1;
+  const newScale = Math.max(0.1, Math.min(5, scale * factor));
+  // Anchor zoom around cursor
+  tx = mx - (mx - tx) * (newScale / scale);
+  ty = my - (my - ty) * (newScale / scale);
+  scale = newScale;
+  applyTransform();
+}, { passive: false });
+
+document.getElementById('zoom-in').addEventListener('click',  () => { scale *= 1.2; applyTransform(); });
+document.getElementById('zoom-out').addEventListener('click', () => { scale /= 1.2; applyTransform(); });
+document.getElementById('zoom-fit').addEventListener('click', fit);
+
+fit();
+</script>
+
+</body>
+</html>
