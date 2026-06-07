@@ -6,11 +6,17 @@
 <title>Vigilant · Architecture Map</title>
 <style>
   :root{
-    --bg:#0F0F0F;       --panel:#161616;      --panel-2:#1c1c1c;
-    --border:#2a2a2a;   --text:#e8e8e8;       --muted:#8a8a8a;
-    --client:#4ea1ff;   --route:#7bd389;      --service:#c792ea;
-    --db:#ffb86b;       --external:#ff6b9d;   --critical:#ff3860;
-    --accent:#f5b942;   --accent-2:#ff7a45;
+    /* App v5 light — canonical per H 2026-06-07 unification.
+       Was dark-theme (#0F0F0F bg, near-white text). Now warm-bg #F4F6FA
+       body, white panels, navy text. Cluster colors realigned to brand
+       (teal=client, coral=route, navy=service, amber=db, purple=external,
+       red=critical). DM Sans/Mono not loaded — staying self-contained per
+       the architecture-map skill rules; system stack carries the weight. */
+    --bg:#F4F6FA;       --panel:#FFFFFF;      --panel-2:#EEF1F7;
+    --border:#D8DDED;   --text:#1B2A4A;       --muted:#6B7589;
+    --client:#1A9E8A;   --route:#F4714F;      --service:#1B2A4A;
+    --db:#E5A328;       --external:#8854A6;   --critical:#C0392B;
+    --accent:#3ECFB2;   --accent-2:#F4714F;
   }
   *{box-sizing:border-box}
   html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--text);
@@ -25,14 +31,14 @@
   .chip{background:transparent;border:1px solid var(--border);color:var(--muted);
     padding:5px 11px;border-radius:14px;cursor:pointer;font-size:12px;letter-spacing:.2px;
     transition:all .15s}
-  .chip:hover{color:var(--text);border-color:#444}
-  .chip.active{background:var(--text);color:#000;border-color:var(--text)}
+  .chip:hover{color:var(--text);border-color:var(--text)}
+  .chip.active{background:var(--text);color:#fff;border-color:var(--text)}
   .chip.crit.active{background:var(--critical);color:#fff;border-color:var(--critical)}
   .chip.fix.active{background:var(--accent);color:#000;border-color:var(--accent)}
   .zoom{display:flex;gap:4px}
   .zoom button{background:var(--panel-2);border:1px solid var(--border);color:var(--text);
     width:30px;height:28px;border-radius:5px;cursor:pointer;font-size:13px}
-  .zoom button:hover{background:#222}
+  .zoom button:hover{background:var(--border)}
   main{position:fixed;top:54px;left:0;right:380px;bottom:0;background:var(--bg);
     overflow:hidden;cursor:grab}
   main.dragging{cursor:grabbing}
@@ -88,11 +94,11 @@
     font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
   .node text.dead{fill:var(--critical);font-size:10.5px;font-weight:600;letter-spacing:.4px;
     text-transform:uppercase;pointer-events:none}
-  .node:hover rect{filter:brightness(1.4)}
-  .node.selected rect{stroke-width:2.4;filter:brightness(1.5)}
-  .node.dimmed{opacity:.13}
+  .node:hover rect{filter:drop-shadow(0 2px 8px rgba(27,42,74,.18))}
+  .node.selected rect{stroke-width:2.4;filter:drop-shadow(0 4px 12px rgba(27,42,74,.25))}
+  .node.dimmed{opacity:.22}
 
-  .edge{fill:none;stroke:#3a3a3a;stroke-width:1.1;pointer-events:none;
+  .edge{fill:none;stroke:#C2CADC;stroke-width:1.1;pointer-events:none;
     transition:opacity .12s,stroke-width .12s}
   .edge.kind-critical{stroke:var(--critical);stroke-width:1.9}
   .edge.kind-api{stroke:var(--external);stroke-width:1.3}
@@ -101,7 +107,7 @@
   .edge.dimmed{opacity:.05}
   .edge-label{fill:var(--muted);font-size:10px;pointer-events:none;
     font-family:ui-monospace,Menlo,monospace}
-  .edge-label.kind-critical{fill:#ff6b80}
+  .edge-label.kind-critical{fill:var(--critical)}
 
   .badge{cursor:pointer}
   .badge circle{stroke:var(--bg);stroke-width:1.5}
@@ -126,11 +132,11 @@
 <main id="main">
   <svg id="svg" xmlns="http://www.w3.org/2000/svg">
     <defs>
-      <marker id="arr-normal"   viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#3a3a3a"/></marker>
-      <marker id="arr-critical" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ff3860"/></marker>
-      <marker id="arr-api"      viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ff6b9d"/></marker>
-      <marker id="arr-db"       viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ffb86b"/></marker>
-      <marker id="arr-mount"    viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4ea1ff"/></marker>
+      <marker id="arr-normal"   viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#C2CADC"/></marker>
+      <marker id="arr-critical" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#C0392B"/></marker>
+      <marker id="arr-api"      viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8854A6"/></marker>
+      <marker id="arr-db"       viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#E5A328"/></marker>
+      <marker id="arr-mount"    viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1A9E8A"/></marker>
     </defs>
     <g id="viewport"></g>
   </svg>
@@ -1448,12 +1454,12 @@ function renderDefaultSidebar() {
       Claude is the brain behind every "AI" feature.
     </div>
     <div class="legend">
-      <span><i style="background:#ff3860"></i>critical path</span>
-      <span><i style="background:#7bd389"></i>route</span>
-      <span><i style="background:#c792ea"></i>service / lib</span>
-      <span><i style="background:#ffb86b"></i>db</span>
-      <span><i style="background:#ff6b9d"></i>external</span>
-      <span><i style="background:#4ea1ff"></i>client</span>
+      <span><i style="background:#C0392B"></i>critical path</span>
+      <span><i style="background:#F4714F"></i>route</span>
+      <span><i style="background:#1B2A4A"></i>service / lib</span>
+      <span><i style="background:#E5A328"></i>db</span>
+      <span><i style="background:#8854A6"></i>external</span>
+      <span><i style="background:#1A9E8A"></i>client</span>
     </div>
 
     <h3>The seam — assessment → triage → plan</h3>
