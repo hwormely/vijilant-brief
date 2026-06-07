@@ -2,7 +2,25 @@
 
 A clear-eyed read of what is in production today, what is committed but not deployed, and what is still ahead. Compiled 2026-06-06 against the live `~/vigilant` monorepo and all build handoffs in `~/Claude CoWork/Outputs/Vigilant/Business/`.
 
-Stand-up window: **target = 7 days**.
+Stand-up window: **target = 14 days** (extended from the original 7-day spec, per H 2026-06-06).
+
+---
+
+## What shipped 2026-06-06 (this session)
+
+Five PRs against `hwormely/vigilant`. All open for H to review + merge.
+
+- [PR #1](https://github.com/hwormely/vigilant/pull/1) — `chore: OWNED_PATHS + check:mounts for /api/clients quadruple-mount` — closes Surprise #5
+- [PR #2](https://github.com/hwormely/vigilant/pull/2) — `refactor: route every Claude call through lib/ai/index.ts barrel` — closes Surprise #4
+- [PR #3](https://github.com/hwormely/vigilant/pull/3) — `fix(db): promote BACKFILL_resource_matches.sql → 053_resource_matches.sql` — closes Surprise #3
+- [PR #4](https://github.com/hwormely/vigilant/pull/4) — `fix(mobile): install @honeybadger-io/react-native + wire crash reporting` — closes Surprise #2
+- [PR #5](https://github.com/hwormely/vigilant/pull/5) — `docs(mita): canonical Vijilant ↔ MITA ↔ Padrino integration map` — wires the 16-agent MITA system to the codebase
+
+Surprise #1 (archive `lib/systemFormTemplates.ts`) turned out to be a **false positive** — file IS used by `apps/api/scripts/seed.ts:49`. Architecture map updated.
+
+Bonus: significant prior architecture work was found ALREADY on main — Stage 7 messaging, Stage 8 billing/BAA/onboarding, Stage 8 Phase 4 pricing portal, Stage 9 AI Call Notation, Spanish i18n foundation, mobile mic capture, Metrics KPI gradient fixes. The roadmap status table below reflects this.
+
+Full owner list of remaining items: see `h-must-do.md` for the consolidated P1 / P2 / P3 H-checklist.
 
 ---
 

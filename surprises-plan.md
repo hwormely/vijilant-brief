@@ -7,6 +7,22 @@ The architecture map at `/architecture-map.html` surfaced five named drift items
 
 ---
 
+## Status — what actually shipped (2026-06-06)
+
+The 2-week stand-up execution made it through 4 of the 5 surprises in one session. Updated status:
+
+| # | Item | Status |
+|---|---|---|
+| 1 | Archive `lib/systemFormTemplates.ts` | **REJECTED — false positive.** File IS used in production by `apps/api/scripts/seed.ts:49` (imports `SYSTEM_ASSESSMENT_TEMPLATE` + `SYSTEM_INTAKE_TEMPLATE`). The original grep was too narrow (didn't catch `apps/api/scripts/`). Keep the file. Architecture map updated. |
+| 2 | Install RN Honeybadger | **SHIPPED in [PR #4](https://github.com/hwormely/vigilant/pull/4).** `@honeybadger-io/react-native@^6.4.9` installed, web-only SDK removed, configure + beforeNotify wired in `app/_layout.tsx`, stale `lib/honeybadger.ts` deleted. Mobile typecheck clean, full build green. **H must trigger a new EAS preview build to fully validate.** |
+| 3 | Promote BACKFILL → numbered migration | **SHIPPED in [PR #3](https://github.com/hwormely/vigilant/pull/3).** `053_resource_matches.sql` created with identical schema (all `IF NOT EXISTS` so live DB is a safe no-op). Original BACKFILL_ archived. DRIFT_NOTE.md updated. 9 OTHER drift migrations remain — flagged in `h-must-do.md` P2 #7. |
+| 4 | Route AI through `lib/ai/index.ts` barrel | **SHIPPED in [PR #2](https://github.com/hwormely/vigilant/pull/2).** Barrel expanded with 12 new re-exports (incl. `_internal` aliases for tests). 4 route files swapped. New `scripts/check-ai-barrel.ts` + `pnpm check:ai-barrel` enforces it. Pure refactor, build green. Prompt caching now lands in one follow-up PR. |
+| 5 | Document quadruple-mount on `/api/clients` | **SHIPPED in [PR #1](https://github.com/hwormely/vigilant/pull/1).** All four routers (`clients`, `assessments`, `briefs`, `aiDrafts`) export `OWNED_PATHS` constants. New `scripts/check-clients-mount.ts` + `pnpm check:mounts` parses + asserts pairwise disjointness with `:param` wildcards. 22 paths verified clean. |
+
+**Outcome:** 4 surprises closed (or in PR awaiting H merge), 1 was a false positive and is officially closed. The rest of this document is the original analysis — kept for context.
+
+---
+
 ## Surprise #1 — Dead code in `lib/systemFormTemplates.ts`
 
 ### Finding
