@@ -404,6 +404,31 @@ These are commercial-side gaps. Per the pricing PRD (`VIJILANT_Pricing_and_Signu
 
 ---
 
+## 9. v6 feature sets — what's v1 vs. what's enterprise-phase
+
+The six v6 feature sets (locked 2026-06-12, `vijilant-v6-features-handoff.md`) are operational-depth surfaces, not the compliance/identity table-stakes in §1–§8. An enterprise reviewer cares about them for two reasons: (a) most of each set is v1 and arrives with the standard build, which *raises* the product floor a sophisticated buyer is grading against; and (b) two specific pieces are themselves enterprise-tier and carry **new third-party BAA/vendor dependencies** — exactly the kind of thing procurement diligence surfaces.
+
+### 9.1 What ships in v1 (raises the floor — no enterprise gate)
+Team/Profiles (directory · VJ-assisted profiles · `org_sites` · leadership roster overview), Advocacy + Unmet Needs (PHI-stripped AI packages · `unmet_needs` ledger · PDF/DOCX/PPTX export), internal auto-Calendar + ICS, Messages & Notifications (channels + DMs, extending the existing `notifications`/`notification_preferences`), single-event Maps, and the Case Consultation Tracker (action-items-as-tasks · Caseload Health 0–1000). All v1, all PHI-handled under the existing RLS + audit + PHI-stripped-AI conventions.
+
+### 9.2 Maps multi-event + Esri layer manager — **enterprise-phase**
+**What's deferred.** v1 seeds ONE `disaster_events` row ("Eaton Canyon Fire") with a synthetic / Catalyst-CA perimeter. `disaster_events` **multi-event** support and an admin-facing **Esri layer manager** are the enterprise build.
+**Why an enterprise buyer cares.** An org running concurrent disasters across regions — or a Government-tier deployment spanning multiple events — needs multi-event modeling and self-serve layer management. A single-county nonprofit (LLP) does not.
+**New dependency to call out:** **Esri ArcGIS BAA + live key.** LOCKED provider — Google Maps and Mapbox cloud are BANNED for survivor addresses because they won't sign a BAA. Plus **Catalyst California ArcGIS layer access** (confirm perimeter/DINS layers are public or secure a data-sharing agreement). Survivor coordinates are PHI — geocoding stays under BAA, never logged, never to AI.
+**Effort:** M (multi-event schema + RLS) · M (layer manager UI). Vendor: Esri BAA — owner: Counsel + API.
+
+### 9.3 Calendar external sync (Google / Microsoft 365) — **enterprise-phase**
+**What's deferred.** v1 = internal auto-event projection engine + ICS feed (zero third-party account). One-way, PHI-masked push to Google Calendar / Microsoft 365 (Graph API, surfaces in Teams) is the enhancement.
+**Why an enterprise buyer cares.** Enterprise staff live in Outlook/Google Calendar; pushing Vijilant deadlines into the corporate calendar is a real adoption lever — but it's also a new data-egress surface procurement will scrutinize.
+**PHI posture (load-bearing for the diligence answer):** pushed event title = `"{Type} · {Case ID}"` — NO names, notes, or addresses; org events push full detail (no PHI); nothing syncs back in. Tokens encrypted at rest in `calendar_sync_accounts`.
+**New dependency to call out:** **Google / Microsoft 365 OAuth + tenant admin consent.** No BAA needed (no PHI leaves), but enterprise IT must grant the connected-app consent. v1 ships without it.
+**Effort:** L (two providers + token lifecycle + masking guarantees). Owner: API.
+
+### 9.4 Net effect on the buyer read
+The v6 v1 surfaces close real product-depth gaps a reviewer would otherwise flag (no team directory, no in-app messaging, no calendar, no consultation/coaching loop). The two enterprise-phase pieces are correctly sequenced behind the same kind of vendor/BAA gate as §1.1 SSO — they belong in the Enterprise + Government conversation, not the v1 build. Net: v6 strengthens the "strong foundation" line in the reviewer's closing note; it does not move the Tier 1 identity/compliance priorities below.
+
+---
+
 ## Prioritization — what an Apple team would say if given 7 days
 
 If we forced an elite product team to rank everything above and pick what HAS to ship before "elite enterprise SaaS" is a credible claim:
@@ -425,7 +450,11 @@ If we forced an elite product team to rank everything above and pick what HAS to
 **Tier 3 — fast-follow:**
 11. Granular permissions / CM Lead first-class (§2.5).
 12. Org hierarchy (§1.13).
-13. Status of every other item above.
+13. Maps multi-event + Esri layer manager (§9.2) — pairs with org hierarchy for Government tier; gated on Esri BAA.
+14. Calendar external sync to Google / Microsoft 365 (§9.3) — adoption lever for enterprise staff; gated on tenant admin consent.
+15. Status of every other item above.
+
+*(The v6 v1 surfaces in §9.1 are not on this list — they ship with the standard build, not as enterprise gap-closers.)*
 
 ---
 

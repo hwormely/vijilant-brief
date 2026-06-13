@@ -222,6 +222,33 @@ Every friction point captured here is also a competitive learning. Per the HAMPS
 
 ---
 
+## Where the v6 feature sets land in the cutover
+
+Six v6 feature sets were locked 2026-06-12 (`vijilant-v6-features-handoff.md`). They matter to this migration in a specific way: most of them are **additive surfaces that don't exist in HOLD Dena**, so there's nothing to migrate *into* them — but several are exactly the surfaces that pull LLP's currently-outside-HOLD-Dena workflow stages into one tool, which is half the reason for the move in the first place.
+
+### What the v6 v1 sets do for the cutover
+- **Team / Profiles** finally centralizes Stage 8 (CM team coordination) and Stage 9 (CM Lead oversight) — both partly-or-fully outside HOLD Dena today. The leadership roster overview (all CMs' Caseload Health bars + cadence flags) is the Lead Console story from Stage 9 of the migration map, now first-class. Staff profiles are created at provision time (Week 2), not migrated.
+- **Calendar (internal + ICS)** absorbs follow-up due dates, aid-application deadlines, and goal targets that today live across HOLD Dena, Drive, and CMs' heads. The auto-event engine projects from records already being migrated (case notes' Next Steps, follow-ups, applications) — so it lights up automatically once Pattern A/B loads run. No separate migration step.
+- **Case Consultation Tracker** is a net-new operating discipline (no HOLD Dena equivalent). It reads migrated `case_status` + tier, so it's usable from Day 0 with zero back-fill; historical consults simply start at cutover.
+- **Advocacy + Unmet Needs**, **Messages & Notifications** — net-new; nothing to migrate. Messages replaces the Stage 8 Slack/text/email pattern (historical Slack stays in Slack, already out of scope).
+
+**Net:** none of these v1 sets adds a migration data-movement step beyond what's already in the script's eight phases. They consume migrated data; they don't require their own export from QW.
+
+### v6 pieces that are NOT cutover blockers (enterprise-phase)
+Two v6 capabilities are deferred to the enterprise phase and **must not gate the LLP cutover**:
+- **Maps multi-event + Esri layer manager.** v1 ships ONE seeded event ("Eaton Canyon Fire") with a synthetic / Catalyst-CA perimeter — which is exactly LLP's situation, so v1 Maps is sufficient for cutover. Multi-event support is later.
+- **Calendar external sync to Google / Microsoft 365.** v1 is internal calendar + ICS; LLP CMs need nothing more to cut over. External push is a later enhancement.
+
+### New v6 dependencies to track (do not let them slip the window)
+These are real but should run on a **parallel track**, not the critical path — only the single-event Maps surface needs to be demo-walkable for LLP, and a synthetic perimeter covers that if the Catalyst feed isn't confirmed in time.
+- **Esri ArcGIS BAA + live key** — LOCKED provider (Google Maps + Mapbox cloud banned for survivor addresses; won't sign a BAA). Survivor coordinates are PHI. Add to `BAAS.md` alongside the LLP↔WRMLY BAA. *Owner: H + counsel.*
+- **Catalyst California ArcGIS layer access** — confirm the Eaton perimeter/DINS feature layers are public or secure LLP view access / a data-sharing agreement. If not confirmed by T-7, demo + cutover use a synthetic perimeter GeoJSON. *Owner: H.*
+- **Google / Microsoft 365 OAuth consent** — enterprise-phase only; **not** needed for LLP cutover. Listed so it isn't mistaken for a blocker.
+
+These slot under the Week 1 "Vijilant gap close" track, with the Esri BAA filed in the same counsel parallel-track as the LLP BAA/MSA/DPA/NPP.
+
+---
+
 ## Open questions for next QW touchpoint (Friday 2026-06-06)
 
 These were captured at the 2026-06-03 call and remain open per `PHASE_1.md`:

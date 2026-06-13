@@ -149,12 +149,12 @@
 
 // ── Cluster boxes (left-to-right columns) ──────────────────────────────────────
 const clusters = [
-  { id: 'client',   label: 'Clients',                 x:   40, y:  10, w: 360, h: 1820 },
-  { id: 'server',   label: 'API server entry',        x:  460, y:  10, w: 360, h: 1820 },
-  { id: 'route',    label: 'Routes (/api/…)',          x:  880, y:  10, w: 380, h: 1820 },
-  { id: 'service',  label: 'Services & lib',          x: 1320, y:  10, w: 360, h: 1820 },
-  { id: 'db',       label: 'Data (Supabase)',         x: 1740, y:  10, w: 360, h: 1820 },
-  { id: 'external', label: 'External services',       x: 2160, y:  10, w: 320, h: 1820 },
+  { id: 'client',   label: 'Clients',                 x:   40, y:  10, w: 360, h: 2040 },
+  { id: 'server',   label: 'API server entry',        x:  460, y:  10, w: 360, h: 2040 },
+  { id: 'route',    label: 'Routes (/api/…)',          x:  880, y:  10, w: 380, h: 2040 },
+  { id: 'service',  label: 'Services & lib',          x: 1320, y:  10, w: 360, h: 2040 },
+  { id: 'db',       label: 'Data (Supabase)',         x: 1740, y:  10, w: 360, h: 2040 },
+  { id: 'external', label: 'External services',       x: 2160, y:  10, w: 320, h: 2040 },
 ];
 
 // ── Node factory + registry ───────────────────────────────────────────────────
@@ -912,6 +912,80 @@ const nodes = [
     tag:   ['forms','onboarding','db','all'],
   }),
 
+  // ─── DATA · v6 ADDITIONS (locked 2026-06-12) ─────────────────────────────────
+  N('db-unmet-needs','db','unmet_needs','v6 · per-client needs ledger',
+    CX.db, next('db'), W, H, 'db', {
+    role:  'Per-client unmet-need ledger. client_id FK · title · category · est_cost · cost_breakdown jsonb · fair_price_evidence jsonb (doc refs) · vendor_name · w9_status (not_requested|requested|received) · sustainability_notes · status (identified|vetted|presented|funded|partially_funded|denied|withdrawn) · funded_amount · funder_name · decision_date.',
+    plain: 'A running list of what each survivor still needs and what it costs — HVAC, a vehicle, a deposit. Tracks the price evidence, the vendor W-9, and where each ask stands.',
+    path:  'v6 · supabase/migrations (Advocacy set) — vijilant-advocacy-schema.md',
+    notes: ['PHI (client_id FK) — TWO WALLS: explicit org_id filter in code + RLS = same policy as clients','Feeds advocacy_packages "The Ask" via package_needs','AI generation reads this PHI-stripped (no names/addresses/DOB to the model)'],
+    tag:   ['advocacy','needs','clients-core','db','all'],
+  }),
+  N('db-advocacy-packages','db','advocacy_packages','+ package_needs / package_attachments',
+    CX.db, next('db'), W, H, 'db', {
+    role:  'advocacy_packages (the funding ask document) · junction package_needs(package_id, need_id) — one package, many needs, total ask computed · package_attachments(package_id, document_id) into client_documents (photos/invoices/inspections/W-9). Lifecycle: cm_review → lead_review → approved (lead_review REQUIRED for ltrg_unr, optional for external_funder).',
+    plain: 'The advocacy package a CM builds to ask a funder (or the long-term recovery group) to cover a survivor\'s needs. Bundles selected needs, totals the ask, and attaches supporting documents.',
+    path:  'v6 · supabase/migrations (Advocacy set) — vijilant-advocacy-schema.md',
+    notes: ['PHI (client_id FK) — TWO WALLS: org_id filter + RLS = clients policy','package_needs / package_attachments are the junctions (Section 6 "The Ask" + supporting-docs export)','lead_review gate inserted between cm_review and approved'],
+    tag:   ['advocacy','clients-core','db','all'],
+  }),
+  N('db-calendar-events','db','calendar_events','v6 · projection, upsert-keyed',
+    CX.db, next('db'), W, H, 'db', {
+    role:  'owner_id · client_id (nullable FK) · event_type (follow_up|deadline|goal_target|org_event|manual|external_busy) · title · starts_at · ends_at · all_day · source_table · source_id · community_facing · created_by. UNIQUE partial index (source_table, source_id) WHERE source_table IS NOT NULL = the upsert key.',
+    plain: 'A unified calendar that projects existing case work — follow-ups, goal targets, aid deadlines — into dated events, plus manual and org events. It mirrors the source records rather than duplicating them.',
+    path:  'v6 · supabase/migrations (Calendar set) — MOCKUP_HANDOFF §19a',
+    notes: ['PHI WHEN client-bound (client_id FK set) — TWO WALLS: org_id filter + RLS','Upsert key = (source_table, source_id): the auto-event engine projects, never duplicates','external_busy rows come from one-way sync; org events carry no PHI'],
+    tag:   ['calendar','clients-core','db','all'],
+  }),
+  N('db-calendar-sync','db','calendar_sync_accounts','v6 · encrypted OAuth tokens',
+    CX.db, next('db'), W, H, 'db', {
+    role:  'profile_id · provider (google|microsoft|ics) · encrypted_tokens · scope · last_sync_at. Tokens encrypted at rest. Backs the ONE-WAY push to Google / Microsoft 365 / ICS.',
+    plain: 'Where each staff member\'s linked external calendar (Google / Microsoft / ICS) lives. Holds the connection tokens, encrypted. Vijilant only ever pushes out — nothing the external calendar contains is ever read back in.',
+    path:  'v6 · supabase/migrations (Calendar set) — MOCKUP_HANDOFF §19a',
+    notes: ['No client_id — not a PHI table; still org-scoped + RLS','Tokens encrypted at rest','Pushed event title = "{Type} · {Case ID}" — NO names/notes/addresses ever leave'],
+    tag:   ['calendar','db','all'],
+  }),
+  N('db-org-sites','db','org_sites','v6 · org locations (geocoded)',
+    CX.db, next('db'), W, H, 'db', {
+    role:  'org_id · name · address · phone · lat · lng. lat/lng populated by the Esri geocoder (§D). Joined by profiles.site_id (Team) and used for site chips + the maps surface.',
+    plain: 'The physical offices/sites an organization operates from. Their coordinates come from the same Esri geocoder used for survivor addresses, so site chips and maps work.',
+    path:  'v6 · supabase/migrations (Team set) — MOCKUP_HANDOFF §C/§D',
+    notes: ['Org locations, not PHI — org_id filter + RLS','profiles.site_id FK references this','lat/lng filled by Esri geocode at write time'],
+    tag:   ['team','maps','db','all'],
+  }),
+  N('db-disaster-events','db','disaster_events','v6 · perimeter + DINS layers',
+    CX.db, next('db'), W, H, 'db', {
+    role:  'org_id · name · perimeter_layer_ref · dins_layer_ref · active. v1 seed = "Eaton Canyon Fire". Real-time source = Catalyst California ArcGIS dashboard; clients.in_impact_zone + clients.structure_status are SYNCED (nightly + on-demand), not one-time stamps.',
+    plain: 'The active disaster(s) an org is responding to — the fire perimeter and the damage-inspection (DINS) layer. The system re-checks each survivor\'s home against these so impact-zone and structure-status stay current.',
+    path:  'v6 · supabase/migrations (Maps set) — Catalyst CA ArcGIS feed',
+    notes: ['Not PHI itself — org-scoped + RLS','Feeds the spatial check that stamps clients.in_impact_zone + structure_status','ACTION ITEM pre-v1: confirm Catalyst CA feature-layer access or data-sharing agreement'],
+    tag:   ['maps','db','all'],
+  }),
+  N('db-channels','db','channels + channel_posts','+ channel_members',
+    CX.db, next('db'), W, H, 'db', {
+    role:  'channels (org_id · name · type public|site|dm|case_consult · auto_feed nullable · owner_id) · channel_members (channel_id · profile_id · joined_at · muted) · channel_posts (channel_id · author_id nullable=system · body · parent_post_id threading · created_at). DMs = type=dm two-member channels.',
+    plain: 'The team chat layer — announcement, general, resource, and per-site channels plus direct messages. Posts can be threaded; system posts (null author) feed the #resources channel from the catalog.',
+    path:  'v6 · supabase/migrations (Messages set) — MOCKUP_HANDOFF §E',
+    notes: ['Staff/channel data — org_id filter + RLS; survivor DMs stay on the existing dm_survivor thread','Case IDs OK in any channel; client NAMES never — VJ nudges the sender if a name is detected','#resources auto-fed by catalog_notifications as system posts'],
+    tag:   ['messages','db','all'],
+  }),
+  N('db-consultations','db','case_consultations','+ consultation_action_items',
+    CX.db, next('db'), W, H, 'db', {
+    role:  'case_consultations (client_id · cm_id · cm_lead_id · consult_date · tier prefilled · recovery_phase · progress_note · needs_addressed[] · barriers[] · cm_support_needs[] · case_status on_track|needs_monitoring|high_concern|escalation_needed|closure_planning). consultation_action_items (consultation_id · action · responsible_party · due_date · status · completed_at) — items ARE tasks: each insert upserts a calendar_event + notifies the responsible party.',
+    plain: 'The CM-Lead consultation record bound to a survivor\'s case — phase, progress, barriers, and an honest status. Its action items become real calendar tasks with a notification to whoever owns them.',
+    path:  'v6 · supabase/migrations (Consultation set) — MOCKUP_HANDOFF §F',
+    notes: ['PHI (client_id FK) — TWO WALLS: org_id filter + RLS + visibility ladder (CM sees own cases\' consults; Lead/Admin/ED all)','case_status reuses the locked vocabulary; tier + recovery_phase auto-prefilled from the live case file (PHI-stripped AI)','action items → calendar_event (event_type=manual, source_table=consultation_action_items) + notification'],
+    tag:   ['consultation','clients-core','db','all'],
+  }),
+  N('db-program-issues','db','program_issues','v6 · org-level issue log',
+    CX.db, next('db'), W, H, 'db', {
+    role:  'org_id · consultation_id FK · issue_type (workflow|resource_gap|training_need|technology|partner|policy|communication) · notes · status · created_at. Fed by the consult\'s System Issues field → ED/Admin review surface.',
+    plain: 'An organization-level log of systemic problems surfaced during consultations — a recurring resource gap, a training need, a partner issue — for leadership to review and act on.',
+    path:  'v6 · supabase/migrations (Consultation set) — MOCKUP_HANDOFF §F',
+    notes: ['Org log, not PHI — org_id filter + RLS','Sourced from case_consultations System Issues field','Surfaces in the leadership roster overview at the top of the Team tab'],
+    tag:   ['consultation','db','all'],
+  }),
+
   // ─── EXTERNAL ───────────────────────────────────────────────────────────────
   N('ext-anthropic','external','Anthropic · Claude','sonnet-4-5 / opus-4-7 / haiku-4-5',
     CX.external, next('external'), W, H, 'external', {
@@ -970,6 +1044,31 @@ const nodes = [
     path:  'env: VOYAGE_API_KEY',
     notes: ['makeVoyageProvider in lib/ai/embeddings.ts','STUB_PROVIDER for tests'],
     tag:   ['ai','vector','external','all'],
+  }),
+  N('ext-esri','external','Esri ArcGIS','v6 · geocoding under BAA',
+    CX.external, next('external'), W, H, 'external', {
+    role:  'Geocoder + basemap + spatial layers for the Maps feature. Signs a BAA — so survivor addresses (PHI) may be sent. Google Maps + Mapbox cloud are BANNED for survivor addresses (won\'t sign a BAA). Also serves Catalyst CA perimeter + DINS layers for the impact-zone / structure-status sync.',
+    plain: 'The only mapping provider Vijilant will send survivor addresses to, because it signs the HIPAA agreement. Google Maps is banned here. Turns an address into coordinates and tells us whether a home is inside the fire perimeter and how damaged it is.',
+    path:  'v6 · env: ESRI_API_KEY (under BAA)',
+    notes: ['BAA-signed — the reason it is chosen over Google/Mapbox cloud','Geocode result (lat/lng) is PHI when tied to a survivor — never logged, never sent to the AI','Device-maps handoff for turn-by-turn is a SEPARATE step — only Esri sees the address server-side'],
+    tag:   ['maps','external','all'],
+    critical: true,
+  }),
+  N('ext-google-cal','external','Google Calendar','v6 · one-way push target',
+    CX.external, next('external'), W, H, 'external', {
+    role:  'Outbound calendar push target. Vijilant writes masked events ("{Type} · {Case ID}") into the staff member\'s Google Calendar. ONE-WAY: nothing syncs back in. (Distinct from banned Google MAPS — calendar carries no survivor address, only a masked title.)',
+    plain: 'A staff member\'s Google Calendar that Vijilant can push its events into so they see their schedule in one place. Only masked titles go out — no names, notes, or addresses — and nothing comes back.',
+    path:  'v6 · Google Calendar API (OAuth, encrypted tokens in calendar_sync_accounts)',
+    notes: ['ONE-WAY push only — read-back is never wired','Pushed title = "{Type} · {Case ID}" — no PHI','ICS feed is the no-OAuth fallback for the same one-way push'],
+    tag:   ['calendar','external','all'],
+  }),
+  N('ext-microsoft-graph','external','Microsoft 365 · Graph','v6 · one-way push target',
+    CX.external, next('external'), W, H, 'external', {
+    role:  'Outbound calendar push via Microsoft Graph (Teams surfaces the same calendar). Vijilant writes masked events; ONE-WAY, nothing syncs back. Org events push full detail (no PHI).',
+    plain: 'A staff member\'s Microsoft 365 / Teams calendar that Vijilant can push its events into. Same rules as Google — masked titles out, nothing read back.',
+    path:  'v6 · Microsoft Graph calendar API (OAuth, encrypted tokens)',
+    notes: ['ONE-WAY push only','Graph API calendar — Teams displays it','Pushed title masked to "{Type} · {Case ID}"'],
+    tag:   ['calendar','external','all'],
   }),
 ];
 
@@ -1147,6 +1246,51 @@ const edges = [
   E('lib-ai-embeddings','db-embeddings','db','case_embeddings UPSERT',['ai','vector','db','all']),
   E('rt-form-templates','db-misc','db','form_templates',['forms','db','all']),
   E('rt-orgSignup','db-misc','db','org_signup_profiles',['onboarding','db','all']),
+
+  // ── v6 ADDITIONS (locked 2026-06-12) ─────────────────────────────────────────
+  // Data layer: service-role Supabase → the new tables (org_id filter + RLS)
+  E('lib-supabase','db-unmet-needs','db','unmet_needs (org_id + RLS)',['advocacy','needs','clients-core','db','all']),
+  E('lib-supabase','db-advocacy-packages','db','packages + package_needs/_attachments',['advocacy','clients-core','db','all']),
+  E('lib-supabase','db-calendar-events','db','calendar_events (org_id + RLS)',['calendar','clients-core','db','all']),
+  E('lib-supabase','db-calendar-sync','db','calendar_sync_accounts (encrypted)',['calendar','db','all']),
+  E('lib-supabase','db-org-sites','db','org_sites',['team','maps','db','all']),
+  E('lib-supabase','db-disaster-events','db','disaster_events',['maps','db','all']),
+  E('lib-supabase','db-channels','db','channels + posts + members',['messages','db','all']),
+  E('lib-supabase','db-consultations','db','case_consultations + action_items',['consultation','clients-core','db','all']),
+  E('lib-supabase','db-program-issues','db','program_issues',['consultation','db','all']),
+
+  // PHI-stripped AI pipeline — names/addresses/DOB merged server-side AFTER the AI call.
+  // Advocacy generation, Team VJ-assist (bio + specializations), consult auto-prefill all
+  // read the case file with PHI stripped, then identity is re-merged downstream.
+  E('rt-aiDrafts','lib-ai-client','normal','advocacy generation (PHI-stripped)',['advocacy','ai','clients-core','all']),
+  E('rt-vj','lib-ai-client','normal','Team VJ-assist: bio + specializations (PHI-stripped)',['team','vj','ai','all']),
+  E('rt-aiDrafts','lib-ai-client','normal','consult auto-prefill (PHI-stripped)',['consultation','ai','clients-core','all']),
+  E('lib-ai-client','lib-supabase','critical','re-merge names/addresses/DOB AFTER AI',['advocacy','consultation','team','ai','db','all']),
+  E('lib-ai-client','lib-anthropic','normal','PHI-stripped payload → Claude',['advocacy','consultation','team','ai','all']),
+
+  // Esri-under-BAA geocoding (write time) — Google Maps BANNED for survivor addresses.
+  // On address save: geocode → store lat/lng → spatial check vs perimeter + DINS.
+  E('lib-supabase','ext-esri','api','geocode survivor/site address (BAA)',['maps','external','all']),
+  E('ext-esri','db-disaster-events','api','spatial check vs perimeter + DINS',['maps','db','all']),
+  E('ext-esri','db-org-sites','db','write org_sites lat/lng',['team','maps','db','all']),
+  E('ext-esri','db-core','db','write clients lat/lng + in_impact_zone + structure_status (PHI)',['maps','clients-core','db','all']),
+
+  // Auto-event upsert engine — keyed on (source_table, source_id); projects, never duplicates.
+  E('rt-assessments','db-calendar-events','db','upsert goal_target event (source_id)',['calendar','recovery','db','all']),
+  E('rt-clients','db-calendar-events','db','upsert follow_up / next-step event',['calendar','clients-core','db','all']),
+  E('rt-aid-apps','db-calendar-events','db','upsert deadline event',['calendar','aid','db','all']),
+  E('rt-resources','db-calendar-events','db','upsert referral-deadline event',['calendar','resources','db','all']),
+  E('db-consultations','db-calendar-events','db','action_item → manual event (source_id)',['consultation','calendar','db','all']),
+
+  // One-way calendar sync boundary — Vijilant → Google / Microsoft / ICS, PHI-masked.
+  // Title = "{Type} · {Case ID}"; nothing syncs back in.
+  E('db-calendar-events','db-calendar-sync','normal','read events to push (masked)',['calendar','db','all']),
+  E('db-calendar-sync','ext-google-cal','api','PUSH masked events (one-way)',['calendar','external','all']),
+  E('db-calendar-sync','ext-microsoft-graph','api','PUSH masked events (one-way)',['calendar','external','all']),
+
+  // Consultation action items → notification to the responsible party
+  E('db-consultations','db-notifications','db','notify responsible party',['consultation','notifications','db','all']),
+  E('lib-supabase','db-notifications','db','v6 per-type prefs (extend 031/034)',['notifications','db','all']),
 ];
 
 // ── Fixes & known bugs registries (cite-able only) ─────────────────────────────
@@ -1203,6 +1347,11 @@ const chips = [
   { id: 'recovery',     label: 'Recovery plan' },
   { id: 'vj',           label: 'VJ AI chat' },
   { id: 'notation',     label: 'Call Notation' },
+  { id: 'advocacy',     label: 'Advocacy & needs · v6' },
+  { id: 'calendar',     label: 'Calendar · v6' },
+  { id: 'team',         label: 'Team & profiles · v6' },
+  { id: 'maps',         label: 'Maps & directions · v6' },
+  { id: 'consultation', label: 'Consultations · v6' },
   { id: 'messages',     label: 'Messaging' },
   { id: 'aid',          label: 'AID applications' },
   { id: 'intake',       label: 'Intake & sign-up' },

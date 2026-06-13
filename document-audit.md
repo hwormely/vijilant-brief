@@ -198,6 +198,32 @@ The biggest source of drift is undocumented decisions. Two cheap mechanisms:
 
 ---
 
+## Document index — v6 feature set (added 2026-06-12)
+
+Six new VIJILANT feature sets were locked 2026-06-12. The build artifacts below were authored 2026-06-11/2026-06-12 and are appended here so the audit trail stays complete. All paths are under `~/Padrino/09_Dev/`.
+
+**Handoff + spec docs:**
+
+| Doc | Date | Description | Size | Status |
+|---|---|---|---|---|
+| `vijilant-v6-features-handoff.md` | 2026-06-12 | Master build spec for the six v6 feature sets (Advocacy/Unmet Needs · Calendar · Team/Profiles · Maps & Directions · Messages & Notifications · Case Consultation Tracker). | 19 KB | LOCKED 2026-06-12 |
+| `vijilant-v6-claude-code-prompts.md` | 2026-06-12 | The two-prompt Claude Code build set: Prompt 1 doc-update pass + Prompt 2 build pass. | 17 KB | LOCKED 2026-06-12 |
+| `vijilant-advocacy-schema.md` | 2026-06-11 | Full SQL + workflow for the advocacy / unmet-needs tables. | 29 KB | Authored 2026-06-11 |
+
+**Mockups (v5 design system, extending screens 1–14 + survivor portal + profile):**
+
+| Doc | Date | Description | Screens | Size | Status |
+|---|---|---|---|---|---|
+| `vijilant-v5-advocacy-screens.html` | 2026-06-12 | Advocacy + Unmet Needs. | 15–19 | 30 KB | Authored 2026-06-12 |
+| `vijilant-v5-calendar-screens.html` | 2026-06-12 | Calendar. | 20–24 | 84 KB | Authored 2026-06-12 |
+| `vijilant-v5-dashboard-calendar-variants.html` | 2026-06-11 | Dashboard calendar-strip variants. | dashboard variants | 45 KB | Authored 2026-06-11 |
+| `vijilant-v5-team-screens.html` | 2026-06-12 | Team / Profiles. | 25–28 | 63 KB | Authored 2026-06-12 |
+| `vijilant-v5-maps-screens.html` | 2026-06-12 | Maps & Directions. | 29–32 | 50 KB | Authored 2026-06-12 |
+| `vijilant-v5-messages-screens.html` | 2026-06-12 | Messages & Notifications. | 33–35 | 55 KB | Authored 2026-06-12 |
+| `vijilant-v5-consultation-screens.html` | 2026-06-12 | Case Consultation Tracker. | 36–38 | 57 KB | Authored 2026-06-12 |
+
+---
+
 ## Open question for H
 
 There's one decision this audit can't answer:

@@ -348,7 +348,7 @@
 <!-- FEATURE TABLE -->
 <section>
   <div class="wrap">
-    <h2>Head to head.<br><em>Twenty-two capabilities.</em></h2>
+    <h2>Head to head.<br><em>Twenty-seven capabilities.</em></h2>
     <p>Evaluated on documented features, published specifications, and first-hand field experience with each platform.</p>
     <div class="table-wrap">
       <table>
@@ -384,8 +384,51 @@
           <tr><td>Achievement System</td><td><span class="win">✓ Built-in</span> Milestone recognition built into the CM profile. SVG icon tiles — gradient bg when earned, gray bg + reduced opacity when locked. No emoji. No gimmicks.</td><td><span class="no">✗</span> No achievement or milestone tracking.</td><td><span class="no">✗</span> No achievement system.</td><td><span class="no">✗</span> No achievement system.</td></tr>
           <tr><td>Mobile PDF Export</td><td><span class="win">✓ Native</span> Full client case file exportable as PDF via iOS/Android native share sheet. Essential for field meetings and compliance documentation.</td><td><span class="no">✗</span> No mobile export.</td><td><span class="no">✗</span> No native app. No mobile export.</td><td><span class="no">✗</span> No native app. No mobile PDF export.</td></tr>
           <tr><td>Biometric Authentication</td><td><span class="win">✓ Enforced</span> Face ID / Touch ID with no passcode fallback. Required for HIPAA compliance in mobile apps handling PHI. The toggle is not optional — it is enforced.</td><td><span class="no">✗</span> Web-based auth only. No biometric.</td><td><span class="no">✗</span> Web-only. No biometric auth.</td><td><span class="no">✗</span> Web-only. No biometric auth.</td></tr>
+          <tr><td>AI Advocacy Packages</td><td><span class="win">✓ AI-native</span> Generates a complete, PHI-stripped advocacy package — narrative, evidence, and Section 6 "The Ask" — from the live case file (notes, goals, aid-app history, assessments). Paired with a per-client Unmet-Needs ledger (cost, fair-price evidence, W-9 status, funding outcome). Exports to PDF / DOCX / PPTX. Names/addresses/DOB inserted server-side after generation — never sent to the AI.</td><td><span class="no">✗</span> No advocacy generation. No unmet-needs ledger.</td><td><span class="no">✗</span> No AI advocacy package generation. No structured unmet-needs ledger.</td><td><span class="no">✗</span> No advocacy generator. No unmet-needs tracking.</td></tr>
+          <tr><td>Auto-Projecting Calendar</td><td><span class="win">✓ Auto-event</span> Events upsert themselves from case notes, recovery goals, aid-application deadlines, referrals, and tier follow-up cadence — projection, not manual entry. Editing the source moves the event; completing it resolves the event. One-way, PHI-masked external sync (Google / Microsoft 365 / ICS) pushes <span style="font-family:'DM Mono',monospace;font-size:12px;">"{Type} · {Case ID}"</span> only — no names, notes, or addresses.</td><td><span class="no">✗</span> No calendar. No auto-projection.</td><td><span class="partial">Configurable</span> Reminders / due dates available. No event auto-projection from case activity. No PHI-masked external sync.</td><td><span class="partial">Configurable</span> Scheduling module available. Not auto-fed by case events. No masked external push.</td></tr>
+          <tr><td>HIPAA-Safe Mapping &amp; Directions</td><td><span class="win">✓ BAA-grade</span> Impact-zone-aware mapping on Esri ArcGIS (signs a BAA). Survivor addresses geocoded under BAA, checked against the live disaster perimeter + DINS structure-status feed, and rendered with a status badge + route + drive time. CM location is requested, used, and discarded. Google Maps is explicitly banned for survivor PHI — it won't sign a BAA.</td><td><span class="no">✗</span> No mapping. No impact-zone awareness.</td><td><span class="no">✗</span> No HIPAA-safe survivor mapping or impact-zone overlay.</td><td><span class="no">✗</span> No BAA-grade mapping or directions.</td></tr>
+          <tr><td>In-App Team Comms</td><td><span class="win">✓ Built-in</span> Channels + DMs scoped by org and site, with PHI-safe boundaries — case IDs allowed, names never (VJ nudges the sender if a client name is detected in a draft). #resources is auto-fed by the catalog. Survivor push payloads carry case ID only, never message content.</td><td><span class="no">✗</span> No internal team messaging.</td><td><span class="partial">Limited</span> Activity / comment threads on records. No PHI-aware channel + DM messaging hub.</td><td><span class="partial">Limited</span> Internal notes available. No purpose-built team comms with PHI boundaries.</td></tr>
+          <tr><td>Consultation / Coaching Instrumentation</td><td><span class="win">✓ Disaster-native</span> A case-bound Consultation Tracker (tier, recovery phase, barriers, case status) auto-prefilled from the live case file, with action items that become calendar tasks + notifications. Drives Caseload Health — a 0–1000 navy-core composite (avg recovery + follow-up timeliness + on-track share + overdue-consult count). Coaching that lands lifts the score. NOT the survivor recovery ring.</td><td><span class="no">✗</span> No consultation tracker or caseload-health instrumentation.</td><td><span class="no">✗</span> No structured CM consultation / coaching system. No caseload-health composite.</td><td><span class="no">✗</span> No consult-driven coaching instrumentation.</td></tr>
         </tbody>
       </table>
+    </div>
+  </div>
+</section>
+
+<!-- V6 FEATURE SETS — WHERE THE WEDGE WIDENS -->
+<section style="background:var(--gray-100);">
+  <div class="wrap">
+    <h2>Six new capabilities.<br><em>The wedge just widened.</em></h2>
+    <p style="max-width:640px;">Locked June 2026, Vijilant adds six AI-native feature sets on top of the shipped base. Each one targets a gap that Bonterra, CaseWorthy, and Casebook share: none of them generate advocacy packages, project a calendar from case activity, map survivor addresses under a BAA, or instrument coaching against caseload health. This is where a purpose-built disaster platform pulls away from adapted nonprofit software.</p>
+    <div class="win-grid">
+      <div class="win-card">
+        <h4>AI Advocacy + Unmet Needs</h4>
+        <p>One click generates a complete, PHI-stripped advocacy package — narrative, evidence, and a structured "Ask" — from the live case file. A per-client unmet-needs ledger tracks cost, fair-price evidence, W-9 status, and funding outcome. Exports to PDF, DOCX, and PPTX. Incumbents have no equivalent.</p>
+      </div>
+      <div class="win-card">
+        <h4>Auto-Projecting Calendar</h4>
+        <p>Events project themselves from case notes, goals, deadlines, referrals, and tier follow-up cadence — no manual entry. One-way external sync (Google / Microsoft 365 / ICS) pushes <span style="font-family:'DM Mono',monospace;font-size:12px;">"{Type} · {Case ID}"</span> only: no names, no notes, no addresses. PHI never leaves the perimeter.</p>
+      </div>
+      <div class="win-card">
+        <h4>Team &amp; Profiles</h4>
+        <p>A full staff directory with AI-assisted bios and specialization suggestions drawn from each CM's caseload — certifications stay manual for compliance. A leadership roster overview surfaces every CM's Caseload Health and cadence flags in one view.</p>
+      </div>
+      <div class="win-card">
+        <h4>Impact-Zone-Aware Maps</h4>
+        <p>HIPAA-safe mapping on Esri ArcGIS, which signs a BAA. Survivor addresses are geocoded under BAA, checked against the live disaster perimeter and structure-status feed, and routed with drive time. Google Maps is banned for survivor PHI — it won't sign a BAA.</p>
+      </div>
+      <div class="win-card">
+        <h4>Messages &amp; Notifications</h4>
+        <p>In-app channels and DMs scoped by org and site, with PHI-safe boundaries — case IDs allowed, names never (VJ nudges the sender if a name appears in a draft). A separate notifications module handles system-to-CM alerts. Survivor push carries case ID only, never content.</p>
+      </div>
+      <div class="win-card">
+        <h4>Consultation Tracker + Caseload Health</h4>
+        <p>A case-bound consultation tracker, auto-prefilled from the live case file, turns action items into calendar tasks and notifications. It drives Caseload Health — a 0–1000 composite that rises when coaching lands. A coaching instrument, not a personal grade, and never the survivor recovery ring.</p>
+      </div>
+    </div>
+    <div class="field-note">
+      <div class="fn-label">Why this matters competitively</div>
+      <div class="fn-text">Most case-management tools in this space — Bonterra / Apricot, CaseWorthy, Casebook — were built to record and report. None of them ship AI-native advocacy generation, a calendar that projects itself from case activity, BAA-grade impact-zone mapping, or a consult-driven caseload-health system. Bonterra's general AI (Que) closes documentation gaps for nonprofit work broadly, but it has no disaster-specific advocacy logic, no auto-projecting calendar, and no caseload-health composite. The six feature sets above don't narrow Vijilant's lead — they extend it.</div>
     </div>
   </div>
 </section>

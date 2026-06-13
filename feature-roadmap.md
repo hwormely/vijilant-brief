@@ -101,6 +101,36 @@ Full owner list of remaining items: see `h-must-do.md` for the consolidated P1 /
 
 ---
 
+## v6 feature sets (locked 2026-06-12) — six new surfaces on top of v5
+
+Six feature sets designed and locked 2026-06-12 (`vijilant-v6-features-handoff.md`), expanding Vijilant from 16 → 38 v5 screens. These are **net-new product surfaces**, distinct from the enterprise/compliance gaps below — the latter are procurement table-stakes, these are the operational depth LLP and every CM team feel daily.
+
+The handoff splits each set into a **v1 core** (ships in the standard build) and an **enterprise-phase enhancement** (later, gated on third-party keys + BAAs). The split is what keeps the v1 surface walkable in both demos without live vendor dependencies.
+
+**Build/dependency order:** Team → Maps → Advocacy → Calendar → Messages → Consultation. Each later set reads tables/surfaces the earlier ones create (Maps + Caseload Health need the Team schema; Calendar reads consult action items; Consultation reads case_status; Messages carries catalog broadcasts).
+
+| # | Feature set | Screens | v1 core (standard build) | Enterprise-phase enhancement | Status |
+|---|---|---|---|---|---|
+| 3 | Team / Profiles | 25–28 | Staff directory · VJ-assisted bio/specialization drafts · `org_sites` · leadership roster overview (Caseload Health bars) | — (all v1) | **PLANNED** |
+| 4 | Maps & Directions | 29–32 | Single seeded "Eaton Canyon Fire" event · Esri basemap + perimeter overlay · structure-status/impact-zone · device-maps handoff | `disaster_events` **multi-event** support + Esri **layer manager** | **PLANNED** |
+| 1 | Advocacy + Unmet Needs | 15–19 | AI advocacy packages (PHI-stripped) · `unmet_needs` ledger · PDF/DOCX/PPTX export | — (all v1) | **PLANNED** |
+| 2 | Calendar | 20–24 | Internal auto-event projection engine · ICS feed | One-way PHI-masked **external sync** (Google / Microsoft 365) | **PLANNED** |
+| 5 | Messages & Notifications | 33–35 | `channels` + DMs + notifications module (extends existing `notifications` + `notification_preferences`) | — (all v1) | **PLANNED** |
+| 6 | Case Consultation Tracker | 36–38 | `case_consultations` · action-items-as-tasks → calendar + notification · Caseload Health 0–1000 | — (all v1) | **PLANNED** |
+
+**The two enterprise-phase carve-outs and why:**
+- **Maps multi-event + Esri layer manager.** v1 ships ONE seeded event ("Eaton Canyon Fire") with a synthetic / Catalyst-CA perimeter. `disaster_events` multi-event support and an admin-facing Esri layer manager are the enterprise build — an org running concurrent disasters across regions is a multi-org / Government-tier need, not a v1 LLP need.
+- **Calendar external sync.** v1 = internal auto-calendar + ICS export (no third-party account, no BAA). One-way PHI-masked push to Google / Microsoft 365 (Graph API) is a later enhancement; pushed titles carry case ID only, never names/notes/addresses, and nothing syncs back in.
+
+**v6 vendor / BAA dependencies to call out (gating the enterprise-phase pieces):**
+- **Esri ArcGIS BAA + live key** — LOCKED provider (Google Maps + Mapbox cloud BANNED for survivor addresses; won't sign a BAA). Required before real survivor geocoding leaves the demo's synthetic perimeter.
+- **Catalyst California ArcGIS layer access** — confirm the perimeter/DINS feature layers are public or secure LLP view access / a data-sharing agreement (ACTION ITEM pre-v1; demo uses a synthetic perimeter GeoJSON until then).
+- **Google / Microsoft 365 OAuth + tenant consent** — required only for Calendar external sync (enterprise-phase). v1 ships without them.
+
+**Schema reconciliation already true in repo:** `notifications` (031) and `notification_preferences` (034) ALREADY EXIST — the Messages set EXTENDS them, does not recreate. All other v6 tables (`unmet_needs`, `calendar_events`, `org_sites`, `disaster_events`, `channels`, `case_consultations`, etc.) are net-new and follow the standard `id/org_id/created_at/updated_at` + RLS-in-creating-migration convention.
+
+---
+
 ## What's left to stand up in the next 7 days
 
 These are the items that block "elite enterprise SaaS" stand-up. Ordered by sequence — each unlocks the next.
@@ -162,6 +192,22 @@ Pulled forward from `enterprise-gap-analysis.html` so it lives next to the build
 - **`incident_reports`** — security incident state machine for breach response. Not modeled.
 - **`feature_flags`** — per-org / per-cohort feature gating. Today: only env-level `NOTATION_ENABLED`.
 - **`outbox` / `idempotency_keys`** for at-least-once side effects (Stripe-style replay safety). Today: only on stripe_webhook_events.
+
+### v6 net-new tables (specced + locked, not gaps)
+
+These are fully specified in `vijilant-v6-features-handoff.md` — listed here so the schema picture is complete. All carry `org_id` + RLS-in-creating-migration; PHI-bearing tables (FK to `clients`) get strictest RLS.
+
+- **`unmet_needs`** — per-client needs ledger (cost, fair-price evidence, W-9 status, funding lifecycle). PHI. (v1)
+- **`package_needs` / `package_attachments`** — junctions wiring `advocacy_packages` to needs + documents ("The Ask" + supporting-docs export). (v1)
+- **`calendar_events`** — auto-event projection (upsert keyed on `source_table`/`source_id`). (v1)
+- **`calendar_sync_accounts`** — encrypted external-provider tokens. **Enterprise-phase** (external sync only; v1 is internal + ICS).
+- **`org_sites`** — physical sites with lat/lng (geocoded by Maps). (v1)
+- **`disaster_events`** — v1 = ONE seeded "Eaton Canyon Fire" row; **multi-event support is enterprise-phase**.
+- **`channels` / `channel_members` / `channel_posts`** — messaging hub; DMs = two-member `type='dm'` channels. (v1)
+- **`case_consultations`** — case-bound consult records (reuses the locked `case_status` vocabulary). PHI. (v1)
+- **`consultation_action_items`** — action items that ARE tasks → spawn a `calendar_event` + notification on insert. (v1)
+- **`program_issues`** — org-level issue log fed by the consult's System Issues field → ED/Admin review. (v1)
+- **Extends `profiles`** (photo/bio/specializations/certifications/site_id), **`clients` / `resources` / `org_sites`** (lat/lng, `in_impact_zone`, `structure_status`), and **`notifications` / `notification_preferences`** (already exist — extended, not recreated). (v1)
 
 ---
 
