@@ -255,11 +255,11 @@
     <div class="cover-logo"><div class="cover-mark">Vj</div><div class="cover-word">Vijilant</div></div>
     <div class="cover-eyebrow">UI / UX Brief · Care Manager + Supervisor + Survivor Portal</div>
     <div class="cover-title">Care Manager<br><em>UI / UX Brief</em></div>
-    <p class="cover-sub">Design reference for the full Care Manager and Supervisor experience — screen layout, interaction patterns, user flow, and role-coded nav identity across all 16 screens. Mobile-first. Desktop-extended.</p>
+    <p class="cover-sub">Design reference for the full Care Manager and Supervisor experience — screen layout, interaction patterns, user flow, and role-coded nav identity across all 38 screens. Mobile-first. Desktop-extended.</p>
     <div class="cover-tags">
-      <div class="cover-tag active">v5 · June 2026</div>
+      <div class="cover-tag active">v6 · June 2026</div>
       <div class="cover-tag">Mobile + Desktop</div>
-      <div class="cover-tag">16 Screens</div>
+      <div class="cover-tag">38 Screens</div>
       <div class="cover-tag">Survivor Portal</div>
       <div class="cover-tag">HIPAA Compliant</div>
       <div class="cover-tag">The Legacy Land Project</div>
@@ -389,6 +389,23 @@
             <div class="flow-node"><div class="flow-box">Metrics</div><div class="flow-num">12</div></div>
           </div>
         </div>
+        <div class="flow-zone" style="border:1px dashed rgba(62,207,178,.3);">
+          <div class="flow-zone-label" style="color:var(--teal);">v6 Feature Sets — New in this release</div>
+          <div class="flow-row" style="gap:6px;flex-wrap:wrap;">
+            <div class="flow-node"><div class="flow-box primary">Advocacy + Unmet Needs</div><div class="flow-num">15–19</div></div>
+            <div class="flow-arrow" style="color:rgba(255,255,255,.2);">|</div>
+            <div class="flow-node"><div class="flow-box primary">Calendar</div><div class="flow-num">20–24</div></div>
+            <div class="flow-arrow" style="color:rgba(255,255,255,.2);">|</div>
+            <div class="flow-node"><div class="flow-box primary">Team / Profiles</div><div class="flow-num">25–28</div></div>
+            <div class="flow-arrow" style="color:rgba(255,255,255,.2);">|</div>
+            <div class="flow-node"><div class="flow-box primary">Maps &amp; Directions</div><div class="flow-num">29–32</div></div>
+            <div class="flow-arrow" style="color:rgba(255,255,255,.2);">|</div>
+            <div class="flow-node"><div class="flow-box primary">Messages &amp; Notifications</div><div class="flow-num">33–35</div></div>
+            <div class="flow-arrow" style="color:rgba(255,255,255,.2);">|</div>
+            <div class="flow-node"><div class="flow-box primary">Case Consultation Tracker</div><div class="flow-num">36–38</div></div>
+          </div>
+          <div style="font-size:12px;color:rgba(255,255,255,.4);margin-top:10px;font-style:italic;">Six feature sets expand the app 16 → 38 screens. Reached from the leadership sidebar and the mobile bottom bar.</div>
+        </div>
         <div class="flow-zone" style="border:1px dashed rgba(244,113,79,.3);">
           <div class="flow-zone-label" style="color:var(--coral);">Supervisor Role — Desktop First</div>
           <div class="flow-row">
@@ -396,7 +413,7 @@
             <div class="flow-arrow">→</div>
             <div class="flow-node"><div class="flow-box desktop">Intake Submissions</div><div class="flow-num">13</div></div>
             <div class="flow-arrow" style="opacity:.4;">|</div>
-            <div class="flow-node"><div class="flow-box desktop">All Clients</div><div class="flow-num">06</div></div>
+            <div class="flow-node"><div class="flow-box desktop">Residents</div><div class="flow-num">06</div></div>
             <div class="flow-arrow" style="opacity:.4;">|</div>
             <div class="flow-node"><div class="flow-box desktop">Metrics</div><div class="flow-num">12</div></div>
           </div>
@@ -625,7 +642,7 @@
         <div>
           <div class="ann-block"><div class="ann-label">UX Decisions</div><ul class="ann-list"><li>KPI row leads — supervisor reads org health numbers first.</li><li>CMs Over Capacity flag (≥35 active clients) surfaces overload proactively.</li><li>Score drop alerts across all CMs — deteriorating cases visible at org level.</li><li>Export button always accessible for grant reports and funder check-ins.</li></ul></div>
           <div class="ann-rule"></div>
-          <div class="ann-block"><div class="ann-label">Supervisor Sidebar Nav</div><div class="tag-row"><div class="tag">Dashboard</div><div class="tag">Care Managers</div><div class="tag">All Clients</div><div class="tag">Resources</div><div class="tag">Metrics</div><div class="tag gray">Org Setup</div><div class="tag gray">Profile</div></div></div>
+          <div class="ann-block"><div class="ann-label">Leadership Sidebar Nav — v6 (locked order)</div><div class="tag-row"><div class="tag">Dashboard</div><div class="tag">Calendar</div><div class="tag">Residents</div><div class="tag">Resources</div><div class="tag">Team</div><div class="tag">Messages</div><div class="tag">Metrics</div><div class="tag gray">Org Setup · Admin</div><div class="tag gray">Profile</div></div><div class="ann-body" style="margin-top:8px;"><p>v6 renames: <strong>Care Managers → Team</strong>, <strong>All Clients → Residents</strong>. Calendar and Messages join the sidebar. Mobile bottom bar: Dashboard · Clients · + · Resources · Messages (Metrics removed).</p></div></div>
         </div>
       </div>
     </div>
@@ -688,6 +705,111 @@
   </div>
 </div>
 
+<!-- v6 Feature Sets interstitial -->
+<div class="wrap">
+  <div class="role-shift" style="background:linear-gradient(135deg,#1B2A4A,#1F3D5C 55%,#1A6B6B);">
+    <div class="role-shift-orb" style="width:300px;height:300px;background:var(--teal);opacity:.14;top:-80px;right:-60px;"></div>
+    <div style="position:relative;z-index:1;"><div class="role-shift-label">New · v6 Release</div><div class="role-shift-title">Six Feature Sets — Screens 15–38</div><div class="role-shift-sub">v6 expands the app from 16 to 38 screens across six new feature sets. Each set below references its canonical v5 mockup file and screen range. All inherit the locked v5 design system — tokens, ring rules, and nav identity carry through unchanged.</div></div>
+    <div style="margin-left:auto;position:relative;z-index:1;flex-shrink:0;"><div class="role-badge" style="background:rgba(62,207,178,.2);color:var(--teal);">22 new screens</div></div>
+  </div>
+</div>
+
+<!-- Feature Set — Advocacy + Unmet Needs (15–19) -->
+<div class="screen-section">
+  <div class="wrap">
+    <div class="screen-header"><div class="screen-num">Feature Set · Screens 15–19</div><div class="screen-name">Advocacy + Unmet Needs</div><div class="screen-role">— CM + Supervisor · Track gaps no single program can close · escalate to advocacy</div></div>
+    <div class="annotations">
+      <div class="ann-block"><div class="ann-label">Role</div><div class="ann-body"><p>Captures unmet needs that fall outside any available resource — the gaps a CM cannot solve with a single referral. Each unmet need can be aggregated across the caseload and escalated into an advocacy item, giving leadership the evidence base for funder asks and policy action.</p></div></div>
+      <div class="ann-rule"></div>
+      <div class="ann-block"><div class="ann-label">Screen Range</div><div class="ann-body"><p>Screens <strong>15–19</strong> — Unmet Needs log · Need detail + resource-gap reason · Advocacy item composer · Advocacy tracker (status pipeline) · Aggregate / evidence view.</p></div></div>
+      <div class="ann-rule"></div>
+      <div class="ann-block"><div class="ann-label">Layout Notes</div><ul class="ann-list"><li><strong>Inherits v5 system</strong> — warm-bg pages, gradient hero headers, DM Mono metadata, single shadow.</li><li><strong>Unmet-need rows</strong> — domain label · client link · gap reason · escalation state badge.</li><li><strong>Advocacy status</strong> — pipeline badges (Logged → Escalated → In Advocacy → Resolved) using the tier badge color family.</li></ul></div>
+      <div class="ann-rule"></div>
+      <div class="ann-block"><div class="ann-label">Canonical Mockup</div><div class="ann-body"><p><code>vijilant-v5-advocacy-screens.html</code> — full per-screen reference for this set.</p></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Feature Set — Calendar (20–24) -->
+<div class="screen-section">
+  <div class="wrap">
+    <div class="screen-header"><div class="screen-num">Feature Set · Screens 20–24</div><div class="screen-name">Calendar</div><div class="screen-role">— CM + Supervisor · Follow-ups, appointments, and team scheduling</div></div>
+    <div class="annotations">
+      <div class="ann-block"><div class="ann-label">Role</div><div class="ann-body"><p>A unified calendar surface for follow-ups, client appointments, and team availability. Follow-ups generated from assessments and applications appear here automatically — the calendar is the time-based companion to the Dashboard's priority feed.</p></div></div>
+      <div class="ann-rule"></div>
+      <div class="ann-block"><div class="ann-label">Screen Range</div><div class="ann-body"><p>Screens <strong>20–24</strong> — Month view · Week / day agenda · Event detail · New event / follow-up composer · Team availability (Supervisor).</p></div></div>
+      <div class="ann-rule"></div>
+      <div class="ann-block"><div class="ann-label">Layout Notes</div><ul class="ann-list"><li><strong>Calendar</strong> joins the leadership sidebar as a top-level nav item in v6.</li><li><strong>Event chips</strong> — tier-colored left accent; follow-ups carry the overdue treatment from the Dashboard.</li><li><strong>Desktop</strong> — full month grid; mobile defaults to agenda list.</li></ul></div>
+      <div class="ann-rule"></div>
+      <div class="ann-block"><div class="ann-label">Canonical Mockup</div><div class="ann-body"><p><code>vijilant-v5-calendar-screens.html</code> — full per-screen reference for this set.</p></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Feature Set — Team / Profiles (25–28) -->
+<div class="screen-section">
+  <div class="wrap">
+    <div class="screen-header"><div class="screen-num">Feature Set · Screens 25–28</div><div class="screen-name">Team / Profiles</div><div class="screen-role">— Supervisor + CM · Care-manager roster, capacity, and individual profiles</div></div>
+    <div class="annotations">
+      <div class="ann-block"><div class="ann-label">Role</div><div class="ann-body"><p>The roster of care managers and staff. Supervisors see capacity, caseload health, and per-CM metrics; everyone can view a teammate's profile. This is the "Team" nav item — renamed from "Care Managers" in v6.</p></div></div>
+      <div class="ann-rule"></div>
+      <div class="ann-block"><div class="ann-label">Screen Range</div><div class="ann-body"><p>Screens <strong>25–28</strong> — Team roster · CM profile + caseload · Capacity / over-capacity view · Invite / manage member (Supervisor).</p></div></div>
+      <div class="ann-rule"></div>
+      <div class="ann-block"><div class="ann-label">Caseload Health Ring — distinct from Recovery</div><div class="ann-body"><p>Team screens use the <strong>Caseload Health</strong> indicator — a <strong>navy-core ring / segmented bar</strong>, NOT the conic Recovery ring. The conic Recovery ring (Red→Coral→Teal→Navy) is reserved for <strong>survivors only</strong>. Caseload Health never uses the survivor gradient.</p></div></div>
+      <div class="ann-rule"></div>
+      <div class="ann-block"><div class="ann-label">Canonical Mockup</div><div class="ann-body"><p><code>vijilant-v5-team-screens.html</code> — full per-screen reference for this set.</p></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Feature Set — Maps & Directions (29–32) -->
+<div class="screen-section">
+  <div class="wrap">
+    <div class="screen-header"><div class="screen-num">Feature Set · Screens 29–32</div><div class="screen-name">Maps &amp; Directions</div><div class="screen-role">— CM · Locate clients, resources, and field routes — Esri under BAA</div></div>
+    <div class="annotations">
+      <div class="ann-block"><div class="ann-label">Role</div><div class="ann-body"><p>Geographic view of clients, resources, and disaster-impact zones for field work. Turn-by-turn directions to a client or resource location, plus a service-area overlay for intake zoning.</p></div></div>
+      <div class="ann-rule"></div>
+      <div class="ann-block"><div class="ann-label">Screen Range</div><div class="ann-body"><p>Screens <strong>29–32</strong> — Map home (clients + resources) · Location detail · Directions / route · Service-area overlay.</p></div></div>
+      <div class="ann-rule"></div>
+      <div class="ann-block"><div class="ann-label">Mapping Provider — LOCKED</div><ul class="ann-list"><li><strong>Esri / ArcGIS under BAA</strong> — the only permitted mapping provider for survivor location data.</li><li><strong>Google Maps is banned</strong> for any survivor PHI — no Google tiles, geocoding, or directions touch a survivor address.</li><li>Map chrome inherits navy + teal accents; pins use tier badge colors.</li></ul></div>
+      <div class="ann-rule"></div>
+      <div class="ann-block"><div class="ann-label">Canonical Mockup</div><div class="ann-body"><p><code>vijilant-v5-maps-screens.html</code> — full per-screen reference for this set.</p></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Feature Set — Messages & Notifications (33–35) -->
+<div class="screen-section">
+  <div class="wrap">
+    <div class="screen-header"><div class="screen-num">Feature Set · Screens 33–35</div><div class="screen-name">Messages &amp; Notifications</div><div class="screen-role">— CM + Supervisor + Survivor · Secure in-app messaging and alert center</div></div>
+    <div class="annotations">
+      <div class="ann-block"><div class="ann-label">Role</div><div class="ann-body"><p>Secure, HIPAA-compliant messaging between staff and survivors, plus a notification center for follow-up alerts, score drops, and assignment events. "Messages" joins the leadership sidebar and the mobile bottom bar in v6.</p></div></div>
+      <div class="ann-rule"></div>
+      <div class="ann-block"><div class="ann-label">Screen Range</div><div class="ann-body"><p>Screens <strong>33–35</strong> — Inbox / thread list · Conversation thread · Notification center.</p></div></div>
+      <div class="ann-rule"></div>
+      <div class="ann-block"><div class="ann-label">Layout Notes</div><ul class="ann-list"><li><strong>Thread bubbles</strong> — staff: white card, left-aligned; survivor: navy bg, white text, right-aligned (matches Survivor Case File).</li><li><strong>Send button</strong> — 34px gradient circle, paper-plane SVG icon.</li><li><strong>Notifications</strong> — urgency-coded rows; tap routes to the originating screen.</li></ul></div>
+      <div class="ann-rule"></div>
+      <div class="ann-block"><div class="ann-label">Canonical Mockup</div><div class="ann-body"><p><code>vijilant-v5-messages-screens.html</code> — full per-screen reference for this set.</p></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Feature Set — Case Consultation Tracker (36–38) -->
+<div class="screen-section">
+  <div class="wrap">
+    <div class="screen-header"><div class="screen-num">Feature Set · Screens 36–38</div><div class="screen-name">Case Consultation Tracker</div><div class="screen-role">— CM + Supervisor · Log peer / supervisor consults on complex cases</div></div>
+    <div class="annotations">
+      <div class="ann-block"><div class="ann-label">Role</div><div class="ann-body"><p>Documents formal case consultations — when a CM brings a complex case to a supervisor or peer for review. Creates an auditable record of guidance given, decisions made, and follow-up actions, tied back to the client's case file.</p></div></div>
+      <div class="ann-rule"></div>
+      <div class="ann-block"><div class="ann-label">Screen Range</div><div class="ann-body"><p>Screens <strong>36–38</strong> — Consultation log · Consultation detail / notes · New consultation composer.</p></div></div>
+      <div class="ann-rule"></div>
+      <div class="ann-block"><div class="ann-label">Layout Notes</div><ul class="ann-list"><li><strong>Consultation rows</strong> — client link · consulting parties · date · outcome / status badge.</li><li><strong>Decision record</strong> — structured notes with an audit trail, consistent with the Applications audit treatment.</li><li>Inherits v5 tokens, gradient CTAs, and DM Mono metadata throughout.</li></ul></div>
+      <div class="ann-rule"></div>
+      <div class="ann-block"><div class="ann-label">Canonical Mockup</div><div class="ann-body"><p><code>vijilant-v5-consultation-screens.html</code> — full per-screen reference for this set.</p></div></div>
+    </div>
+  </div>
+</div>
+
 <!-- Survivor Portal interstitial -->
 <div class="wrap">
   <div class="role-shift" style="background:linear-gradient(135deg,#1B2A4A,#1A6B6B);">
@@ -746,7 +868,7 @@
 <footer>
   <div class="footer-inner">
     <div class="footer-logo"><div class="footer-mark">Vj</div><div class="footer-word">Vijilant</div></div>
-    <div class="footer-meta">UI/UX Brief · Care Manager + Supervisor + Survivor Portal · v5 · June 2026<br>The Legacy Land Project · Pasadena, CA · Design Reference — not for public distribution.</div>
+    <div class="footer-meta">UI/UX Brief · Care Manager + Supervisor + Survivor Portal · v6 · 38 Screens · June 2026<br>The Legacy Land Project · Pasadena, CA · Design Reference — not for public distribution.</div>
   </div>
 </footer>
 

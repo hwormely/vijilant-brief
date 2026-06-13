@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Vigilant · Architecture Map</title>
+<title>Vijilant · Architecture Map</title>
 <style>
   :root{
     /* App v5 light — canonical per H 2026-06-07 unification.
@@ -120,7 +120,7 @@
 <body>
 
 <header>
-  <h1>Vigilant <span class="sub">~/vigilant · pnpm+turbo monorepo · architecture map</span></h1>
+  <h1>Vijilant <span class="sub">~/vigilant · pnpm+turbo monorepo · architecture map</span></h1>
   <div class="chips" id="chips"></div>
   <div class="zoom">
     <button id="zoom-out" title="Zoom out">−</button>
@@ -297,7 +297,7 @@ const nodes = [
   N('mw-platformAdmin','server','middleware/platformAdmin.ts','requirePlatformAdmin',
     CX.server, next('server'), W, H, 'service', {
     role:  'Cross-org gate. Checks platform_admins for the calling user; admits to /api/operator.',
-    plain: 'A stricter gatekeeper that only lets the small number of Vigilant platform staff into the operator console — the place where orgs are provisioned, comped, and audited.',
+    plain: 'A stricter gatekeeper that only lets the small number of Vijilant platform staff into the operator console — the place where orgs are provisioned, comped, and audited.',
     path:  'apps/api/src/middleware/platformAdmin.ts',
     notes: ['Used by routes/operator.ts','Joined to auth_is_platform_admin() in SQL (migration 047)'],
     tag:   ['platform','auth','server','all'],
@@ -423,7 +423,7 @@ const nodes = [
   N('rt-operator','route','routes/operator.ts','/api/operator/* (platform-admin)',
     CX.route, next('route'), Wn, Hn, 'route', {
     role:  'Platform admin console: provision orgs, comp orgs, view leads queue, decide nonprofit applications.',
-    plain: 'The Vigilant platform team\'s control room — only a handful of people can use it.',
+    plain: 'The Vijilant platform team\'s control room — only a handful of people can use it.',
     path:  'apps/api/src/routes/operator.ts (185 lines)',
     notes: ['Gated by middleware/platformAdmin','Calls lib/orgProvision for provisioning','Acts cross-org (no orgId scope)'],
     tag:   ['platform','onboarding','billing','all'],
@@ -1595,7 +1595,7 @@ function renderDefaultSidebar() {
   selectedId = null;
   nodes.forEach(n => n._el.classList.remove('selected'));
   sidebar.innerHTML = `
-    <h2>Vigilant · the shape of the system</h2>
+    <h2>Vijilant · the shape of the system</h2>
     <div class="plain">
       Two clients — a desktop web app (React + Vite) and a phone app (Expo / React Native) —
       both talk directly to Supabase for most reads, and to an Express 5 server for
