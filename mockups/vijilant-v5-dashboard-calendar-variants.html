@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vijilant v5 — Desktop Dashboard × Calendar: 4 Variants</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --teal:#3ECFB2;--teal-dark:#1A9E8A;--navy:#1B2A4A;--navy-mid:#2A3F6B;
+  --coral:#F4714F;--coral-dark:#C2441A;--red:#C0392B;
+  --warm-bg:#F4F6FA;--gray-100:#EEF1F7;--gray-200:#D8DDED;--gray-400:#8A94AD;--gray-600:#4A5568;
+  --grad-hero:linear-gradient(135deg,#1B2A4A 0%,#1F3D5C 40%,#1A6B6B 70%,#3ECFB2 100%);
+  --grad-accent:linear-gradient(135deg,#3ECFB2 0%,#F4714F 100%);
+  --grad-btn:linear-gradient(135deg,#3ECFB2 0%,#F4714F 55%,#1B2A4A 100%);
+  --shadow:0 2px 10px rgba(27,42,74,.08);
+}
+body{font-family:'DM Sans',-apple-system,sans-serif;background:#0C1523;color:white;padding:40px 20px 80px;line-height:1.4}
+.plabel{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:5px}
+.stitle{font-size:26px;font-weight:700;letter-spacing:-.02em;margin-bottom:4px}
+.sdesc{font-size:13px;color:var(--gray-400);margin-bottom:40px}
+.section{margin-bottom:80px}
+.sh{margin-bottom:28px;padding-bottom:14px;border-bottom:1px solid rgba(62,207,178,.18)}
+hr.div{border:none;border-top:1px solid rgba(255,255,255,.04);margin:20px 0 64px}
+.desk{background:#1a1a2e;border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,.07);box-shadow:0 40px 80px rgba(0,0,0,.5);max-width:1060px}
+.tbar{height:30px;background:#0f0f1a;display:flex;align-items:center;padding:0 14px;gap:6px}
+.td{width:10px;height:10px;border-radius:50%}.td.r{background:#FF5F57}.td.y{background:#FFBD2E}.td.g{background:#28C840}
+.ds{display:flex;min-height:640px;background:var(--warm-bg);overflow:hidden;position:relative}
+.sb{width:220px;background:var(--navy);min-height:640px;padding:20px 0;flex-shrink:0;position:relative;overflow:hidden}
+.sb-orb{position:absolute;width:220px;height:220px;border-radius:50%;background:var(--teal);filter:blur(90px);opacity:.1;bottom:-60px;left:-60px}
+.sb-logo{display:flex;align-items:center;gap:10px;padding:0 18px 18px;border-bottom:1px solid rgba(255,255,255,.07);margin-bottom:10px;position:relative;z-index:1}
+.sb-mark{width:30px;height:30px;border-radius:8px;background:var(--grad-accent);display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:12px;font-weight:500;color:white}
+.sb-name{font-family:'DM Mono',monospace;font-size:15px;font-weight:500;color:white;letter-spacing:.02em}
+.sb-sec{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:rgba(255,255,255,.27);padding:0 18px;margin:14px 0 4px;position:relative;z-index:1}
+.sb-item{display:flex;align-items:center;gap:9px;padding:9px 18px;font-size:13px;font-weight:500;color:rgba(255,255,255,.5);position:relative;z-index:1}
+.sb-item.on{color:white;background:rgba(62,207,178,.12)}
+.sb-item.on::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:18px;background:var(--teal);border-radius:0 2px 2px 0}
+.card{background:white;border-radius:14px;padding:14px;box-shadow:var(--shadow)}
+.badge{display:inline-flex;align-items:center;padding:3px 8px;border-radius:10px;font-size:10px;font-weight:700;white-space:nowrap}
+.bnv{background:rgba(27,42,74,.08);color:var(--navy)}.bcl{background:rgba(244,113,79,.13);color:var(--coral-dark)}
+.brd{background:#FDECEA;color:#C0392B}.bgy{background:#EDEBE6;color:#7A766F}
+.btn-grad-sm{background:var(--grad-btn);color:white;border:none;border-radius:10px;padding:9px 16px;font-size:12px;font-weight:700;font-family:'DM Sans',sans-serif;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
+.mono{font-family:'DM Mono',monospace}
+.kpi{background:white;border-radius:13px;padding:11px 13px;box-shadow:var(--shadow)}
+.kpi .kv{font-family:'DM Mono',monospace;font-size:17px;color:var(--navy)}
+.kpi .kl{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.07em;text-transform:uppercase;color:var(--gray-400);margin-top:2px}
+.mod{background:white;border-radius:13px;padding:11px 13px;box-shadow:var(--shadow)}
+.mod .mt{font-size:11px;font-weight:700;color:var(--navy)}
+.mod .ms{font-family:'DM Mono',monospace;font-size:9px;color:var(--gray-400);margin-top:3px}
+.seclbl{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--gray-400);margin-bottom:8px}
+.edot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.ed-fu{background:var(--coral)}.ed-dl{background:var(--red)}.ed-gl{background:var(--teal)}
+.ed-org{background:var(--navy)}.ed-man{background:var(--gray-400)}.ed-ext{background:white;border:1.5px solid var(--gray-400)}
+.agrow{display:flex;gap:11px;padding:9px 14px;border-bottom:1px solid var(--gray-100);align-items:flex-start}
+.agrow:last-child{border-bottom:none}
+.agtime{font-family:'DM Mono',monospace;font-size:10px;color:var(--gray-400);width:46px;flex-shrink:0;padding-top:2px}
+/* Mini-month — gradient TODAY */
+.mm{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.mm-h{font-family:'DM Mono',monospace;font-size:8px;text-transform:uppercase;letter-spacing:.05em;color:rgba(255,255,255,.4);text-align:center;padding-bottom:2px}
+.mm-d{aspect-ratio:1;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:9px;color:rgba(255,255,255,.65);position:relative}
+.mm-d .dts{display:flex;gap:2px;position:absolute;bottom:2px}
+.mm-d .dt{width:3px;height:3px;border-radius:50%}
+.mm-d.today{background:var(--grad-accent);color:white;font-weight:500}
+.mm-d.dim{color:rgba(255,255,255,.2)}
+/* TODAY pill / gradient-encased date */
+.tdnum{display:inline-flex;align-items:center;justify-content:center;width:25px;height:25px;border-radius:50%;background:var(--grad-accent);color:white;font-family:'DM Mono',monospace;font-size:12px;font-weight:500}
+.todayhdr{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;letter-spacing:.04em;color:var(--navy)}
+.varnote{margin-top:12px;padding:11px 13px;border-radius:12px;background:rgba(62,207,178,.06);border:1px solid rgba(62,207,178,.25);font-size:11px;color:#9fb8c9;line-height:1.6;max-width:1060px}
+.vjd{position:absolute;bottom:20px;right:20px;width:44px;height:44px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(27,42,74,.5);z-index:30}
+.vdot{position:absolute;top:-1px;right:-1px;width:11px;height:11px;border-radius:50%;background:var(--coral);border:2px solid white}
+</style>
+</head>
+<body>
+
+<div style="margin-bottom:48px">
+  <div class="plabel">Desktop Dashboard × Calendar</div>
+  <div class="stitle">Four Placement Options</div>
+  <div class="sdesc">Same data on every variant · gradient-encased today date throughout · KPI strip never stacks, module row never stacks (locked rules hold in A, B, D; C re-purposes one module column, flagged below)</div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════ -->
+<!-- VARIANT A — RIGHT-RAIL CALENDAR -->
+<!-- ════════════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="sh">
+    <div class="plabel">Variant A · Right-Rail Calendar</div>
+    <div class="stitle">Right Rail</div>
+    <div class="sdesc">Calendar column fixed at right — mini-month + today agenda always visible without scrolling. KPIs and modules compress left but keep their locked horizontal structure.</div>
+  </div>
+  <div class="desk">
+    <div class="tbar"><div class="td r"></div><div class="td y"></div><div class="td g"></div></div>
+    <div class="ds">
+      <div class="sb">
+        <div class="sb-orb"></div>
+        <div class="sb-logo"><div class="sb-mark">Vj</div><div class="sb-name">Vijilant</div></div>
+        <div class="sb-sec">Case Manager</div>
+        <div class="sb-item on"><svg width="15" height="15" viewBox="0 0 24 24"><defs><linearGradient id="ga1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#3ECFB2"/><stop offset="100%" stop-color="#F4714F"/></linearGradient></defs><rect x="3" y="3" width="8" height="8" rx="1.5" fill="url(#ga1)"/><rect x="13" y="3" width="8" height="8" rx="1.5" fill="url(#ga1)" opacity=".75"/><rect x="3" y="13" width="8" height="8" rx="1.5" fill="url(#ga1)" opacity=".75"/><rect x="13" y="13" width="8" height="8" rx="1.5" fill="url(#ga1)" opacity=".55"/></svg> Dashboard</div>
+        <div class="sb-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="4" width="18" height="17" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/></svg> Calendar</div>
+        <div class="sb-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg> My Cases</div>
+        <div class="sb-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> Resources</div>
+        <div class="sb-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> Metrics</div>
+        <div class="sb-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Profile</div>
+      </div>
+      <div style="flex:1;padding:20px;background:var(--warm-bg);display:grid;grid-template-columns:1fr 252px;gap:14px;overflow:auto">
+        <!-- MAIN COLUMN -->
+        <div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+            <div class="mono" style="font-size:19px;font-weight:500;color:var(--navy)">My Day</div>
+            <div class="mono" style="font-size:10px;color:var(--gray-400)">Thu, Jun 11 2026</div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:10px">
+            <div class="kpi"><div class="kv">31</div><div class="kl">Active Clients</div></div>
+            <div class="kpi"><div class="kv">12</div><div class="kl">Notes Wk</div></div>
+            <div class="kpi"><div class="kv">9</div><div class="kl">Follow-ups</div></div>
+            <div class="kpi"><div class="kv">4</div><div class="kl">Assessments</div></div>
+            <div class="kpi"><div class="kv">7</div><div class="kl">Aid Apps</div></div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px">
+            <div class="mod"><div class="mt">Overdue Follow-ups</div><div class="ms">3 clients · oldest 6 days</div></div>
+            <div class="mod"><div class="mt">Score Drop Alerts</div><div class="ms">1 client · −118 / 30d</div></div>
+            <div class="mod"><div class="mt">New Resources</div><div class="ms">4 added · 14 days</div></div>
+          </div>
+          <div class="seclbl">Recent Activity</div>
+          <div style="background:white;border-radius:13px;box-shadow:var(--shadow);overflow:hidden">
+            <div class="agrow"><div class="agtime mono">10:42</div><div style="flex:1;font-size:12px;color:var(--gray-600)">Case note saved · <span style="font-weight:600;color:var(--navy)">Marcus Thompson</span></div></div>
+            <div class="agrow"><div class="agtime mono">9:18</div><div style="flex:1;font-size:12px;color:var(--gray-600)">Assessment completed · <span style="font-weight:600;color:var(--navy)">J. Reyes</span></div></div>
+            <div class="agrow"><div class="agtime mono">8:55</div><div style="flex:1;font-size:12px;color:var(--gray-600)">Aid app auto-drafted · <span style="font-weight:600;color:var(--navy)">L. Park</span></div></div>
+          </div>
+        </div>
+        <!-- RIGHT RAIL -->
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="background:var(--navy);border-radius:14px;padding:13px;box-shadow:var(--shadow);position:relative;overflow:hidden">
+            <div style="position:absolute;width:150px;height:150px;border-radius:50%;background:var(--teal);filter:blur(70px);opacity:.14;top:-50px;right:-40px"></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;position:relative;z-index:1">
+              <span class="mono" style="font-size:11px;color:white;font-weight:500">June 2026</span>
+              <span class="mono" style="font-size:9px;color:var(--teal)">Open →</span>
+            </div>
+            <div class="mm" style="position:relative;z-index:1">
+              <div class="mm-h">M</div><div class="mm-h">T</div><div class="mm-h">W</div><div class="mm-h">T</div><div class="mm-h">F</div><div class="mm-h">S</div><div class="mm-h">S</div>
+              <div class="mm-d">1</div><div class="mm-d">2</div><div class="mm-d">3<div class="dts"><div class="dt" style="background:var(--coral)"></div></div></div><div class="mm-d">4</div><div class="mm-d">5</div><div class="mm-d dim">6</div><div class="mm-d dim">7</div>
+              <div class="mm-d">8<div class="dts"><div class="dt" style="background:var(--teal)"></div></div></div><div class="mm-d">9</div><div class="mm-d">10<div class="dts"><div class="dt" style="background:var(--coral)"></div></div></div><div class="mm-d today">11</div><div class="mm-d">12<div class="dts"><div class="dt" style="background:var(--coral)"></div></div></div><div class="mm-d dim">13</div><div class="mm-d dim">14</div>
+              <div class="mm-d">15<div class="dts"><div class="dt" style="background:#C0392B"></div></div></div><div class="mm-d">16</div><div class="mm-d">17</div><div class="mm-d">18</div><div class="mm-d">19</div><div class="mm-d dim">20</div><div class="mm-d dim">21</div>
+              <div class="mm-d">22</div><div class="mm-d">23</div><div class="mm-d">24</div><div class="mm-d">25<div class="dts"><div class="dt" style="background:white"></div></div></div><div class="mm-d">26</div><div class="mm-d dim">27</div><div class="mm-d dim">28</div>
+              <div class="mm-d">29</div><div class="mm-d">30</div><div class="mm-d dim">1</div><div class="mm-d dim">2</div><div class="mm-d dim">3</div><div class="mm-d dim">4</div><div class="mm-d dim">5</div>
+            </div>
+          </div>
+          <div style="background:white;border-radius:14px;box-shadow:var(--shadow);overflow:hidden">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 13px 7px">
+              <div class="todayhdr"><span class="tdnum">11</span>TODAY</div>
+              <span class="mono" style="font-size:9px;color:var(--gray-400)">5</span>
+            </div>
+            <div class="agrow" style="padding:8px 13px"><div class="agtime">9:00</div><div class="edot ed-fu" style="margin-top:3px"></div><div style="flex:1;font-size:11px;font-weight:600;color:var(--navy)">Follow-up · M. Thompson</div></div>
+            <div class="agrow" style="padding:8px 13px"><div class="agtime">11:30</div><div class="edot ed-man" style="margin-top:3px"></div><div style="flex:1;font-size:11px;font-weight:600;color:var(--navy)">Home visit · Alvarez</div></div>
+            <div class="agrow" style="padding:8px 13px"><div class="agtime">2:00</div><div class="edot ed-org" style="margin-top:3px"></div><div style="flex:1;font-size:11px;font-weight:600;color:var(--navy)">LLP All-Staff</div></div>
+            <div class="agrow" style="padding:8px 13px"><div class="agtime">5:00</div><div class="edot ed-dl" style="margin-top:3px"></div><div style="flex:1;font-size:11px;font-weight:600;color:var(--navy)">FEMA appeal · R. Okafor</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="vjd"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg><div class="vdot"></div></div>
+    </div>
+  </div>
+  <div class="varnote"><strong style="color:var(--teal)">Trade-off:</strong> calendar is always on screen — strongest time-awareness. But the KPI cards and module columns get ~25% narrower, and Recent Activity loses width. Best if checking the day is the #1 dashboard habit.</div>
+</div>
+
+<hr class="div">
+
+<!-- ════════════════════════════════════════════════════════════════ -->
+<!-- VARIANT B — HERO CALENDAR STRIP -->
+<!-- ════════════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="sh">
+    <div class="plabel">Variant B · Hero Calendar Strip</div>
+    <div class="stitle">Hero Strip</div>
+    <div class="sdesc">Gradient hero band carries greeting + today summary + mini-month. Below it, the locked dashboard runs untouched; the agenda becomes the full-width section.</div>
+  </div>
+  <div class="desk">
+    <div class="tbar"><div class="td r"></div><div class="td y"></div><div class="td g"></div></div>
+    <div class="ds">
+      <div class="sb">
+        <div class="sb-orb"></div>
+        <div class="sb-logo"><div class="sb-mark">Vj</div><div class="sb-name">Vijilant</div></div>
+        <div class="sb-sec">Case Manager</div>
+        <div class="sb-item on"><svg width="15" height="15" viewBox="0 0 24 24"><defs><linearGradient id="gb1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#3ECFB2"/><stop offset="100%" stop-color="#F4714F"/></linearGradient></defs><rect x="3" y="3" width="8" height="8" rx="1.5" fill="url(#gb1)"/><rect x="13" y="3" width="8" height="8" rx="1.5" fill="url(#gb1)" opacity=".75"/><rect x="3" y="13" width="8" height="8" rx="1.5" fill="url(#gb1)" opacity=".75"/><rect x="13" y="13" width="8" height="8" rx="1.5" fill="url(#gb1)" opacity=".55"/></svg> Dashboard</div>
+        <div class="sb-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="4" width="18" height="17" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/></svg> Calendar</div>
+        <div class="sb-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg> My Cases</div>
+        <div class="sb-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> Resources</div>
+        <div class="sb-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> Metrics</div>
+        <div class="sb-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Profile</div>
+      </div>
+      <div style="flex:1;background:var(--warm-bg);overflow:auto">
+        <!-- HERO BAND -->
+        <div style="background:var(--grad-hero);padding:18px 22px;position:relative;overflow:hidden">
+          <div style="position:absolute;width:260px;height:260px;border-radius:50%;background:var(--teal);filter:blur(80px);opacity:.16;top:-70px;right:-50px"></div>
+          <div style="position:absolute;width:170px;height:170px;border-radius:50%;background:var(--coral);filter:blur(60px);opacity:.13;bottom:-40px;left:240px"></div>
+          <div style="display:grid;grid-template-columns:1fr 240px;gap:20px;position:relative;z-index:1;align-items:center">
+            <div>
+              <div style="font-size:19px;font-weight:700;color:white">Good morning, H</div>
+              <div style="display:flex;align-items:center;gap:9px;margin-top:6px">
+                <span class="tdnum" style="width:30px;height:30px;font-size:13px">11</span>
+                <div>
+                  <div class="mono" style="font-size:11px;color:rgba(255,255,255,.7)">Thu, June 2026</div>
+                  <div class="mono" style="font-size:10px;color:rgba(255,255,255,.45)">5 events · 1 deadline · 1 LLP event</div>
+                </div>
+              </div>
+              <div style="display:flex;gap:6px;margin-top:11px">
+                <span style="padding:4px 10px;border-radius:10px;background:rgba(255,255,255,.12);font-size:10px;color:white">9:00 Follow-up</span>
+                <span style="padding:4px 10px;border-radius:10px;background:rgba(255,255,255,.12);font-size:10px;color:white">11:30 Home visit</span>
+                <span style="padding:4px 10px;border-radius:10px;background:rgba(255,255,255,.12);font-size:10px;color:white">2:00 LLP All-Staff</span>
+                <span style="padding:4px 10px;border-radius:10px;background:rgba(192,57,43,.35);font-size:10px;color:white;font-weight:600">5:00 FEMA deadline</span>
+              </div>
+            </div>
+            <div class="mm">
+              <div class="mm-h">M</div><div class="mm-h">T</div><div class="mm-h">W</div><div class="mm-h">T</div><div class="mm-h">F</div><div class="mm-h">S</div><div class="mm-h">S</div>
+              <div class="mm-d">1</div><div class="mm-d">2</div><div class="mm-d">3<div class="dts"><div class="dt" style="background:var(--coral)"></div></div></div><div class="mm-d">4</div><div class="mm-d">5</div><div class="mm-d dim">6</div><div class="mm-d dim">7</div>
+              <div class="mm-d">8</div><div class="mm-d">9</div><div class="mm-d">10<div class="dts"><div class="dt" style="background:var(--coral)"></div></div></div><div class="mm-d today">11</div><div class="mm-d">12<div class="dts"><div class="dt" style="background:var(--coral)"></div></div></div><div class="mm-d dim">13</div><div class="mm-d dim">14</div>
+              <div class="mm-d">15<div class="dts"><div class="dt" style="background:#C0392B"></div></div></div><div class="mm-d">16</div><div class="mm-d">17</div><div class="mm-d">18</div><div class="mm-d">19</div><div class="mm-d dim">20</div><div class="mm-d dim">21</div>
+              <div class="mm-d">22</div><div class="mm-d">23</div><div class="mm-d">24</div><div class="mm-d">25<div class="dts"><div class="dt" style="background:white"></div></div></div><div class="mm-d">26</div><div class="mm-d dim">27</div><div class="mm-d dim">28</div>
+              <div class="mm-d">29</div><div class="mm-d">30</div><div class="mm-d dim"></div><div class="mm-d dim"></div><div class="mm-d dim"></div><div class="mm-d dim"></div><div class="mm-d dim"></div>
+            </div>
+          </div>
+        </div>
+        <div style="padding:16px 22px">
+          <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:9px;margin-bottom:10px">
+            <div class="kpi"><div class="kv">31</div><div class="kl">Active Clients</div></div>
+            <div class="kpi"><div class="kv">12</div><div class="kl">Notes This Week</div></div>
+            <div class="kpi"><div class="kv">9</div><div class="kl">Follow-ups Done</div></div>
+            <div class="kpi"><div class="kv">4</div><div class="kl">Assessments</div></div>
+            <div class="kpi"><div class="kv">7</div><div class="kl">Aid Apps</div></div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:12px">
+            <div class="mod"><div class="mt">Overdue Follow-ups</div><div class="ms">3 clients · oldest 6 days</div></div>
+            <div class="mod"><div class="mt">Score Drop Alerts</div><div class="ms">1 client · −118 / 30d</div></div>
+            <div class="mod"><div class="mt">New Resources</div><div class="ms">4 added · last 14 days</div></div>
+          </div>
+          <div class="seclbl">Up Next</div>
+          <div style="background:white;border-radius:13px;box-shadow:var(--shadow);overflow:hidden">
+            <div class="agrow"><div class="agtime">9:00</div><div class="edot ed-fu" style="margin-top:3px"></div><div style="flex:1;font-size:12px;font-weight:600;color:var(--navy)">Follow-up · Marcus Thompson</div><span class="badge bcl">Follow-up</span></div>
+            <div class="agrow"><div class="agtime">11:30</div><div class="edot ed-man" style="margin-top:3px"></div><div style="flex:1;font-size:12px;font-weight:600;color:var(--navy)">Home visit · Alvarez family</div><span class="badge bgy">Visit</span></div>
+            <div class="agrow"><div class="agtime">5:00</div><div class="edot ed-dl" style="margin-top:3px"></div><div style="flex:1;font-size:12px;font-weight:600;color:var(--navy)">FEMA appeal deadline · R. Okafor</div><span class="badge brd">Deadline</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="vjd"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg><div class="vdot"></div></div>
+    </div>
+  </div>
+  <div class="varnote"><strong style="color:var(--teal)">Trade-off:</strong> the day greets you before any numbers — calendar feels woven in, not bolted on, and the locked grid below is untouched. Costs vertical space: KPIs start lower, so Recent Activity may sit below the fold on small laptops.</div>
+</div>
+
+<hr class="div">
+
+<!-- ════════════════════════════════════════════════════════════════ -->
+<!-- VARIANT C — CALENDAR-FIRST -->
+<!-- ════════════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="sh">
+    <div class="plabel">Variant C · Calendar-First Dashboard</div>
+    <div class="stitle">Calendar-First</div>
+    <div class="sdesc">Today's agenda takes the CENTER module column (Score Drop Alerts + New Resources flank it); the full-width section becomes a 5-day week strip. ⚠ This re-purposes a locked module-row column.</div>
+  </div>
+  <div class="desk">
+    <div class="tbar"><div class="td r"></div><div class="td y"></div><div class="td g"></div></div>
+    <div class="ds">
+      <div class="sb">
+        <div class="sb-orb"></div>
+        <div class="sb-logo"><div class="sb-mark">Vj</div><div class="sb-name">Vijilant</div></div>
+        <div class="sb-sec">Case Manager</div>
+        <div class="sb-item on"><svg width="15" height="15" viewBox="0 0 24 24"><defs><linearGradient id="gc1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#3ECFB2"/><stop offset="100%" stop-color="#F4714F"/></linearGradient></defs><rect x="3" y="3" width="8" height="8" rx="1.5" fill="url(#gc1)"/><rect x="13" y="3" width="8" height="8" rx="1.5" fill="url(#gc1)" opacity=".75"/><rect x="3" y="13" width="8" height="8" rx="1.5" fill="url(#gc1)" opacity=".75"/><rect x="13" y="13" width="8" height="8" rx="1.5" fill="url(#gc1)" opacity=".55"/></svg> Dashboard</div>
+        <div class="sb-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="4" width="18" height="17" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/></svg> Calendar</div>
+        <div class="sb-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg> My Cases</div>
+        <div class="sb-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> Resources</div>
+        <div class="sb-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> Metrics</div>
+        <div class="sb-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Profile</div>
+      </div>
+      <div style="flex:1;padding:20px 22px;background:var(--warm-bg);overflow:auto">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+          <div class="mono" style="font-size:19px;font-weight:500;color:var(--navy)">My Day</div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <span class="tdnum">11</span>
+            <span class="mono" style="font-size:10px;color:var(--gray-400)">Thu, June 2026</span>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:9px;margin-bottom:10px">
+          <div class="kpi"><div class="kv">31</div><div class="kl">Active Clients</div></div>
+          <div class="kpi"><div class="kv">12</div><div class="kl">Notes This Week</div></div>
+          <div class="kpi"><div class="kv">9</div><div class="kl">Follow-ups Done</div></div>
+          <div class="kpi"><div class="kv">4</div><div class="kl">Assessments</div></div>
+          <div class="kpi"><div class="kv">7</div><div class="kl">Aid Apps</div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1.4fr 1fr;gap:9px;margin-bottom:12px">
+          <div style="display:flex;flex-direction:column;gap:9px">
+            <div class="mod" style="flex:1"><div class="mt">Overdue Follow-ups</div><div class="ms">3 clients · oldest 6 days</div></div>
+            <div class="mod" style="flex:1"><div class="mt">Score Drop Alerts</div><div class="ms">1 client · −118 / 30d</div></div>
+          </div>
+          <!-- CENTER: TODAY AGENDA -->
+          <div style="background:white;border-radius:13px;box-shadow:var(--shadow);overflow:hidden">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 14px 7px">
+              <div class="todayhdr"><span class="tdnum">11</span>TODAY</div>
+              <span class="mono" style="font-size:9px;color:var(--teal-dark);font-weight:500">Open Calendar →</span>
+            </div>
+            <div class="agrow"><div class="agtime">9:00</div><div class="edot ed-fu" style="margin-top:3px"></div><div style="flex:1;font-size:11px;font-weight:600;color:var(--navy)">Follow-up · M. Thompson</div></div>
+            <div class="agrow"><div class="agtime">11:30</div><div class="edot ed-man" style="margin-top:3px"></div><div style="flex:1;font-size:11px;font-weight:600;color:var(--navy)">Home visit · Alvarez</div></div>
+            <div class="agrow"><div class="agtime">2:00</div><div class="edot ed-org" style="margin-top:3px"></div><div style="flex:1;font-size:11px;font-weight:600;color:var(--navy)">LLP All-Staff — Q3</div></div>
+            <div class="agrow"><div class="agtime">5:00</div><div class="edot ed-dl" style="margin-top:3px"></div><div style="flex:1;font-size:11px;font-weight:600;color:var(--navy)">FEMA appeal · R. Okafor</div></div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:9px">
+            <div class="mod" style="flex:1"><div class="mt">New Resources</div><div class="ms">4 added · last 14 days</div></div>
+            <div class="mod" style="flex:1"><div class="mt">Next UNR · Jun 25</div><div class="ms">3 packages ready · $47,250</div></div>
+          </div>
+        </div>
+        <!-- FULL-WIDTH WEEK STRIP -->
+        <div class="seclbl">This Week</div>
+        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:9px">
+          <div class="card" style="padding:10px 11px"><div class="mono" style="font-size:10px;color:var(--gray-400)">MON 8</div><div style="display:flex;gap:4px;margin-top:6px"><div class="edot ed-gl"></div><div class="edot ed-org"></div></div></div>
+          <div class="card" style="padding:10px 11px"><div class="mono" style="font-size:10px;color:var(--gray-400)">TUE 9</div><div style="display:flex;gap:4px;margin-top:6px"><div class="edot ed-dl"></div></div></div>
+          <div class="card" style="padding:10px 11px"><div class="mono" style="font-size:10px;color:var(--gray-400)">WED 10</div><div style="display:flex;gap:4px;margin-top:6px"><div class="edot ed-fu"></div></div></div>
+          <div class="card" style="padding:10px 11px;border:1.5px solid transparent;background:linear-gradient(white,white) padding-box,var(--grad-accent) border-box"><div style="display:flex;align-items:center;gap:6px"><span class="tdnum" style="width:20px;height:20px;font-size:10px">11</span><span class="mono" style="font-size:10px;color:var(--navy);font-weight:500">THU</span></div><div style="display:flex;gap:4px;margin-top:6px"><div class="edot ed-fu"></div><div class="edot ed-man"></div><div class="edot ed-org"></div><div class="edot ed-dl"></div></div></div>
+          <div class="card" style="padding:10px 11px"><div class="mono" style="font-size:10px;color:var(--gray-400)">FRI 12</div><div style="display:flex;gap:4px;margin-top:6px"><div class="edot ed-fu"></div><div class="edot ed-gl"></div></div></div>
+        </div>
+      </div>
+      <div class="vjd"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg><div class="vdot"></div></div>
+    </div>
+  </div>
+  <div class="varnote"><strong style="color:var(--coral)">Trade-off + rule flag:</strong> the day is the organizing principle and the week strip gives forward sight — but this changes the locked module row (3 equal columns become 1-1.4-1 with stacked side modules). Choosing C means amending MOCKUP_HANDOFF.md §4. Note the bonus "Next UNR" module slot it creates.</div>
+</div>
+
+<hr class="div">
+
+<!-- ════════════════════════════════════════════════════════════════ -->
+<!-- VARIANT D — CURRENT: FULL-WIDTH SECTION (gradient today applied) -->
+<!-- ════════════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="sh">
+    <div class="plabel">Variant D · Full-Width Section (current, re-rendered)</div>
+    <div class="stitle">Full-Width Section</div>
+    <div class="sdesc">The version from Screen 20, with the gradient-encased today date applied — locked layout fully intact, calendar after the modules.</div>
+  </div>
+  <div class="desk">
+    <div class="tbar"><div class="td r"></div><div class="td y"></div><div class="td g"></div></div>
+    <div class="ds">
+      <div class="sb">
+        <div class="sb-orb"></div>
+        <div class="sb-logo"><div class="sb-mark">Vj</div><div class="sb-name">Vijilant</div></div>
+        <div class="sb-sec">Case Manager</div>
+        <div class="sb-item on"><svg width="15" height="15" viewBox="0 0 24 24"><defs><linearGradient id="gd1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#3ECFB2"/><stop offset="100%" stop-color="#F4714F"/></linearGradient></defs><rect x="3" y="3" width="8" height="8" rx="1.5" fill="url(#gd1)"/><rect x="13" y="3" width="8" height="8" rx="1.5" fill="url(#gd1)" opacity=".75"/><rect x="3" y="13" width="8" height="8" rx="1.5" fill="url(#gd1)" opacity=".75"/><rect x="13" y="13" width="8" height="8" rx="1.5" fill="url(#gd1)" opacity=".55"/></svg> Dashboard</div>
+        <div class="sb-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="4" width="18" height="17" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/></svg> Calendar</div>
+        <div class="sb-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg> My Cases</div>
+        <div class="sb-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> Resources</div>
+        <div class="sb-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> Metrics</div>
+        <div class="sb-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Profile</div>
+      </div>
+      <div style="flex:1;padding:20px 22px;background:var(--warm-bg);overflow:auto">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+          <div class="mono" style="font-size:19px;font-weight:500;color:var(--navy)">My Day</div>
+          <div class="mono" style="font-size:10px;color:var(--gray-400)">Thu, Jun 11 2026</div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:9px;margin-bottom:10px">
+          <div class="kpi"><div class="kv">31</div><div class="kl">Active Clients</div></div>
+          <div class="kpi"><div class="kv">12</div><div class="kl">Notes This Week</div></div>
+          <div class="kpi"><div class="kv">9</div><div class="kl">Follow-ups Done</div></div>
+          <div class="kpi"><div class="kv">4</div><div class="kl">Assessments</div></div>
+          <div class="kpi"><div class="kv">7</div><div class="kl">Aid Apps</div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:14px">
+          <div class="mod"><div class="mt">Overdue Follow-ups</div><div class="ms">3 clients · oldest 6 days</div></div>
+          <div class="mod"><div class="mt">Score Drop Alerts</div><div class="ms">1 client · −118 / 30d</div></div>
+          <div class="mod"><div class="mt">New Resources</div><div class="ms">4 added · last 14 days</div></div>
+        </div>
+        <div class="seclbl">Calendar</div>
+        <div style="display:grid;grid-template-columns:1fr 250px;gap:12px">
+          <div style="background:white;border-radius:14px;box-shadow:var(--shadow);overflow:hidden">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px 8px">
+              <div class="todayhdr"><span class="tdnum">11</span>TODAY</div>
+              <span class="mono" style="font-size:10px;color:var(--teal-dark);font-weight:500">Open Calendar →</span>
+            </div>
+            <div class="agrow"><div class="agtime">9:00</div><div class="edot ed-fu" style="margin-top:3px"></div><div style="flex:1;font-size:12px;font-weight:600;color:var(--navy)">Follow-up · Marcus Thompson</div><span class="badge bcl">Follow-up</span></div>
+            <div class="agrow"><div class="agtime">11:30</div><div class="edot ed-man" style="margin-top:3px"></div><div style="flex:1;font-size:12px;font-weight:600;color:var(--navy)">Home visit · Alvarez family</div><span class="badge bgy">Visit</span></div>
+            <div class="agrow"><div class="agtime">2:00</div><div class="edot ed-org" style="margin-top:3px"></div><div style="flex:1;font-size:12px;font-weight:600;color:var(--navy)">LLP All-Staff — Q3 planning</div><span class="badge bnv">LLP</span></div>
+            <div class="agrow"><div class="agtime">5:00</div><div class="edot ed-dl" style="margin-top:3px"></div><div style="flex:1;font-size:12px;font-weight:600;color:var(--navy)">FEMA appeal deadline · R. Okafor</div><span class="badge brd">Deadline</span></div>
+          </div>
+          <div style="background:var(--navy);border-radius:14px;padding:13px;box-shadow:var(--shadow);position:relative;overflow:hidden">
+            <div style="position:absolute;width:150px;height:150px;border-radius:50%;background:var(--teal);filter:blur(70px);opacity:.14;top:-50px;right:-40px"></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;position:relative;z-index:1">
+              <span class="mono" style="font-size:11px;color:white;font-weight:500">June 2026</span>
+            </div>
+            <div class="mm" style="position:relative;z-index:1">
+              <div class="mm-h">M</div><div class="mm-h">T</div><div class="mm-h">W</div><div class="mm-h">T</div><div class="mm-h">F</div><div class="mm-h">S</div><div class="mm-h">S</div>
+              <div class="mm-d">1</div><div class="mm-d">2</div><div class="mm-d">3<div class="dts"><div class="dt" style="background:var(--coral)"></div></div></div><div class="mm-d">4</div><div class="mm-d">5</div><div class="mm-d dim">6</div><div class="mm-d dim">7</div>
+              <div class="mm-d">8</div><div class="mm-d">9</div><div class="mm-d">10<div class="dts"><div class="dt" style="background:var(--coral)"></div></div></div><div class="mm-d today">11</div><div class="mm-d">12<div class="dts"><div class="dt" style="background:var(--coral)"></div></div></div><div class="mm-d dim">13</div><div class="mm-d dim">14</div>
+              <div class="mm-d">15<div class="dts"><div class="dt" style="background:#C0392B"></div></div></div><div class="mm-d">16</div><div class="mm-d">17</div><div class="mm-d">18</div><div class="mm-d">19</div><div class="mm-d dim">20</div><div class="mm-d dim">21</div>
+              <div class="mm-d">22</div><div class="mm-d">23</div><div class="mm-d">24</div><div class="mm-d">25<div class="dts"><div class="dt" style="background:white"></div></div></div><div class="mm-d">26</div><div class="mm-d dim">27</div><div class="mm-d dim">28</div>
+              <div class="mm-d">29</div><div class="mm-d">30</div><div class="mm-d dim"></div><div class="mm-d dim"></div><div class="mm-d dim"></div><div class="mm-d dim"></div><div class="mm-d dim"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="vjd"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg><div class="vdot"></div></div>
+    </div>
+  </div>
+  <div class="varnote"><strong style="color:var(--teal)">Trade-off:</strong> zero conflict with locked rules and the cleanest hierarchy (triage first, time second) — but the calendar lives below the fold on smaller screens, so it's seen on scroll rather than at a glance.</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vijilant v5 — Screens 25–28: Team</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --teal:#3ECFB2;--teal-dark:#1A9E8A;--navy:#1B2A4A;--navy-mid:#2A3F6B;
+  --coral:#F4714F;--coral-dark:#C2441A;--red:#C0392B;
+  --warm-bg:#F4F6FA;--gray-100:#EEF1F7;--gray-200:#D8DDED;--gray-400:#8A94AD;--gray-600:#4A5568;
+  --grad-hero:linear-gradient(135deg,#1B2A4A 0%,#1F3D5C 40%,#1A6B6B 70%,#3ECFB2 100%);
+  --grad-accent:linear-gradient(135deg,#3ECFB2 0%,#F4714F 100%);
+  --grad-btn:linear-gradient(135deg,#3ECFB2 0%,#F4714F 55%,#1B2A4A 100%);
+  --grad-teal:linear-gradient(135deg,#3ECFB2,#2ABFA4);
+  --grad-nt:linear-gradient(135deg,#1B2A4A,#3ECFB2);
+  --grad-cn:linear-gradient(135deg,#F4714F,#1B2A4A);
+  --shadow:0 2px 10px rgba(27,42,74,.08);
+}
+body{font-family:'DM Sans',-apple-system,sans-serif;background:#0C1523;color:white;padding:40px 20px 80px;line-height:1.4}
+.plabel{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:5px}
+.stitle{font-size:26px;font-weight:700;letter-spacing:-.02em;margin-bottom:4px}
+.sdesc{font-size:13px;color:var(--gray-400);margin-bottom:40px}
+.section{margin-bottom:80px}
+.sh{margin-bottom:28px;padding-bottom:14px;border-bottom:1px solid rgba(62,207,178,.18)}
+.duo{display:grid;grid-template-columns:375px 1fr;gap:36px;align-items:start}
+hr.div{border:none;border-top:1px solid rgba(255,255,255,.04);margin:20px 0 64px}
+.phone{width:375px;min-height:812px;background:white;border-radius:44px;overflow:hidden;position:relative;flex-shrink:0;box-shadow:0 40px 80px rgba(0,0,0,.65),0 0 0 10px #1a1a1a,0 0 0 12px #2a2a2a}
+.notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:120px;height:30px;background:#111;border-radius:0 0 20px 20px;z-index:20}
+.ps{width:100%;min-height:812px;background:var(--warm-bg);position:relative;overflow:hidden}
+.desk{background:#1a1a2e;border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,.07);box-shadow:0 40px 80px rgba(0,0,0,.5)}
+.tbar{height:30px;background:#0f0f1a;display:flex;align-items:center;padding:0 14px;gap:6px}
+.td{width:10px;height:10px;border-radius:50%}.td.r{background:#FF5F57}.td.y{background:#FFBD2E}.td.g{background:#28C840}
+.ds{display:flex;min-height:660px;background:var(--warm-bg);overflow:hidden;position:relative}
+.sb{width:220px;background:var(--navy);min-height:660px;padding:20px 0;flex-shrink:0;position:relative;overflow:hidden}
+.sb-orb{position:absolute;width:220px;height:220px;border-radius:50%;background:var(--teal);filter:blur(90px);opacity:.1;bottom:-60px;left:-60px}
+.sb-logo{display:flex;align-items:center;gap:10px;padding:0 18px 18px;border-bottom:1px solid rgba(255,255,255,.07);margin-bottom:10px;position:relative;z-index:1}
+.sb-mark{width:30px;height:30px;border-radius:8px;background:var(--grad-accent);display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:12px;font-weight:500;color:white}
+.sb-name{font-family:'DM Mono',monospace;font-size:15px;font-weight:500;color:white;letter-spacing:.02em}
+.sb-sec{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:rgba(255,255,255,.27);padding:0 18px;margin:14px 0 4px;position:relative;z-index:1}
+.sb-item{display:flex;align-items:center;gap:9px;padding:9px 18px;font-size:13px;font-weight:500;color:rgba(255,255,255,.5);position:relative;z-index:1}
+.sb-item.on{color:white;background:rgba(62,207,178,.12)}
+.sb-item.on::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:18px;background:var(--teal);border-radius:0 2px 2px 0}
+.card{background:white;border-radius:14px;padding:16px;box-shadow:var(--shadow)}
+.badge{display:inline-flex;align-items:center;padding:3px 8px;border-radius:10px;font-size:10px;font-weight:700;white-space:nowrap}
+.bnv{background:rgba(27,42,74,.08);color:var(--navy)}
+.btl{background:rgba(62,207,178,.12);color:var(--teal-dark)}
+.bcl{background:rgba(244,113,79,.13);color:var(--coral-dark)}
+.bgy{background:#EDEBE6;color:#7A766F}
+.btn-grad-sm{background:var(--grad-btn);color:white;border:none;border-radius:10px;padding:9px 16px;font-size:12px;font-weight:700;font-family:'DM Sans',sans-serif;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
+.btn-ghost{background:var(--gray-100);border:1px solid var(--gray-200);color:var(--gray-600);border-radius:10px;padding:9px 16px;font-size:12px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
+.flabel{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--gray-400);display:block;margin-bottom:6px}
+.fi{background:white;border:1.5px solid var(--gray-200);border-radius:10px;padding:11px 14px;font-size:13px;color:var(--navy);width:100%}
+.vjb{position:absolute;bottom:80px;right:14px;width:48px;height:48px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(27,42,74,.4);z-index:30}
+.vjd{position:absolute;bottom:20px;right:20px;width:44px;height:44px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(27,42,74,.5);z-index:30}
+.vdot{position:absolute;top:-1px;right:-1px;width:11px;height:11px;border-radius:50%;background:var(--coral);border:2px solid white}
+.mnav{background:white;border-top:1px solid var(--gray-100);display:flex;padding:8px 0 22px}
+.mtab{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:9px;font-weight:500;color:var(--gray-400);position:relative}
+.mtab.on{color:var(--teal-dark)}
+.mtab.on::after{content:'';display:block;width:4px;height:4px;border-radius:50%;background:var(--grad-accent);position:absolute;bottom:-2px;left:50%;transform:translateX(-50%)}
+.mtab-plus{flex:1;display:flex;align-items:center;justify-content:center}
+.mplus{width:42px;height:42px;border-radius:50%;background:var(--grad-btn);display:flex;align-items:center;justify-content:center;margin-top:-14px;box-shadow:0 4px 16px rgba(62,207,178,.4)}
+.mono{font-family:'DM Mono',monospace}
+.seg{display:flex;background:var(--gray-100);border-radius:10px;padding:3px;gap:2px}
+.seg .sg{padding:5px 13px;border-radius:8px;font-size:11px;font-weight:600;color:var(--gray-600);cursor:pointer}
+.seg .sg.on{background:var(--navy);color:white}
+/* Recovery Score ring (locked spec §2) — for Metrics Snapshot */
+.ring{position:relative;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.ring-disc{border-radius:50%;background:conic-gradient(#C0392B 0deg,#E05540 45deg,#F4714F 90deg,#2ABFA4 180deg,#3ECFB2 225deg,#2A6B6B 270deg,#1B2A4A 315deg,#1B2A4A 360deg);-webkit-mask:radial-gradient(circle,transparent 54%,black 55%);mask:radial-gradient(circle,transparent 54%,black 55%)}
+.ring-cap{position:absolute;border-radius:50%;background:conic-gradient(#EEF1F7 0deg 180deg,transparent 180deg 360deg);-webkit-mask:radial-gradient(circle,transparent 54%,black 55%);mask:radial-gradient(circle,transparent 54%,black 55%)}
+.ring-label{position:absolute;display:flex;flex-direction:column;align-items:center;gap:1px;pointer-events:none}
+.ring-score{font-family:'DM Mono',monospace;font-weight:500;line-height:1}
+.ring-sublabel{font-size:7px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--gray-400)}
+.ring-q{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;border:1.5px solid var(--gray-200);font-size:9px;font-weight:700;color:var(--gray-400);flex-shrink:0}
+.ring-lg .ring-disc,.ring-lg .ring-cap{width:72px;height:72px}
+.ring-lg{width:72px;height:72px}
+.ring-lg .ring-score{font-size:14px}
+/* Caseload Health ring — navy core + pulse badge (aggregate, NOT survivor recovery ring) */
+.chring{position:relative;display:inline-flex;flex-shrink:0;width:72px;height:72px}
+.chring .ring-disc{position:absolute;inset:0;width:72px;height:72px}
+.chring .ring-cap{position:absolute;inset:0;width:72px;height:72px;background:conic-gradient(#EEF1F7 0deg 180deg,transparent 180deg 360deg)}
+.chring .ch-core{position:absolute;inset:13px;border-radius:50%;background:var(--navy);display:flex;flex-direction:column;align-items:center;justify-content:center}
+.chring .ch-core .v{font-family:'DM Mono',monospace;font-weight:500;color:white;line-height:1;font-size:14px}
+.chring .ch-core .l{font-size:7px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:rgba(255,255,255,.5)}
+.chring .ch-badge{position:absolute;bottom:-2px;right:-2px;width:22px;height:22px;border-radius:50%;background:var(--grad-accent);border:2px solid white;display:flex;align-items:center;justify-content:center}
+/* ─── Avatar + badge medallions ─── */
+.av{position:relative;flex-shrink:0}
+.av-img{border-radius:50%;background:var(--grad-accent);display:flex;align-items:center;justify-content:center;font-weight:700;color:white;overflow:hidden}
+.av-photo{width:100%;height:100%;border-radius:50%;background:linear-gradient(160deg,#D8DDED,#8A94AD);display:flex;align-items:center;justify-content:center}
+.med{position:absolute;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid white;box-shadow:0 2px 6px rgba(27,42,74,.25)}
+.med svg{width:55%;height:55%}
+.med.m1{background:var(--grad-accent)}
+.med.m2{background:var(--grad-nt)}
+.med.m3{background:var(--grad-cn)}
+/* sizes: card avatar 56px, medallions 20px arcing bottom-right */
+.av-56 .av-img{width:56px;height:56px;font-size:19px}
+.av-56 .med{width:20px;height:20px}
+.av-56 .med.m1{bottom:-2px;right:-2px}
+.av-56 .med.m2{bottom:-6px;right:16px}
+.av-56 .med.m3{bottom:8px;right:-8px}
+/* profile hero avatar 84px, medallions 26px */
+.av-84 .av-img{width:84px;height:84px;font-size:28px}
+.av-84 .med{width:26px;height:26px}
+.av-84 .med.m1{bottom:-2px;right:-2px}
+.av-84 .med.m2{bottom:-8px;right:24px}
+.av-84 .med.m3{bottom:12px;right:-10px}
+/* Team card — Resource Directory language */
+.tcard{background:white;border-radius:14px;padding:14px;box-shadow:var(--shadow);cursor:pointer;text-align:center}
+.tcard.me{border:2px solid var(--teal)}
+.tcard-role{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--teal-dark);font-family:'DM Mono',monospace;margin:8px 0 2px}
+.tcard-name{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:2px}
+.tcard-num{font-family:'DM Mono',monospace;font-size:11px;color:var(--gray-600);margin-bottom:6px}
+.tcard-meta{display:flex;justify-content:center;gap:5px;flex-wrap:wrap}
+.fpill{padding:5px 12px;border-radius:14px;background:white;border:1px solid var(--gray-200);font-size:11px;font-weight:600;color:var(--gray-600);cursor:pointer;white-space:nowrap}
+.fpill.on{background:var(--navy);border-color:var(--navy);color:white}
+/* trophy case tiles (locked §12 language) */
+.ach{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center}
+.ach svg{width:24px;height:24px}
+.ach.locked{background:var(--gray-100);opacity:.45}
+</style>
+</head>
+<!-- ============================================================
+     ⚠️ SUPERSEDED 2026-06-15 — Messaging/notifications direction.
+     The team "Messages" surface shown in Screens 25-28 is replaced by the
+     event-spine three-surface model (Notifications · Messages · Team Channels).
+     Canonical: ~/Claude CoWork/Outputs/Vigilant/specs/Notifications_Messaging_Backbone_Spec.md
+     + CLAUDE_CODE_HANDOFF_Recovery_Budget_and_Messaging.md (Part A).
+     Non-messaging screens here (Team Directory, Profile Edit, Survivor CM Card)
+     remain valid. Retained for history.
+============================================================ -->
+<body>
+
+<!-- ════════════════════════════════════════════════════════════════ -->
+<!-- SCREEN 25 — TEAM DIRECTORY -->
+<!-- ════════════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="sh">
+    <div class="plabel">Screen 25 · Team Directory</div>
+    <div class="stitle">Team</div>
+    <div class="sdesc">Card grid in Resource Directory language · photo + role + work phone + up to 3 featured badge medallions · site + role filter pills · sidebar: Team after Resources · mobile: reached from Profile screen</div>
+  </div>
+  <div class="duo">
+    <!-- MOBILE -->
+    <div class="phone">
+      <div class="notch"></div>
+      <div class="ps">
+        <div style="background:var(--grad-hero);padding:52px 20px 16px;position:relative;overflow:hidden">
+          <div style="position:absolute;width:240px;height:240px;border-radius:50%;background:var(--teal);filter:blur(70px);opacity:.18;top:-70px;right:-50px"></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;position:relative;z-index:1">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.6)" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+            <span class="mono" style="font-size:20px;font-weight:500;color:white">Team</span>
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.75)" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </div>
+          <div style="display:flex;gap:6px;overflow-x:auto;position:relative;z-index:1">
+            <div style="padding:5px 12px;border-radius:14px;background:var(--teal);color:var(--navy);font-size:11px;font-weight:700;white-space:nowrap">All Sites</div>
+            <div style="padding:5px 12px;border-radius:14px;background:rgba(255,255,255,.12);color:rgba(255,255,255,.7);font-size:11px;white-space:nowrap">Pasadena</div>
+            <div style="padding:5px 12px;border-radius:14px;background:rgba(255,255,255,.12);color:rgba(255,255,255,.7);font-size:11px;white-space:nowrap">Altadena</div>
+            <div style="padding:5px 12px;border-radius:14px;background:rgba(255,255,255,.12);color:rgba(255,255,255,.7);font-size:11px;white-space:nowrap">CMs</div>
+            <div style="padding:5px 12px;border-radius:14px;background:rgba(255,255,255,.12);color:rgba(255,255,255,.7);font-size:11px;white-space:nowrap">Leads</div>
+          </div>
+        </div>
+        <div style="padding:14px 16px;display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div class="tcard me">
+            <div class="av av-56" style="margin:0 auto">
+              <div class="av-img">HW</div>
+              <div class="med m1"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+              <div class="med m2"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg></div>
+              <div class="med m3"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg></div>
+            </div>
+            <div class="tcard-role">Care Manager</div>
+            <div class="tcard-name">Horace Wormely</div>
+            <div class="tcard-num">(626) 555-0147</div>
+            <div class="tcard-meta"><span class="badge bgy">Pasadena</span></div>
+          </div>
+          <div class="tcard">
+            <div class="av av-56" style="margin:0 auto">
+              <div class="av-img" style="background:var(--grad-nt)">ME</div>
+              <div class="med m1"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg></div>
+              <div class="med m2"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+            </div>
+            <div class="tcard-role">CM Lead</div>
+            <div class="tcard-name">Marisol Espino</div>
+            <div class="tcard-num">(626) 555-0119</div>
+            <div class="tcard-meta"><span class="badge bgy">Pasadena</span></div>
+          </div>
+          <div class="tcard">
+            <div class="av av-56" style="margin:0 auto">
+              <div class="av-img" style="background:var(--grad-cn)">SR</div>
+              <div class="med m1"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg></div>
+            </div>
+            <div class="tcard-role">Care Manager</div>
+            <div class="tcard-name">Sara Reyes</div>
+            <div class="tcard-num">(626) 555-0162</div>
+            <div class="tcard-meta"><span class="badge bgy">Altadena</span></div>
+          </div>
+          <div class="tcard">
+            <div class="av av-56" style="margin:0 auto">
+              <div class="av-img" style="background:var(--navy)">WS</div>
+            </div>
+            <div class="tcard-role">Executive Director</div>
+            <div class="tcard-name">Dr. William Syms</div>
+            <div class="tcard-num">(626) 555-0101</div>
+            <div class="tcard-meta"><span class="badge bgy">Pasadena</span></div>
+          </div>
+          <div class="tcard">
+            <div class="av av-56" style="margin:0 auto">
+              <div class="av-img" style="background:var(--grad-teal);color:var(--navy)">RD</div>
+              <div class="med m1"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
+            </div>
+            <div class="tcard-role">Resource Lead</div>
+            <div class="tcard-name">Rocsii Delgado</div>
+            <div class="tcard-num">(626) 555-0138</div>
+            <div class="tcard-meta"><span class="badge bgy">Pasadena</span></div>
+          </div>
+          <div class="tcard">
+            <div class="av av-56" style="margin:0 auto">
+              <div class="av-img" style="background:var(--navy-mid)">SA</div>
+              <div class="med m1"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round"><path d="M12 15a7 7 0 1 0 0-14 7 7 0 0 0 0 14z" opacity="0"/><path d="M8.21 13.89L7 23l5-3 5 3-1.21-9.12"/><circle cx="12" cy="8" r="6"/></svg></div>
+            </div>
+            <div class="tcard-role">Admin</div>
+            <div class="tcard-name">Stephanie Ahn</div>
+            <div class="tcard-num">(626) 555-0124</div>
+            <div class="tcard-meta"><span class="badge bgy">Altadena</span></div>
+          </div>
+        </div>
+        <div class="vjb"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg><div class="vdot"></div></div>
+        <div class="mnav">
+          <div class="mtab"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#8A94AD" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg>Dashboard</div>
+          <div class="mtab"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#8A94AD" stroke-width="1.5" stroke-linecap="round"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg>Clients</div>
+          <div class="mtab-plus"><div class="mplus"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
+          <div class="mtab"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#8A94AD" stroke-width="1.5" stroke-linecap="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>Resources</div>
+          <div class="mtab"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#8A94AD" stroke-width="1.5" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Messages</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DESKTOP -->
+    <div class="desk">
+      <div class="tbar"><div class="td r"></div><div class="td y"></div><div class="td g"></div></div>
+      <div class="ds">
+        <div class="sb">
+          <div class="sb-orb"></div>
+          <div class="sb-logo"><div class="sb-mark">Vj</div><div class="sb-name">Vijilant</div></div>
+          <div class="sb-sec">Case Manager</div>
+          <div class="sb-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg> Dashboard</div>
+          <div class="sb-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="4" width="18" height="17" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/></svg> Calendar</div>
+          <div class="sb-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg> My Cases</div>
+          <div class="sb-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> Resources</div>
+          <div class="sb-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> Resources</div>
+          <div class="sb-item on">
+            <svg width="15" height="15" viewBox="0 0 24 24"><defs><linearGradient id="gd-s26sb" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#3ECFB2"/><stop offset="100%" stop-color="#F4714F"/></linearGradient></defs><circle cx="9" cy="7" r="3.5" fill="url(#gd-s26sb)"/><circle cx="17" cy="9" r="2.5" fill="url(#gd-s26sb)" opacity=".7"/><path d="M2 21v-2a5 5 0 0 1 5-5h4a5 5 0 0 1 5 5v2" fill="url(#gd-s26sb)" opacity=".75"/><path d="M17 14a4 4 0 0 1 5 4v3" fill="url(#gd-s26sb)" opacity=".5"/></svg>
+            Team
+          </div>
+          <div class="sb-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> Metrics</div>
+          <div class="sb-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Profile</div>
+        </div>
+        <div class="ds" style="min-height:auto;flex:1;display:flex;flex-direction:column">
+          <div style="background:var(--grad-hero);padding:20px 24px;position:relative;overflow:hidden;flex-shrink:0">
+            <div style="position:absolute;width:280px;height:280px;border-radius:50%;background:var(--teal);filter:blur(80px);opacity:.15;top:-80px;right:-60px"></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;position:relative;z-index:1">
+              <div style="display:flex;align-items:center;gap:18px">
+                <div class="av av-84">
+                  <div class="av-img">HW</div>
+                  <div class="med m1"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+                  <div class="med m2"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg></div>
+                  <div class="med m3"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg></div>
+                </div>
+                <div>
+                  <div style="font-size:21px;font-weight:700;color:white">Horace Wormely</div>
+                  <div class="mono" style="font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--teal);margin-top:2px">Care Manager</div>
+                  <div style="display:flex;align-items:center;gap:10px;margin-top:6px">
+                    <span class="mono" style="font-size:11px;color:rgba(255,255,255,.65)">(626) 555-0147</span>
+                    <span class="mono" style="font-size:11px;color:rgba(255,255,255,.65)">hwormely@thelegacylandproject.org</span>
+                  </div>
+                  <div style="display:flex;gap:6px;margin-top:7px">
+                    <span style="padding:3px 9px;border-radius:10px;background:rgba(255,255,255,.12);font-size:10px;color:white">Pasadena Site</span>
+                    <span style="padding:3px 9px;border-radius:10px;background:rgba(255,255,255,.12);font-size:10px;color:white">Since Feb 2026</span>
+                  </div>
+                </div>
+              </div>
+              <div class="btn-ghost" style="background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.14);color:white;padding:8px 14px;font-size:12px">Message</div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1.3fr 1fr;gap:14px;padding:18px 24px;flex:1;overflow:auto;background:var(--warm-bg)">
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <div class="card">
+                <div class="flabel">About</div>
+                <div style="font-size:12.5px;color:var(--gray-600);line-height:1.65">Pasadena native and retired professional point guard turned Disaster Care Manager. Walks with survivors through the full arc of Eaton Canyon recovery — FEMA, insurance, housing, and the long middle where most people get lost.</div>
+              </div>
+              <div class="card">
+                <div class="flabel">Work Experience</div>
+                <div style="display:flex;flex-direction:column;gap:9px">
+                  <div><div style="font-size:12px;font-weight:600;color:var(--navy)">Disaster Care Manager — The Legacy Land Project</div><div class="mono" style="font-size:9px;color:var(--gray-400)">Feb 2026 – present · Pasadena</div></div>
+                  <div><div style="font-size:12px;font-weight:600;color:var(--navy)">Founder — KYP Academy</div><div class="mono" style="font-size:9px;color:var(--gray-400)">2024 – present</div></div>
+                  <div><div style="font-size:12px;font-weight:600;color:var(--navy)">Professional Point Guard — International</div><div class="mono" style="font-size:9px;color:var(--gray-400)">12 seasons</div></div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="flabel">Certifications</div>
+                <div style="display:flex;flex-direction:column;gap:8px">
+                  <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:12px;font-weight:600;color:var(--navy)">Disaster Case Management — CCUSA</span><span class="mono" style="font-size:9px;color:var(--gray-400)">Mar 2026</span></div>
+                  <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:12px;font-weight:600;color:var(--navy)">Trauma-Informed Care — Level 2</span><span class="mono" style="font-size:9px;color:var(--gray-400)">Apr 2026</span></div>
+                  <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:12px;font-weight:600;color:var(--navy)">CPR / First Aid — Red Cross</span><span class="mono" style="font-size:9px;color:var(--gray-400)">Jan 2026</span></div>
+                </div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <!-- METRICS SNAPSHOT — visible to self + Lead/Admin/ED only, click → per-CM Metrics screen -->
+              <div class="card" style="cursor:pointer">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:11px">
+                  <div class="flabel" style="margin:0">Metrics Snapshot</div>
+                  <span class="mono" style="font-size:10px;color:var(--teal-dark);font-weight:500">View Metrics →</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:13px">
+                  <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
+                    <div class="chring">
+                      <div class="ring-disc"></div>
+                      <div class="ring-cap" style="transform:rotate(238deg)"></div>
+                      <div class="ch-core"><div class="v">662</div><div class="l">Caseload</div></div>
+                      <div class="ch-badge"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2 5 4-12 2 7h6"/></svg></div>
+                    </div>
+                    <div class="ring-q">?</div>
+                  </div>
+                  <div style="display:flex;flex-direction:column;gap:4px">
+                    <span class="badge" style="background:#FDECEA;color:#C0392B;font-size:9px;padding:2px 7px">T1 · 8</span>
+                    <span class="badge" style="background:#FDF6E7;color:#E5A328;font-size:9px;padding:2px 7px">T2 · 12</span>
+                    <span class="badge" style="background:#E8F4FF;color:#1A5FA8;font-size:9px;padding:2px 7px">T3 · 7</span>
+                    <span class="badge" style="background:#EAF3EF;color:#2D7A4F;font-size:9px;padding:2px 7px">T4 · 4</span>
+                  </div>
+                  <div style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 12px">
+                    <div><div class="mono" style="font-size:16px;color:var(--navy)">31</div><div class="mono" style="font-size:8px;letter-spacing:.06em;text-transform:uppercase;color:var(--gray-400)">Active caseload</div></div>
+                    <div><div class="mono" style="font-size:16px;color:#2D7A4F">+24</div><div class="mono" style="font-size:8px;letter-spacing:.06em;text-transform:uppercase;color:var(--gray-400)">Caseload · 30d</div></div>
+                    <div><div class="mono" style="font-size:16px;color:var(--navy)">92%</div><div class="mono" style="font-size:8px;letter-spacing:.06em;text-transform:uppercase;color:var(--gray-400)">Follow-up rate</div></div>
+                    <div><div class="mono" style="font-size:16px;color:var(--navy)">14</div><div class="mono" style="font-size:8px;letter-spacing:.06em;text-transform:uppercase;color:var(--gray-400)">Apps approved · 90d</div></div>
+                  </div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="flabel">Languages</div>
+                <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">
+                  <span class="badge bnv">English</span><span class="badge bnv">Spanish — conversational</span>
+                </div>
+                <div class="flabel">Specializations</div>
+                <div style="display:flex;gap:6px;flex-wrap:wrap">
+                  <span class="badge btl">FEMA appeals</span><span class="badge btl">Housing navigation</span><span class="badge btl">Insurance claims</span>
+                </div>
+              </div>
+              <div class="card">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+                  <div class="flabel" style="margin:0">Trophy Case</div>
+                  <span class="mono" style="font-size:9px;color:var(--gray-400)">6 of 12 · ★ = featured</span>
+                </div>
+                <div style="display:grid;grid-template-columns:repeat(4,48px);gap:9px">
+                  <div style="position:relative"><div class="ach" style="background:var(--grad-accent)"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg></div><div class="mono" style="position:absolute;top:-4px;right:-4px;font-size:10px;color:var(--coral-dark)">★</div></div>
+                  <div style="position:relative"><div class="ach" style="background:var(--grad-nt)"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg></div><div class="mono" style="position:absolute;top:-4px;right:-4px;font-size:10px;color:var(--coral-dark)">★</div></div>
+                  <div style="position:relative"><div class="ach" style="background:var(--grad-cn)"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg></div><div class="mono" style="position:absolute;top:-4px;right:-4px;font-size:10px;color:var(--coral-dark)">★</div></div>
+                  <div class="ach" style="background:var(--grad-accent)"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/></svg></div>
+                  <div class="ach" style="background:var(--grad-nt)"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg></div>
+                  <div class="ach" style="background:var(--grad-cn)"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></div>
+                  <div class="ach locked"><svg viewBox="0 0 24 24" fill="none" stroke="#8A94AD" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="8" r="6"/><path d="M8.21 13.89L7 23l5-3 5 3-1.21-9.12"/></svg></div>
+                  <div class="ach locked"><svg viewBox="0 0 24 24" fill="none" stroke="#8A94AD" stroke-width="1.8" stroke-linecap="round"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg></div>
+                </div>
+              </div>
+              <div style="padding:11px 13px;border-radius:12px;background:rgba(27,42,74,.04);font-size:10.5px;color:var(--gray-600);line-height:1.55">Role and site are Admin-managed; everything else self-edits from Profile → Edit. Metrics Snapshot is visible only to the CM themself and Lead/Admin/ED — peers never see it (card omitted from their view, not grayed). Tier-mix chips give context to the average score. Click-through opens the full per-CM Metrics screen for everyone who can see the card.</div>
+            </div>
+          </div>
+        </div>
+        <div class="vjd"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg><div class="vdot"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="div">
+
+<!-- ════════════════════════════════════════════════════════════════ -->
+<!-- SCREEN 27 — PROFILE EDIT + FEATURED BADGE PICKER -->
+<!-- ════════════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="sh">
+    <div class="plabel">Screen 27 · Profile Edit + Featured Badge Picker</div>
+    <div class="stitle">Edit Profile</div>
+    <div class="sdesc">Self-edit: photo, bio, phone, languages, specializations, certifications, experience · featured badge picker (max 3 from earned) · role + site fields locked to Admin</div>
+  </div>
+  <div class="duo">
+    <!-- MOBILE: BADGE PICKER SHEET -->
+    <div class="phone">
+      <div class="notch"></div>
+      <div class="ps">
+        <!-- Underlying edit screen -->
+        <div style="position:absolute;inset:0">
+          <div style="background:var(--grad-hero);padding:52px 20px 16px;position:relative;overflow:hidden">
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.6)" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+              <span style="font-size:13px;font-weight:600;color:rgba(255,255,255,.6)">Edit Profile</span>
+              <span style="font-size:13px;font-weight:600;color:var(--teal)">Save</span>
+            </div>
+          </div>
+          <div style="padding:14px 16px;display:flex;flex-direction:column;gap:11px">
+            <div class="card" style="display:flex;align-items:center;gap:13px">
+              <div class="av av-56"><div class="av-img">HW</div></div>
+              <div style="flex:1"><div style="font-size:12px;font-weight:700;color:var(--navy)">Profile photo</div><div class="mono" style="font-size:9px;color:var(--gray-400)">JPG/PNG · max 5MB</div></div>
+              <div class="btn-ghost" style="padding:7px 13px;font-size:11px">Change</div>
+            </div>
+            <div class="card">
+              <div class="flabel">Bio</div>
+              <div class="fi" style="min-height:54px;font-size:12px;color:var(--gray-600)">Pasadena native and retired professional point guard turned Disaster Care Manager…</div>
+            </div>
+          </div>
+        </div>
+        <!-- Scrim -->
+        <div style="position:absolute;inset:0;background:rgba(27,42,74,.45)"></div>
+        <!-- Badge picker sheet -->
+        <div style="position:absolute;bottom:0;left:0;right:0;background:white;border-radius:24px 24px 0 0;padding:18px 20px 34px;box-shadow:0 -12px 40px rgba(27,42,74,.3)">
+          <div style="width:36px;height:4px;border-radius:2px;background:var(--gray-200);margin:0 auto 16px"></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+            <div style="font-size:15px;font-weight:700;color:var(--navy)">Featured Badges</div>
+            <span class="mono" style="font-size:10px;color:var(--teal-dark)">2 of 3 selected</span>
+          </div>
+          <div style="font-size:11px;color:var(--gray-600);margin-bottom:14px">Pick up to 3 earned badges to show on your profile photo across the app.</div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px">
+            <div style="text-align:center">
+              <div style="position:relative;display:inline-block"><div class="ach" style="background:var(--grad-accent);border:2.5px solid var(--teal)"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg></div><div style="position:absolute;top:-5px;right:-5px;width:16px;height:16px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg></div></div>
+              <div class="mono" style="font-size:8px;color:var(--gray-600);margin-top:4px">50 Follow-ups</div>
+            </div>
+            <div style="text-align:center">
+              <div style="position:relative;display:inline-block"><div class="ach" style="background:var(--grad-nt);border:2.5px solid var(--teal)"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg></div><div style="position:absolute;top:-5px;right:-5px;width:16px;height:16px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg></div></div>
+              <div class="mono" style="font-size:8px;color:var(--gray-600);margin-top:4px">Score Riser</div>
+            </div>
+            <div style="text-align:center">
+              <div class="ach" style="background:var(--grad-cn);display:inline-flex"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg></div>
+              <div class="mono" style="font-size:8px;color:var(--gray-600);margin-top:4px">First 10 Clients</div>
+            </div>
+            <div style="text-align:center">
+              <div class="ach" style="background:var(--grad-accent);display:inline-flex"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/></svg></div>
+              <div class="mono" style="font-size:8px;color:var(--gray-600);margin-top:4px">25 Aid Apps</div>
+            </div>
+            <div style="text-align:center">
+              <div class="ach" style="background:var(--grad-nt);display:inline-flex"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg></div>
+              <div class="mono" style="font-size:8px;color:var(--gray-600);margin-top:4px">Data Steward</div>
+            </div>
+            <div style="text-align:center">
+              <div class="ach" style="background:var(--grad-cn);display:inline-flex"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></div>
+              <div class="mono" style="font-size:8px;color:var(--gray-600);margin-top:4px">Note Streak</div>
+            </div>
+            <div style="text-align:center;opacity:.45">
+              <div class="ach locked" style="display:inline-flex"><svg viewBox="0 0 24 24" fill="none" stroke="#8A94AD" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="8" r="6"/><path d="M8.21 13.89L7 23l5-3 5 3-1.21-9.12"/></svg></div>
+              <div class="mono" style="font-size:8px;color:var(--gray-400);margin-top:4px">Locked</div>
+            </div>
+            <div style="text-align:center;opacity:.45">
+              <div class="ach locked" style="display:inline-flex"><svg viewBox="0 0 24 24" fill="none" stroke="#8A94AD" stroke-width="1.8" stroke-linecap="round"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg></div>
+              <div class="mono" style="font-size:8px;color:var(--gray-400);margin-top:4px">Locked</div>
+            </div>
+          </div>
+          <div class="btn-grad-sm" style="width:100%;padding:12px">Save Featured Badges</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DESKTOP: EDIT FORM -->
+    <div class="desk">
+      <div class="tbar"><div class="td r"></div><div class="td y"></div><div class="td g"></div></div>
+      <div class="ds" style="background:rgba(27,42,74,.35);align-items:center;justify-content:center">
+        <div style="background:white;border-radius:16px;box-shadow:0 24px 64px rgba(27,42,74,.35);width:560px;padding:22px;margin:30px auto;max-height:600px;overflow:auto">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+            <div style="font-size:15px;font-weight:700;color:var(--navy)">Edit Profile</div>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gray-400)" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </div>
+          <div style="display:flex;align-items:center;gap:14px;margin-bottom:14px">
+            <div class="av av-84">
+              <div class="av-img">HW</div>
+              <div class="med m1"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+              <div class="med m2"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg></div>
+            </div>
+            <div style="flex:1">
+              <div class="btn-ghost" style="padding:7px 13px;font-size:11px;margin-bottom:6px">Change Photo</div>
+              <div style="display:flex;align-items:center;gap:6px">
+                <span class="mono" style="font-size:10px;color:var(--teal-dark)">Featured badges: 2 of 3</span>
+                <span style="font-size:11px;font-weight:600;color:var(--teal-dark);cursor:pointer">Edit →</span>
+              </div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:11px">
+            <div><div class="flabel">Full name</div><div class="fi" style="font-size:12px">Horace Wormely</div></div>
+            <div><div class="flabel">Work phone</div><div class="fi mono" style="font-size:12px">(626) 555-0147</div></div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:11px">
+            <div>
+              <div class="flabel">Role <span style="color:var(--gray-400);text-transform:none;letter-spacing:0">· Admin-managed</span></div>
+              <div class="fi" style="font-size:12px;background:var(--gray-100);color:var(--gray-400);display:flex;align-items:center;justify-content:space-between">Care Manager <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--gray-400)" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+            </div>
+            <div>
+              <div class="flabel">Site <span style="color:var(--gray-400);text-transform:none;letter-spacing:0">· Admin-managed</span></div>
+              <div class="fi" style="font-size:12px;background:var(--gray-100);color:var(--gray-400);display:flex;align-items:center;justify-content:space-between">Pasadena <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--gray-400)" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+            </div>
+          </div>
+          <div style="margin-bottom:11px">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+              <span class="flabel" style="margin:0">Bio</span>
+              <span class="badge btl" style="cursor:pointer"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="var(--teal-dark)" stroke-width="2" style="margin-right:3px"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>Draft with VJ</span>
+            </div>
+            <div class="fi" style="min-height:58px;font-size:12px;color:var(--gray-600);background:#F0FAF5;border-color:#2D7A4F">Pasadena native and retired professional point guard turned Disaster Care Manager. Walks with survivors through the full arc of Eaton Canyon recovery…</div>
+            <div class="mono" style="font-size:8px;color:var(--gray-400);margin-top:4px">VJ drafted this from your activity — edit freely before saving.</div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:11px">
+            <div>
+              <div class="flabel">Languages</div>
+              <div style="display:flex;gap:5px;flex-wrap:wrap">
+                <span class="badge bnv">English ✕</span><span class="badge bnv">Spanish ✕</span><span class="badge bgy">+ Add</span>
+              </div>
+            </div>
+            <div>
+              <div class="flabel">Specializations</div>
+              <div style="display:flex;gap:5px;flex-wrap:wrap">
+                <span class="badge btl">FEMA appeals ✕</span><span class="badge btl">Housing ✕</span><span class="badge bgy">+ Add</span>
+              </div>
+            </div>
+          </div>
+          <div style="margin-bottom:11px;padding:10px 12px;border-radius:11px;background:#F0FAF5;border:1px solid #2D7A4F">
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#2D7A4F" stroke-width="2"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
+              <span style="font-size:11px;font-weight:700;color:#2D7A4F">VJ suggests, from your caseload</span>
+            </div>
+            <div style="font-size:10.5px;color:var(--gray-600);line-height:1.5;margin-bottom:7px">You've closed 11 FEMA appeals and 6 insurance claims in 90 days. Add these specializations?</div>
+            <div style="display:flex;gap:5px;flex-wrap:wrap">
+              <span class="badge bgr" style="cursor:pointer">+ Insurance claims</span><span class="badge bgr" style="cursor:pointer">+ Senior support</span>
+            </div>
+          </div>
+          <div style="margin-bottom:16px">
+            <div class="flabel">Certifications</div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 11px;border:1.5px solid var(--gray-200);border-radius:10px;margin-bottom:6px">
+              <span style="font-size:12px;font-weight:600;color:var(--navy)">Disaster Case Management — CCUSA</span>
+              <span class="mono" style="font-size:9px;color:var(--gray-400)">Mar 2026 ✕</span>
+            </div>
+            <div style="font-size:11px;font-weight:600;color:var(--teal-dark);cursor:pointer">+ Add certification</div>
+          </div>
+          <div style="display:flex;gap:9px">
+            <div class="btn-ghost" style="flex:1">Cancel</div>
+            <div class="btn-grad-sm" style="flex:2;padding:11px">Save Profile</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="div">
+
+<!-- ════════════════════════════════════════════════════════════════ -->
+<!-- SCREEN 28 — SURVIVOR PORTAL · UPGRADED CM CARD -->
+<!-- ════════════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="sh">
+    <div class="plabel">Screen 28 · Survivor Portal — Your Care Manager Card</div>
+    <div class="stitle">Portal CM Card</div>
+    <div class="sdesc">Upgrade to the existing S1 CM assignment card: photo, bio snippet, languages, featured badges · NO email/phone — contact stays in portal messaging (logged) · mobile portal context</div>
+  </div>
+  <div class="duo">
+    <!-- MOBILE PORTAL -->
+    <div class="phone">
+      <div class="notch"></div>
+      <div class="ps">
+        <div style="background:var(--grad-hero);padding:52px 20px 22px;position:relative;overflow:hidden">
+          <div style="position:absolute;width:240px;height:240px;border-radius:50%;background:var(--teal);filter:blur(70px);opacity:.2;top:-70px;right:-50px"></div>
+          <div style="position:relative;z-index:1">
+            <div style="font-size:17px;font-weight:700;color:white">Your Recovery</div>
+            <div class="mono" style="font-size:10px;color:rgba(255,255,255,.45);margin-top:2px">Marcus Thompson · VGL-2025-0031</div>
+          </div>
+        </div>
+        <div style="padding:14px 16px;display:flex;flex-direction:column;gap:12px">
+          <!-- UPGRADED CM CARD -->
+          <div class="card" style="border:2px solid var(--teal)">
+            <div class="flabel">Your Care Manager</div>
+            <div style="display:flex;align-items:center;gap:13px;margin-bottom:10px">
+              <div class="av av-56">
+                <div class="av-img">HW</div>
+                <div class="med m1"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+                <div class="med m2"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg></div>
+                <div class="med m3"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg></div>
+              </div>
+              <div style="flex:1">
+                <div style="font-size:14px;font-weight:700;color:var(--navy)">Horace Wormely</div>
+                <div class="mono" style="font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--teal-dark);margin-top:1px">Care Manager · Pasadena</div>
+                <div style="display:flex;gap:5px;margin-top:5px">
+                  <span class="badge bnv">English</span><span class="badge bnv">Español</span>
+                </div>
+              </div>
+            </div>
+            <div style="font-size:11.5px;color:var(--gray-600);line-height:1.55;margin-bottom:11px">Pasadena native walking with Eaton Canyon families through every step of recovery — FEMA, insurance, housing, and everything between.</div>
+            <div class="btn-grad-sm" style="width:100%;padding:11px">Message Horace</div>
+          </div>
+          <!-- Existing action items card (context) -->
+          <div class="card">
+            <div class="flabel">Action Items</div>
+            <div style="display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:10px;background:#FDECEA;margin-bottom:7px">
+              <div style="flex:1;font-size:12px;font-weight:600;color:var(--navy)">Upload insurance letter</div>
+              <div class="btn-grad-sm" style="padding:6px 12px;font-size:10px">Upload</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:10px;background:#E8F4FF">
+              <div style="flex:1;font-size:12px;font-weight:600;color:var(--navy)">Sign FEMA authorization</div>
+              <div class="btn-grad-sm" style="padding:6px 12px;font-size:10px">Sign</div>
+            </div>
+          </div>
+        </div>
+        <div class="mnav" style="position:absolute;bottom:0;left:0;right:0">
+          <div class="mtab on">
+            <svg width="21" height="21" viewBox="0 0 24 24"><defs><linearGradient id="gd-s28m" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#3ECFB2"/><stop offset="100%" stop-color="#F4714F"/></linearGradient></defs><rect x="3" y="3" width="8" height="8" rx="1.5" fill="url(#gd-s28m)"/><rect x="13" y="3" width="8" height="8" rx="1.5" fill="url(#gd-s28m)" opacity=".75"/><rect x="3" y="13" width="8" height="8" rx="1.5" fill="url(#gd-s28m)" opacity=".75"/><rect x="13" y="13" width="8" height="8" rx="1.5" fill="url(#gd-s28m)" opacity=".55"/></svg>
+            My Case
+          </div>
+          <div class="mtab"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#8A94AD" stroke-width="1.5" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>Plan</div>
+          <div class="mtab"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#8A94AD" stroke-width="1.5" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>Apps</div>
+          <div class="mtab" style="position:relative"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#8A94AD" stroke-width="1.5" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Messages<div style="position:absolute;top:-2px;right:24px;width:8px;height:8px;border-radius:50%;background:var(--coral)"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DESKTOP PORTAL -->
+    <div class="desk">
+      <div class="tbar"><div class="td r"></div><div class="td y"></div><div class="td g"></div></div>
+      <div class="ds">
+        <div class="sb">
+          <div class="sb-orb"></div>
+          <div class="sb-logo"><div class="sb-mark">Vj</div><div class="sb-name">Vijilant</div></div>
+          <div class="sb-sec">Survivor Portal</div>
+          <div class="sb-item on"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg> My Case</div>
+          <div class="sb-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg> Recovery Plan</div>
+          <div class="sb-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg> Applications</div>
+          <div class="sb-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Messages</div>
+          <div class="sb-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><line x1="9" y1="15" x2="15" y2="15"/></svg> Documents</div>
+        </div>
+        <div style="flex:1;padding:22px;background:var(--warm-bg);overflow:auto">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+            <!-- Upgraded CM profile card -->
+            <div class="card" style="border:2px solid var(--teal)">
+              <div class="flabel">Your Care Manager</div>
+              <div style="display:flex;align-items:center;gap:16px;margin-bottom:12px">
+                <div class="av av-84">
+                  <div class="av-img">HW</div>
+                  <div class="med m1"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+                  <div class="med m2"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg></div>
+                  <div class="med m3"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg></div>
+                </div>
+                <div>
+                  <div style="font-size:16px;font-weight:700;color:var(--navy)">Horace Wormely</div>
+                  <div class="mono" style="font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--teal-dark);margin-top:2px">Care Manager · Pasadena Site</div>
+                  <div style="display:flex;gap:5px;margin-top:6px">
+                    <span class="badge bnv">English</span><span class="badge bnv">Español</span>
+                  </div>
+                </div>
+              </div>
+              <div style="font-size:12px;color:var(--gray-600);line-height:1.6;margin-bottom:12px">Pasadena native walking with Eaton Canyon families through every step of recovery — FEMA, insurance, housing, and everything between. With LLP since February 2026.</div>
+              <div class="btn-grad-sm" style="width:100%;padding:11px">Message Horace</div>
+              <div class="mono" style="font-size:9px;color:var(--gray-400);text-align:center;margin-top:8px">All contact happens here in the portal — your messages are saved to your case.</div>
+            </div>
+            <!-- Existing case summary context -->
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <div class="card">
+                <div class="flabel">Case Status</div>
+                <div style="display:flex;align-items:center;gap:10px">
+                  <span class="badge" style="background:#EAF3EF;color:#2D7A4F">Active</span>
+                  <span class="mono" style="font-size:11px;color:var(--gray-600)">Recovery Plan: 4 of 7 goals complete</span>
+                </div>
+              </div>
+              <div class="card">
+                <div class="flabel">Action Items</div>
+                <div style="display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:10px;background:#FDECEA;margin-bottom:7px">
+                  <div style="flex:1;font-size:12px;font-weight:600;color:var(--navy)">Upload insurance letter</div>
+                  <div class="btn-grad-sm" style="padding:6px 12px;font-size:10px">Upload</div>
+                </div>
+                <div style="display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:10px;background:#E8F4FF">
+                  <div style="flex:1;font-size:12px;font-weight:600;color:var(--navy)">Sign FEMA authorization</div>
+                  <div class="btn-grad-sm" style="padding:6px 12px;font-size:10px">Sign</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

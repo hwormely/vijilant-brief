@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vijilant v5 — Screens 42–44: Messaging Deep Views</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --teal:#3ECFB2;--teal-dark:#1A9E8A;--navy:#1B2A4A;--navy-mid:#2A3F6B;
+  --coral:#F4714F;--coral-dark:#C2441A;
+  --warm-bg:#F4F6FA;--gray-100:#EEF1F7;--gray-200:#D8DDED;--gray-400:#8A94AD;--gray-600:#4A5568;
+  --grad-hero:linear-gradient(135deg,#1B2A4A 0%,#1F3D5C 40%,#1A6B6B 70%,#3ECFB2 100%);
+  --grad-accent:linear-gradient(135deg,#3ECFB2 0%,#F4714F 100%);
+  --grad-btn:linear-gradient(135deg,#3ECFB2 0%,#F4714F 55%,#1B2A4A 100%);
+  --shadow:0 2px 10px rgba(27,42,74,.08);
+}
+body{font-family:'DM Sans',-apple-system,sans-serif;background:#0C1523;color:white;padding:40px 20px 80px;line-height:1.4}
+.plabel{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:5px}
+.stitle{font-size:26px;font-weight:700;letter-spacing:-.02em;margin-bottom:4px}
+.sdesc{font-size:13px;color:var(--gray-400);margin-bottom:40px}
+.section{margin-bottom:80px}
+.sh{margin-bottom:28px;padding-bottom:14px;border-bottom:1px solid rgba(62,207,178,.18)}
+.duo{display:grid;grid-template-columns:375px 1fr;gap:36px;align-items:start}
+hr.div{border:none;border-top:1px solid rgba(255,255,255,.04);margin:20px 0 64px}
+.phone{width:375px;min-height:812px;background:white;border-radius:44px;overflow:hidden;position:relative;flex-shrink:0;box-shadow:0 40px 80px rgba(0,0,0,.65),0 0 0 10px #1a1a1a,0 0 0 12px #2a2a2a}
+.notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:120px;height:30px;background:#111;border-radius:0 0 20px 20px;z-index:20}
+.ps{width:100%;min-height:812px;background:var(--warm-bg);position:relative;overflow:hidden}
+.desk{background:#1a1a2e;border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,.07);box-shadow:0 40px 80px rgba(0,0,0,.5)}
+.tbar{height:30px;background:#0f0f1a;display:flex;align-items:center;padding:0 14px;gap:6px}
+.td{width:10px;height:10px;border-radius:50%}.td.r{background:#FF5F57}.td.y{background:#FFBD2E}.td.g{background:#28C840}
+.ds{display:flex;min-height:660px;background:var(--warm-bg);overflow:hidden;position:relative}
+.card{background:white;border-radius:14px;padding:16px;box-shadow:var(--shadow)}
+.badge{display:inline-flex;align-items:center;padding:3px 8px;border-radius:10px;font-size:10px;font-weight:700;white-space:nowrap}
+.bnv{background:rgba(27,42,74,.08);color:var(--navy)}.btl{background:rgba(62,207,178,.12);color:var(--teal-dark)}
+.bgy{background:#EDEBE6;color:#7A766F}.bgr{background:#EAF3EF;color:#2D7A4F}
+.btn-grad-sm{background:var(--grad-btn);color:white;border:none;border-radius:10px;padding:9px 16px;font-size:12px;font-weight:700;font-family:'DM Sans',sans-serif;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
+.btn-ghost{background:var(--gray-100);border:1px solid var(--gray-200);color:var(--gray-600);border-radius:10px;padding:9px 16px;font-size:12px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
+.flabel{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--gray-400);display:block;margin-bottom:6px}
+.fi{background:white;border:1.5px solid var(--gray-200);border-radius:10px;padding:11px 14px;font-size:13px;color:var(--navy);width:100%}
+.mono{font-family:'DM Mono',monospace}
+.caseid{font-family:'DM Mono',monospace;font-size:11px;background:rgba(27,42,74,.07);color:var(--navy);padding:1px 6px;border-radius:6px}
+/* bubbles */
+.bub-in{max-width:78%;background:white;border-radius:14px 14px 14px 4px;padding:10px 13px;box-shadow:var(--shadow);font-size:12.5px;color:var(--gray-600);line-height:1.55}
+.bub-out{max-width:78%;background:var(--navy);border-radius:14px 14px 4px 14px;padding:10px 13px;font-size:12.5px;color:white;line-height:1.55;margin-left:auto}
+.btime{font-family:'DM Mono',monospace;font-size:8px;color:var(--gray-400);margin-top:3px}
+.sendrow{display:flex;gap:9px;align-items:center;padding:12px 16px;background:white;border-top:1px solid var(--gray-100)}
+.sendbtn{width:34px;height:34px;border-radius:50%;background:var(--grad-btn);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════════════════ -->
+<!-- SCREEN 42 — DM THREAD -->
+<!-- ════════════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="sh">
+    <div class="plabel">Screen 42 · Direct Message Thread</div>
+    <div class="stitle">DM Thread</div>
+    <div class="sdesc">Staff-to-staff DM · case IDs welcome, names nudged · read receipts kept minimal (delivered only) · mobile reached via push deep-link or Messages list</div>
+  </div>
+  <div class="duo">
+    <!-- MOBILE -->
+    <div class="phone">
+      <div class="notch"></div>
+      <div class="ps" style="display:flex;flex-direction:column">
+        <div style="background:var(--grad-hero);padding:52px 20px 14px;position:relative;overflow:hidden;flex-shrink:0">
+          <div style="display:flex;align-items:center;gap:11px;position:relative;z-index:1">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.6)" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+            <div style="width:36px;height:36px;border-radius:10px;background:var(--grad-accent);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:white">ME</div>
+            <div>
+              <div style="font-size:15px;font-weight:700;color:white">Marisol Espino</div>
+              <div class="mono" style="font-size:9px;color:var(--teal)">CM Lead · Pasadena · active now</div>
+            </div>
+          </div>
+        </div>
+        <div style="flex:1;padding:16px;display:flex;flex-direction:column;gap:10px;overflow:auto">
+          <div class="bub-in">Saw the LTRG package for <span class="caseid">VGL-2025-0031</span> — advocacy statement is strong. One thing: lead with the two quotes in the ask section.<div class="btime">9:02 AM</div></div>
+          <div class="bub-out">Will do. Both quotes are already attached — I'll reorder so AirFlow's sits first.<div class="btime" style="color:rgba(255,255,255,.4)">9:05 AM · delivered</div></div>
+          <div class="bub-in">Perfect. Approving after that. Also — your Thursday consult moved to 2pm, calendar's updated.<div class="btime">9:06 AM</div></div>
+          <div class="bub-out">Got it. Thanks for the fast turnaround 🙏<div class="btime" style="color:rgba(255,255,255,.4)">9:06 AM · delivered</div></div>
+        </div>
+        <div class="sendrow" style="padding-bottom:26px">
+          <div style="flex:1;background:var(--gray-100);border-radius:12px;padding:10px 14px;font-size:12px;color:var(--gray-400)">Message Marisol…</div>
+          <div class="sendbtn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DESKTOP -->
+    <div class="desk">
+      <div class="tbar"><div class="td r"></div><div class="td y"></div><div class="td g"></div></div>
+      <div class="ds" style="flex-direction:column">
+        <div style="padding:13px 20px;border-bottom:1px solid var(--gray-100);background:white;display:flex;align-items:center;justify-content:space-between">
+          <div style="display:flex;align-items:center;gap:11px">
+            <div style="width:36px;height:36px;border-radius:10px;background:var(--grad-accent);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:white">ME</div>
+            <div>
+              <div style="font-size:14px;font-weight:700;color:var(--navy)">Marisol Espino</div>
+              <div class="mono" style="font-size:9px;color:var(--teal-dark)">CM Lead · Pasadena · active now</div>
+            </div>
+          </div>
+          <span class="badge bgy">DM · just you two</span>
+        </div>
+        <div style="flex:1;padding:20px 24px;display:flex;flex-direction:column;gap:11px;overflow:auto">
+          <div class="bub-in" style="max-width:55%">Saw the LTRG package for <span class="caseid">VGL-2025-0031</span> — advocacy statement is strong. One thing: lead with the two quotes in the ask section.<div class="btime">9:02 AM</div></div>
+          <div class="bub-out" style="max-width:55%">Will do. Both quotes are already attached — I'll reorder so AirFlow's sits first.<div class="btime" style="color:rgba(255,255,255,.4)">9:05 AM · delivered</div></div>
+          <div class="bub-in" style="max-width:55%">Perfect. Approving after that. Also — your Thursday consult moved to 2pm, calendar's updated.<div class="btime">9:06 AM</div></div>
+        </div>
+        <div class="sendrow">
+          <div style="flex:1;background:var(--gray-100);border-radius:12px;padding:10px 14px;font-size:12px;color:var(--gray-400)">Message Marisol…</div>
+          <div class="sendbtn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="div">
+
+<!-- ════════════════════════════════════════════════════════════════ -->
+<!-- SCREEN 43 — CM-SIDE SURVIVOR THREAD -->
+<!-- ════════════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="sh">
+    <div class="plabel">Screen 43 · Survivor Thread — CM Side</div>
+    <div class="stitle">Survivor Thread (CM)</div>
+    <div class="sdesc">The CM side of portal messaging · thread is case-bound and audit-logged · VJ offers to save an exchange as a case-note draft (AI-native — contact logging without re-typing) · plain language register</div>
+  </div>
+  <div class="duo">
+    <!-- MOBILE -->
+    <div class="phone">
+      <div class="notch"></div>
+      <div class="ps" style="display:flex;flex-direction:column">
+        <div style="background:var(--grad-hero);padding:52px 20px 14px;position:relative;overflow:hidden;flex-shrink:0">
+          <div style="display:flex;align-items:center;gap:11px;position:relative;z-index:1">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.6)" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+            <div style="width:36px;height:36px;border-radius:10px;background:var(--navy-mid);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:white">MT</div>
+            <div style="flex:1">
+              <div style="font-size:15px;font-weight:700;color:white">Marcus Thompson</div>
+              <div class="mono" style="font-size:9px;color:rgba(255,255,255,.45)">VGL-2025-0031 · portal thread · saved to case</div>
+            </div>
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.75)" stroke-width="1.8" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+          </div>
+        </div>
+        <div style="flex:1;padding:16px;display:flex;flex-direction:column;gap:10px;overflow:auto">
+          <div class="bub-in">Hi Horace — adjuster called. Reinspection is confirmed for June 18 at 10am. Should I be there?<div class="btime">Yesterday 4:12 PM</div></div>
+          <div class="bub-out">That's great news, Marcus. Yes — be there if you can, and I'll join you. I'll bring the inspection report and the two HVAC quotes so everything's in one conversation.<div class="btime" style="color:rgba(255,255,255,.4)">Yesterday 4:30 PM</div></div>
+          <div class="bub-in">Thank you. That takes a weight off.<div class="btime">Yesterday 4:41 PM</div></div>
+          <!-- VJ save-to-note -->
+          <div style="border:1.5px solid var(--teal);border-radius:12px;padding:10px 13px;background:rgba(62,207,178,.05)">
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="var(--teal-dark)" stroke-width="2"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
+              <span style="font-size:11px;font-weight:700;color:var(--navy)">VJ · log this as a contact?</span>
+            </div>
+            <div style="font-size:11px;color:var(--gray-600);line-height:1.5;margin-bottom:8px">Drafted a case note from this exchange: reinspection confirmed Jun 18, joint attendance planned, documents prepped. Review before it saves.</div>
+            <div style="display:flex;gap:7px">
+              <div class="btn-grad-sm" style="padding:6px 12px;font-size:10px;flex:1">Review note draft</div>
+              <div class="btn-ghost" style="padding:6px 12px;font-size:10px">Dismiss</div>
+            </div>
+          </div>
+        </div>
+        <div class="sendrow" style="padding-bottom:26px">
+          <div style="flex:1;background:var(--gray-100);border-radius:12px;padding:10px 14px;font-size:12px;color:var(--gray-400)">Message Marcus…</div>
+          <div class="sendbtn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DESKTOP -->
+    <div class="desk">
+      <div class="tbar"><div class="td r"></div><div class="td y"></div><div class="td g"></div></div>
+      <div class="ds" style="flex-direction:column">
+        <div style="padding:13px 20px;border-bottom:1px solid var(--gray-100);background:white;display:flex;align-items:center;justify-content:space-between">
+          <div style="display:flex;align-items:center;gap:11px">
+            <div style="width:36px;height:36px;border-radius:10px;background:var(--navy-mid);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:white">MT</div>
+            <div>
+              <div style="font-size:14px;font-weight:700;color:var(--navy)">Marcus Thompson</div>
+              <div class="mono" style="font-size:9px;color:var(--gray-400)">VGL-2025-0031 · portal thread · saved to case · audit-logged</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:7px"><span class="badge bnv">Open case file</span><span class="badge btl">My Survivors</span></div>
+        </div>
+        <div style="flex:1;padding:20px 24px;display:flex;flex-direction:column;gap:11px;overflow:auto">
+          <div class="bub-in" style="max-width:55%">Hi Horace — adjuster called. Reinspection is confirmed for June 18 at 10am. Should I be there?<div class="btime">Yesterday 4:12 PM</div></div>
+          <div class="bub-out" style="max-width:55%">That's great news, Marcus. Yes — be there if you can, and I'll join you. I'll bring the inspection report and the two HVAC quotes so everything's in one conversation.<div class="btime" style="color:rgba(255,255,255,.4)">Yesterday 4:30 PM</div></div>
+          <div style="max-width:62%;border:1.5px solid var(--teal);border-radius:12px;padding:11px 14px;background:rgba(62,207,178,.05)">
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="var(--teal-dark)" stroke-width="2"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
+              <span style="font-size:11px;font-weight:700;color:var(--navy)">VJ · log this as a contact?</span>
+            </div>
+            <div style="font-size:11.5px;color:var(--gray-600);line-height:1.55;margin-bottom:8px">Drafted a CM Note from this exchange (Contact Method: Portal Message · Contacted): reinspection confirmed Jun 18 10am, joint attendance planned, docs prepped. Next Steps date set → will move the follow-up event automatically.</div>
+            <div style="display:flex;gap:7px"><div class="btn-grad-sm" style="padding:7px 13px;font-size:11px">Review note draft</div><div class="btn-ghost" style="padding:7px 13px;font-size:11px">Dismiss</div></div>
+          </div>
+        </div>
+        <div class="sendrow">
+          <div style="flex:1;background:var(--gray-100);border-radius:12px;padding:10px 14px;font-size:12px;color:var(--gray-400)">Message Marcus…</div>
+          <div class="sendbtn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="div">
+
+<!-- ════════════════════════════════════════════════════════════════ -->
+<!-- SCREEN 44 — CHANNEL CREATE / MANAGE (Admin · CM Lead) -->
+<!-- ════════════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="sh">
+    <div class="plabel">Screen 44 · Channel Create / Manage (Admin · CM Lead)</div>
+    <div class="stitle">New Channel</div>
+    <div class="sdesc">Public or site channel · auto-membership by site · optional auto-feed (catalog updates) · PHI reminder built into creation · DMs need no creation flow</div>
+  </div>
+  <div class="desk" style="max-width:880px">
+    <div class="tbar"><div class="td r"></div><div class="td y"></div><div class="td g"></div></div>
+    <div class="ds" style="background:rgba(27,42,74,.35);align-items:center;justify-content:center">
+      <div style="background:white;border-radius:16px;box-shadow:0 24px 64px rgba(27,42,74,.35);width:520px;padding:22px;margin:30px auto">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+          <div style="font-size:15px;font-weight:700;color:var(--navy)">New Channel</div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gray-400)" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </div>
+        <div style="margin-bottom:12px">
+          <div class="flabel">Channel name</div>
+          <div class="fi" style="display:flex;align-items:center;gap:6px"><span class="mono" style="color:var(--teal-dark)">#</span>unr-prep</div>
+        </div>
+        <div style="margin-bottom:12px">
+          <div class="flabel">Type</div>
+          <div style="display:flex;gap:6px">
+            <div style="padding:6px 13px;border-radius:9px;background:var(--navy);color:white;font-size:11px;font-weight:600">● Public — all staff</div>
+            <div style="padding:6px 13px;border-radius:9px;background:var(--gray-100);color:var(--gray-600);font-size:11px">○ Site — auto-membership</div>
+          </div>
+        </div>
+        <div style="margin-bottom:12px">
+          <div class="flabel">Purpose (shows in channel header)</div>
+          <div class="fi" style="font-size:12px;color:var(--gray-600)">Coordinating packages and pitches ahead of each LTRG Unmet Needs Roundtable.</div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 13px;border-radius:11px;background:var(--gray-100);margin-bottom:12px">
+          <div>
+            <div style="font-size:12px;font-weight:700;color:var(--navy)">Auto-feed</div>
+            <div style="font-size:10.5px;color:var(--gray-600);margin-top:2px">Post system updates automatically (e.g. UNR session reminders, package approvals)</div>
+          </div>
+          <div style="width:38px;height:22px;border-radius:11px;background:var(--teal);position:relative;flex-shrink:0"><div style="position:absolute;right:2px;top:2px;width:18px;height:18px;border-radius:50%;background:white"></div></div>
+        </div>
+        <div style="padding:10px 13px;border-radius:11px;background:#FDF6E7;margin-bottom:16px;display:flex;gap:8px;align-items:flex-start">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#E5A328" stroke-width="2" style="flex-shrink:0;margin-top:1px"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
+          <span style="font-size:10.5px;color:#9A6E1B;line-height:1.5">Channel rule: refer to clients by case ID only — VJ nudges if a client name is detected. The Resource Lead is in public channels; keep the minimum-necessary line.</span>
+        </div>
+        <div style="display:flex;gap:9px">
+          <div class="btn-ghost" style="flex:1">Cancel</div>
+          <div class="btn-grad-sm" style="flex:2;padding:11px">Create Channel</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vijilant v5 — Screens 15–19: Unmet Needs + Advocacy</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --teal:#3ECFB2;--teal-dark:#1A9E8A;--navy:#1B2A4A;--navy-mid:#2A3F6B;
+  --coral:#F4714F;--coral-dark:#C2441A;
+  --warm-bg:#F4F6FA;--gray-100:#EEF1F7;--gray-200:#D8DDED;--gray-400:#8A94AD;--gray-600:#4A5568;
+  --t1-bg:#FDECEA;--t1-text:#C0392B;--t2-bg:#FDF6E7;--t2-text:#E5A328;
+  --t3-bg:#E8F4FF;--t3-text:#1A5FA8;
+  --draft-bg:#E8F4FF;--draft-text:#1A5FA8;
+  --autofill-bg:#F0FAF5;--autofill-bdr:#2D7A4F;
+  --grad-hero:linear-gradient(135deg,#1B2A4A 0%,#1F3D5C 40%,#1A6B6B 70%,#3ECFB2 100%);
+  --grad-accent:linear-gradient(135deg,#3ECFB2 0%,#F4714F 100%);
+  --grad-btn:linear-gradient(135deg,#3ECFB2 0%,#F4714F 55%,#1B2A4A 100%);
+  --grad-teal:linear-gradient(135deg,#3ECFB2,#2ABFA4);
+  --shadow:0 2px 10px rgba(27,42,74,.08);
+  --ring-grad:conic-gradient(#C0392B 0deg,#E05540 45deg,#F4714F 90deg,#2ABFA4 180deg,#3ECFB2 225deg,#2A6B6B 270deg,#1B2A4A 315deg,#1B2A4A 360deg);
+  --ring-unfilled:#EEF1F7;
+}
+body{font-family:'DM Sans',-apple-system,sans-serif;background:#0C1523;color:white;padding:40px 20px 80px;line-height:1.4}
+.plabel{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:5px}
+.stitle{font-size:26px;font-weight:700;letter-spacing:-.02em;margin-bottom:4px}
+.sdesc{font-size:13px;color:var(--gray-400);margin-bottom:40px}
+.section{margin-bottom:80px}
+.sh{margin-bottom:28px;padding-bottom:14px;border-bottom:1px solid rgba(62,207,178,.18)}
+.duo{display:grid;grid-template-columns:375px 1fr;gap:36px;align-items:start}
+hr.div{border:none;border-top:1px solid rgba(255,255,255,.04);margin:20px 0 64px}
+.phone{width:375px;min-height:812px;background:white;border-radius:44px;overflow:hidden;position:relative;flex-shrink:0;box-shadow:0 40px 80px rgba(0,0,0,.65),0 0 0 10px #1a1a1a,0 0 0 12px #2a2a2a}
+.notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:120px;height:30px;background:#111;border-radius:0 0 20px 20px;z-index:20}
+.ps{width:100%;min-height:812px;background:var(--warm-bg);position:relative;overflow:hidden}
+.desk{background:#1a1a2e;border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,.07);box-shadow:0 40px 80px rgba(0,0,0,.5)}
+.tbar{height:30px;background:#0f0f1a;display:flex;align-items:center;padding:0 14px;gap:6px}
+.td{width:10px;height:10px;border-radius:50%}.td.r{background:#FF5F57}.td.y{background:#FFBD2E}.td.g{background:#28C840}
+.ds{display:flex;min-height:660px;background:var(--warm-bg);overflow:hidden;position:relative}
+.sb{width:220px;background:var(--navy);min-height:660px;padding:20px 0;flex-shrink:0;position:relative;overflow:hidden}
+.sb-orb{position:absolute;width:220px;height:220px;border-radius:50%;background:var(--teal);filter:blur(90px);opacity:.1;bottom:-60px;left:-60px}
+.sb-logo{display:flex;align-items:center;gap:10px;padding:0 18px 18px;border-bottom:1px solid rgba(255,255,255,.07);margin-bottom:10px;position:relative;z-index:1}
+.sb-mark{width:30px;height:30px;border-radius:8px;background:var(--grad-accent);display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:12px;font-weight:500;color:white}
+.sb-name{font-family:'DM Mono',monospace;font-size:15px;font-weight:500;color:white;letter-spacing:.02em}
+.sb-sec{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:rgba(255,255,255,.27);padding:0 18px;margin:14px 0 4px;position:relative;z-index:1}
+.sb-item{display:flex;align-items:center;gap:9px;padding:9px 18px;font-size:13px;font-weight:500;color:rgba(255,255,255,.5);position:relative;z-index:1}
+.sb-item.on{color:white;background:rgba(62,207,178,.12)}
+.sb-item.on::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:18px;background:var(--teal);border-radius:0 2px 2px 0}
+.main{flex:1;padding:0;background:var(--warm-bg);display:flex;flex-direction:column;overflow:hidden}
+.card{background:white;border-radius:14px;padding:16px;box-shadow:var(--shadow)}
+.badge{display:inline-flex;align-items:center;padding:3px 8px;border-radius:10px;font-size:10px;font-weight:700;white-space:nowrap}
+.bt1{background:var(--t1-bg);color:var(--t1-text)}.bt2{background:var(--t2-bg);color:var(--t2-text)}
+.bt3{background:var(--t3-bg);color:var(--t3-text)}
+.bdr{background:var(--draft-bg);color:var(--draft-text)}
+.bam{background:#FDF6E7;color:#E5A328}.bgr{background:#EAF3EF;color:#2D7A4F}
+.bgy{background:#EDEBE6;color:#7A766F}.brd{background:#FDECEA;color:#C0392B}
+.bnv{background:rgba(27,42,74,.08);color:var(--navy)}
+.btl{background:rgba(62,207,178,.12);color:var(--teal-dark)}
+.btn-grad{background:var(--grad-btn);color:white;border:none;border-radius:12px;padding:12px 20px;font-size:14px;font-weight:700;font-family:'DM Sans',sans-serif;cursor:pointer;box-shadow:0 4px 16px rgba(62,207,178,.22);display:inline-flex;align-items:center;justify-content:center;width:100%}
+.btn-grad-sm{background:var(--grad-btn);color:white;border:none;border-radius:10px;padding:9px 16px;font-size:12px;font-weight:700;font-family:'DM Sans',sans-serif;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
+.btn-ghost{background:var(--gray-100);border:1px solid var(--gray-200);color:var(--gray-600);border-radius:10px;padding:9px 16px;font-size:12px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
+.flabel{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--gray-400);display:block;margin-bottom:6px}
+.fi{background:white;border:1.5px solid var(--gray-200);border-radius:10px;padding:11px 14px;font-size:13px;color:var(--navy);width:100%}
+.ring{position:relative;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.ring-disc{border-radius:50%;background:var(--ring-grad);-webkit-mask:radial-gradient(circle,transparent 54%,black 55%);mask:radial-gradient(circle,transparent 54%,black 55%)}
+.ring-cap{position:absolute;border-radius:50%;background:conic-gradient(var(--ring-unfilled) 0deg 180deg,transparent 180deg 360deg);-webkit-mask:radial-gradient(circle,transparent 54%,black 55%);mask:radial-gradient(circle,transparent 54%,black 55%)}
+.ring-label{position:absolute;display:flex;flex-direction:column;align-items:center;gap:1px;pointer-events:none}
+.ring-score{font-family:'DM Mono',monospace;font-weight:500;line-height:1}
+.ring-sublabel{font-size:7px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.5)}
+.ring-q{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;border:1.5px solid var(--gray-200);font-size:9px;font-weight:700;color:var(--gray-400);flex-shrink:0}
+.ring-lg .ring-disc,.ring-lg .ring-cap{width:72px;height:72px}
+.ring-lg{width:72px;height:72px}
+.ring-lg .ring-score{font-size:14px}
+.vjb{position:absolute;bottom:80px;right:14px;width:48px;height:48px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(27,42,74,.4);z-index:30}
+.vjd{position:absolute;bottom:20px;right:20px;width:44px;height:44px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(27,42,74,.5);z-index:30}
+.vdot{position:absolute;top:-1px;right:-1px;width:11px;height:11px;border-radius:50%;background:var(--coral);border:2px solid white}
+.mnav{background:white;border-top:1px solid var(--gray-100);display:flex;padding:8px 0 22px}
+.mtab{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:9px;font-weight:500;color:var(--gray-400);position:relative}
+.mtab.on{color:var(--teal-dark)}
+.mtab.on::after{content:'';display:block;width:4px;height:4px;border-radius:50%;background:var(--grad-accent);position:absolute;bottom:-2px;left:50%;transform:translateX(-50%)}
+.mtab-plus{flex:1;display:flex;align-items:center;justify-content:center}
+.mplus{width:42px;height:42px;border-radius:50%;background:var(--grad-btn);display:flex;align-items:center;justify-content:center;margin-top:-14px;box-shadow:0 4px 16px rgba(62,207,178,.4)}
+.tabs{display:flex;border-bottom:2px solid var(--gray-100);overflow-x:auto;background:white;flex-shrink:0}
+.tab{padding:10px 14px;font-size:12px;font-weight:600;color:var(--gray-400);white-space:nowrap;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px}
+.tab.on{color:var(--teal-dark);border-bottom-color:var(--teal)}
+.tab .tbadge{display:inline-flex;align-items:center;justify-content:center;min-width:15px;height:15px;border-radius:8px;background:var(--coral);color:white;font-family:'DM Mono',monospace;font-size:9px;font-weight:700;margin-left:5px;padding:0 4px}
+.arow{display:flex;align-items:center;gap:12px;padding:11px 14px;border-bottom:1px solid var(--gray-100);cursor:pointer}
+.arow:last-child{border-bottom:none}
+.aico{width:36px;height:36px;border-radius:10px;background:var(--gray-100);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.audr{display:flex;gap:10px;padding:7px 0;border-bottom:1px solid var(--gray-100)}
+.audr:last-child{border-bottom:none}
+.auddot{width:7px;height:7px;border-radius:50%;background:var(--teal);margin-top:4px;flex-shrink:0}
+.audtxt{font-size:11px;color:var(--gray-600);flex:1;line-height:1.5}
+.audtime{font-size:10px;font-family:'DM Mono',monospace;color:var(--gray-400);white-space:nowrap}
+/* Needs + Advocacy specific */
+.kpi-mini{background:white;border-radius:13px;padding:12px 14px;box-shadow:var(--shadow);flex:1}
+.kpi-mini .kv{font-family:'DM Mono',monospace;font-size:19px;font-weight:500;color:var(--navy);line-height:1.1}
+.kpi-mini .kl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.07em;text-transform:uppercase;color:var(--gray-400);margin-top:3px}
+.w9chip{display:inline-flex;align-items:center;gap:4px;padding:2px 7px;border-radius:8px;font-family:'DM Mono',monospace;font-size:9px;font-weight:500}
+.w9-ok{background:#EAF3EF;color:#2D7A4F}.w9-wait{background:#FDF6E7;color:#E5A328}.w9-none{background:#FDECEA;color:#C0392B}
+.lifecycle{display:flex;align-items:center;gap:0;margin:10px 0}
+.lc-step{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;position:relative}
+.lc-dot{width:13px;height:13px;border-radius:50%;background:var(--gray-200);border:2.5px solid white;box-shadow:0 0 0 1.5px var(--gray-200);z-index:1}
+.lc-dot.done{background:var(--teal);box-shadow:0 0 0 1.5px var(--teal)}
+.lc-dot.now{background:var(--coral);box-shadow:0 0 0 1.5px var(--coral)}
+.lc-step::before{content:'';position:absolute;top:6px;left:-50%;width:100%;height:1.5px;background:var(--gray-200)}
+.lc-step:first-child::before{display:none}
+.lc-step.done::before{background:var(--teal)}
+.lc-lbl{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.04em;text-transform:uppercase;color:var(--gray-400);white-space:nowrap}
+.lc-lbl.on{color:var(--navy);font-weight:500}
+.secrow{display:flex;align-items:center;gap:10px;padding:10px 13px;border-radius:11px;border:1.5px solid var(--gray-200);margin-bottom:7px;cursor:pointer;background:white}
+.secrow.on{border-color:var(--teal);background:rgba(62,207,178,.05)}
+.secnum{width:22px;height:22px;border-radius:7px;background:var(--gray-100);display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:10px;font-weight:500;color:var(--gray-600);flex-shrink:0}
+.secnum.done{background:#EAF3EF;color:#2D7A4F}
+.tblh{display:grid;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.07em;text-transform:uppercase;color:var(--gray-400);padding:8px 14px;border-bottom:1px solid var(--gray-100)}
+.tblr{display:grid;align-items:center;padding:10px 14px;border-bottom:1px solid var(--gray-100);font-size:12px;color:var(--navy);cursor:pointer}
+.tblr:last-child{border-bottom:none}
+.mono{font-family:'DM Mono',monospace}
+.aichip{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:8px;background:rgba(27,42,74,.06);font-family:'DM Mono',monospace;font-size:9px;color:var(--navy)}
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════════════════ -->
+<!-- SCREEN 15 — CLIENT DETAIL · UNMET NEEDS TAB (TAB 8) -->
+<!-- ════════════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="sh">
+    <div class="plabel">Screen 15 · Client Detail — Unmet Needs Tab (Tab 8)</div>
+    <div class="stitle">Unmet Needs</div>
+    <div class="sdesc">Per-client needs ledger · cost breakdown + fair-price evidence · vendor W-9 tracking · status: identified → vetted → presented → funded/denied · 9-tab order: Notes · Assessments · Recovery Plan · Follow-ups · Applications · Documents · Resources · Needs · Advocacy</div>
+  </div>
+  <div class="duo">
+    <!-- MOBILE -->
+    <div class="phone">
+      <div class="notch"></div>
+      <div class="ps">
+        <div style="background:var(--grad-hero);padding:52px 20px 20px;position:relative;overflow:hidden">
+          <div style="position:absolute;width:240px;height:240px;border-radius:50%;background:var(--teal);filter:blur(70px);opacity:.18;top:-70px;right:-50px"></div>
+          <div style="position:absolute;width:160px;height:160px;border-radius:50%;background:var(--coral);filter:blur(60px);opacity:.14;bottom:-30px;left:-30px"></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;position:relative;z-index:1">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.6)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            <div style="width:30px;height:30px;border-radius:8px;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.75)" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:14px;position:relative;z-index:1">
+            <div style="width:52px;height:52px;border-radius:14px;background:var(--grad-accent);display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:700;color:white;flex-shrink:0">MT</div>
+            <div style="flex:1">
+              <div style="font-size:18px;font-weight:700;color:white">Marcus Thompson</div>
+              <div style="font-family:'DM Mono',monospace;font-size:10px;color:rgba(255,255,255,.45);margin-top:2px">VGL-2025-0031</div>
+              <div style="display:flex;gap:6px;margin-top:6px"><span class="badge bt1">T1 Critical</span><span style="padding:3px 9px;border-radius:10px;background:rgba(255,255,255,.1);font-size:10px;color:rgba(255,255,255,.6)">Eaton Fire</span></div>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
+              <div class="ring ring-lg">
+                <div class="ring-disc" style="--ring-unfilled:rgba(255,255,255,.15)"></div>
+                <div class="ring-cap" style="transform:rotate(148.3deg);--ring-unfilled:rgba(255,255,255,.15)"></div>
+                <div class="ring-label"><div class="ring-score" style="font-size:14px;color:white">412</div><div class="ring-sublabel">Score</div></div>
+              </div>
+              <div class="ring-q" style="border-color:rgba(255,255,255,.3);color:rgba(255,255,255,.5)">?</div>
+            </div>
+          </div>
+        </div>
+        <div class="tabs" style="padding:0 12px">
+          <div class="tab">Documents</div><div class="tab">Resources</div><div class="tab on">Needs</div><div class="tab">Advocacy <span class="tbadge">2</span></div>
+        </div>
+        <div style="padding:14px 16px;display:flex;flex-direction:column;gap:12px">
+          <div style="display:flex;gap:10px">
+            <div class="kpi-mini"><div class="kv">$12,750</div><div class="kl">Open unmet need</div></div>
+            <div class="kpi-mini"><div class="kv">2</div><div class="kl">Open needs</div></div>
+            <div class="kpi-mini"><div class="kv">1</div><div class="kl">Funded</div></div>
+          </div>
+          <div style="background:white;border-radius:14px;overflow:hidden;box-shadow:var(--shadow)">
+            <div class="arow">
+              <div class="aico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gray-600)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5L12 3l9 6.5"/><path d="M5 8.5V21h14V8.5"/><path d="M9 21v-6h6v6"/></svg></div>
+              <div style="flex:1">
+                <div style="font-size:13px;font-weight:600;color:var(--navy)">HVAC replacement</div>
+                <div style="font-size:10px;color:var(--gray-400)" class="mono">Housing Repair · <span style="color:var(--navy);font-weight:500">$8,400</span></div>
+                <div style="margin-top:4px"><span class="w9chip w9-ok">W-9 received</span></div>
+              </div>
+              <span class="badge bam">Presented</span>
+            </div>
+            <div class="arow">
+              <div class="aico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gray-600)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17h14l-1.5-5.5a2 2 0 0 0-1.9-1.5H8.4a2 2 0 0 0-1.9 1.5L5 17z"/><circle cx="7.5" cy="17.5" r="1.5"/><circle cx="16.5" cy="17.5" r="1.5"/></svg></div>
+              <div style="flex:1">
+                <div style="font-size:13px;font-weight:600;color:var(--navy)">Vehicle repair — transmission</div>
+                <div style="font-size:10px;color:var(--gray-400)" class="mono">Transportation · <span style="color:var(--navy);font-weight:500">$4,350</span></div>
+                <div style="margin-top:4px"><span class="w9chip w9-wait">W-9 requested</span></div>
+              </div>
+              <span class="badge bdr">Vetted</span>
+            </div>
+            <div class="arow">
+              <div class="aico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gray-600)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v7"/><path d="M3 18h18v2H3z"/><path d="M7 9V7a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2"/></svg></div>
+              <div style="flex:1">
+                <div style="font-size:13px;font-weight:600;color:var(--navy)">Mattresses + bedding (HH of 4)</div>
+                <div style="font-size:10px;color:var(--gray-400)" class="mono">Furniture · <span style="color:var(--navy);font-weight:500">$1,150</span> · Funded May 22 — LTRG UNR</div>
+              </div>
+              <span class="badge bgr">Funded</span>
+            </div>
+          </div>
+          <div class="btn-grad">+ Log Unmet Need</div>
+        </div>
+        <div class="vjb"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg><div class="vdot"></div></div>
+        <div class="mnav">
+          <div class="mtab"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#8A94AD" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg>Dashboard</div>
+          <div class="mtab on">
+            <svg width="21" height="21" viewBox="0 0 24 24"><defs><linearGradient id="gd-s15m" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#3ECFB2"/><stop offset="100%" stop-color="#F4714F"/></linearGradient></defs><circle cx="9" cy="7" r="4" fill="url(#gd-s15m)"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2" fill="url(#gd-s15m)" opacity=".7"/></svg>
+            Clients
+          </div>
+          <div class="mtab-plus"><div class="mplus"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
+          <div class="mtab"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#8A94AD" stroke-width="1.5" stroke-linecap="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>Resources</div>
+          <div class="mtab"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#8A94AD" stroke-width="1.5" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Messages</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DESKTOP -->
+    <div class="desk">
+      <div class="tbar"><div class="td r"></div><div class="td y"></div><div class="td g"></div></div>
+      <div class="ds">
+        <div class="sb">
+          <div class="sb-orb"></div>
+          <div class="sb-logo"><div class="sb-mark">Vj</div><div class="sb-name">Vijilant</div></div>
+          <div class="sb-sec">Case Manager</div>
+          <div class="sb-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg> Dashboard</div>
+        <div class="sb-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M21 21v-2a4 4 0 0 0-3-3.85"/></svg> Residents</div>
+        <div class="sb-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> Resources</div>
+        <div class="sb-item on"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> Metrics</div>
+        <div class="sb-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> Org Setup</div>
+        <div class="sb-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Profile</div>
+      </div>
+      <div style="flex:1;padding:22px;background:var(--warm-bg);overflow:auto">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+          <div class="mono" style="font-size:20px;font-weight:500;color:var(--navy)">Metrics</div>
+          <div style="display:flex;gap:6px">
+            <div style="padding:6px 13px;border-radius:9px;background:var(--navy);color:white;font-size:11px;font-weight:600">Quarter</div>
+            <div style="padding:6px 13px;border-radius:9px;background:white;border:1px solid var(--gray-200);color:var(--gray-600);font-size:11px">Year</div>
+            <div class="btn-ghost" style="padding:6px 13px;font-size:11px">Export</div>
+          </div>
+        </div>
+        <div class="mono" style="font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--gray-400);margin-bottom:9px">Unmet Needs — Org Rollup</div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px">
+          <div class="kpi-mini"><div class="kv">$284,600</div><div class="kl">Total open unmet need</div></div>
+          <div class="kpi-mini"><div class="kv">38</div><div class="kl">Open needs</div></div>
+          <div class="kpi-mini"><div class="kv">62%</div><div class="kl">Funded rate · 90 days</div></div>
+          <div class="kpi-mini"><div class="kv">24d</div><div class="kl">Avg time to funding</div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:14px">
+          <div style="background:white;border-radius:14px;overflow:hidden;box-shadow:var(--shadow)">
+            <div style="padding:13px 16px;font-size:13px;font-weight:700;color:var(--navy);border-bottom:1px solid var(--gray-100)">By Category</div>
+            <div class="tblh" style="grid-template-columns:1.3fr .7fr .5fr .9fr">
+              <div>Category</div><div>Open $</div><div>Needs</div><div>Status mix</div>
+            </div>
+            <div class="tblr" style="grid-template-columns:1.3fr .7fr .5fr .9fr">
+              <div style="font-weight:600">Housing Repair</div><div class="mono">$142,800</div><div class="mono">14</div>
+              <div style="display:flex;gap:4px"><span class="badge bdr">6</span><span class="badge bam">5</span><span class="badge bgy">3</span></div>
+            </div>
+            <div class="tblr" style="grid-template-columns:1.3fr .7fr .5fr .9fr">
+              <div style="font-weight:600">Transportation</div><div class="mono">$61,300</div><div class="mono">9</div>
+              <div style="display:flex;gap:4px"><span class="badge bdr">4</span><span class="badge bam">3</span><span class="badge bgy">2</span></div>
+            </div>
+            <div class="tblr" style="grid-template-columns:1.3fr .7fr .5fr .9fr">
+              <div style="font-weight:600">Appliances</div><div class="mono">$38,200</div><div class="mono">8</div>
+              <div style="display:flex;gap:4px"><span class="badge bdr">3</span><span class="badge bam">4</span><span class="badge bgy">1</span></div>
+            </div>
+            <div class="tblr" style="grid-template-columns:1.3fr .7fr .5fr .9fr">
+              <div style="font-weight:600">Medical / Accessibility</div><div class="mono">$27,400</div><div class="mono">4</div>
+              <div style="display:flex;gap:4px"><span class="badge bdr">2</span><span class="badge bam">2</span></div>
+            </div>
+            <div class="tblr" style="grid-template-columns:1.3fr .7fr .5fr .9fr">
+              <div style="font-weight:600">Furniture</div><div class="mono">$14,900</div><div class="mono">3</div>
+              <div style="display:flex;gap:4px"><span class="badge bdr">1</span><span class="badge bam">2</span></div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div class="card">
+              <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:8px">Next UNR — Jun 25</div>
+              <div style="display:flex;flex-direction:column;gap:6px">
+                <div style="display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--gray-600)"><span>Packages in lead review</span><span class="mono" style="color:var(--navy);font-weight:500">5</span></div>
+                <div style="display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--gray-600)"><span>Approved, ready to present</span><span class="mono" style="color:var(--navy);font-weight:500">3</span></div>
+                <div style="display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--gray-600)"><span>Combined ask</span><span class="mono" style="color:var(--coral-dark);font-weight:500;font-size:15px">$47,250</span></div>
+                <div style="display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--gray-600)"><span>Missing W-9</span><span class="badge brd">2 needs</span></div>
+              </div>
+            </div>
+            <div style="padding:11px 13px;border-radius:12px;background:rgba(27,42,74,.04);font-size:10.5px;color:var(--gray-600);line-height:1.55">Aggregate view only. Resource Lead sees categories, dollars, and counts — never client names or case files. HIPAA minimum-necessary boundary holds.</div>
+          </div>
+        </div>
+      </div>
+      <div class="vjd"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg><div class="vdot"></div></div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

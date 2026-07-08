@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vijilant v5 — Screens 12–14 + Profile</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --teal:#3ECFB2;--teal-dark:#1A9E8A;--navy:#1B2A4A;--navy-mid:#2A3F6B;
+  --coral:#F4714F;--coral-dark:#C2441A;
+  --warm-bg:#F4F6FA;--gray-100:#EEF1F7;--gray-200:#D8DDED;--gray-400:#8A94AD;--gray-600:#4A5568;
+  --t1-bg:#FDECEA;--t1-text:#C0392B;--t2-bg:#FDF6E7;--t2-text:#E5A328;
+  --t3-bg:#E8F4FF;--t3-text:#1A5FA8;--t4-bg:#EAF3EF;--t4-text:#2D7A4F;
+  --grad-hero:linear-gradient(135deg,#1B2A4A 0%,#1F3D5C 40%,#1A6B6B 70%,#3ECFB2 100%);
+  --grad-accent:linear-gradient(135deg,#3ECFB2 0%,#F4714F 100%);
+  --grad-btn:linear-gradient(135deg,#3ECFB2 0%,#F4714F 55%,#1B2A4A 100%);
+  --grad-teal:linear-gradient(135deg,#3ECFB2,#2ABFA4);
+  --shadow:0 2px 10px rgba(27,42,74,.08);
+  --ring-grad:conic-gradient(#C0392B 0deg,#E05540 45deg,#F4714F 90deg,#2ABFA4 180deg,#3ECFB2 225deg,#2A6B6B 270deg,#1B2A4A 315deg,#1B2A4A 360deg);
+  --ring-unfilled:#EEF1F7;
+}
+body{font-family:'DM Sans',-apple-system,sans-serif;background:#0C1523;color:white;padding:40px 20px 80px;line-height:1.4}
+.plabel{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:5px}
+.stitle{font-size:26px;font-weight:700;letter-spacing:-.02em;margin-bottom:4px}
+.sdesc{font-size:13px;color:var(--gray-400);margin-bottom:40px}
+.section{margin-bottom:80px}
+.sh{margin-bottom:28px;padding-bottom:14px;border-bottom:1px solid rgba(62,207,178,.18)}
+.duo{display:grid;grid-template-columns:375px 1fr;gap:36px;align-items:start}
+hr.div{border:none;border-top:1px solid rgba(255,255,255,.04);margin:20px 0 64px}
+.phone{width:375px;min-height:812px;background:white;border-radius:44px;overflow:hidden;position:relative;flex-shrink:0;box-shadow:0 40px 80px rgba(0,0,0,.65),0 0 0 10px #1a1a1a,0 0 0 12px #2a2a2a}
+.notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:120px;height:30px;background:#111;border-radius:0 0 20px 20px;z-index:20}
+.ps{width:100%;min-height:812px;background:var(--warm-bg);position:relative;overflow:hidden}
+.desk{background:#1a1a2e;border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,.07);box-shadow:0 40px 80px rgba(0,0,0,.5)}
+.tbar{height:30px;background:#0f0f1a;display:flex;align-items:center;padding:0 14px;gap:6px}
+.td{width:10px;height:10px;border-radius:50%}.td.r{background:#FF5F57}.td.y{background:#FFBD2E}.td.g{background:#28C840}
+.ds{display:flex;min-height:660px;background:var(--warm-bg);overflow:hidden;position:relative}
+.sb{width:220px;background:var(--navy);min-height:660px;padding:20px 0;flex-shrink:0;position:relative;overflow:hidden}
+.sb-orb{position:absolute;width:220px;height:220px;border-radius:50%;background:var(--teal);filter:blur(90px);opacity:.1;bottom:-60px;left:-60px}
+.sb-logo{display:flex;align-items:center;gap:10px;padding:0 18px 18px;border-bottom:1px solid rgba(255,255,255,.07);margin-bottom:10px;position:relative;z-index:1}
+.sb-mark{width:30px;height:30px;border-radius:8px;background:var(--grad-accent);display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:12px;font-weight:500;color:white}
+.sb-name{font-family:'DM Mono',monospace;font-size:15px;font-weight:500;color:white;letter-spacing:.02em}
+.sb-sec{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:rgba(255,255,255,.27);padding:0 18px;margin:14px 0 4px;position:relative;z-index:1}
+.sb-item{display:flex;align-items:center;gap:9px;padding:9px 18px;font-size:13px;font-weight:500;color:rgba(255,255,255,.5);position:relative;z-index:1}
+.sb-item.on{color:white;background:rgba(62,207,178,.12)}
+.sb-item.on::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:18px;background:var(--teal);border-radius:0 2px 2px 0}
+.sb-badge{margin-left:auto;background:var(--coral);color:white;font-size:10px;font-weight:700;font-family:'DM Mono',monospace;padding:1px 6px;border-radius:8px}
+.sb-badge.tl{background:var(--teal);color:var(--navy)}
+.main{flex:1;padding:22px;background:var(--warm-bg)}
+.ph1{font-family:'DM Mono',monospace;font-size:20px;font-weight:500;color:var(--navy)}
+.psub{font-size:11px;color:var(--gray-400);margin-top:2px}
+.card{background:white;border-radius:14px;padding:16px;box-shadow:var(--shadow)}
+.ct{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;justify-content:space-between}
+.cl{font-size:11px;font-weight:600;color:var(--teal)}
+.badge{display:inline-flex;align-items:center;padding:3px 8px;border-radius:10px;font-size:10px;font-weight:700;white-space:nowrap}
+.bt1{background:var(--t1-bg);color:var(--t1-text)}.bt2{background:var(--t2-bg);color:var(--t2-text)}
+.bt3{background:var(--t3-bg);color:var(--t3-text)}.bt4{background:var(--t4-bg);color:var(--t4-text)}
+.bam{background:#FDF6E7;color:#E5A328}.bgr{background:#EAF3EF;color:#2D7A4F}
+.bcl{background:#EDEBE6;color:#7A766F}
+.btn-grad{background:var(--grad-btn);color:white;border:none;border-radius:12px;padding:12px 20px;font-size:14px;font-weight:700;font-family:'DM Sans',sans-serif;cursor:pointer;box-shadow:0 4px 16px rgba(62,207,178,.22);display:inline-flex;align-items:center;justify-content:center;width:100%}
+.btn-grad-sm{background:var(--grad-btn);color:white;border:none;border-radius:10px;padding:9px 16px;font-size:12px;font-weight:700;font-family:'DM Sans',sans-serif;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
+.btn-tl{background:var(--grad-teal);color:var(--navy);border:none;border-radius:12px;padding:13px 20px;font-size:14px;font-weight:700;font-family:'DM Sans',sans-serif;cursor:pointer;box-shadow:0 5px 16px rgba(62,207,178,.28);display:inline-flex;align-items:center;justify-content:center;width:100%}
+/* Ring */
+.ring{position:relative;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.ring-disc{border-radius:50%;background:var(--ring-grad);-webkit-mask:radial-gradient(circle,transparent 54%,black 55%);mask:radial-gradient(circle,transparent 54%,black 55%)}
+.ring-cap{position:absolute;border-radius:50%;background:conic-gradient(var(--ring-unfilled) 0deg 180deg,transparent 180deg 360deg);-webkit-mask:radial-gradient(circle,transparent 54%,black 55%);mask:radial-gradient(circle,transparent 54%,black 55%)}
+.ring-label{position:absolute;display:flex;flex-direction:column;align-items:center;gap:1px;pointer-events:none}
+.ring-score{font-family:'DM Mono',monospace;font-weight:500;line-height:1}
+.ring-q{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;border:1.5px solid var(--gray-200);font-size:9px;font-weight:700;color:var(--gray-400);flex-shrink:0}
+.ring-sm .ring-disc,.ring-sm .ring-cap{width:36px;height:36px}
+.ring-sm{width:36px;height:36px}
+.ring-sm .ring-score{font-size:7px}
+/* VJ */
+.vjb{position:absolute;bottom:80px;right:14px;width:48px;height:48px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(27,42,74,.4);z-index:30}
+.vjd{position:absolute;bottom:20px;right:20px;width:44px;height:44px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(27,42,74,.5);z-index:30}
+.vdot{position:absolute;top:-1px;right:-1px;width:11px;height:11px;border-radius:50%;background:var(--coral);border:2px solid white}
+.mnav{background:white;border-top:1px solid var(--gray-100);display:flex;padding:8px 0 22px}
+.mtab{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:9px;font-weight:500;color:var(--gray-400);position:relative}
+.mtab.on{color:var(--teal-dark)}
+.mtab.on::after{content:'';display:block;width:4px;height:4px;border-radius:50%;background:var(--grad-accent);position:absolute;bottom:-2px;left:50%;transform:translateX(-50%)}
+.mtab-plus{flex:1;display:flex;align-items:center;justify-content:center}
+.mplus{width:42px;height:42px;border-radius:50%;background:var(--grad-btn);display:flex;align-items:center;justify-content:center;margin-top:-14px;box-shadow:0 4px 16px rgba(62,207,178,.4)}
+/* Metrics */
+.kpi-strip{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:16px}
+.kpi{background:white;border-radius:12px;padding:12px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--grad-accent)}
+.kpi.tl::before{background:var(--teal)}.kpi.nv::before{background:var(--navy)}
+.kv{font-family:'DM Mono',monospace;font-size:22px;font-weight:500;color:var(--navy);line-height:1;margin-bottom:3px}
+.kl{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--gray-400)}
+.kd{font-family:'DM Mono',monospace;font-size:9px;color:var(--teal-dark);margin-top:3px}
+/* Intake tabs */
+.itab-bar{display:flex;gap:0;background:white;border-bottom:2px solid var(--gray-100);overflow-x:auto}
+.itab{padding:10px 14px;font-size:12px;font-weight:600;color:var(--gray-400);white-space:nowrap;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;display:flex;align-items:center;gap:5px}
+.itab.on{color:var(--teal-dark);border-bottom-color:var(--teal)}
+.itab-dot{width:6px;height:6px;border-radius:50%;background:var(--coral)}
+/* Profile row */
+.prow{display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--gray-100)}
+.prow:last-child{border-bottom:none}
+.prow-label{font-size:14px;color:var(--gray-600)}
+.prow-val{font-size:14px;color:var(--navy);font-weight:500}
+.prow-arrow{color:var(--gray-400);font-size:14px}
+</style>
+</head>
+<body>
+
+<!-- SCREEN 12 — METRICS -->
+<div class="section">
+  <div class="sh">
+    <div class="plabel">Screen 12 · Metrics (formerly Reports)</div>
+    <div class="stitle">Metrics</div>
+    <div class="sdesc">6 KPI cards · Recovery Score trend chart · Top Movers improving + needs attention · gradient rings in movers · VJ</div>
+  </div>
+  <div class="duo">
+    <!-- MOBILE -->
+    <div class="phone">
+      <div class="notch"></div>
+      <div class="ps" style="background:var(--warm-bg);min-height:812px">
+        <div style="background:var(--grad-hero);padding:52px 20px 20px;position:relative;overflow:hidden">
+          <div style="position:absolute;width:240px;height:240px;border-radius:50%;background:var(--teal);filter:blur(70px);opacity:.2;top:-70px;right:-50px"></div>
+          <div style="position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+            <div>
+              <div style="font-size:11px;color:rgba(255,255,255,.4);font-family:'DM Mono',monospace">MY ACTIVITY · THIS WEEK</div>
+              <div style="font-family:'DM Mono',monospace;font-size:20px;font-weight:500;color:white;margin-top:2px">Metrics</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:7px;position:relative;z-index:1">
+            <div style="padding:5px 12px;border-radius:14px;background:rgba(255,255,255,.1);color:rgba(255,255,255,.6);font-size:11px">Today</div>
+            <div style="padding:5px 12px;border-radius:14px;background:var(--teal);color:var(--navy);font-size:11px;font-weight:700">Week</div>
+            <div style="padding:5px 12px;border-radius:14px;background:rgba(255,255,255,.1);color:rgba(255,255,255,.6);font-size:11px">Month</div>
+            <div style="padding:5px 12px;border-radius:14px;background:rgba(255,255,255,.1);color:rgba(255,255,255,.6);font-size:11px">Quarter</div>
+          </div>
+        </div>
+        <div style="padding:16px;display:flex;flex-direction:column;gap:14px">
+          <!-- 6 KPI mobile: 3x2 grid -->
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+            <div class="kpi tl" style="padding:12px"><div class="kl">Notes</div><div class="kv" style="font-size:22px">8</div></div>
+            <div class="kpi" style="padding:12px"><div class="kl">Follow-ups</div><div class="kv" style="font-size:22px">9</div><div class="kd">done</div></div>
+            <div class="kpi" style="padding:12px"><div class="kl">Assessments</div><div class="kv" style="font-size:22px">5</div></div>
+            <div class="kpi nv" style="padding:12px"><div class="kl">Aid Apps</div><div class="kv" style="font-size:22px">3</div></div>
+            <div class="kpi" style="padding:12px"><div class="kl">Resources</div><div class="kv" style="font-size:22px">2</div></div>
+            <div class="kpi tl" style="padding:12px"><div class="kl">Funding</div><div class="kv" style="font-size:22px">$8k</div></div>
+          </div>
+
+          <!-- Score trend (simplified area chart mockup) -->
+          <div class="card">
+            <div class="ct">Recovery Score Trend <span class="cl">This week</span></div>
+            <div style="position:relative;height:80px">
+              <svg width="100%" height="80" viewBox="0 0 300 80" preserveAspectRatio="none">
+                <defs><linearGradient id="area-grad" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#3ECFB2" stop-opacity=".3"/><stop offset="100%" stop-color="#3ECFB2" stop-opacity="0"/></linearGradient></defs>
+                <path d="M0,60 L40,55 L80,50 L120,45 L160,42 L200,35 L240,30 L300,25" fill="none" stroke="var(--teal)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M0,60 L40,55 L80,50 L120,45 L160,42 L200,35 L240,30 L300,25 L300,80 L0,80Z" fill="url(#area-grad)"/>
+              </svg>
+              <div style="position:absolute;bottom:0;left:0;right:0;display:flex;justify-content:space-between;font-size:9px;color:var(--gray-400);font-family:'DM Mono',monospace">
+                <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Today</span>
+              </div>
+            </div>
+            <div style="display:flex;justify-content:space-between;margin-top:10px;font-size:11px;color:var(--gray-600)">
+              <span>Org avg this week</span>
+              <span style="font-family:'DM Mono',monospace;font-weight:500;color:var(--teal)">↑ +38 pts</span>
+            </div>
+          </div>
+
+          <!-- Top Movers -->
+          <div class="card">
+            <div class="ct">Top Movers <span class="cl">↑ Improving</span></div>
+            <div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--gray-100)">
+              <div style="width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,var(--navy-mid),#3A5A8A);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:white">JR</div>
+              <div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--navy)">James Rivera</div></div>
+              <div class="ring ring-sm"><div class="ring-disc"></div><div class="ring-cap" style="transform:rotate(222.5deg)"></div><div class="ring-label"><div class="ring-score" style="font-size:7px;color:#3ECFB2">618</div></div></div>
+              <div class="ring-q">?</div>
+              <div style="font-size:11px;font-weight:700;color:var(--teal-dark);font-family:'DM Mono',monospace">↑ 82 pts</div>
+            </div>
+            <div style="font-size:12px;font-weight:700;color:var(--navy);margin:10px 0 8px">↓ Needs Attention</div>
+            <div style="display:flex;align-items:center;gap:8px;padding:7px 0">
+              <div style="width:28px;height:28px;border-radius:7px;background:var(--grad-accent);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:white">MT</div>
+              <div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--navy)">Marcus Thompson</div></div>
+              <div class="ring ring-sm"><div class="ring-disc"></div><div class="ring-cap" style="transform:rotate(148.3deg)"></div><div class="ring-label"><div class="ring-score" style="font-size:7px;color:#F4714F">412</div></div></div>
+              <div class="ring-q">?</div>
+              <div style="font-size:11px;font-weight:700;color:var(--coral-dark);font-family:'DM Mono',monospace">↓ 38 pts</div>
+            </div>
+          </div>
+        </div>
+        <div class="vjb"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg><div class="vdot"></div></div>
+        <div class="mnav">
+          <div class="mtab"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#8A94AD" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg>Dashboard</div>
+          <div class="mtab"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#8A94AD" stroke-width="1.5" stroke-linecap="round"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg>Clients</div>
+          <div class="mtab-plus"><div class="mplus"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
+          <div class="mtab"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#8A94AD" stroke-width="1.5" stroke-linecap="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>Resources</div>
+          <div class="mtab on">
+            <svg width="21" height="21" viewBox="0 0 24 24"><defs><linearGradient id="gd-s12m" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#3ECFB2"/><stop offset="100%" stop-color="#F4714F"/></linearGradient></defs><line x1="18" y1="20" x2="18" y2="10" stroke="url(#gd-s12m)" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="20" x2="12" y2="4" stroke="url(#gd-s12m)" stroke-width="2" stroke-linecap="round"/><line x1="6" y1="20" x2="6" y2="14" stroke="url(#gd-s12m)" stroke-width="2" stroke-linecap="round"/></svg>
+            Metrics
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DESKTOP METRICS -->
+    <div class="desk">
+      <div class="tbar"><div class="td r"></div><div class="td y"></div><div class="td g"></div></div>
+      <div class="ds">
+        <div class="sb">
+          <div class="sb-orb"></div>
+          <div class="sb-logo"><div class="sb-mark">Vj</div><div class="sb-name">Vijilant</div></div>
+          <div class="sb-sec">Case Manager</div>
+          <div class="sb-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg> Dashboard</div>
+          <div class="sb-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg> My Cases</div>
+          <div class="sb-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> Resources</div>
+          <div class="sb-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><circle cx="17" cy="10" r="3"/><path d="M21 21v-1.5a3 3 0 0 0-2-2.83"/></svg> Residents</div>
+          <div class="sb-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> Resources</div>
+          <div class="sb-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> Metrics</div>
+          <div class="sb-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg> Org Setup</div>
+        </div>
+        <div class="main">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+            <div><div class="ph1">Intake Submissions</div><div class="psub">Supervisor · Review & assign incoming clients</div></div>
+          </div>
+          <!-- 4-tab pipeline bar -->
+          <div class="itab-bar" style="border-radius:14px 14px 0 0;margin-bottom:0">
+            <div class="itab on"><div class="itab-dot"></div>Pending <span style="font-family:'DM Mono',monospace;font-size:10px;background:var(--coral);color:white;padding:1px 6px;border-radius:8px;margin-left:4px">7</span></div>
+            <div class="itab">Verified <span style="font-family:'DM Mono',monospace;font-size:10px;background:var(--gray-100);color:var(--gray-600);padding:1px 6px;border-radius:8px;margin-left:4px">12</span></div>
+            <div class="itab">Assigned <span style="font-family:'DM Mono',monospace;font-size:10px;background:var(--gray-100);color:var(--gray-600);padding:1px 6px;border-radius:8px;margin-left:4px">9</span></div>
+            <div class="itab">Follow-up <span style="font-family:'DM Mono',monospace;font-size:10px;background:var(--t2-bg);color:var(--t2-text);padding:1px 6px;border-radius:8px;margin-left:4px">3</span></div>
+          </div>
+          <!-- Candidate table -->
+          <div style="background:white;border-radius:0 0 14px 14px;overflow:hidden;box-shadow:var(--shadow)">
+            <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1.5fr;padding:9px 16px;background:var(--gray-100);border-bottom:1px solid var(--gray-200)">
+              <div style="font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--gray-400);font-family:'DM Mono',monospace">Candidate</div>
+              <div style="font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--gray-400);font-family:'DM Mono',monospace">Needs</div>
+              <div style="font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--gray-400);font-family:'DM Mono',monospace">Submitted</div>
+              <div style="font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--gray-400);font-family:'DM Mono',monospace">Flags</div>
+              <div style="font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--gray-400);font-family:'DM Mono',monospace">Actions</div>
+            </div>
+            <!-- Row 1 -->
+            <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1.5fr;padding:12px 16px;border-bottom:1px solid var(--gray-100);align-items:center">
+              <div><div style="font-size:13px;font-weight:600;color:var(--navy)">Tomás Reyes</div><div style="font-size:10px;color:var(--gray-400)">Household: 4 · Spanish · Wildfire</div></div>
+              <div style="display:flex;gap:4px;flex-wrap:wrap"><span style="padding:2px 7px;border-radius:7px;background:var(--gray-100);color:var(--gray-600);font-size:10px">Housing</span><span style="padding:2px 7px;border-radius:7px;background:var(--gray-100);color:var(--gray-600);font-size:10px">Employment</span></div>
+              <div style="font-size:11px;font-family:'DM Mono',monospace;color:var(--gray-400)">2 days ago</div>
+              <div><span class="badge bt1" style="font-size:9px">No ID</span></div>
+              <div style="display:flex;gap:6px">
+                <div class="btn-grad-sm" style="font-size:10px;padding:6px 10px">Verify ✓</div>
+                <div style="padding:6px 10px;border-radius:8px;border:1px solid var(--gray-200);font-size:10px;font-weight:600;color:var(--gray-600)">Flag</div>
+                <div style="padding:6px 10px;border-radius:8px;border:1px solid var(--t1-bg);font-size:10px;font-weight:600;color:var(--t1-text)">Reject</div>
+              </div>
+            </div>
+            <!-- Row 2 -->
+            <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1.5fr;padding:12px 16px;border-bottom:1px solid var(--gray-100);align-items:center">
+              <div><div style="font-size:13px;font-weight:600;color:var(--navy)">Diane Ortega</div><div style="font-size:10px;color:var(--gray-400)">Household: 2 · English · Wildfire</div></div>
+              <div><span style="padding:2px 7px;border-radius:7px;background:var(--gray-100);color:var(--gray-600);font-size:10px">Housing</span></div>
+              <div style="font-size:11px;font-family:'DM Mono',monospace;color:var(--gray-400)">3 days ago</div>
+              <div style="font-size:11px;color:var(--gray-400)">—</div>
+              <div style="display:flex;gap:6px">
+                <div class="btn-grad-sm" style="font-size:10px;padding:6px 10px">Verify ✓</div>
+                <div style="padding:6px 10px;border-radius:8px;border:1px solid var(--gray-200);font-size:10px;font-weight:600;color:var(--gray-600)">Flag</div>
+                <div style="padding:6px 10px;border-radius:8px;border:1px solid var(--t1-bg);font-size:10px;font-weight:600;color:var(--t1-text)">Reject</div>
+              </div>
+            </div>
+            <!-- Row 3 -->
+            <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1.5fr;padding:12px 16px;align-items:center">
+              <div><div style="font-size:13px;font-weight:600;color:var(--navy)">Bernard Williams</div><div style="font-size:10px;color:var(--gray-400)">Household: 1 · English · Wildfire</div></div>
+              <div style="display:flex;gap:4px;flex-wrap:wrap"><span style="padding:2px 7px;border-radius:7px;background:var(--gray-100);color:var(--gray-600);font-size:10px">Mental</span><span style="padding:2px 7px;border-radius:7px;background:var(--gray-100);color:var(--gray-600);font-size:10px">Financial</span></div>
+              <div style="font-size:11px;font-family:'DM Mono',monospace;color:var(--gray-400)">4 days ago</div>
+              <div><span class="badge bt2" style="font-size:9px">Out of zone</span></div>
+              <div style="display:flex;gap:6px">
+                <div class="btn-grad-sm" style="font-size:10px;padding:6px 10px">Verify ✓</div>
+                <div style="padding:6px 10px;border-radius:8px;border:1px solid var(--gray-200);font-size:10px;font-weight:600;color:var(--gray-600)">Flag</div>
+                <div style="padding:6px 10px;border-radius:8px;border:1px solid var(--t1-bg);font-size:10px;font-weight:600;color:var(--t1-text)">Reject</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="vjd"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg><div class="vdot"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="div">
+
+<!-- SCREEN 14 — PROFILE / SETTINGS -->
+<div class="section">
+  <div class="sh">
+    <div class="plabel">Screen 14 · Profile / Settings</div>
+    <div class="stitle">Profile</div>
+    <div class="sdesc">Avatar · role badge · org · intake link (Supervisor) · Face ID toggle · Sign Out · gradient ring showing own score · VJ</div>
+  </div>
+  <div class="duo">
+    <!-- MOBILE -->
+    <div class="phone">
+      <div class="notch"></div>
+      <div class="ps" style="background:var(--warm-bg);min-height:812px">
+        <!-- Profile header -->
+        <div style="background:var(--grad-hero);padding:52px 20px 32px;position:relative;overflow:hidden;text-align:center">
+          <div style="position:absolute;width:220px;height:220px;border-radius:50%;background:var(--teal);filter:blur(70px);opacity:.2;top:-60px;right:-40px"></div>
+          <div style="position:relative;z-index:1">
+            <!-- Avatar -->
+            <div style="width:72px;height:72px;border-radius:50%;background:var(--grad-accent);display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:700;color:white;margin:0 auto 12px;box-shadow:0 8px 24px rgba(62,207,178,.4)">H</div>
+            <div style="font-size:20px;font-weight:700;color:white;margin-bottom:4px">Horace Wormely</div>
+            <div style="display:flex;justify-content:center;gap:6px">
+              <span class="badge" style="background:rgba(62,207,178,.2);color:var(--teal);font-size:10px">Case Manager</span>
+              <span class="badge" style="background:rgba(255,255,255,.1);color:rgba(255,255,255,.7);font-size:10px">Admin</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="padding:16px;display:flex;flex-direction:column;gap:12px">
+          <!-- Org card -->
+          <div class="card">
+            <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--gray-400);font-family:'DM Mono',monospace;margin-bottom:8px">Organization</div>
+            <div style="font-size:14px;font-weight:600;color:var(--navy)">The Legacy Land Project</div>
+            <div style="font-size:12px;color:var(--gray-400);margin-top:2px">Pasadena, CA · Eaton Canyon</div>
+          </div>
+
+          <!-- Intake link (Supervisor/Admin) -->
+          <div class="card">
+            <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--gray-400);font-family:'DM Mono',monospace;margin-bottom:8px">Intake Link</div>
+            <div style="font-size:12px;color:var(--gray-600);margin-bottom:10px">Share this link so potential clients can submit their intake form.</div>
+            <div style="background:var(--gray-100);border-radius:9px;padding:10px 12px;font-size:11px;font-family:'DM Mono',monospace;color:var(--gray-600);margin-bottom:8px;word-break:break-all">vijilant.app/intake/llp-2025</div>
+            <div class="btn-grad-sm" style="font-size:11px">Copy Link</div>
+          </div>
+
+          <!-- Achievements -->
+          <div class="card">
+            <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--gray-400);font-family:'DM Mono',monospace;margin-bottom:10px">Achievements</div>
+            <div style="display:flex;gap:10px">
+              <div style="display:flex;flex-direction:column;align-items:center;gap:4px"><div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,var(--teal),var(--coral));display:flex;align-items:center;justify-content:center;font-size:20px">⭐</div><div style="font-size:9px;color:var(--gray-400);text-align:center">First 10 Clients</div></div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:4px"><div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,var(--navy),var(--teal));display:flex;align-items:center;justify-content:center;font-size:20px">🎯</div><div style="font-size:9px;color:var(--gray-400);text-align:center">50 Follow-ups</div></div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:4px;opacity:.4"><div style="width:42px;height:42px;border-radius:12px;background:var(--gray-100);display:flex;align-items:center;justify-content:center;font-size:20px">🏆</div><div style="font-size:9px;color:var(--gray-400);text-align:center">Locked</div></div>
+            </div>
+          </div>
+
+          <!-- Security -->
+          <div class="card">
+            <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--gray-400);font-family:'DM Mono',monospace;margin-bottom:8px">Security</div>
+            <div class="prow">
+              <div>
+                <div class="prow-label">Face ID</div>
+                <div style="font-size:11px;color:var(--gray-400);margin-top:1px">HIPAA — biometric only</div>
+              </div>
+              <!-- Toggle: on -->
+              <div style="width:44px;height:26px;border-radius:13px;background:var(--teal);display:flex;align-items:center;padding:0 3px;justify-content:flex-end;cursor:pointer">
+                <div style="width:20px;height:20px;border-radius:50%;background:white;box-shadow:0 1px 4px rgba(0,0,0,.2)"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sign Out -->
+          <div style="background:white;border-radius:14px;padding:16px;box-shadow:var(--shadow);text-align:center;cursor:pointer;border:1.5px solid rgba(192,57,43,.2)">
+            <div style="font-size:14px;font-weight:700;color:#C0392B">Sign Out</div>
+          </div>
+        </div>
+        <div class="vjb"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg><div class="vdot"></div></div>
+        <div class="mnav">
+          <div class="mtab"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#8A94AD" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg>Dashboard</div>
+          <div class="mtab"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#8A94AD" stroke-width="1.5" stroke-linecap="round"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg>Clients</div>
+          <div class="mtab-plus"><div class="mplus"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
+          <div class="mtab"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#8A94AD" stroke-width="1.5" stroke-linecap="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>Resources</div>
+          <div class="mtab on">
+            <svg width="21" height="21" viewBox="0 0 24 24"><defs><linearGradient id="gd-s14m" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#3ECFB2"/><stop offset="100%" stop-color="#F4714F"/></linearGradient></defs><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" fill="url(#gd-s14m)" opacity=".8"/><circle cx="12" cy="7" r="4" fill="url(#gd-s14m)"/></svg>
+            Profile
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DESKTOP PROFILE -->
+    <div class="desk">
+      <div class="tbar"><div class="td r"></div><div class="td y"></div><div class="td g"></div></div>
+      <div class="ds">
+        <div class="sb">
+          <div class="sb-orb"></div>
+          <div class="sb-logo"><div class="sb-mark">Vj</div><div class="sb-name">Vijilant</div></div>
+          <div class="sb-sec">Case Manager</div>
+          <div class="sb-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg> Dashboard</div>
+          <div class="sb-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg> My Cases</div>
+          <div class="sb-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> Resources</div>
+          <div class="sb-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> Metrics</div>
+          <div class="sb-item on">
+            <svg width="15" height="15" viewBox="0 0 24 24"><defs><linearGradient id="gd-s14sb" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#3ECFB2"/><stop offset="100%" stop-color="#F4714F"/></linearGradient></defs><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" fill="url(#gd-s14sb)" opacity=".8"/><circle cx="12" cy="7" r="4" fill="url(#gd-s14sb)"/></svg>
+            Profile
+          </div>
+        </div>
+        <div class="main">
+          <!-- Profile hero strip -->
+          <div style="background:var(--grad-hero);border-radius:14px;padding:24px;position:relative;overflow:hidden;margin-bottom:18px;display:flex;align-items:center;gap:20px">
+            <div style="position:absolute;width:280px;height:280px;border-radius:50%;background:var(--teal);filter:blur(80px);opacity:.15;top:-80px;right:-60px"></div>
+            <div style="width:72px;height:72px;border-radius:50%;background:var(--grad-accent);display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:700;color:white;box-shadow:0 8px 24px rgba(62,207,178,.4);flex-shrink:0;position:relative;z-index:1">H</div>
+            <div style="position:relative;z-index:1">
+              <div style="font-size:22px;font-weight:700;color:white;margin-bottom:6px">Horace Wormely</div>
+              <div style="display:flex;gap:6px;align-items:center">
+                <span class="badge" style="background:rgba(62,207,178,.2);color:var(--teal);font-size:10px">Case Manager</span>
+                <span class="badge" style="background:rgba(255,255,255,.1);color:rgba(255,255,255,.7);font-size:10px">Admin</span>
+                <span style="font-family:'DM Mono',monospace;font-size:11px;color:rgba(255,255,255,.45)">hwormely@thelegacylandproject.org</span>
+              </div>
+            </div>
+          </div>
+          <!-- Two-col layout -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+            <div style="display:flex;flex-direction:column;gap:14px">
+              <div class="card">
+                <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--gray-400);font-family:'DM Mono',monospace;margin-bottom:10px">Organization</div>
+                <div style="font-size:15px;font-weight:700;color:var(--navy);margin-bottom:2px">The Legacy Land Project</div>
+                <div style="font-size:12px;color:var(--gray-400)">Pasadena, CA · Eaton Canyon Disaster Relief</div>
+              </div>
+              <div class="card">
+                <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--gray-400);font-family:'DM Mono',monospace;margin-bottom:10px">Intake Link</div>
+                <div style="font-size:12px;color:var(--gray-600);margin-bottom:10px">Share this link so potential clients can submit their intake form.</div>
+                <div style="background:var(--gray-100);border-radius:9px;padding:10px 12px;font-size:11px;font-family:'DM Mono',monospace;color:var(--gray-600);margin-bottom:10px">vijilant.app/intake/llp-2025</div>
+                <div style="display:flex;gap:8px">
+                  <div class="btn-grad-sm" style="font-size:12px">Copy Link</div>
+                  <div style="padding:9px 16px;border-radius:10px;border:1px solid var(--gray-200);font-size:12px;font-weight:600;color:var(--gray-600);cursor:pointer">Review Queue →</div>
+                </div>
+              </div>
+              <div class="card">
+                <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--gray-400);font-family:'DM Mono',monospace;margin-bottom:10px">Security</div>
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--gray-100)">
+                  <div><div style="font-size:14px;color:var(--gray-600)">Face ID</div><div style="font-size:11px;color:var(--gray-400);margin-top:1px">HIPAA — biometric only, no passcode fallback</div></div>
+                  <div style="width:44px;height:26px;border-radius:13px;background:var(--teal);display:flex;align-items:center;padding:0 3px;justify-content:flex-end;cursor:pointer"><div style="width:20px;height:20px;border-radius:50%;background:white;box-shadow:0 1px 4px rgba(0,0,0,.2)"></div></div>
+                </div>
+                <div style="padding-top:12px;text-align:center;cursor:pointer">
+                  <div style="font-size:14px;font-weight:700;color:#C0392B">Sign Out</div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="card">
+                <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--gray-400);font-family:'DM Mono',monospace;margin-bottom:12px">Achievements</div>
+                <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px">
+                  <div style="display:flex;flex-direction:column;align-items:center;gap:5px"><div style="width:48px;height:48px;border-radius:14px;background:var(--grad-accent);display:flex;align-items:center;justify-content:center;font-size:22px">⭐</div><div style="font-size:9px;color:var(--gray-400);text-align:center;line-height:1.3">First 10 Clients</div></div>
+                  <div style="display:flex;flex-direction:column;align-items:center;gap:5px"><div style="width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,var(--navy),var(--teal));display:flex;align-items:center;justify-content:center;font-size:22px">🎯</div><div style="font-size:9px;color:var(--gray-400);text-align:center;line-height:1.3">50 Follow-ups</div></div>
+                  <div style="display:flex;flex-direction:column;align-items:center;gap:5px;opacity:.4"><div style="width:48px;height:48px;border-radius:14px;background:var(--gray-100);display:flex;align-items:center;justify-content:center;font-size:22px">🏆</div><div style="font-size:9px;color:var(--gray-400);text-align:center;line-height:1.3">25 Aid Apps</div></div>
+                  <div style="display:flex;flex-direction:column;align-items:center;gap:5px;opacity:.4"><div style="width:48px;height:48px;border-radius:14px;background:var(--gray-100);display:flex;align-items:center;justify-content:center;font-size:22px">💎</div><div style="font-size:9px;color:var(--gray-400);text-align:center;line-height:1.3">Locked</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="vjd"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg><div class="vdot"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vijilant v5 — Survivor Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --teal:#3ECFB2;--teal-dark:#1A9E8A;--navy:#1B2A4A;--navy-mid:#2A3F6B;
+  --coral:#F4714F;--coral-dark:#C2441A;
+  --warm-bg:#F4F6FA;--gray-100:#EEF1F7;--gray-200:#D8DDED;--gray-400:#8A94AD;--gray-600:#4A5568;
+  --t1-bg:#FDECEA;--t1-text:#C0392B;--t2-bg:#FDF6E7;--t2-text:#E5A328;
+  --t3-bg:#E8F4FF;--t3-text:#1A5FA8;--t4-bg:#EAF3EF;--t4-text:#2D7A4F;
+  --draft-bg:#E8F4FF;--draft-text:#1A5FA8;
+  --autofill-bg:#F0FAF5;--autofill-bdr:#2D7A4F;
+  --grad-hero:linear-gradient(135deg,#1B2A4A 0%,#1F3D5C 40%,#1A6B6B 70%,#3ECFB2 100%);
+  --grad-accent:linear-gradient(135deg,#3ECFB2 0%,#F4714F 100%);
+  --grad-btn:linear-gradient(135deg,#3ECFB2 0%,#F4714F 55%,#1B2A4A 100%);
+  --shadow:0 2px 10px rgba(27,42,74,.08);
+  --ring-grad:conic-gradient(#C0392B 0deg,#E05540 45deg,#F4714F 90deg,#2ABFA4 180deg,#3ECFB2 225deg,#2A6B6B 270deg,#1B2A4A 315deg,#1B2A4A 360deg);
+  --ring-unfilled:#EEF1F7;
+}
+body{font-family:'DM Sans',-apple-system,sans-serif;background:#0C1523;color:white;padding:40px 20px 80px;line-height:1.4}
+.plabel{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:5px}
+.stitle{font-size:26px;font-weight:700;letter-spacing:-.02em;margin-bottom:4px}
+.sdesc{font-size:13px;color:var(--gray-400);margin-bottom:40px}
+.section{margin-bottom:80px}
+.sh{margin-bottom:28px;padding-bottom:14px;border-bottom:1px solid rgba(62,207,178,.18)}
+.duo{display:grid;grid-template-columns:375px 1fr;gap:36px;align-items:start}
+hr.div{border:none;border-top:1px solid rgba(255,255,255,.04);margin:20px 0 64px}
+
+/* Note banner */
+.survivor-note{background:rgba(62,207,178,.08);border:1px solid rgba(62,207,178,.2);border-radius:12px;padding:14px 18px;margin-bottom:36px;font-size:13px;color:var(--gray-400);line-height:1.6}
+.survivor-note strong{color:var(--teal)}
+
+.phone{width:375px;min-height:812px;background:white;border-radius:44px;overflow:hidden;position:relative;flex-shrink:0;box-shadow:0 40px 80px rgba(0,0,0,.65),0 0 0 10px #1a1a1a,0 0 0 12px #2a2a2a}
+.notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:120px;height:30px;background:#111;border-radius:0 0 20px 20px;z-index:20}
+.ps{width:100%;min-height:812px;background:var(--warm-bg);position:relative;overflow:hidden}
+.desk{background:#1a1a2e;border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,.07);box-shadow:0 40px 80px rgba(0,0,0,.5)}
+.tbar{height:30px;background:#0f0f1a;display:flex;align-items:center;padding:0 14px;gap:6px}
+.td{width:10px;height:10px;border-radius:50%}.td.r{background:#FF5F57}.td.y{background:#FFBD2E}.td.g{background:#28C840}
+.ds{display:flex;min-height:660px;background:var(--warm-bg);overflow:hidden;position:relative}
+
+/* Survivor-specific nav bar (simplified — 4 tabs, no + button) */
+.snav{background:white;border-top:1px solid var(--gray-100);display:flex;padding:8px 0 22px}
+.stab{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:9px;font-weight:500;color:var(--gray-400);position:relative}
+.stab.on{color:var(--teal-dark)}
+.stab.on::after{content:'';display:block;width:4px;height:4px;border-radius:50%;background:linear-gradient(135deg,#3ECFB2,#F4714F);position:absolute;bottom:-2px;left:50%;transform:translateX(-50%)}
+
+/* Survivor sidebar (desktop) — minimal, no CM tools */
+.sb-surv{width:200px;background:var(--navy);min-height:660px;padding:20px 0;flex-shrink:0;position:relative;overflow:hidden}
+.sb-orb{position:absolute;width:200px;height:200px;border-radius:50%;background:var(--teal);filter:blur(90px);opacity:.1;bottom:-60px;left:-60px}
+.sb-logo{display:flex;align-items:center;gap:10px;padding:0 18px 18px;border-bottom:1px solid rgba(255,255,255,.07);margin-bottom:10px;position:relative;z-index:1}
+.sb-mark{width:30px;height:30px;border-radius:8px;background:var(--grad-accent);display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:12px;font-weight:500;color:white}
+.sb-name{font-family:'DM Mono',monospace;font-size:15px;font-weight:500;color:white;letter-spacing:.02em}
+.sb-sec{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:rgba(255,255,255,.27);padding:0 18px;margin:14px 0 4px;position:relative;z-index:1}
+.sb-item{display:flex;align-items:center;gap:9px;padding:9px 18px;font-size:13px;font-weight:500;color:rgba(255,255,255,.5);position:relative;z-index:1}
+.sb-item.on{color:white;background:rgba(62,207,178,.12)}
+.sb-item.on::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:18px;background:var(--teal);border-radius:0 2px 2px 0}
+
+.main{flex:1;padding:22px;background:var(--warm-bg)}
+.card{background:white;border-radius:14px;padding:16px;box-shadow:var(--shadow)}
+.ct{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;justify-content:space-between}
+.cl{font-size:11px;font-weight:600;color:var(--teal)}
+.badge{display:inline-flex;align-items:center;padding:3px 8px;border-radius:10px;font-size:10px;font-weight:700;white-space:nowrap}
+.bt1{background:var(--t1-bg);color:var(--t1-text)}.bt2{background:var(--t2-bg);color:var(--t2-text)}
+.bt3{background:var(--t3-bg);color:var(--t3-text)}.bt4{background:var(--t4-bg);color:var(--t4-text)}
+.bdr{background:var(--draft-bg);color:var(--draft-text)}.bgr{background:#EAF3EF;color:#2D7A4F}
+.bam{background:#FDF6E7;color:#E5A328}.bred{background:#FDECEA;color:#C0392B}
+
+/* Ring */
+.ring{position:relative;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.ring-disc{border-radius:50%;background:var(--ring-grad);-webkit-mask:radial-gradient(circle,transparent 54%,black 55%);mask:radial-gradient(circle,transparent 54%,black 55%)}
+.ring-cap{position:absolute;border-radius:50%;background:conic-gradient(var(--ring-unfilled) 0deg 180deg,transparent 180deg 360deg);-webkit-mask:radial-gradient(circle,transparent 54%,black 55%);mask:radial-gradient(circle,transparent 54%,black 55%)}
+.ring-label{position:absolute;display:flex;flex-direction:column;align-items:center;gap:1px;pointer-events:none}
+.ring-score{font-family:'DM Mono',monospace;font-weight:500;line-height:1}
+.ring-sublabel{font-size:7px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.5)}
+.ring-q{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;border:1.5px solid var(--gray-200);font-size:10px;font-weight:700;color:var(--gray-400);flex-shrink:0}
+.ring-lg .ring-disc,.ring-lg .ring-cap{width:72px;height:72px}
+.ring-lg{width:72px;height:72px}
+.ring-lg .ring-score{font-size:14px}
+
+/* Grad buttons */
+.btn-grad{background:var(--grad-btn);color:white;border:none;border-radius:12px;padding:12px 20px;font-size:14px;font-weight:700;font-family:'DM Sans',sans-serif;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;width:100%}
+.btn-grad-sm{background:var(--grad-btn);color:white;border:none;border-radius:10px;padding:9px 16px;font-size:12px;font-weight:700;font-family:'DM Sans',sans-serif;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
+
+/* Tabs */
+.tabs{display:flex;border-bottom:2px solid var(--gray-100);overflow-x:auto;background:white;flex-shrink:0}
+.tab{padding:10px 14px;font-size:12px;font-weight:600;color:var(--gray-400);white-space:nowrap;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px}
+.tab.on{color:var(--teal-dark);border-bottom-color:var(--teal)}
+
+/* App rows */
+.arow{display:flex;align-items:center;gap:12px;padding:11px 14px;border-bottom:1px solid var(--gray-100)}
+.arow:last-child{border-bottom:none}
+.aico{width:36px;height:36px;border-radius:10px;background:var(--gray-100);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+
+/* Message thread */
+.msg-wrap{display:flex;flex-direction:column;gap:10px;padding:14px 0}
+.msg-cm{display:flex;align-items:flex-start;gap:8px}
+.msg-avatar{width:28px;height:28px;border-radius:50%;background:var(--grad-accent);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:white;flex-shrink:0}
+.msg-bubble{background:white;border-radius:0 12px 12px 12px;padding:10px 13px;font-size:12px;color:var(--navy);box-shadow:var(--shadow);max-width:75%}
+.msg-surv{display:flex;justify-content:flex-end}
+.msg-surv-bubble{background:var(--navy);border-radius:12px 0 12px 12px;padding:10px 13px;font-size:12px;color:white;max-width:75%}
+.msg-time{font-size:10px;font-family:'DM Mono',monospace;color:var(--gray-400);margin-top:3px;text-align:right}
+.msg-input{display:flex;align-items:center;gap:8px;padding:10px 14px;background:white;border-top:1px solid var(--gray-100)}
+.msg-input-field{flex:1;background:var(--gray-100);border:none;border-radius:20px;padding:9px 14px;font-size:13px;color:var(--navy);font-family:'DM Sans',sans-serif}
+
+/* Autofill */
+.afchip{background:#2D7A4F;color:white;font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;font-family:'DM Mono',monospace;margin-left:6px;flex-shrink:0}
+.flabel{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--gray-400);display:block;margin-bottom:6px}
+.fi{background:white;border:1.5px solid var(--gray-200);border-radius:10px;padding:11px 14px;font-size:13px;color:var(--navy);width:100%}
+</style>
+</head>
+<body>
+
+<div class="survivor-note">
+  <strong>Survivor Portal — Design Note:</strong> This is the client-facing view of Vijilant. Survivors access their own case using a secure link sent by their CM. The portal is read-optimized — survivors can see their status, score, recovery plan, and aid applications. They can message their CM and upload documents. They can add their signature to aid applications requiring it. No PHI editing, no assessment input, no CM tools.
+</div>
+
+<!-- SCREEN S1 — SURVIVOR PORTAL (HOME) -->
+<div class="section">
+  <div class="sh">
+    <div class="plabel">Screen S1 · Survivor Portal — Home</div>
+    <div class="stitle">Survivor Portal — Case Overview</div>
+    <div class="sdesc">Case status · Recovery Score ring · assigned CM · quick-access tabs · gradient hero</div>
+  </div>
+  <div class="duo">
+    <!-- MOBILE -->
+    <div class="phone">
+      <div class="notch"></div>
+      <div class="ps" style="background:var(--warm-bg);min-height:812px">
+        <!-- Hero -->
+        <div style="background:var(--grad-hero);padding:52px 20px 28px;position:relative;overflow:hidden">
+          <div style="position:absolute;width:260px;height:260px;border-radius:50%;background:var(--teal);filter:blur(80px);opacity:.2;top:-70px;right:-50px"></div>
+          <div style="position:absolute;width:180px;height:180px;border-radius:50%;background:var(--coral);filter:blur(60px);opacity:.14;bottom:-40px;left:-40px"></div>
+          <div style="position:relative;z-index:1;margin-bottom:18px">
+            <div style="font-size:11px;color:rgba(255,255,255,.4);font-family:'DM Mono',monospace;margin-bottom:4px">YOUR CASE</div>
+            <div style="font-size:20px;font-weight:700;color:white;margin-bottom:2px">Marcus Thompson</div>
+            <div style="font-family:'DM Mono',monospace;font-size:10px;color:rgba(255,255,255,.45)">VGL-2025-0031 · Eaton Canyon Fire</div>
+            <div style="display:flex;gap:6px;margin-top:8px">
+              <span class="badge bt1">T1 Critical</span>
+              <span style="padding:3px 9px;border-radius:10px;background:rgba(255,255,255,.1);font-size:10px;color:rgba(255,255,255,.6)">Active</span>
+            </div>
+          </div>
+          <!-- Ring + CM info side by side -->
+          <div style="display:flex;align-items:center;gap:18px;position:relative;z-index:1;margin-bottom:-22px">
+            <!-- 72px ring — score 412, cap 148.3deg -->
+            <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+              <div class="ring ring-lg">
+                <div class="ring-disc" style="--ring-unfilled:rgba(255,255,255,.15)"></div>
+                <div class="ring-cap" style="transform:rotate(148.3deg);--ring-unfilled:rgba(255,255,255,.15)"></div>
+                <div class="ring-label">
+                  <div class="ring-score" style="font-size:14px;color:white">412</div>
+                  <div class="ring-sublabel">Recovery</div>
+                </div>
+              </div>
+              <div class="ring-q" style="border-color:rgba(255,255,255,.3);color:rgba(255,255,255,.5)">?</div>
+            </div>
+            <!-- CM assignment -->
+            <div style="flex:1;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:12px">
+              <div style="font-size:10px;color:rgba(255,255,255,.4);font-family:'DM Mono',monospace;margin-bottom:6px">YOUR CARE MANAGER</div>
+              <div style="display:flex;align-items:center;gap:8px">
+                <div style="width:32px;height:32px;border-radius:50%;background:var(--grad-accent);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:white">H</div>
+                <div>
+                  <div style="font-size:13px;font-weight:700;color:white">Horace Wormely</div>
+                  <div style="font-size:10px;color:rgba(255,255,255,.5)">Disaster Care Manager</div>
+                </div>
+              </div>
+              <div style="margin-top:10px">
+                <div class="btn-grad-sm" style="font-size:11px;width:100%;justify-content:center">Message CM</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Body -->
+        <div style="padding:36px 16px 16px;display:flex;flex-direction:column;gap:14px">
+          <!-- Quick status cards -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            <div class="card" style="padding:12px;text-align:center">
+              <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--gray-400);margin-bottom:4px">Recovery Plan</div>
+              <div style="font-size:13px;font-weight:700;color:var(--teal-dark)">Ready →</div>
+            </div>
+            <div class="card" style="padding:12px;text-align:center">
+              <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--gray-400);margin-bottom:4px">Applications</div>
+              <div style="font-size:13px;font-weight:700;color:var(--navy)">3 active</div>
+            </div>
+            <div class="card" style="padding:12px;text-align:center">
+              <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--gray-400);margin-bottom:4px">Documents</div>
+              <div style="font-size:13px;font-weight:700;color:var(--coral-dark)">2 needed</div>
+            </div>
+            <div class="card" style="padding:12px;text-align:center">
+              <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--gray-400);margin-bottom:4px">Messages</div>
+              <div style="font-size:13px;font-weight:700;color:var(--teal-dark)">1 new</div>
+            </div>
+          </div>
+
+          <!-- Latest update from CM -->
+          <div class="card">
+            <div class="ct">Latest from your CM</div>
+            <div style="font-size:12px;color:var(--gray-600);line-height:1.7;margin-bottom:10px">"Marcus, we've submitted the FEMA application. I need your current address to complete the Wylie Center form. Please reply here or upload a recent piece of mail. — Horace"</div>
+            <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--gray-400)">June 2, 2026 · 9:44 AM</div>
+          </div>
+
+          <!-- What to do next -->
+          <div class="card">
+            <div class="ct">Action needed <span class="badge bred">2 items</span></div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--gray-100)">
+                <div style="width:28px;height:28px;border-radius:7px;background:var(--t1-bg);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C0392B" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                </div>
+                <div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--navy)">Upload current address verification</div><div style="font-size:10px;color:var(--gray-400)">Needed for Wylie Center application</div></div>
+                <div class="btn-grad-sm" style="font-size:10px;padding:5px 10px">Upload</div>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;padding:8px 0">
+                <div style="width:28px;height:28px;border-radius:7px;background:var(--draft-bg);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1A5FA8" stroke-width="2" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                </div>
+                <div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--navy)">Sign FEMA consent form</div><div style="font-size:10px;color:var(--gray-400)">Application #VGL-FEMA-0031</div></div>
+                <div class="btn-grad-sm" style="font-size:10px;padding:5px 10px">Sign</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Survivor bottom nav: 4 tabs, no + -->
+        <div class="snav">
+          <div class="stab on">
+            <svg width="21" height="21" viewBox="0 0 24 24"><defs><linearGradient id="gs1a" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#3ECFB2"/><stop offset="100%" stop-color="#F4714F"/></linearGradient></defs><rect x="3" y="3" width="8" height="8" rx="1.5" fill="url(#gs1a)"/><rect x="13" y="3" width="8" height="8" rx="1.5" fill="url(#gs1a)" opacity=".7"/><rect x="3" y="13" width="8" height="8" rx="1.5" fill="url(#gs1a)" opacity=".7"/><rect x="13" y="13" width="8" height="8" rx="1.5" fill="url(#gs1a)" opacity=".45"/></svg>
+            My Case
+          </div>
+          <div class="stab">
+            <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#8A94AD" stroke-width="1.5" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            Plan
+          </div>
+          <div class="stab">
+            <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#8A94AD" stroke-width="1.5" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            Apps
+          </div>
+          <div class="stab" style="position:relative">
+            <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#8A94AD" stroke-width="1.5" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            <div style="position:absolute;top:0;right:14px;width:8px;height:8px;border-radius:50%;background:var(--coral);border:1.5px solid var(--warm-bg)"></div>
+            Messages
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DESKTOP -->
+    <div class="desk">
+      <div class="tbar"><div class="td r"></div><div class="td y"></div><div class="td g"></div></div>
+      <div class="ds">
+        <!-- Survivor sidebar: simplified -->
+        <div class="sb-surv">
+          <div class="sb-orb"></div>
+          <div class="sb-logo"><div class="sb-mark">V</div><div class="sb-name">Vijilant</div></div>
+          <div style="padding:0 18px 16px;border-bottom:1px solid rgba(255,255,255,.07);position:relative;z-index:1">
+            <div style="font-size:10px;color:rgba(255,255,255,.35);font-family:'DM Mono',monospace;margin-bottom:4px">YOUR CASE</div>
+            <div style="font-size:13px;font-weight:700;color:white">Marcus Thompson</div>
+            <div style="font-family:'DM Mono',monospace;font-size:10px;color:rgba(255,255,255,.4);margin-top:2px">VGL-2025-0031</div>
+          </div>
+          <div class="sb-sec">Navigation</div>
+          <div class="sb-item on">
+            <svg width="15" height="15" viewBox="0 0 24 24"><defs><linearGradient id="gs1sb" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#3ECFB2"/><stop offset="100%" stop-color="#F4714F"/></linearGradient></defs><rect x="3" y="3" width="8" height="8" rx="1.5" fill="url(#gs1sb)"/><rect x="13" y="3" width="8" height="8" rx="1.5" fill="url(#gs1sb)" opacity=".6"/><rect x="3" y="13" width="8" height="8" rx="1.5" fill="url(#gs1sb)" opacity=".6"/><rect x="13" y="13" width="8" height="8" rx="1.5" fill="url(#gs1sb)" opacity=".35"/></svg>
+            My Case
+          </div>
+          <div class="sb-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Recovery Plan</div>
+          <div class="sb-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="12" y1="17" x2="12" y2="21"/><line x1="8" y1="21" x2="16" y2="21"/></svg> Applications</div>
+          <div class="sb-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Messages <span style="margin-left:auto;background:var(--coral);color:white;font-size:10px;font-weight:700;font-family:'DM Mono',monospace;padding:1px 6px;border-radius:8px">1</span></div>
+          <div class="sb-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg> Documents</div>
+        </div>
+        <!-- Main desktop -->
+        <div class="main">
+          <!-- Hero strip with large ring -->
+          <div style="background:var(--grad-hero);border-radius:14px;padding:22px 26px;position:relative;overflow:hidden;margin-bottom:18px">
+            <div style="position:absolute;width:280px;height:280px;border-radius:50%;background:var(--teal);filter:blur(80px);opacity:.15;top:-80px;right:-60px"></div>
+            <div style="position:absolute;width:200px;height:200px;border-radius:50%;background:var(--coral);filter:blur(70px);opacity:.12;bottom:-60px;left:80px"></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;position:relative;z-index:1">
+              <div style="display:flex;align-items:center;gap:16px">
+                <div style="width:52px;height:52px;border-radius:50%;background:var(--grad-accent);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:white">MT</div>
+                <div>
+                  <div style="font-size:20px;font-weight:700;color:white">Marcus Thompson</div>
+                  <div style="display:flex;align-items:center;gap:8px;margin-top:4px">
+                    <span style="font-family:'DM Mono',monospace;font-size:11px;color:rgba(255,255,255,.45)">VGL-2025-0031 · Eaton Canyon Fire</span>
+                    <span class="badge bt1">T1 Critical</span>
+                  </div>
+                  <div style="font-size:12px;color:rgba(255,255,255,.5);margin-top:6px;display:flex;align-items:center;gap:6px">
+                    <div style="width:24px;height:24px;border-radius:50%;background:var(--grad-accent);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:white">H</div>
+                    Horace Wormely · Disaster Care Manager
+                  </div>
+                </div>
+              </div>
+              <!-- 72px ring -->
+              <div style="display:flex;align-items:center;gap:8px">
+                <div style="display:flex;flex-direction:column;align-items:center;gap:3px">
+                  <div class="ring ring-lg">
+                    <div class="ring-disc" style="--ring-unfilled:rgba(255,255,255,.15)"></div>
+                    <div class="ring-cap" style="transform:rotate(148.3deg);--ring-unfilled:rgba(255,255,255,.15)"></div>
+                    <div class="ring-label">
+                      <div class="ring-score" style="font-size:14px;color:white">412</div>
+                      <div class="ring-sublabel">Recovery</div>
+                    </div>
+                  </div>
+                  <div class="ring-q" style="border-color:rgba(255,255,255,.3);color:rgba(255,255,255,.5)">?</div>
+                </div>
+                <div class="btn-grad-sm" style="font-size:12px">Message CM</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2-col: action items + CM update -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+            <div class="card">
+              <div class="ct">Action Needed <span class="badge bred">2</span></div>
+              <div style="display:flex;flex-direction:column;gap:8px">
+                <div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--gray-100)">
+                  <div style="width:32px;height:32px;border-radius:9px;background:var(--t1-bg);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#C0392B" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
+                  <div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--navy)">Upload address verification</div><div style="font-size:11px;color:var(--gray-400)">Required for Wylie Center application</div></div>
+                  <div class="btn-grad-sm" style="font-size:11px">Upload</div>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px;padding:10px 0">
+                  <div style="width:32px;height:32px;border-radius:9px;background:var(--draft-bg);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1A5FA8" stroke-width="2" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
+                  <div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--navy)">Sign FEMA consent form</div><div style="font-size:11px;color:var(--gray-400)">Application #VGL-FEMA-0031</div></div>
+                  <div class="btn-grad-sm" style="font-size:11px">Sign</div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="ct">Your Case Summary</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+                <div style="background:var(--gray-100);border-radius:10px;padding:10px"><div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--gray-400)">Recovery Plan</div><div style="font-size:13px;font-weight:700;color:var(--teal-dark);margin-top:4px">Ready to view →</div></div>
+                <div style="background:var(--gray-100);border-radius:10px;padding:10px"><div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--gray-400)">Applications</div><div style="font-size:13px;font-weight:700;color:var(--navy);margin-top:4px">3 active</div></div>
+                <div style="background:var(--gray-100);border-radius:10px;padding:10px"><div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--gray-400)">Documents</div><div style="font-size:13px;font-weight:700;color:var(--coral-dark);margin-top:4px">2 needed</div></div>
+                <div style="background:var(--gray-100);border-radius:10px;padding:10px"><div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--gray-400)">Messages</div><div style="font-size:13px;font-weight:700;color:var(--teal-dark);margin-top:4px">1 unread</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="div">
+
+<!-- SCREEN S2 — SURVIVOR CASE FILE (RECOVERY PLAN + APPS + MESSAGES) -->
+<div class="section">
+  <div class="sh">
+    <div class="plabel">Screen S2 · Survivor Case File</div>
+    <div class="stitle">Survivor Case File</div>
+    <div class="sdesc">Recovery Plan (read-only) · Aid applications with signature · Message thread · Document upload</div>
+  </div>
+  <div class="duo">
+    <!-- MOBILE: showing Applications tab with signature -->
+    <div class="phone">
+      <div class="notch"></div>
+      <div class="ps" style="background:var(--warm-bg);min-height:812px">
+        <!-- Simple header (no gradient hero needed here — it's a detail screen) -->
+        <div style="background:var(--navy);padding:52px 20px 0;position:relative;overflow:hidden">
+          <div style="position:absolute;width:200px;height:200px;border-radius:50%;background:var(--teal);filter:blur(70px);opacity:.15;top:-50px;right:-40px"></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0;position:relative;z-index:1">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.6)" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+            <span style="font-size:13px;font-weight:600;color:rgba(255,255,255,.7)">Case File</span>
+            <div style="width:20px"></div>
+          </div>
+          <!-- Tabs -->
+          <div class="tabs" style="background:transparent;margin-top:12px;border-bottom-color:rgba(255,255,255,.1)">
+            <div class="tab" style="color:rgba(255,255,255,.5)">My Plan</div>
+            <div class="tab on" style="color:var(--teal);border-bottom-color:var(--teal)">Applications</div>
+            <div class="tab" style="color:rgba(255,255,255,.5)">Messages</div>
+            <div class="tab" style="color:rgba(255,255,255,.5)">Documents</div>
+          </div>
+        </div>
+
+        <!-- Applications content -->
+        <div style="padding:14px;display:flex;flex-direction:column;gap:12px">
+          <!-- FEMA — needs signature -->
+          <div class="card" style="border:1.5px solid rgba(62,207,178,.3)">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+              <div style="font-size:13px;font-weight:700;color:var(--navy)">FEMA Individual Assistance</div>
+              <span class="badge bdr">In Progress</span>
+            </div>
+            <div style="font-size:12px;color:var(--gray-600);margin-bottom:12px;line-height:1.6">Your CM has prepared this application. Your signature is required before submission.</div>
+            <!-- Autofilled fields (read-only for survivor) -->
+            <div style="margin-bottom:10px">
+              <div class="flabel">Full legal name</div>
+              <div style="display:flex;align-items:center"><div style="flex:1;background:var(--autofill-bg);border:1.5px solid var(--autofill-bdr);border-radius:10px;padding:10px 12px;font-size:12px;color:var(--navy)">Marcus A. Thompson</div><span style="background:#2D7A4F;color:white;font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;font-family:'DM Mono',monospace;margin-left:6px;flex-shrink:0">Filled</span></div>
+            </div>
+            <div style="margin-bottom:12px">
+              <div class="flabel">Disaster event</div>
+              <div style="display:flex;align-items:center"><div style="flex:1;background:var(--autofill-bg);border:1.5px solid var(--autofill-bdr);border-radius:10px;padding:10px 12px;font-size:12px;color:var(--navy)">Eaton Canyon Fire · Jan 2025</div><span style="background:#2D7A4F;color:white;font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;font-family:'DM Mono',monospace;margin-left:6px;flex-shrink:0">Filled</span></div>
+            </div>
+            <!-- Signature field -->
+            <div style="margin-bottom:12px">
+              <div class="flabel">Your signature <span style="color:var(--coral)">Required</span></div>
+              <div style="background:var(--gray-100);border:2px dashed var(--gray-200);border-radius:10px;padding:24px;text-align:center">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gray-400)" stroke-width="1.5" stroke-linecap="round" style="margin:0 auto 8px;display:block"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                <div style="font-size:12px;color:var(--gray-400)">Tap to sign</div>
+              </div>
+            </div>
+            <div class="btn-grad">Sign & Authorize Submission</div>
+          </div>
+
+          <!-- Pacific Housing — approved -->
+          <div class="card">
+            <div style="display:flex;align-items:center;gap:12px">
+              <div class="aico">🏠</div>
+              <div style="flex:1">
+                <div style="font-size:13px;font-weight:600;color:var(--navy)">Pacific Housing Alliance</div>
+                <div style="font-size:11px;color:var(--gray-400);font-family:'DM Mono',monospace">Submitted May 20 · Approved</div>
+              </div>
+              <span class="badge bgr">Approved ✓</span>
+            </div>
+          </div>
+
+          <!-- EDD — in progress -->
+          <div class="card">
+            <div style="display:flex;align-items:center;gap:12px">
+              <div class="aico">💼</div>
+              <div style="flex:1">
+                <div style="font-size:13px;font-weight:600;color:var(--navy)">CA EDD Disaster UI</div>
+                <div style="font-size:11px;color:var(--gray-400);font-family:'DM Mono',monospace">In progress · CM working on this</div>
+              </div>
+              <span class="badge bam">In Progress</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="snav">
+          <div class="stab"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#8A94AD" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg>My Case</div>
+          <div class="stab"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#8A94AD" stroke-width="1.5" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Plan</div>
+          <div class="stab on">
+            <svg width="21" height="21" viewBox="0 0 24 24"><defs><linearGradient id="gs2ta" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#3ECFB2"/><stop offset="100%" stop-color="#F4714F"/></linearGradient></defs><rect x="2" y="3" width="20" height="14" rx="2" fill="url(#gs2ta)" opacity=".8"/><line x1="8" y1="21" x2="16" y2="21" stroke="url(#gs2ta)" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="17" x2="12" y2="21" stroke="url(#gs2ta)" stroke-width="2" stroke-linecap="round"/></svg>
+            Apps
+          </div>
+          <div class="stab"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#8A94AD" stroke-width="1.5" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Messages</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DESKTOP: showing Message thread + Recovery Plan side by side -->
+    <div class="desk">
+      <div class="tbar"><div class="td r"></div><div class="td y"></div><div class="td g"></div></div>
+      <div class="ds">
+        <div class="sb-surv">
+          <div class="sb-orb"></div>
+          <div class="sb-logo"><div class="sb-mark">V</div><div class="sb-name">Vijilant</div></div>
+          <div style="padding:0 18px 16px;border-bottom:1px solid rgba(255,255,255,.07);position:relative;z-index:1">
+            <div style="font-size:10px;color:rgba(255,255,255,.35);font-family:'DM Mono',monospace;margin-bottom:4px">YOUR CASE</div>
+            <div style="font-size:13px;font-weight:700;color:white">Marcus Thompson</div>
+            <div style="font-family:'DM Mono',monospace;font-size:10px;color:rgba(255,255,255,.4);margin-top:2px">VGL-2025-0031</div>
+          </div>
+          <div class="sb-sec">Navigation</div>
+          <div class="sb-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg> My Case</div>
+          <div class="sb-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Recovery Plan</div>
+          <div class="sb-item on">
+            <svg width="15" height="15" viewBox="0 0 24 24"><defs><linearGradient id="gs2sb" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#3ECFB2"/><stop offset="100%" stop-color="#F4714F"/></linearGradient></defs><rect x="2" y="3" width="20" height="14" rx="2" fill="url(#gs2sb)" opacity=".8"/></svg>
+            Applications
+          </div>
+          <div class="sb-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Messages <span style="margin-left:auto;background:var(--coral);color:white;font-size:10px;font-weight:700;font-family:'DM Mono',monospace;padding:1px 6px;border-radius:8px">1</span></div>
+          <div class="sb-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg> Documents</div>
+        </div>
+        <!-- Main: 3-col split -->
+        <div style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:0;overflow:hidden">
+          <!-- Left: FEMA application with signature -->
+          <div style="padding:20px;border-right:1px solid var(--gray-100);overflow:auto;background:var(--warm-bg)">
+            <div style="font-size:14px;font-weight:700;color:var(--navy);margin-bottom:14px;display:flex;align-items:center;gap:8px">Applications <span class="badge bdr">1 needs signature</span></div>
+            <!-- FEMA card requiring sig -->
+            <div class="card" style="border:1.5px solid rgba(62,207,178,.25);margin-bottom:12px">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px"><div style="font-size:13px;font-weight:700;color:var(--navy)">FEMA Individual Assistance</div><span class="badge bdr">In Progress</span></div>
+              <div style="font-size:12px;color:var(--gray-600);margin-bottom:12px;line-height:1.6">Your CM has prepared this. Your signature authorizes submission.</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+                <div><div class="flabel">Legal name</div><div style="display:flex;align-items:center;gap:4px"><div style="flex:1;background:var(--autofill-bg);border:1.5px solid var(--autofill-bdr);border-radius:9px;padding:9px 11px;font-size:12px;color:var(--navy)">Marcus A. Thompson</div><span style="background:#2D7A4F;color:white;font-size:8px;font-weight:700;padding:2px 5px;border-radius:4px;font-family:'DM Mono',monospace;flex-shrink:0">Filled</span></div></div>
+                <div><div class="flabel">Disaster event</div><div style="display:flex;align-items:center;gap:4px"><div style="flex:1;background:var(--autofill-bg);border:1.5px solid var(--autofill-bdr);border-radius:9px;padding:9px 11px;font-size:12px;color:var(--navy)">Eaton Canyon · Jan 2025</div><span style="background:#2D7A4F;color:white;font-size:8px;font-weight:700;padding:2px 5px;border-radius:4px;font-family:'DM Mono',monospace;flex-shrink:0">Filled</span></div></div>
+              </div>
+              <!-- Signature box -->
+              <div style="margin-bottom:12px">
+                <div class="flabel">Your signature <span style="color:var(--coral)">Required</span></div>
+                <div style="background:var(--gray-100);border:2px dashed var(--gray-200);border-radius:11px;padding:28px 20px;text-align:center;cursor:pointer">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--gray-400)" stroke-width="1.5" stroke-linecap="round" style="margin:0 auto 8px;display:block"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                  <div style="font-size:12px;color:var(--gray-400)">Click to add your signature</div>
+                </div>
+              </div>
+              <div class="btn-grad">Sign & Authorize Submission</div>
+            </div>
+            <!-- Other apps -->
+            <div class="card" style="margin-bottom:8px"><div style="display:flex;align-items:center;gap:10px"><div class="aico">🏠</div><div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--navy)">Pacific Housing Alliance</div><div style="font-size:10px;color:var(--gray-400)">Approved May 20</div></div><span class="badge bgr">Approved ✓</span></div></div>
+            <div class="card"><div style="display:flex;align-items:center;gap:10px"><div class="aico">💼</div><div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--navy)">CA EDD Disaster UI</div><div style="font-size:10px;color:var(--gray-400)">In progress</div></div><span class="badge bam">In Progress</span></div></div>
+          </div>
+          <!-- Right: Message thread -->
+          <div style="padding:20px;display:flex;flex-direction:column;overflow:hidden;background:white">
+            <div style="font-size:14px;font-weight:700;color:var(--navy);margin-bottom:4px">Messages with Horace</div>
+            <div style="font-size:11px;color:var(--gray-400);margin-bottom:14px">Your CM · Disaster Care Manager</div>
+            <div style="flex:1;overflow-y:auto">
+              <div class="msg-wrap">
+                <div class="msg-cm"><div class="msg-avatar">H</div><div><div class="msg-bubble">Hi Marcus! I've submitted the FEMA application. I just need your current address to complete the Wylie Center form. Can you reply here or upload a recent piece of mail?</div><div class="msg-time">Jun 2 · 9:44 AM</div></div></div>
+                <div class="msg-surv"><div><div class="msg-surv-bubble">I'll upload a piece of mail today. Thank you for all your help with this.</div><div class="msg-time" style="color:var(--gray-400)">Jun 2 · 11:20 AM</div></div></div>
+                <div class="msg-cm"><div class="msg-avatar">H</div><div><div class="msg-bubble">Perfect — once I have that we can get the Wylie application submitted within 24 hours.</div><div class="msg-time">Jun 2 · 11:35 AM</div></div></div>
+              </div>
+            </div>
+            <div class="msg-input">
+              <div class="msg-input-field">Type a message…</div>
+              <div style="width:34px;height:34px;border-radius:50%;background:var(--grad-btn);display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
